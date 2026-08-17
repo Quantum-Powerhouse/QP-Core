@@ -7,6 +7,7 @@ type QasmVersion = "2.0" | "3.0";
 type TranspileSuccess = {
   ok: true;
   ir: string;
+  mock: boolean;
 };
 
 type TranspileFailure = {
@@ -38,21 +39,21 @@ c = measure q;
 };
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_TRANSPILER_API_URL ?? "";
+// Falls back to the site's own mock endpoint (src/app/api/transpile) when no
+// real backend URL is configured, so the terminal stays interactive on a
+// fresh deploy. Swap NEXT_PUBLIC_TRANSPILER_API_URL to your Render URL to
+// get real transpilation.
+const IS_MOCK = !API_BASE_URL;
+const TRANSPILE_ENDPOINT = API_BASE_URL
+  ? `${API_BASE_URL.replace(/\/$/, "")}/transpile`
+  : "/api/transpile";
 
 async function transpile(
   qasm: string,
   version: QasmVersion,
 ): Promise<TranspileSuccess | TranspileFailure> {
-  if (!API_BASE_URL) {
-    return {
-      ok: false,
-      message:
-        "Backend URL not configured. Set NEXT_PUBLIC_TRANSPILER_API_URL to your FastAPI service on Render (see .env.local.example).",
-    };
-  }
-
   try {
-    const res = await fetch(`${API_BASE_URL.replace(/\/$/, "")}/transpile`, {
+    const res = await fetch(TRANSPILE_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ qasm, version }),
@@ -72,6 +73,7 @@ async function transpile(
     const ir = data.braket_ir ?? data.ir ?? data;
     return {
       ok: true,
+      mock: IS_MOCK,
       ir: typeof ir === "string" ? ir : JSON.stringify(ir, null, 2),
     };
   } catch (err) {
@@ -91,6 +93,7 @@ export function TranspilerTerminal() {
   const [output, setOutput] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [wasMock, setWasMock] = useState(false);
 
   function handleVersionChange(next: QasmVersion) {
     setVersion(next);
@@ -108,6 +111,7 @@ export function TranspilerTerminal() {
 
     if (result.ok) {
       setOutput(result.ir);
+      setWasMock(result.mock);
     } else {
       setError(result.message);
     }
@@ -177,10 +181,15 @@ export function TranspilerTerminal() {
           </div>
 
           <div className="bg-surface">
-            <div className="flex items-center px-4 py-2">
+            <div className="flex items-center justify-between px-4 py-2">
               <span className="font-mono text-xs text-muted">
                 braket_ir.json
               </span>
+              {!error && output && wasMock && (
+                <span className="rounded-full border border-accent-2/40 bg-accent-2/10 px-2.5 py-0.5 font-mono text-[10px] text-accent-2">
+                  demo mode — mock output
+                </span>
+              )}
             </div>
             <div className="h-80 overflow-auto px-4 pb-4">
               {error && (
