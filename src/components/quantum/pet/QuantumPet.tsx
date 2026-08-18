@@ -49,6 +49,11 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       state.intensity = Math.max(state.intensity, 0.3 + noise * 0.5);
       break;
     }
+    case "MEASUREMENT":
+      state.color.set("#e6ecff");
+      state.intensity = 1;
+      state.spin = 0;
+      break;
     case "ERROR":
       state.color.set("#ff6b6b");
       state.intensity = 1;

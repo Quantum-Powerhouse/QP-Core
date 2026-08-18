@@ -3,15 +3,19 @@
 import { useMemo, useState } from "react";
 import { AnsatzCircuitDiagram } from "@/components/vqe/AnsatzCircuitDiagram";
 import { ConvergenceChart } from "@/components/vqe/ConvergenceChart";
+import { QSphere } from "@/components/vqe/QSphere";
+import { StatevectorExplorer } from "@/components/vqe/StatevectorExplorer";
 import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 import { ZneChart } from "@/components/vqe/ZneChart";
 import { runVqe, type VqeResult } from "@/lib/physics/vqe";
 import { runZne, type ZneResult } from "@/lib/physics/zne";
 
-type TabId = "convergence" | "zne";
+type TabId = "convergence" | "statevector" | "qsphere" | "zne";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "convergence", label: "Convergence" },
+  { id: "statevector", label: "Statevector" },
+  { id: "qsphere", label: "QSphere" },
   { id: "zne", label: "Error Mitigation (ZNE)" },
 ];
 
@@ -154,6 +158,10 @@ export function VqeSuiteStudio() {
               </div>
             </div>
           )}
+
+          {tab === "statevector" && <StatevectorExplorer theta={activeVqe.finalTheta} />}
+
+          {tab === "qsphere" && <QSphere theta={activeVqe.finalTheta} />}
 
           {tab === "zne" && (
             <div className="flex flex-col gap-4">
