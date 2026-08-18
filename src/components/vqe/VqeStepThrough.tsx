@@ -94,7 +94,7 @@ export function VqeStepThrough() {
 
   return (
     <div className="flex flex-col gap-4">
-      <RepresentsTag>
+      <RepresentsTag docsHref="/docs/vqe-suite/hamiltonian-and-ansatz">
         one real parameter-shift-rule gradient step per click — every number below comes from the same
         statevector simulator used by the Convergence tab, evaluated fresh, not replayed from a precomputed run
       </RepresentsTag>

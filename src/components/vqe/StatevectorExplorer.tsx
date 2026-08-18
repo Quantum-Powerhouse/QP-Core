@@ -26,7 +26,7 @@ export function StatevectorExplorer({ theta }: { theta: number }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <RepresentsTag>
+      <RepresentsTag docsHref="/docs/vqe-suite/state-representations-and-measurement">
         the complex amplitudes of the current VQE state |ψ(θ)⟩ = Σ αᵢ|i⟩ — what measurement probabilities come
         from, not a probability distribution by itself
       </RepresentsTag>
