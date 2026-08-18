@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useRef, useState, useEffect, type MutableRefObject } from "react";
+import { useMemo, useRef, type MutableRefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import { useAnyQuantumEvent } from "@/components/quantum/QuantumEventProvider";
+import { usePrefersReducedMotion } from "@/lib/quantum/usePrefersReducedMotion";
 
 function randomInSphere(count: number, radius: number) {
   const positions = new Float32Array(count * 3);
@@ -85,21 +86,6 @@ function WavefunctionCloud({
       />
     </Points>
   );
-}
-
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(() =>
-    typeof window !== "undefined"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      : false,
-  );
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const listener = (e: MediaQueryListEvent) => setReduced(e.matches);
-    query.addEventListener("change", listener);
-    return () => query.removeEventListener("change", listener);
-  }, []);
-  return reduced;
 }
 
 /**
