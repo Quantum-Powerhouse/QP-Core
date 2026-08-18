@@ -18,7 +18,7 @@ export function ProjectHighlights() {
         {projects.map((project) => (
           <div
             key={project.title}
-            className="group rounded-xl border border-border bg-surface p-6 transition-colors hover:border-accent/50"
+            className="group rounded-xl border border-slate-800/80 bg-slate-950/60 p-6 backdrop-blur-xl transition-all hover:border-cyan-500/50"
           >
             <h3 className="text-lg font-semibold text-foreground">
               {project.title}
@@ -36,6 +36,14 @@ export function ProjectHighlights() {
                 </span>
               ))}
             </div>
+            {project.href && (
+              <a
+                href={project.href}
+                className="mt-4 inline-block font-mono text-xs text-accent transition-colors hover:text-foreground"
+              >
+                Open playground →
+              </a>
+            )}
           </div>
         ))}
       </div>

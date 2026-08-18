@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { analyzeQasm } from "@/lib/qasmAnalyzer";
 
 type TranspileRequest = {
   qasm?: string;
@@ -7,17 +8,17 @@ type TranspileRequest = {
 
 /**
  * Temporary mock transpiler endpoint used until NEXT_PUBLIC_TRANSPILER_API_URL
- * points at the real FastAPI backend on Render. Echoes the submitted QASM
- * inside a well-formed but fake Braket IR envelope, clearly labeled as mock
- * output so it can't be mistaken for a real transpilation result.
+ * points at the real FastAPI backend on Render. The braket_ir field is a
+ * clearly labeled placeholder, but qiskit_python and metrics are genuinely
+ * derived from the submitted QASM (see src/lib/qasmAnalyzer.ts) rather than
+ * hardcoded, so the "live" numbers reflect the actual circuit pasted in.
  */
 export async function POST(request: NextRequest) {
   const body = (await request.json().catch(() => ({}))) as TranspileRequest;
   const qasm = body.qasm ?? "";
   const version = body.version ?? "2.0";
 
-  const qubitCount = (qasm.match(/qreg\s+q\[(\d+)\]|qubit\[(\d+)\]/)?.[1] ??
-    qasm.match(/qreg\s+q\[(\d+)\]|qubit\[(\d+)\]/)?.[2]) ?? "?";
+  const analysis = analyzeQasm(qasm);
 
   return NextResponse.json({
     braket_ir: {
@@ -32,7 +33,16 @@ export async function POST(request: NextRequest) {
       },
       source_version: version,
       source_qasm: qasm,
-      qubit_count: qubitCount,
+      qubit_count: analysis.qubitCount,
+    },
+    qiskit_python: analysis.qiskitPython,
+    optimized_qasm: analysis.optimizedQasm,
+    metrics: {
+      qubit_count: analysis.qubitCount,
+      gate_count: analysis.originalGateCount,
+      optimized_gate_count: analysis.optimizedGateCount,
+      reduction_pct: analysis.reductionPct,
+      depth: analysis.depth,
     },
   });
 }

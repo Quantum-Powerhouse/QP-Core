@@ -17,6 +17,7 @@ export const projects: Project[] = [
     description:
       "Qiskit-based VQE implementations for molecular ground-state energy estimation, benchmarked across simulators and hardware backends.",
     tags: ["Qiskit", "VQE", "Quantum Chemistry"],
+    href: "/playground/vqe-suite",
   },
   {
     title: "Quantum Error Mitigation Toolkit",

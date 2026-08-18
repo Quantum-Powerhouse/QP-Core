@@ -1,0 +1,226 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "QuantumFlow API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/transpile": {
+      "post": {
+        "summary": "Transpile",
+        "operationId": "transpile_api_v1_transpile_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranspileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranspileResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BraketDevice": {
+        "type": "string",
+        "enum": [
+          "local_simulator",
+          "sv1",
+          "dm1",
+          "tn1",
+          "ionq_aria",
+          "rigetti_ankaa",
+          "iqm_garnet"
+        ],
+        "title": "BraketDevice"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "app_name": {
+            "type": "string",
+            "title": "App Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "app_name"
+        ],
+        "title": "HealthResponse"
+      },
+      "TranspileRequest": {
+        "properties": {
+          "qasm": {
+            "type": "string",
+            "title": "Qasm",
+            "description": "Circuit source as OpenQASM 3 or QASM 2"
+          },
+          "target_device": {
+            "$ref": "#/components/schemas/BraketDevice",
+            "default": "local_simulator"
+          },
+          "optimization_level": {
+            "type": "integer",
+            "maximum": 3.0,
+            "minimum": 0.0,
+            "title": "Optimization Level",
+            "default": 1
+          }
+        },
+        "type": "object",
+        "required": [
+          "qasm"
+        ],
+        "title": "TranspileRequest"
+      },
+      "TranspileResponse": {
+        "properties": {
+          "braket_ir": {
+            "type": "string",
+            "title": "Braket Ir"
+          },
+          "qasm": {
+            "type": "string",
+            "title": "Qasm"
+          },
+          "target_device": {
+            "$ref": "#/components/schemas/BraketDevice"
+          },
+          "qubit_count": {
+            "type": "integer",
+            "title": "Qubit Count"
+          },
+          "gate_count": {
+            "type": "integer",
+            "title": "Gate Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "braket_ir",
+          "qasm",
+          "target_device",
+          "qubit_count",
+          "gate_count"
+        ],
+        "title": "TranspileResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

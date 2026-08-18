@@ -13,6 +13,9 @@ export function SiteHeader() {
           <a href="#transpiler" className="transition-colors hover:text-foreground">
             Transpiler
           </a>
+          <a href="/docs" className="transition-colors hover:text-foreground">
+            Docs
+          </a>
           <a href="#projects" className="transition-colors hover:text-foreground">
             Projects
           </a>

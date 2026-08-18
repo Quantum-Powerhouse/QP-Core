@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, JetBrains_Mono } from "next/font/google";
+import { JsonLd } from "@/components/JsonLd";
+import { personSchema, websiteSchema } from "@/lib/jsonld";
+import { SITE_URL, buildMetadata } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -7,25 +10,30 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Quantum Powerhouse",
-  description:
-    "Quantum Powerhouse — quantum computing research, Qiskit projects, and an OpenQASM to Amazon Braket IR transpiler.",
+  metadataBase: new URL(SITE_URL),
+  ...buildMetadata({ title: "Quantum Powerhouse", path: "/" }),
+  title: {
+    default: "Quantum Powerhouse",
+    template: "%s · Quantum Powerhouse",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${geistSans.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}
+        <JsonLd data={personSchema()} />
+        <JsonLd data={websiteSchema()} />
       </body>
     </html>
   );
