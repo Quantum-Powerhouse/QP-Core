@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { QuantumEventBus, type QuantumEvent, type QuantumEventType } from "@/lib/quantum/events";
+import { QuantumEventBus, type QuantumEvent, type QuantumEventOf, type QuantumEventType } from "@/lib/quantum/events";
 
 const QuantumEventBusContext = createContext<QuantumEventBus | null>(null);
 
@@ -23,7 +23,7 @@ export function useQuantumEventBus(): QuantumEventBus {
 /** Subscribes to a single event type for the lifetime of the component. */
 export function useQuantumEvents<T extends QuantumEventType>(
   type: T,
-  listener: (event: QuantumEvent<T>) => void,
+  listener: (event: QuantumEventOf<T>) => void,
 ): void {
   const bus = useQuantumEventBus();
   const listenerRef = useRef(listener);

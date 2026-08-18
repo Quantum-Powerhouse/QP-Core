@@ -38,25 +38,34 @@ export type QuantumEventMap = {
 
 export type QuantumEventType = keyof QuantumEventMap;
 
-export type QuantumEvent<T extends QuantumEventType = QuantumEventType> = {
+export type QuantumEventOf<T extends QuantumEventType> = {
   type: T;
   detail: QuantumEventMap[T];
   timestamp: number;
 };
 
-type Listener<T extends QuantumEventType> = (event: QuantumEvent<T>) => void;
+/**
+ * A true discriminated union (one variant per event type), so
+ * `switch (event.type)` / `if (event.type === "X")` correctly narrows
+ * `event.detail`. A plain generic `QuantumEventOf<QuantumEventType>` would
+ * NOT narrow this way — TS would instantiate `detail` as the union of every
+ * possible payload regardless of which `type` matched.
+ */
+export type QuantumEvent = { [K in QuantumEventType]: QuantumEventOf<K> }[QuantumEventType];
+
+type Listener<T extends QuantumEventType> = (event: QuantumEventOf<T>) => void;
 
 /** Thin typed wrapper around EventTarget — no external dependency. */
 export class QuantumEventBus {
   private target = new EventTarget();
 
   emit<T extends QuantumEventType>(type: T, detail: QuantumEventMap[T]): void {
-    const event: QuantumEvent<T> = { type, detail, timestamp: performance.now() };
+    const event: QuantumEventOf<T> = { type, detail, timestamp: performance.now() };
     this.target.dispatchEvent(new CustomEvent(type, { detail: event }));
   }
 
   on<T extends QuantumEventType>(type: T, listener: Listener<T>): () => void {
-    const handler = (e: Event) => listener((e as CustomEvent<QuantumEvent<T>>).detail);
+    const handler = (e: Event) => listener((e as CustomEvent<QuantumEventOf<T>>).detail);
     this.target.addEventListener(type, handler);
     return () => this.target.removeEventListener(type, handler);
   }
@@ -74,7 +83,10 @@ export class QuantumEventBus {
       ERROR: 0,
       USER_INTERACTION: 0,
     } satisfies Record<QuantumEventType, 0>) as QuantumEventType[]).map((type) =>
-      this.on(type, listener),
+      // Safe: `type` ranges over every key of QuantumEventMap here, so this
+      // reconstructs exactly the discriminated union `listener` accepts —
+      // TS just can't see that across the type-erased loop.
+      this.on(type, listener as unknown as Listener<typeof type>),
     );
     return () => unsubscribers.forEach((unsub) => unsub());
   }

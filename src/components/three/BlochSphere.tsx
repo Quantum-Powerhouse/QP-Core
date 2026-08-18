@@ -6,6 +6,7 @@ import { OrbitControls, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 import { RepresentsTag } from "@/components/quantum/RepresentsTag";
+import { usePrefersReducedMotion } from "@/lib/quantum/usePrefersReducedMotion";
 
 const RADIUS = 2;
 
@@ -193,6 +194,7 @@ export function BlochSphere() {
   const [phi, setPhi] = useState(45);
   const [autoRotate, setAutoRotate] = useState(true);
   const eventBus = useQuantumEventBus();
+  const reduceMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     const id = setTimeout(() => {
@@ -223,7 +225,7 @@ export function BlochSphere() {
       </div>
       <div className="relative h-[420px] overflow-hidden rounded-xl border border-border bg-surface/60 backdrop-blur-xl sm:h-[480px]">
         <Canvas camera={{ position: [3.2, 2, 3.2], fov: 45 }} dpr={[1, 1.5]}>
-          <Scene theta={theta} phi={phi} autoRotate={autoRotate} />
+          <Scene theta={theta} phi={phi} autoRotate={autoRotate && !reduceMotion} />
         </Canvas>
         <div className="pointer-events-none absolute left-4 top-4 rounded-lg border border-border bg-background/70 px-3 py-2 font-mono text-xs text-muted backdrop-blur">
           |Ψ⟩ = {alpha.toFixed(2)}|0⟩ + e<sup>iφ</sup>·{betaMag.toFixed(2)}|1⟩
