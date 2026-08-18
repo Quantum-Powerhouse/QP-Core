@@ -15,6 +15,7 @@ const LINES: Record<string, string[]> = {
   VQE_ITERATION: ["Energy's dropping.", "Getting closer."],
   VQE_CONVERGED: ["Converged.", "Ground state, found.", "That's about as low as it goes."],
   NOISE_APPLIED: ["I don't like this noise.", "Feeling the depolarizing channel.", "That's noisier than I'd like."],
+  MEASUREMENT: ["Measured.", "Collapsed.", "That's the one we got."],
   ERROR: ["That didn't work.", "Something broke.", "Circuit's unhappy."],
   USER_INTERACTION: ["Hm?"],
 };
@@ -39,6 +40,8 @@ export function petLineFor(event: QuantumEvent): string | null {
       return pick(LINES.VQE_CONVERGED);
     case "NOISE_APPLIED":
       return pick(LINES.NOISE_APPLIED);
+    case "MEASUREMENT":
+      return pick(LINES.MEASUREMENT);
     case "ERROR":
       return pick(LINES.ERROR);
     case "USER_INTERACTION":

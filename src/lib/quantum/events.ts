@@ -18,6 +18,8 @@
  *   trajectory points, not a synthetic countdown.
  * - NOISE_APPLIED: real — one event per real noisy-energy sample computed in
  *   src/lib/physics/zne.ts.
+ * - MEASUREMENT: real — a genuine inverse-CDF sample over |amplitude|^2
+ *   (src/lib/physics/measurement.ts), not a scripted collapse animation.
  * - ERROR: real — surfaces an actual thrown/caught error from one of the
  *   above flows.
  * - USER_INTERACTION: generic, low-frequency; use sparingly for interactions
@@ -32,6 +34,7 @@ export type QuantumEventMap = {
   VQE_ITERATION: { iteration: number; energyHartree: number };
   VQE_CONVERGED: { finalEnergyHartree: number; exactGroundEnergyHartree: number };
   NOISE_APPLIED: { lambda: number; energyHartree: number };
+  MEASUREMENT: { outcomeIndex: number; probabilities: number[] };
   ERROR: { scope: "transpile" | "vqe" | "zne"; message: string };
   USER_INTERACTION: { label: string };
 };
@@ -80,6 +83,7 @@ export class QuantumEventBus {
       VQE_ITERATION: 0,
       VQE_CONVERGED: 0,
       NOISE_APPLIED: 0,
+      MEASUREMENT: 0,
       ERROR: 0,
       USER_INTERACTION: 0,
     } satisfies Record<QuantumEventType, 0>) as QuantumEventType[]).map((type) =>
