@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CodeBlock } from "@/components/CodeBlock";
+import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 
 type QasmVersion = "2.0" | "3.0";
 type TabId = "qasm" | "python" | "ir" | "metrics";
@@ -186,6 +187,7 @@ export function TranspilerTerminalStudio() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<TranspileResult | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const eventBus = useQuantumEventBus();
 
   useEffect(() => {
     if (!toast) return;
@@ -203,14 +205,21 @@ export function TranspilerTerminalStudio() {
   async function handleTranspile() {
     setLoading(true);
     setError(null);
+    eventBus.emit("TRANSPILATION_STARTED", { qasmVersion: version });
 
     const outcome = await runTranspile(code, version);
     if (outcome.ok) {
       setResult(outcome.result);
       setTab("ir");
+      eventBus.emit("TRANSPILATION_FINISHED", {
+        latencyMs: outcome.result.latencyMs,
+        mock: outcome.result.mock,
+        qubitCount: outcome.result.metrics?.qubit_count ?? null,
+      });
     } else {
       setError(outcome.message);
       setResult(null);
+      eventBus.emit("ERROR", { scope: "transpile", message: outcome.message });
     }
     setLoading(false);
   }

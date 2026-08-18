@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text } from "@react-three/drei";
 import * as THREE from "three";
+import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 
 const RADIUS = 2;
 
@@ -190,6 +191,14 @@ export function BlochSphere() {
   const [theta, setTheta] = useState(60);
   const [phi, setPhi] = useState(45);
   const [autoRotate, setAutoRotate] = useState(true);
+  const eventBus = useQuantumEventBus();
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      eventBus.emit("STATE_CHANGED", { theta, phi, source: "bloch-demo" });
+    }, 120);
+    return () => clearTimeout(id);
+  }, [theta, phi, eventBus]);
 
   const thetaRad = (theta * Math.PI) / 180;
   const alpha = Math.cos(thetaRad / 2);

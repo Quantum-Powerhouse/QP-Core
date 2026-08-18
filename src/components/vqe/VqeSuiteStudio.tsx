@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { AnsatzCircuitDiagram } from "@/components/vqe/AnsatzCircuitDiagram";
 import { ConvergenceChart } from "@/components/vqe/ConvergenceChart";
+import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 import { ZneChart } from "@/components/vqe/ZneChart";
 import { runVqe, type VqeResult } from "@/lib/physics/vqe";
 import { runZne, type ZneResult } from "@/lib/physics/zne";
@@ -56,18 +57,30 @@ export function VqeSuiteStudio() {
   const [zneResult, setZneResult] = useState<ZneResult | null>(null);
   const [singleQubitRate, setSingleQubitRate] = useState(DEFAULT_SINGLE_QUBIT_RATE);
   const [twoQubitRate, setTwoQubitRate] = useState(DEFAULT_TWO_QUBIT_RATE);
+  const eventBus = useQuantumEventBus();
 
   const defaultVqe = useMemo(() => runVqe({ iterations: 40 }), []);
   const activeVqe = vqeResult ?? defaultVqe;
 
   function handleRunVqe() {
-    setVqeResult(runVqe({ iterations: 40 }));
+    eventBus.emit("VQE_STARTED", {});
+    const next = runVqe({ iterations: 40 });
+    for (const point of next.trajectory) {
+      eventBus.emit("VQE_ITERATION", { iteration: point.iteration, energyHartree: point.energyHartree });
+    }
+    eventBus.emit("VQE_CONVERGED", {
+      finalEnergyHartree: next.finalEnergyHartree,
+      exactGroundEnergyHartree: next.exactGroundEnergyHartree,
+    });
+    setVqeResult(next);
   }
 
   function handleRunZne() {
-    setZneResult(
-      runZne(activeVqe.finalTheta, { singleQubit: singleQubitRate, twoQubit: twoQubitRate }),
-    );
+    const next = runZne(activeVqe.finalTheta, { singleQubit: singleQubitRate, twoQubit: twoQubitRate });
+    for (const point of next.points) {
+      eventBus.emit("NOISE_APPLIED", { lambda: point.lambda, energyHartree: point.energyHartree });
+    }
+    setZneResult(next);
   }
 
   return (
