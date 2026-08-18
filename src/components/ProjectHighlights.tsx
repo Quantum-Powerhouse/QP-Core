@@ -6,7 +6,7 @@ export function ProjectHighlights() {
       <div className="mb-10">
         <p className="mb-2 font-mono text-sm text-accent">Research &amp; Engineering</p>
         <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-          Quantum Mechanics &amp; Qiskit Projects
+          Quantum Simulation &amp; Developer Tooling
         </h2>
         <p className="mt-3 max-w-2xl text-muted">
           A selection of the work coming out of Quantum Powerhouse, spanning
@@ -36,13 +36,25 @@ export function ProjectHighlights() {
                 </span>
               ))}
             </div>
-            {project.href && (
-              <a
-                href={project.href}
-                className="mt-4 inline-block font-mono text-xs text-accent transition-colors hover:text-foreground"
-              >
-                Open playground →
-              </a>
+            {(project.href || project.docsHref) && (
+              <div className="mt-4 flex flex-wrap gap-4">
+                {project.href && (
+                  <a
+                    href={project.href}
+                    className="font-mono text-xs text-accent transition-colors hover:text-foreground"
+                  >
+                    Open playground →
+                  </a>
+                )}
+                {project.docsHref && (
+                  <a
+                    href={project.docsHref}
+                    className="font-mono text-xs text-muted transition-colors hover:text-foreground"
+                  >
+                    Read the docs →
+                  </a>
+                )}
+              </div>
             )}
           </div>
         ))}

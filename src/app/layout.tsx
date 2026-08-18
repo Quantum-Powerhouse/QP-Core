@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
 import { JsonLd } from "@/components/JsonLd";
+import { QuantumEventProvider } from "@/components/quantum/QuantumEventProvider";
 import { personSchema, websiteSchema } from "@/lib/jsonld";
 import { SITE_URL, buildMetadata } from "@/lib/seo";
 import "./globals.css";
@@ -31,7 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        {children}
+        <QuantumEventProvider>{children}</QuantumEventProvider>
         <JsonLd data={personSchema()} />
         <JsonLd data={websiteSchema()} />
       </body>

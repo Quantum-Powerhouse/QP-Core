@@ -3,6 +3,7 @@ export type Project = {
   description: string;
   tags: string[];
   href?: string;
+  docsHref?: string;
 };
 
 export const projects: Project[] = [
@@ -11,24 +12,30 @@ export const projects: Project[] = [
     description:
       "A FastAPI service that parses OpenQASM 2.0/3.0 circuits and compiles them into Amazon Braket IR, powering the live terminal on this page.",
     tags: ["Qiskit", "OpenQASM", "Amazon Braket", "FastAPI"],
+    href: "/playground/qp-core",
+    docsHref: "/docs/qp-core/transpiler-pipeline",
   },
   {
     title: "Variational Quantum Eigensolver Suite",
     description:
-      "Qiskit-based VQE implementations for molecular ground-state energy estimation, benchmarked across simulators and hardware backends.",
-    tags: ["Qiskit", "VQE", "Quantum Chemistry"],
+      "A from-scratch TypeScript VQE for the H2 molecule, running entirely client-side: a statevector simulator, the exact parameter-shift optimizer, and direct diagonalization for a ground-truth check — no Qiskit, no backend.",
+    tags: ["VQE", "Quantum Chemistry", "Statevector Simulation"],
     href: "/playground/vqe-suite",
+    docsHref: "/docs/vqe-suite/hamiltonian-and-ansatz",
   },
   {
-    title: "Quantum Error Mitigation Toolkit",
+    title: "Zero-Noise Extrapolation",
     description:
-      "Zero-noise extrapolation and readout error mitigation routines for improving fidelity on NISQ-era quantum devices.",
-    tags: ["Qiskit", "Error Mitigation", "NISQ"],
+      "Digital gate folding over a real depolarizing-noise density-matrix simulation, then Richardson extrapolation back to the zero-noise limit — implemented and demonstrated, not just described.",
+    tags: ["Error Mitigation", "NISQ", "Density Matrix"],
+    href: "/playground/vqe-suite",
+    docsHref: "/docs/vqe-suite/zero-noise-extrapolation",
   },
   {
-    title: "Quantum Circuit Visualizer",
+    title: "Circuit Gate Timeline",
     description:
-      "An interactive tool for building, simulating, and visualizing quantum circuits and their resulting statevectors.",
-    tags: ["Quantum Mechanics", "Simulation", "Visualization"],
+      "A rendered preview of a fixed 3-qubit circuit — Hadamard, CNOT entanglement, a phase gate, and measurement. For an interactive circuit, paste your own OpenQASM into the QP-Core transpiler above.",
+    tags: ["Quantum Mechanics", "Visualization"],
+    href: "/playground/qp-core",
   },
 ];

@@ -20,17 +20,18 @@ export function Hero() {
 
       <p className="mb-4 font-mono text-sm text-accent">Quantum Powerhouse</p>
       <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">
-        Engineering the next generation of{" "}
+        Quantum software that{" "}
         <span className="animate-gradient-x bg-gradient-to-r from-cyan-400 via-teal-300 to-violet-500 bg-clip-text text-transparent">
-          quantum software
+          actually runs
         </span>
         .
       </h1>
       <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-        Quantum Powerhouse is a quantum computing developer studio exploring
-        quantum mechanics, quantum algorithms, and the tooling that connects
-        circuit design to real quantum hardware. Rotate the Bloch sphere
-        below, or drop straight into the transpiler terminal.
+        An OpenQASM-to-Amazon-Braket-IR transpiler, a from-scratch variational
+        quantum eigensolver, and a Zero-Noise Extrapolation engine — simulated
+        and computed live in your browser, not slides about what quantum
+        software could do. Rotate the Bloch sphere below, or drop straight
+        into the transpiler terminal.
       </p>
       <div className="mt-10 flex flex-wrap gap-4">
         <a
