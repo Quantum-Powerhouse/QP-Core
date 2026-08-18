@@ -3,17 +3,20 @@
 import { useMemo, useState } from "react";
 import { AnsatzCircuitDiagram } from "@/components/vqe/AnsatzCircuitDiagram";
 import { ConvergenceChart } from "@/components/vqe/ConvergenceChart";
+import { HamiltonianPanel } from "@/components/vqe/HamiltonianPanel";
 import { QSphere } from "@/components/vqe/QSphere";
 import { StatevectorExplorer } from "@/components/vqe/StatevectorExplorer";
+import { VqeStepThrough } from "@/components/vqe/VqeStepThrough";
 import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 import { ZneChart } from "@/components/vqe/ZneChart";
 import { runVqe, type VqeResult } from "@/lib/physics/vqe";
 import { runZne, type ZneResult } from "@/lib/physics/zne";
 
-type TabId = "convergence" | "statevector" | "qsphere" | "zne";
+type TabId = "convergence" | "step-through" | "statevector" | "qsphere" | "zne";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "convergence", label: "Convergence" },
+  { id: "step-through", label: "Step-by-Step" },
   { id: "statevector", label: "Statevector" },
   { id: "qsphere", label: "QSphere" },
   { id: "zne", label: "Error Mitigation (ZNE)" },
@@ -101,6 +104,8 @@ export function VqeSuiteStudio() {
         </div>
       </div>
 
+      <HamiltonianPanel />
+
       <div className="mb-6">
         <p className="mb-2 font-mono text-xs uppercase tracking-wide text-muted">Ansatz circuit</p>
         <AnsatzCircuitDiagram />
@@ -158,6 +163,8 @@ export function VqeSuiteStudio() {
               </div>
             </div>
           )}
+
+          {tab === "step-through" && <VqeStepThrough />}
 
           {tab === "statevector" && <StatevectorExplorer theta={activeVqe.finalTheta} />}
 

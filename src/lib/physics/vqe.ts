@@ -50,6 +50,31 @@ export function energyAtTheta(theta: number): number {
  * Gradient-descent VQE using the exact parameter-shift rule for the single
  * RY(theta) generator: dE/dtheta = [E(theta + pi/2) - E(theta - pi/2)] / 2.
  */
+export type VqeStepResult = {
+  theta: number;
+  energyBefore: number;
+  energyPlusShift: number;
+  energyMinusShift: number;
+  gradient: number;
+  nextTheta: number;
+};
+
+/**
+ * One real parameter-shift-rule gradient-descent step: PREPARE the ansatz at
+ * theta, MEASURE/ESTIMATE the energy there and at theta +/- pi/2, then UPDATE
+ * theta by the resulting gradient. Every field here is a genuine computed
+ * value — used both by runVqe's loop and by the interactive step-through UI.
+ */
+export function vqeStep(theta: number, learningRate: number): VqeStepResult {
+  const energyBefore = energyAtTheta(theta);
+  const energyPlusShift = energyAtTheta(theta + Math.PI / 2);
+  const energyMinusShift = energyAtTheta(theta - Math.PI / 2);
+  const gradient = (energyPlusShift - energyMinusShift) / 2;
+  const nextTheta = theta - learningRate * gradient;
+
+  return { theta, energyBefore, energyPlusShift, energyMinusShift, gradient, nextTheta };
+}
+
 export function runVqe(options?: {
   initialTheta?: number;
   iterations?: number;
@@ -61,11 +86,9 @@ export function runVqe(options?: {
 
   const trajectory: VqeIterationPoint[] = [];
   for (let i = 0; i < iterations; i++) {
-    const energy = energyAtTheta(theta);
-    trajectory.push({ iteration: i, theta, energyHartree: energy });
-
-    const gradient = (energyAtTheta(theta + Math.PI / 2) - energyAtTheta(theta - Math.PI / 2)) / 2;
-    theta -= lr * gradient;
+    const step = vqeStep(theta, lr);
+    trajectory.push({ iteration: i, theta, energyHartree: step.energyBefore });
+    theta = step.nextTheta;
   }
   const finalEnergy = energyAtTheta(theta);
   trajectory.push({ iteration: iterations, theta, energyHartree: finalEnergy });
