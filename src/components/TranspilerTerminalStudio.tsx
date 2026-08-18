@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CodeBlock } from "@/components/CodeBlock";
 import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
+import { RepresentsTag } from "@/components/quantum/RepresentsTag";
 
 type QasmVersion = "2.0" | "3.0";
 type TabId = "qasm" | "python" | "ir" | "metrics";
@@ -229,6 +230,9 @@ export function TranspilerTerminalStudio() {
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="mb-2 font-mono text-sm text-accent">Live Tool</p>
+          <RepresentsTag>
+            a compiled program — parsing and Amazon Braket IR emission, not a running or simulated circuit
+          </RepresentsTag>
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Quantum Transpiler Terminal Studio
           </h2>

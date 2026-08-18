@@ -5,6 +5,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
+import { RepresentsTag } from "@/components/quantum/RepresentsTag";
 
 const RADIUS = 2;
 
@@ -201,11 +202,25 @@ export function BlochSphere() {
   }, [theta, phi, eventBus]);
 
   const thetaRad = (theta * Math.PI) / 180;
+  const phiRad = (phi * Math.PI) / 180;
   const alpha = Math.cos(thetaRad / 2);
   const betaMag = Math.sin(thetaRad / 2);
 
+  // Pauli expectation values: the Bloch vector (x, y, z) IS (<X>, <Y>, <Z>)
+  // for a single-qubit pure state — this is the expectation-value
+  // representation of the same state shown as amplitudes above.
+  const expX = Math.sin(thetaRad) * Math.cos(phiRad);
+  const expY = Math.sin(thetaRad) * Math.sin(phiRad);
+  const expZ = Math.cos(thetaRad);
+
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_260px]">
+      <div className="lg:col-span-2">
+        <RepresentsTag>
+          single-qubit expectation values ⟨X⟩, ⟨Y⟩, ⟨Z⟩ for a user-set state — a visual metaphor and a real
+          calculation, not a running simulation
+        </RepresentsTag>
+      </div>
       <div className="relative h-[420px] overflow-hidden rounded-xl border border-border bg-surface/60 backdrop-blur-xl sm:h-[480px]">
         <Canvas camera={{ position: [3.2, 2, 3.2], fov: 45 }} dpr={[1, 1.5]}>
           <Scene theta={theta} phi={phi} autoRotate={autoRotate} />
@@ -261,6 +276,16 @@ export function BlochSphere() {
           <p>α = cos(θ/2) = {alpha.toFixed(3)}</p>
           <p>|β| = sin(θ/2) = {betaMag.toFixed(3)}</p>
           <p>arg(β) = φ = {phi.toFixed(0)}°</p>
+        </div>
+
+        <div className="space-y-1 border-t border-border pt-4 font-mono text-[11px] leading-relaxed text-muted">
+          <p className="text-foreground">⟨X⟩ = sinθ·cosφ = {expX.toFixed(3)}</p>
+          <p className="text-foreground">⟨Y⟩ = sinθ·sinφ = {expY.toFixed(3)}</p>
+          <p className="text-foreground">⟨Z⟩ = cosθ = {expZ.toFixed(3)}</p>
+          <p className="pt-1 text-muted">
+            The Bloch vector (x, y, z) = (⟨X⟩, ⟨Y⟩, ⟨Z⟩) — the same state, shown as expectation values instead
+            of amplitudes.
+          </p>
         </div>
       </div>
     </div>

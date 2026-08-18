@@ -1,4 +1,5 @@
 import { CircuitTimelineSection } from "@/components/CircuitTimelineSection";
+import { ExploreFurther } from "@/components/ExploreFurther";
 import { Hero } from "@/components/Hero";
 import { JsonLd } from "@/components/JsonLd";
 import { ParticleField } from "@/components/three/ParticleField";
@@ -19,6 +20,7 @@ export default function Home() {
         <CircuitTimelineSection />
         <TranspilerTerminalStudio />
         <ProjectHighlights />
+        <ExploreFurther />
       </main>
       <SiteFooter />
       <JsonLd
