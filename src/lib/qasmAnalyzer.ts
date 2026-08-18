@@ -3,6 +3,14 @@ export type ParsedGate = {
   qubits: number[];
 };
 
+export type InstructionStatus = {
+  index: number;
+  gate: ParsedGate;
+  kept: boolean;
+  /** Index of the gate this one cancelled against, if any. */
+  pairedWithIndex: number | null;
+};
+
 export type QasmAnalysis = {
   qubitCount: number;
   originalGateCount: number;
@@ -12,6 +20,8 @@ export type QasmAnalysis = {
   depth: number;
   qiskitPython: string;
   optimizedQasm: string;
+  /** Per-gate keep/cancel decision from the pass below — the real "what changed?" data. */
+  instructions: InstructionStatus[];
 };
 
 const SINGLE_QUBIT_SELF_INVERSE = new Set(["h", "x", "y", "z"]);
@@ -46,6 +56,7 @@ export function analyzeQasm(qasm: string): QasmAnalysis {
   }
 
   const optimized: (ParsedGate | null)[] = gates.map((g) => ({ ...g }));
+  const pairedWithIndex: (number | null)[] = gates.map(() => null);
   const lastCancellableIndex = new Map<number, number>();
 
   for (let i = 0; i < optimized.length; i++) {
@@ -58,6 +69,8 @@ export function analyzeQasm(qasm: string): QasmAnalysis {
       if (lastIdx !== undefined) {
         const lastGate = optimized[lastIdx];
         if (lastGate && lastGate.name === gate.name) {
+          pairedWithIndex[lastIdx] = i;
+          pairedWithIndex[i] = lastIdx;
           optimized[lastIdx] = null;
           optimized[i] = null;
           lastCancellableIndex.delete(q);
@@ -69,6 +82,13 @@ export function analyzeQasm(qasm: string): QasmAnalysis {
       for (const q of gate.qubits) lastCancellableIndex.delete(q);
     }
   }
+
+  const instructions: InstructionStatus[] = gates.map((gate, i) => ({
+    index: i,
+    gate,
+    kept: optimized[i] !== null,
+    pairedWithIndex: pairedWithIndex[i],
+  }));
 
   const optimizedGates = optimized.filter((g): g is ParsedGate => g !== null);
   const cancelledCount = gates.length - optimizedGates.length;
@@ -91,6 +111,7 @@ export function analyzeQasm(qasm: string): QasmAnalysis {
     cancelledCount,
     reductionPct,
     depth,
+    instructions,
     qiskitPython: toQiskitPython(qubitCount, gates),
     optimizedQasm: toQasm(qubitCount, optimizedGates),
   };

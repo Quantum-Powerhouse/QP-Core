@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CodeBlock } from "@/components/CodeBlock";
 import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 import { RepresentsTag } from "@/components/quantum/RepresentsTag";
+import { analyzeQasm } from "@/lib/qasmAnalyzer";
 
 type QasmVersion = "2.0" | "3.0";
-type TabId = "qasm" | "python" | "ir" | "metrics";
+type TabId = "qasm" | "instructions" | "python" | "ir" | "metrics";
 
 const SAMPLE_QASM: Record<QasmVersion, string> = {
   "2.0": `OPENQASM 2.0;
@@ -36,6 +37,7 @@ c = measure q;
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "qasm", label: "OpenQASM" },
+  { id: "instructions", label: "Parsed Instructions" },
   { id: "python", label: "Qiskit Python" },
   { id: "ir", label: "Optimized IR" },
   { id: "metrics", label: "Circuit Metrics" },
@@ -189,6 +191,7 @@ export function TranspilerTerminalStudio() {
   const [result, setResult] = useState<TranspileResult | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const eventBus = useQuantumEventBus();
+  const liveAnalysis = useMemo(() => analyzeQasm(code), [code]);
 
   useEffect(() => {
     if (!toast) return;
@@ -324,6 +327,61 @@ export function TranspilerTerminalStudio() {
                 onChange={(e) => setCode(e.target.value)}
                 className="flex-1 w-full resize-none bg-transparent px-4 py-3 font-mono text-sm text-foreground outline-none"
               />
+            </div>
+          )}
+
+          {tab === "instructions" && (
+            <div className="flex h-full flex-col overflow-auto px-4 py-3">
+              <RepresentsTag>
+                a flat instruction list from a simplified client-side line parser — not a full OpenQASM AST
+                (no grammar tree, no scoping, no expressions), and not what the production Qiskit-based
+                backend does internally
+              </RepresentsTag>
+              <p className="mb-3 font-mono text-[11px] text-muted">
+                Updates live as you type — no network round-trip. {liveAnalysis.originalGateCount} gates parsed,{" "}
+                {liveAnalysis.cancelledCount} cancelled ({liveAnalysis.reductionPct}% reduction), same
+                computation as the Circuit Metrics tab.
+              </p>
+              <div className="overflow-x-auto rounded-lg border border-border">
+                <table className="w-full border-collapse font-mono text-xs">
+                  <thead>
+                    <tr className="border-b border-border text-left text-muted">
+                      <th className="px-3 py-2">#</th>
+                      <th className="px-3 py-2">Gate</th>
+                      <th className="px-3 py-2">Qubits</th>
+                      <th className="px-3 py-2">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {liveAnalysis.instructions.length === 0 ? (
+                      <tr>
+                        <td colSpan={4} className="px-3 py-4 text-muted">
+                          {"// no recognized gates in the current input"}
+                        </td>
+                      </tr>
+                    ) : (
+                      liveAnalysis.instructions.map((ins) => (
+                        <tr key={ins.index} className={`border-b border-border/60 ${ins.kept ? "" : "opacity-50"}`}>
+                          <td className="px-3 py-2 text-muted">{ins.index}</td>
+                          <td className={`px-3 py-2 ${ins.kept ? "text-foreground" : "text-muted line-through"}`}>
+                            {ins.gate.name}
+                          </td>
+                          <td className="px-3 py-2 text-muted">{ins.gate.qubits.join(", ")}</td>
+                          <td className="px-3 py-2">
+                            {ins.kept ? (
+                              <span className="text-accent">kept</span>
+                            ) : (
+                              <span className="text-[#ff6b6b]">
+                                cancelled{ins.pairedWithIndex !== null ? ` → paired with #${ins.pairedWithIndex}` : ""}
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
 
