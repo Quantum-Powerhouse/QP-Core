@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Cite, DocTitle, H2, Note, P, SourceLink } from "@/components/docs/DocElements";
+import Link from "next/link";
+import { Cite, H2, Note, P, SourceLink } from "@/components/docs/DocElements";
 import { JsonLd } from "@/components/JsonLd";
+import { ClaimStatusChart } from "@/components/research/ClaimStatusChart";
+import { ResearchHero } from "@/components/research/ResearchHero";
 import { StatusBadge } from "@/components/research/StatusBadge";
 import { RESEARCH_REPO_LABEL, RESEARCH_REPO_URL } from "@/lib/research/links";
+import { getResearchStats } from "@/lib/research/stats";
 import { techArticleSchema } from "@/lib/jsonld";
 import { SITE_URL, buildMetadata } from "@/lib/seo";
 
@@ -23,21 +27,59 @@ export const metadata: Metadata = buildMetadata({
   ogTitle: "Quantum CI/CD Regression-Testing Research",
 });
 
+const READ_NEXT: { href: string; title: string; description: string; wide?: boolean }[] = [
+  {
+    href: "/research/methodology",
+    title: "Methodology",
+    description: "How the research was conducted: four parallel primary-source verification threads and the confidence-rating rules.",
+  },
+  {
+    href: "/research/claims",
+    title: "Claims table",
+    description: "All 13 claims (C01–C13), their verification status, evidence, and confidence level.",
+  },
+  {
+    href: "/research/prior-art",
+    title: "Prior-art matrix",
+    description: "21 systems compared across testing, CI/CD, cross-version, cross-SDK, and more.",
+  },
+  {
+    href: "/research/evidence",
+    title: "Evidence",
+    description: "The structured evidence record behind every claim, as expandable detail cards.",
+  },
+  {
+    href: "/research/sources",
+    title: "Sources",
+    description: "A clean index of every source opened during this research, including ones that failed to load.",
+  },
+  {
+    href: "/research/timeline",
+    title: "Timeline",
+    description: "The real, git-derived sequence this research and its publication actually happened in.",
+  },
+  {
+    href: "/research/gap-analysis",
+    title: "Gap analysis & conclusions",
+    description:
+      "Our own synthesis of what's novel, what isn't, and the narrowest defensible research gap — clearly marked as interpretation, not additional primary-source fact.",
+    wide: true,
+  },
+];
+
 export default function ResearchOverviewPage() {
   const url = `${SITE_URL}/research`;
+  const stats = getResearchStats();
 
   return (
     <>
-      <DocTitle
-        eyebrow="Research"
-        title="Is there a real gap in quantum CI/CD regression testing?"
-        dek="A rigorous, primary-source-verified investigation — not a pitch. Every finding below traces to an official repository, an arXiv paper, or an independently-resolved DOI record that was actually opened and inspected."
-      />
+      <ResearchHero stats={stats} />
 
       <Note tone="warning">
         <strong>Status: architecture and implementation are blocked pending human review.</strong> Nothing here
-        is a product proposal. This section documents a research phase only, conducted{" "}
-        <span className="whitespace-nowrap">2026-08-20</span>.
+        is a product proposal. This section documents a research phase only, last updated{" "}
+        <span className="whitespace-nowrap">2026-08-20</span> — see the{" "}
+        <SourceLink href="/research/timeline">timeline</SourceLink> for the exact commit history.
       </Note>
 
       <H2>The question</H2>
@@ -57,6 +99,12 @@ export default function ResearchOverviewPage() {
         search-result snippet was the only evidence available, the claim was marked{" "}
         <StatusBadge status="unverified" /> rather than accepted.
       </P>
+
+      <H2>Claim status distribution</H2>
+      <P>Computed directly from the {stats.totalClaims} claims in the claims table — not a separately-maintained figure.</P>
+      <div className="mb-8 rounded-xl border border-border bg-surface/60 p-5">
+        <ClaimStatusChart counts={stats.claimsByStatus} total={stats.totalClaims} />
+      </div>
 
       <H2>Headline findings</H2>
       <div className="flex flex-col gap-4">
@@ -114,31 +162,18 @@ export default function ResearchOverviewPage() {
         </div>
       </div>
 
-      <H2>How to read this section</H2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <a href="/research/methodology" className="group rounded-xl border border-border bg-surface/60 p-5 transition-colors hover:border-accent/50">
-          <h3 className="font-semibold text-foreground group-hover:text-accent">Methodology</h3>
-          <p className="mt-1 text-sm text-muted">How the research was conducted: four parallel primary-source verification threads and the confidence-rating rules.</p>
-        </a>
-        <a href="/research/claims" className="group rounded-xl border border-border bg-surface/60 p-5 transition-colors hover:border-accent/50">
-          <h3 className="font-semibold text-foreground group-hover:text-accent">Claims table</h3>
-          <p className="mt-1 text-sm text-muted">All 13 claims (C01–C13), their verification status, evidence, and confidence level.</p>
-        </a>
-        <a href="/research/prior-art" className="group rounded-xl border border-border bg-surface/60 p-5 transition-colors hover:border-accent/50">
-          <h3 className="font-semibold text-foreground group-hover:text-accent">Prior-art matrix</h3>
-          <p className="mt-1 text-sm text-muted">21 systems compared across testing, CI/CD, cross-version, cross-SDK, and more.</p>
-        </a>
-        <a href="/research/evidence" className="group rounded-xl border border-border bg-surface/60 p-5 transition-colors hover:border-accent/50">
-          <h3 className="font-semibold text-foreground group-hover:text-accent">Evidence &amp; sources</h3>
-          <p className="mt-1 text-sm text-muted">The structured evidence record behind every claim, plus every source URL that was actually opened.</p>
-        </a>
-        <a href="/research/gap-analysis" className="group rounded-xl border border-border bg-surface/60 p-5 transition-colors hover:border-accent/50 sm:col-span-2">
-          <h3 className="font-semibold text-foreground group-hover:text-accent">Gap analysis &amp; conclusions</h3>
-          <p className="mt-1 text-sm text-muted">
-            Our own synthesis of what&apos;s novel, what isn&apos;t, and the narrowest defensible research gap —
-            clearly marked as interpretation built on top of the verified evidence, not additional primary-source fact.
-          </p>
-        </a>
+      <H2>Read next</H2>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {READ_NEXT.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`group rounded-xl border border-border bg-surface/60 p-5 transition-colors hover:border-accent/50 ${item.wide ? "sm:col-span-2 lg:col-span-3" : ""}`}
+          >
+            <h3 className="font-semibold text-foreground group-hover:text-accent">{item.title}</h3>
+            <p className="mt-1 text-sm text-muted">{item.description}</p>
+          </Link>
+        ))}
       </div>
 
       <H2>Raw artifacts</H2>
