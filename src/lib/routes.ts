@@ -13,4 +13,10 @@ export const ROUTES: RouteEntry[] = [
   { path: "/docs/vqe-suite/hamiltonian-and-ansatz", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/vqe-suite/zero-noise-extrapolation", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/api-reference", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/research", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/research/methodology", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/research/claims", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/research/prior-art", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/research/evidence", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/research/gap-analysis", changeFrequency: "monthly", priority: 0.7 },
 ];
