@@ -14,6 +14,11 @@ const LINKS = [
     description: "The math and the architecture, written against the real source — not marketing copy.",
     href: "/docs",
   },
+  {
+    title: "Research",
+    description: "A primary-source-verified investigation into the quantum CI/CD regression-testing gap — claims checked, not assumed.",
+    href: "/research",
+  },
 ];
 
 export function ExploreFurther() {
@@ -27,7 +32,7 @@ export function ExploreFurther() {
           it works.
         </p>
       </div>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {LINKS.map((link) => (
           <a
             key={link.href}
