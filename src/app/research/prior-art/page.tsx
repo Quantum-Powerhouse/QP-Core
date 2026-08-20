@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Cite, DocTitle, Note, P, SourceLink } from "@/components/docs/DocElements";
+import { Cite, DocTitle, H2, Note, P, SourceLink } from "@/components/docs/DocElements";
+import { CapabilityScatter } from "@/components/research/CapabilityScatter";
 import { MatrixCell } from "@/components/research/StatusBadge";
 import { PRIOR_ART } from "@/lib/research/priorArt";
 import { researchFileUrl } from "@/lib/research/links";
@@ -63,6 +64,16 @@ export default function PriorArtPage() {
         framework-level equivalence, and is NO on Cross-Version.
       </Note>
 
+      <H2>Capability coverage</H2>
+      <P>
+        Each system&apos;s two axis scores are counted directly from the matrix cells below — CI/orchestration
+        from pytest + GitHub Actions + CI/CD + Cross-Version + Cross-SDK, testing depth from Regression Testing
+        + Equivalence Checking + Auto Fault Detection + Bug Corpus. Dot size scales with total capability
+        count. No relationship between systems is implied beyond this — the research found none to visualize.
+      </P>
+      <CapabilityScatter />
+
+      <H2>Full matrix</H2>
       <div className="my-6 overflow-x-auto rounded-lg border border-border">
         <table className="w-full min-w-[1400px] border-collapse text-left text-xs">
           <thead>

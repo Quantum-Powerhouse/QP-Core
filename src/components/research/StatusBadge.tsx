@@ -17,11 +17,24 @@ const STATUS_TEXT: Record<ClaimStatus, string> = {
   not_found: "Not found after search",
 };
 
+/**
+ * Distinct glyph per status, not just color — so the status still reads
+ * correctly for colorblind users and in any UI that strips styling.
+ */
+const STATUS_GLYPH: Record<ClaimStatus, string> = {
+  confirmed: "✓",
+  partial: "◐",
+  unverified: "?",
+  false: "✕",
+  not_found: "∅",
+};
+
 export function StatusBadge({ status }: { status: ClaimStatus }) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center rounded-full border px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-wide ${STATUS_STYLES[status]}`}
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-wide ${STATUS_STYLES[status]}`}
     >
+      <span aria-hidden="true">{STATUS_GLYPH[status]}</span>
       {STATUS_TEXT[status]}
     </span>
   );
