@@ -79,6 +79,35 @@ the FastAPI backend enables CORS for the site's origin.
   When `NEXT_PUBLIC_TRANSPILER_API_URL` is set, that page fetches the **live** spec from
   `${NEXT_PUBLIC_TRANSPILER_API_URL}/openapi.json` instead of this snapshot.
 
+## QPIT — the site's quantum companion
+
+QPIT is the small interactive character living in the interface (the orb in the
+bottom-right corner). Architecture, all under `src/components/quantum/`:
+
+- `pet/QuantumPet.tsx` — the character: reacts to **real** quantum events from the
+  site-wide event bus (`src/lib/quantum/events.ts` documents the honesty boundary:
+  every event is sourced from an actual computation), greets route changes, and
+  responds to hovering links and to being poked.
+- `pet/QpitPhysics.tsx` — the motion layer: on fine-pointer devices QPIT follows the
+  cursor on a spring tether, hangs ~90px below it, swings like a pendulum from
+  horizontal velocity, and docks back to the corner after ~3.5s of stillness.
+  Cursor tracking writes framer-motion MotionValues directly (zero React re-renders
+  per pointer move). Touch devices and `prefers-reduced-motion` users get a calm,
+  permanently docked QPIT.
+- `pet/QpForm.tsx` — the WebGL form (react-three-fiber) whose color/spin/intensity
+  encode the last real event.
+- `pet/petLines.ts` — event-reaction lines; `src/lib/quantum/qpitContext.ts` —
+  route/hover personality (pure logic, unit-tested by `tests/qpit-context.test.mjs`
+  via `npm test`, which runs on `node --test` with native type stripping).
+
+Hover context is delegated and scalable: one document-level listener maps any
+internal link's `href` through the same route logic — new pages work automatically.
+`data-qpit="<section>"` on any element overrides the href-derived context.
+
+QPIT never blocks interaction (pointer-events disabled while roaming), is keyboard
+accessible (the docked orb is a button), and never fabricates state — speech lines
+describe real events, real routes, and real sections only.
+
 ## Deploy
 
 Deploy on [Vercel](https://vercel.com/new) or any Node host that supports
