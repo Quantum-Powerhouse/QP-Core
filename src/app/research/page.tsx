@@ -54,11 +54,6 @@ const READ_NEXT: { href: string; title: string; description: string; wide?: bool
     description: "A clean index of every source opened during this research, including ones that failed to load.",
   },
   {
-    href: "/research/timeline",
-    title: "Timeline",
-    description: "The real, git-derived sequence this research and its publication actually happened in.",
-  },
-  {
     href: "/research/gap-analysis",
     title: "Gap analysis & conclusions",
     description:
@@ -77,9 +72,8 @@ export default function ResearchOverviewPage() {
 
       <Note tone="warning">
         <strong>Status: architecture and implementation are blocked pending human review.</strong> Nothing here
-        is a product proposal. This section documents a research phase only, last updated{" "}
-        <span className="whitespace-nowrap">2026-08-20</span> — see the{" "}
-        <SourceLink href="/research/timeline">timeline</SourceLink> for the exact commit history.
+        is a product proposal. This section documents a sustained research effort, last updated{" "}
+        <span className="whitespace-nowrap">2026-08-21</span>.
       </Note>
 
       <H2>The question</H2>

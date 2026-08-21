@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
 import { JsonLd } from "@/components/JsonLd";
+import { ParticleField } from "@/components/three/ParticleField";
 import { QuantumEventProvider } from "@/components/quantum/QuantumEventProvider";
 import { QuantumPet } from "@/components/quantum/pet/QuantumPet";
 import { personSchema, websiteSchema } from "@/lib/jsonld";
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <QuantumEventProvider>
+          <ParticleField />
           {children}
           <QuantumPet />
         </QuantumEventProvider>

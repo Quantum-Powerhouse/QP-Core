@@ -138,8 +138,10 @@ export const TUNNEL_CHANCE = 0.5;
 /** Black hole: violent cursor shaking (fast direction reversals) summons it.
  *  Deliberately user-triggerable, so it runs its own (shorter) cooldown. */
 export const BLACKHOLE_MIN_SHAKES = 3;
-export const BLACKHOLE_CHANCE = 0.75;
-export const BLACKHOLE_COOLDOWN_MS = 25_000;
+export const BLACKHOLE_CHANCE = 0.9;
+export const BLACKHOLE_COOLDOWN_MS = 12_000;
+/** Ambient black holes also just happen, while roaming. Per-tick chance. */
+export const AMBIENT_BLACKHOLE_CHANCE = 0.003;
 /** Entanglement / wormhole: ambient per-check chances while eligible. */
 export const ENTANGLE_CHANCE = 0.0015;
 export const WORMHOLE_CHANCE = 0.0015;
@@ -187,6 +189,19 @@ export function maybeBlackHole(
   if (shakeCount < BLACKHOLE_MIN_SHAKES) return false;
   if (now - lastBlackHoleAt < BLACKHOLE_COOLDOWN_MS) return false;
   return rand() < BLACKHOLE_CHANCE;
+}
+
+/** Ambient special: black holes can also open unprovoked while roaming. */
+export function maybeAmbientBlackHole(
+  inputs: QpitInputs,
+  lastBlackHoleAt: number,
+  sessionStartAt: number,
+  rand: Rand,
+): boolean {
+  if (inputs.mode !== "roaming") return false;
+  if (inputs.now - sessionStartAt < SESSION_WARMUP_MS) return false;
+  if (inputs.now - lastBlackHoleAt < BLACKHOLE_COOLDOWN_MS) return false;
+  return rand() < AMBIENT_BLACKHOLE_CHANCE;
 }
 
 /**

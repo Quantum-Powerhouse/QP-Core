@@ -20,6 +20,5 @@ export const ROUTES: RouteEntry[] = [
   { path: "/research/prior-art", changeFrequency: "monthly", priority: 0.7 },
   { path: "/research/evidence", changeFrequency: "monthly", priority: 0.6 },
   { path: "/research/sources", changeFrequency: "monthly", priority: 0.5 },
-  { path: "/research/timeline", changeFrequency: "monthly", priority: 0.5 },
   { path: "/research/gap-analysis", changeFrequency: "monthly", priority: 0.7 },
 ];

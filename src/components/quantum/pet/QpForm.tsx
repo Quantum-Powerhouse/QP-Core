@@ -118,13 +118,13 @@ export function QpForm({
       noseRef.current.position.y += (targetY - noseRef.current.position.y) * k;
       noseRef.current.position.z = 0.35;
       noseRef.current.rotation.z = Math.atan2(noseRef.current.position.y, noseRef.current.position.x) - Math.PI / 2;
-      const targetScale = reduceMotion ? 0 : 0.25 + mag * 1.05;
+      const targetScale = reduceMotion ? 0 : 0.2 + mag * 1.6;
       const sNow = noseRef.current.scale.x;
       const sNext = sNow + (targetScale - sNow) * k;
       noseRef.current.scale.setScalar(sNext);
       if (noseMaterialRef.current) {
         noseMaterialRef.current.color = s.color;
-        noseMaterialRef.current.opacity = Math.min(0.95, 0.25 + mag * 0.75);
+        noseMaterialRef.current.opacity = Math.min(1, 0.35 + mag * 0.75);
       }
     }
   });
@@ -157,7 +157,7 @@ export function QpForm({
 
       {/* Direction pointer: a glowing cone on the rim, aimed at the heading. */}
       <mesh ref={noseRef} position={[0.95, 0, 0.35]} scale={0.25}>
-        <coneGeometry args={[0.14, 0.34, 10]} />
+        <coneGeometry args={[0.24, 0.55, 12]} />
         <meshBasicMaterial ref={noseMaterialRef} transparent toneMapped={false} />
       </mesh>
 

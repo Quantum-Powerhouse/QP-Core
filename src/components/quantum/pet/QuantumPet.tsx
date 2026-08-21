@@ -344,7 +344,7 @@ export function QuantumPet() {
     const onClick = (event: MouseEvent) => {
       const dx = event.clientX - stateRef.current.petX;
       const dy = event.clientY - stateRef.current.petY;
-      if (Math.hypot(dx, dy) > 52) return;
+      if (Math.hypot(dx, dy) > 66) return;
       const target = event.target as Element | null;
       if (target?.closest?.("a, button, input, textarea, select, [role='button']")) return;
       onPoke();
@@ -410,11 +410,11 @@ export function QuantumPet() {
           </button>
         )}
         {/* orbital particles: constant slow motion so QPIT reads alive at rest */}
-        <div aria-hidden className="pointer-events-none absolute bottom-0 left-1/2 z-0 h-[100px] w-[100px] -translate-x-1/2 sm:h-[116px] sm:w-[116px]" style={{ animation: "qpit-spin 9s linear infinite" }}>
+        <div aria-hidden className="pointer-events-none absolute bottom-0 left-1/2 z-0 h-[128px] w-[128px] -translate-x-1/2 sm:h-[148px] sm:w-[148px]" style={{ animation: "qpit-spin 9s linear infinite" }}>
           <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-accent opacity-70" />
           <span className="absolute bottom-[12%] right-0 h-1 w-1 rounded-full opacity-60" style={{ background: "var(--accent-2)" }} />
         </div>
-        <div aria-hidden className="pointer-events-none absolute bottom-[8px] left-1/2 z-0 h-[84px] w-[84px] -translate-x-1/2" style={{ animation: "qpit-spin 5.5s linear infinite reverse" }}>
+        <div aria-hidden className="pointer-events-none absolute bottom-[10px] left-1/2 z-0 h-[108px] w-[108px] -translate-x-1/2" style={{ animation: "qpit-spin 5.5s linear infinite reverse" }}>
           <span className="absolute left-0 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-accent opacity-50" />
         </div>
         <button
@@ -423,7 +423,7 @@ export function QuantumPet() {
           onPointerEnter={onOrbEnter}
           onPointerLeave={onOrbLeave}
           aria-label="Poke QPIT, the site's quantum companion"
-          className="h-[84px] w-[84px] cursor-pointer overflow-hidden rounded-full border border-border bg-surface/60 backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:h-[100px] sm:w-[100px]"
+          className="h-[108px] w-[108px] cursor-pointer overflow-hidden rounded-full border border-border bg-surface/60 backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:h-[128px] sm:w-[128px]"
           style={{ pointerEvents: mode === "roaming" ? "none" : undefined }}
         >
           <Canvas camera={{ position: [0, 0, 2.4], fov: 40 }} dpr={[1, 1.5]}>

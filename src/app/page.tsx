@@ -2,7 +2,6 @@ import { CircuitTimelineSection } from "@/components/CircuitTimelineSection";
 import { ExploreFurther } from "@/components/ExploreFurther";
 import { Hero } from "@/components/Hero";
 import { JsonLd } from "@/components/JsonLd";
-import { ParticleField } from "@/components/three/ParticleField";
 import { ProjectHighlights } from "@/components/ProjectHighlights";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -13,7 +12,6 @@ import { SITE_URL } from "@/lib/seo";
 export default function Home() {
   return (
     <div id="top" className="flex flex-1 flex-col">
-      <ParticleField />
       <SiteHeader />
       <main className="flex-1">
         <Hero />

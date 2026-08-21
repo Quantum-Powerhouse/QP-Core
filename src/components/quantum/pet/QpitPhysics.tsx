@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "
 import { motion, useAnimationFrame } from "framer-motion";
 import {
   advanceEmotion,
+  maybeAmbientBlackHole,
   maybeBlackHole,
   maybeEntangle,
   maybeSuperposition,
@@ -62,8 +63,8 @@ function useHydrated(): boolean {
 function dockPosition(): { x: number; y: number } {
   if (typeof window === "undefined") return { x: 0, y: 0 };
   return {
-    x: window.innerWidth - EDGE_MARGIN - 24,
-    y: window.innerHeight - EDGE_MARGIN - 28,
+    x: window.innerWidth - EDGE_MARGIN - 34,
+    y: window.innerHeight - EDGE_MARGIN - 40,
   };
 }
 
@@ -195,6 +196,36 @@ export function QpitPhysics({
     thetaRef.current.v += 430;
   }, [celebrateSignal]);
 
+  // Opens the anomaly a little away from QPIT, off to one side.
+  const triggerBlackHole = useCallback(
+    (now: number) => {
+      lastBlackHoleAtRef.current = now;
+      lastSpecialAtRef.current = now;
+      const side = randRef.current() < 0.5 ? -1 : 1;
+      const axp = Math.min(window.innerWidth - 110, Math.max(110, posRef.current.x + side * 200));
+      const ayp = Math.min(window.innerHeight - 110, Math.max(110, posRef.current.y - 60 + randRef.current() * 120));
+      specialRef.current = { kind: "BLACKHOLE", phase: 0, until: now + 2200, data: { ax: axp, ay: ayp, bx: 0, by: 0 } };
+      setAnomaly({ x: axp, y: ayp });
+      onSpecialStart?.("BLACKHOLE");
+    },
+    [onSpecialStart],
+  );
+
+  // Touch devices have no pointermove stream: taps and scrolls count as
+  // activity so QPIT wakes, floats, and reacts instead of dozing off.
+  useEffect(() => {
+    if (interactive) return;
+    const onActivity = () => {
+      lastMoveAtRef.current = performance.now();
+    };
+    window.addEventListener("touchstart", onActivity, { passive: true });
+    window.addEventListener("scroll", onActivity, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", onActivity);
+      window.removeEventListener("scroll", onActivity);
+    };
+  }, [interactive]);
+
   // --- pointer wiring -----------------------------------------------------
   useEffect(() => {
     if (!interactive) {
@@ -232,15 +263,7 @@ export function QpitPhysics({
             maybeBlackHole(shakeCountRef.current, now, lastBlackHoleAtRef.current, randRef.current)
           ) {
             shakeCountRef.current = 0;
-            lastBlackHoleAtRef.current = now;
-            lastSpecialAtRef.current = now;
-            // The anomaly opens a little away from QPIT, off to one side.
-            const side = randRef.current() < 0.5 ? -1 : 1;
-            const axp = Math.min(window.innerWidth - 90, Math.max(90, posRef.current.x + side * 190));
-            const ayp = Math.min(window.innerHeight - 90, Math.max(90, posRef.current.y - 60 + randRef.current() * 120));
-            specialRef.current = { kind: "BLACKHOLE", phase: 0, until: now + 2200, data: { ax: axp, ay: ayp, bx: 0, by: 0 } };
-            setAnomaly({ x: axp, y: ayp });
-            onSpecialStart?.("BLACKHOLE");
+            triggerBlackHole(now);
           }
         }
         lastVxSignRef.current = vxSign;
@@ -297,7 +320,7 @@ export function QpitPhysics({
       window.removeEventListener("blur", onLeave);
       window.removeEventListener("resize", onResize);
     };
-  }, [interactive, reduceMotion, goHome, setModeSafe, onSpecialStart]);
+  }, [interactive, reduceMotion, goHome, setModeSafe, triggerBlackHole]);
 
   // --- the one loop: physics, emotion, tether, trail, specials ------------
   useAnimationFrame((t) => {
@@ -408,6 +431,15 @@ export function QpitPhysics({
         targetRef.current.y = ayp;
         setPortals({ a: { x: axp, y: ayp }, b: { x: bxp, y: byp } });
       }
+
+      // Black holes also open unprovoked now and then.
+      if (
+        !reduceMotion &&
+        !specialRef.current &&
+        maybeAmbientBlackHole(inputs, lastBlackHoleAtRef.current, sessionStartRef.current, randRef.current)
+      ) {
+        triggerBlackHole(now);
+      }
     }
 
     // Special progression.
@@ -469,8 +501,9 @@ export function QpitPhysics({
       modeRef.current === "docked" &&
       (emotion === "IDLE" || emotion === "CURIOUS")
     ) {
-      wanderX = 8 * Math.sin(t * 0.00042);
-      wanderY = 6 * Math.sin(t * 0.00031 + 1.3);
+      const amp = interactive ? 1 : 1.9; // phones get a bigger float
+      wanderX = 8 * amp * Math.sin(t * 0.00042);
+      wanderY = 6 * amp * Math.sin(t * 0.00031 + 1.3);
     }
     let ax = params.stiffness * (target.x + wanderX - pos.x) - params.damping * vel.x + nx;
     let ay = params.stiffness * (target.y + wanderY - pos.y) - params.damping * vel.y + ny;

@@ -18,7 +18,6 @@ export type QpitSection =
   | "gap-analysis"
   | "prior-art"
   | "methodology"
-  | "timeline"
   | "docs"
   | "playground"
   | "unknown";
@@ -31,7 +30,6 @@ const SECTION_PREFIXES: [string, QpitSection][] = [
   ["/research/gap-analysis", "gap-analysis"],
   ["/research/prior-art", "prior-art"],
   ["/research/methodology", "methodology"],
-  ["/research/timeline", "timeline"],
   ["/research", "research"],
   ["/docs", "docs"],
   ["/playground", "playground"],
@@ -56,7 +54,6 @@ const GREETINGS: Record<QpitSection, string[]> = {
   "gap-analysis": ["This is where the hypothesis got humbled.", "Honest conclusions live here."],
   "prior-art": ["Know what came before.", "Twenty-plus systems, all inspected."],
   methodology: ["How the checking got done.", "Rules first, conclusions second."],
-  timeline: ["The whole story, in order."],
   docs: ["Real math ahead.", "The equations match the source code."],
   playground: ["Careful. Things get weird around here.", "Go on, run something.", "You clicked that like you knew what it would do."],
   unknown: ["Hm. New territory."],
@@ -72,7 +69,6 @@ const HOVER_LINES: Record<QpitSection, string[]> = {
   "gap-analysis": ["The humbling. Worth a look."],
   "prior-art": ["Now we're getting interesting."],
   methodology: ["Rules of the game."],
-  timeline: ["A short saga."],
   docs: ["Okay, this one gets weird. In a good way."],
   playground: ["I think you should explore that.", "Real simulation in there. Not slides."],
   unknown: [],
