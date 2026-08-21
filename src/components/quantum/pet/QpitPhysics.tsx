@@ -277,7 +277,7 @@ export function QpitPhysics({
       window.removeEventListener("blur", onLeave);
       window.removeEventListener("resize", onResize);
     };
-  }, [interactive, reduceMotion, goHome, setModeSafe]);
+  }, [interactive, reduceMotion, goHome, setModeSafe, onSpecialStart]);
 
   // --- the one loop: physics, emotion, tether, trail, specials ------------
   useAnimationFrame((t) => {
