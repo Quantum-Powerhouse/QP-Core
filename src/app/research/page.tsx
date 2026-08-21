@@ -146,7 +146,8 @@ export default function ResearchOverviewPage() {
           </div>
           <p className="text-sm leading-relaxed text-muted">
             Bugs4Q is real and “widely used,” and a 2026 replication study already ran it across 21 Qiskit
-            versions (77,700 executions), finding reproducibility collapsed from 62.2% to 16.2%.
+            versions (77,700 executions), finding reproducibility collapsed from 62.2% to 16.2% — and that
+            restoring it needed source-code migration, not just dependency pinning.
           </p>
         </div>
         <div className="rounded-xl border border-border bg-surface/60 p-5">

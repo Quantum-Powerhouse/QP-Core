@@ -77,7 +77,7 @@ export const CLAIMS: Claim[] = [
     status: "false",
     statusLabel: "FALSE",
     evidence:
-      "Bugs4Q (arXiv:2108.09744, JSS 2023) is a real, “widely used” 36+ bug corpus; arXiv:2606.27124 already ran it across 21 Qiskit versions / 77,700 executions and found reproducibility collapsed 62.2%→16.2%. QBugs, a 32,296-report mined dataset, and QBugLM also exist. No corpus is a universal standard, but the “none exists” framing is false.",
+      "Bugs4Q is a real, “widely used” corpus (36 bugs in the 2021 preprint; 42 in the DOI-resolved JSS 2023 version); arXiv:2606.27124 already ran 37 of its artifacts across 21 Qiskit core-library versions / 77,700 executions, found reproducibility collapsed 62.2%→16.2%, and restored it to 78.4% via a patched “Bugs4Q-Robust” fork. QBugs, a 32,296-report mined dataset, and QBugLM also exist. No corpus is a universal standard, but the “none exists” framing is false.",
     source: "arXiv:2108.09744; arXiv:2606.27124; arXiv:2103.16968; arXiv:2512.24656; github.com/Z-928/Bugs4Q",
     confidence: "High",
   },

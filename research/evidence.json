@@ -1,0 +1,112 @@
+[
+  {
+    "claim": "C01: MQT QCEC provides substantially the same capability as the proposed open-source pytest/GitHub Actions quantum SDK cross-version regression-testing infrastructure.",
+    "status": "FALSE",
+    "evidence": "MQT QCEC (github.com/munich-quantum-toolkit/qcec) is a mature C++20/Python equivalence-checking library (decision-diagram, alternating DD, simulation-based falsification, ZX-calculus engines) that determines whether two quantum circuits are functionally equivalent, primarily for verifying compiled/transpiled circuits against their source. It accepts Qiskit QuantumCircuit objects and OpenQASM files. Its own .github/workflows/ci.yml matrix is OS/architecture/compiler only (ubuntu/macos/windows x x86/arm x gcc/clang/msvc) - there is no Python-SDK-version matrix and no cross-SDK-version regression harness. The official MQT verification handbook page frames QCEC purely as an equivalence-checking methodology, not a CI/CD or regression-testing product. QCEC solves the algorithmic equivalence-checking layer only; it ships no reusable pytest plugin, no GitHub Actions product for arbitrary user projects, and no cross-SDK-version testing capability.",
+    "source_url": "https://github.com/munich-quantum-toolkit/qcec; https://raw.githubusercontent.com/munich-quantum-toolkit/qcec/main/.github/workflows/ci.yml; https://mqt.readthedocs.io/en/latest/handbook/04_verification.html",
+    "source_type": "official GitHub repository, raw CI config, official documentation",
+    "source_title": "munich-quantum-toolkit/qcec (README, CI workflow, verification handbook)",
+    "date_checked": "2026-08-20",
+    "notes": "117 GitHub stars, 1,516+ commits, MIT license, active CD/release-drafter automation, PyPI package mqt.qcec. Academic citation: Burgholzer, L. & Wille, R., \"QCEC: A JKQ tool for quantum circuit equivalence checking,\" Software Impacts, 2021, DOI 10.1016/j.simpa.2020.100051 -- originally verified only via the repo's citation block; INDEPENDENTLY CONFIRMED in verification pass 2 (2026-08-20) via cross-referenced listings on Semantic Scholar, researchr, and the ACM/Elsevier index (ScienceDirect blocked full-text scraping, but title/authors/venue/year are now cross-confirmed by 3 independent bibliographic sources, not just the repo itself). A CI harness that USES QCEC as one detection engine inside a cross-SDK-version regression pipeline would not duplicate QCEC's contribution -- the gap is in the orchestration/CI/cross-version layer, confirmed absent."
+  },
+  {
+    "claim": "C02: MQT Debugger provides substantially the same capability as the proposed CI/CD regression-testing infrastructure.",
+    "status": "FALSE",
+    "evidence": "MQT Debugger (github.com/munich-quantum-toolkit/debugger, PyPI mqt.debugger) is an assertion-based, simulation-driven debugging tool for locating errors within a single quantum program run. Developers place assertions; assertions are evaluated via classical simulation; on failure the framework runs diagnostic methods to localize probable causes. It exposes state inspection (e.g. state.get_state_vector_full()) and a Debugger Adapter Protocol (DAP) server for IDE integration. It accepts OpenQASM input via Python bindings; no native Qiskit/Cirq/PennyLane SDK integration was found. Its GitHub Actions workflows are standard CI for the debugger's own codebase (build/test/lint/codecov), not a feature for testing other people's quantum programs across SDK versions. No regression-testing-across-SDK-versions capability, no pytest-plugin-style test discovery for user projects.",
+    "source_url": "https://github.com/munich-quantum-toolkit/debugger; https://arxiv.org/abs/2412.12269",
+    "source_type": "official GitHub repository, arXiv paper",
+    "source_title": "munich-quantum-toolkit/debugger (README); Rovara, Burgholzer, Wille, \"A Framework for Debugging Quantum Programs,\" arXiv:2412.12269",
+    "date_checked": "2026-08-20",
+    "notes": "21 stars, 4 forks, 496 commits, MIT license -- smaller/younger project than QCEC but real and actively developed. arXiv:2412.12269 submitted 2024-12-16; abstract confirms this is an assertion-based single-run debugging framework, explicitly NOT a CI/CD system and NOT about regression testing across SDK versions."
+  },
+  {
+    "claim": "C04: A practitioner survey found approximately 31% of quantum software developers use quantum-specific testing tools.",
+    "status": "CONFIRMED",
+    "evidence": "Verbatim from the full PDF text (not a snippet): 'Only eight of 26 respondents (31%) reported using quantum-specific testing tools.' Stated as Finding 2, Section 5.2, p.18; restated in abstract, intro, Section 8.2, and 8.4. Methodology: survey of quantum software developers invited from 1,397 industry/government + 75 academic contacts; 38 completed responses, 12 excluded for lacking hands-on quantum dev experience, leaving N=26 analyzed respondents, plus 4 follow-up interviews. Fielded via Qualtrics 2024-05-20 to 2024-08-05, IRB-approved. Question T10 ('Tools used for testing'): 16/26 used no testing tools; of the remaining 10, 8 (=31% of N=26) used quantum-specific frameworks/libraries (e.g. Qiskit Test Utilities used by only 4/26).",
+    "source_url": "https://arxiv.org/abs/2506.17306",
+    "source_type": "arXiv paper (to appear in ACM TOSEM)",
+    "source_title": "Zappin, Stalnaker, Chaparro, Poshyvanyk, \"Challenges and Practices in Quantum Software Testing and Debugging: Insights from Practitioners,\" arXiv:2506.17306",
+    "date_checked": "2026-08-20",
+    "notes": "v1: 2025-06-18, v2: 2026-01-16. Authors themselves flag N=26 as a generalizability limitation (Section 9.2). Cite as 'one 2024 survey of 26 developers found 31%', not as a field-wide constant. Paper explicitly calls for (but does not build) 'CI/CD pipelines tailored to hybrid systems' (Section 8.3.4) -- supports the existence of the need, not evidence of prior-art absence."
+  },
+  {
+    "claim": "C05/C06: Two arXiv papers previously cited as evidence for the research gap -- verify their existence and content.",
+    "status": "PARTIALLY_CONFIRMED",
+    "evidence": "No specific arXiv IDs were supplied to check against, so the original 'two papers' could not be confirmed or denied directly -- treat any prior claim of specific IDs as UNVERIFIED. Independent broad search reconstructed the most material real candidates, verified by opening primary sources directly: (1) arXiv:2605.19736 'QUTest: A Native Testing Framework for Quantum Programs' (Jose Campos, submitted 2026-05-19) -- already implements cross-Qiskit-version regression testing (via a runtime_version pragma across isolated Qiskit versions, explicitly to 'expose behavioral drift') and emits JUnit/xUnit XML explicitly stated to be CI-compatible (Jenkins, GitHub Actions, GitLab CI). Does NOT integrate with pytest (standalone OpenQASM-native CLI by design), supports ONLY Qiskit (cross-SDK support explicitly future work), and has no automated equivalence/regression-detection algorithm (assertions are hand-written). (2) arXiv:2506.17306, the 31% survey paper (see C04) -- calls for but does not build CI/CD tooling. (3) arXiv:2410.00650 'A Survey on Testing and Analysis of Quantum Software' (Paltenghi & Pradel, 2024-10-01) -- broad survey, no CI/CD or cross-version/cross-SDK content. (4) arXiv:2607.02029 'Benchmarking Quantum Software Testing with Scalable Quantum Programs' (Qolumbina benchmark, 2026-07-02) -- static 40-program benchmark corpus, not a CI tool. (5) arXiv:2311.16913 'Quantum Circuit Mutants: Empirical Analysis and Recommendations' (2023-11-28, published Empirical Software Engineering 2025) -- mutation-testing empirical study, no CI/CD or cross-version content.",
+    "source_url": "https://arxiv.org/abs/2605.19736; https://arxiv.org/abs/2506.17306; https://arxiv.org/abs/2410.00650; https://arxiv.org/abs/2607.02029; https://arxiv.org/abs/2311.16913",
+    "source_type": "arXiv papers (abstract pages and full text verified directly)",
+    "source_title": "See papers.md for full per-paper details",
+    "date_checked": "2026-08-20",
+    "notes": "MOST MATERIAL FINDING OF THE ENTIRE RESEARCH PHASE: QUTest (arXiv:2605.19736) is a published, CI-integrable, cross-Qiskit-version regression-testing framework as of May 2026. This directly narrows any defensible novelty claim -- 'cross-Qiskit-version regression testing with CI-compatible output' is NOT novel. What remains open per QUTest's own stated limitations: pytest-native integration, cross-SDK (not just cross-version) testing, automated equivalence/regression detection (vs. hand-written assertions), and any bug-corpus-driven or state-aware detection layer. Other candidates surfaced but NOT independently verified (do not cite without opening): 2601.08367, 2503.05240, 2506.02090, 2409.08844, 2509.04763 (NovaQ), 2601.13996, 2503.17322 (QITE -- cross-platform/assembly-level, NOT cross-version), 2602.05759 (PQC migration CI/CD, different domain)."
+  },
+  {
+    "claim": "C03: 'Q-Trace' or other quantum debugging/tracing systems overlap with the proposed CI/CD regression-testing idea.",
+    "status": "FALSE",
+    "evidence": "'Q-Trace' as a named quantum debugging tool does not exist -- web searches return unrelated products (manufacturing-traceability SaaS, ARM Cortex-M embedded trace tool), no quantum-specific tool by that exact name found. Most plausible source of confusion: TraceQ (trace-based analysis of logical-qubit activity on 2D surface-code layouts, arxiv.org/pdf/2508.14533) or MQT Debugger (see C02). Other real, primary-sourced systems verified: QMon (circuit-execution monitoring via mid-circuit measurement/reset, arxiv.org/html/2512.13422), Microsoft QDK Trace Simulator (classical control-code debugging + resource estimation, part of OSS QDK), CUDA-Q Statistical Assertions (GPU-accelerated statistical assertion debugging, arxiv.org/abs/2507.16255), Proq (projection-based assertion fault localization), Bloq/AutoBloq (Bloch-vector-assertion fault localization, outperforms Proq per F1 0.74 vs 0.38 on Grover, arxiv.org/abs/2506.18458), MorphQ (metamorphic testing OF the Qiskit platform itself, arxiv.org/pdf/2206.01111).",
+    "source_url": "https://arxiv.org/html/2512.13422; https://arxiv.org/pdf/2508.14533; https://arxiv.org/abs/2507.16255; https://arxiv.org/abs/2506.18458; https://arxiv.org/pdf/2206.01111",
+    "source_type": "arXiv papers (verified directly)",
+    "source_title": "See quantum_testing_landscape.md / prior_art.md for full per-system table",
+    "date_checked": "2026-08-20",
+    "notes": "Every verified debugging/assertion tool operates at the single-circuit, single-run fault-localization or monitoring level. None perform cross-version or cross-SDK regression comparison; none integrate with pytest or GitHub Actions. MorphQ (Qiskit-testing-Qiskit) flagged for cross-check against C11 but not deeply verified in this pass."
+  },
+  {
+    "claim": "C07: There is no dedicated standard bug corpus for quantum SDK versions / quantum software regression testing.",
+    "status": "FALSE",
+    "evidence": "Real, citable, actively-studied bug corpora exist. Bugs4Q (arXiv:2108.09744 2021 preprint: 36 manually-validated real Qiskit bugs with buggy+fixed code and reproducing tests; journal version JSS vol.205 2023, DOI 10.1016/j.jss.2023.111805, INDEPENDENTLY DOI-RESOLVED in verification pass 2 via ACM DL listing: 42 real bugs mined from GitHub/StackOverflow/Stack Exchange; repo github.com/Z-928/Bugs4Q): described by independent replication work as 'a widely used dataset of real-world bugs in quantum programs.' Critically, arXiv:2606.27124 (accepted ICSME 2026 Replication Track) ran Bugs4Q across 21 Qiskit versions / 77,700 executions, found reproducibility collapsed from 62.2% to 16.2% across versions, and released a patched fork 'Bugs4Q-Robust' -- i.e. a cross-Qiskit-version regression study over a bug corpus already exists in the literature. QBugs (arXiv:2103.16968) is algorithmic-bug infrastructure explicitly built for standardized comparison of debugging techniques. A 32,296-bug-report mined dataset across 6 SDKs (arXiv:2512.24656, Yousuf & Sofi, Jan 2026) exists but was not yet released as a packaged artifact at time of check.",
+    "source_url": "https://arxiv.org/abs/2108.09744; https://doi.org/10.1016/j.jss.2023.111805; https://arxiv.org/abs/2606.27124; https://arxiv.org/abs/2103.16968; https://arxiv.org/abs/2512.24656; https://github.com/Z-928/Bugs4Q",
+    "source_type": "arXiv papers, journal article (DOI-resolved), public GitHub repository",
+    "source_title": "See bug_corpora.md for full per-corpus details",
+    "date_checked": "2026-08-20 (verification pass 1); 2026-08-20 (verification pass 2 -- DOI resolution correction)",
+    "notes": "CORRECTION (pass 2): the previously-cited '~50-67 entries under Bugs4Q-NA' figure could not be re-confirmed and is now UNVERIFIED -- cite 36 (2021 preprint) or 42 (JSS 2023 published version, the more authoritative count) instead. No single corpus is a universal standard (unlike e.g. Defects4J for Java), so the narrowest defensible claim is: existing corpora are not packaged as ready-to-use pytest/CI-native regression fixtures -- that packaging/tooling gap, not the underlying bug data, is what remains open. Companion 4,984-issue/36-repo Qiskit benchmark mentioned in search results but NOT independently verified -- do not cite without direct confirmation."
+  },
+  {
+    "claim": "C12: A dedicated product/framework already exists combining quantum software testing + state-aware testing + autonomous/agentic behavior + CI/CD + cross-version regression detection.",
+    "status": "NOT_FOUND",
+    "evidence": "Generic (non-quantum) autonomous AI testing agents exist abundantly in classical software QA (e.g. Lyzr, Autify, TestCollab) with no quantum angle. The closest quantum-specific agentic system found is QBugLM (arXiv:2606.07314, June 2026) -- genuinely agentic/multi-agent and quantum-specific, but explicitly framework-agnostic OpenQASM bug-injection benchmarking with no CI/CD integration, no cross-SDK-version regression detection, and no demonstrated state-awareness. Direct searches combining 'autonomous agent', 'state-aware', 'quantum software testing', 'CI/CD regression' returned no further quantum-specific hits.",
+    "source_url": "https://arxiv.org/abs/2606.07314",
+    "source_type": "arXiv paper + broad web search (absence result)",
+    "source_title": "QBugLM (arXiv:2606.07314); general web search for autonomous quantum testing agents",
+    "date_checked": "2026-08-20",
+    "notes": "Explicitly marked NOT_FOUND rather than FALSE/confirmed-absent: this is absence-of-evidence after a reasonably broad search, not proof of non-existence. This is the narrowest and least load-bearing part of the original idea and should not be oversold as 'the' novel contribution on its own -- see gap_analysis.md."
+  },
+  {
+    "claim": "C08: An open-source pytest plugin already exists that discovers quantum tests, executes across multiple SDK versions, compares results, detects regressions, runs in GitHub Actions, and produces machine-readable output.",
+    "status": "PARTIALLY_CONFIRMED",
+    "evidence": "Three real, installable pytest plugins found and inspected directly (README + workflow YAML + PyPI release history): pytest-quantum (github.com/qbench/pytest-quantum, PyPI v1.0.0, 6 releases, 2 stars, created 2026-03-21) discovers tests and provides assert_cross_platform_equivalent / assert_qiskit_cirq_equivalent / assert_qiskit_pytket_equivalent -- but these compare across FRAMEWORKS not across VERSIONS of one SDK; its own CI matrix is Python-version x OS only, no Qiskit-version matrix. qtest-quantum (github.com/metin-5115/qtest, PyPI v0.1.0, 0 stars) similarly does single-SDK circuit-equivalence assertions and cost-regression checks, single run only, CI matrix is Python/OS only. qc-assert (github.com/JMORAF87/qc-assert, not on PyPI, 0 stars) states an intent to catch SDK-upgrade regressions but has not implemented any version-matrix mechanism. quantum-test/quantum-tests on PyPI are empty squatted placeholder packages, not relevant.",
+    "source_url": "https://github.com/qbench/pytest-quantum; https://github.com/metin-5115/qtest; https://github.com/JMORAF87/qc-assert; https://pypi.org/project/pytest-quantum/; https://pypi.org/project/qtest-quantum/",
+    "source_type": "GitHub repositories, PyPI release metadata, workflow YAML",
+    "source_title": "See repositories.md for full inspection table",
+    "date_checked": "2026-08-20",
+    "notes": "All three real plugins are very young (created within ~9 months of check date), single-maintainer, 0-2 GitHub stars -- not established/adopted infrastructure. None execute a test suite against multiple installed versions of the same SDK and auto-diff results to flag regressions. Narrows the pytest-plugin claim: framework-to-framework equivalence exists in nascent form; version-to-version automated regression detection via pytest does not."
+  },
+  {
+    "claim": "C09: Existing GitHub Actions workflows/repositories combine quantum SDKs with matrix builds, multiple SDK versions, regression testing, equivalence testing, or fault detection.",
+    "status": "CONFIRMED",
+    "evidence": "Qiskit's official addon-repository CI template (found in Qiskit/qiskit-addon-cutting, reused verbatim across ~8 Qiskit-ecosystem repos including Qiskit/qiskit-ibm-catalog and qiskit-community/qiskit-pasqal-provider) ships three real, verified workflow files: test_latest_versions.yml (runs test suite against latest Qiskit, daily+on-push), test_development_versions.yml (installs dev/unreleased Qiskit via git+https://github.com/Qiskit/qiskit.git using extremal-python-dependencies, daily), and test_minimum_versions.yml (pins dependencies to declared minimums and re-runs tests). Explicitly documented as reusable 'for any research software prototype, especially those based on Qiskit.' Separately, Qiskit core's own qpy.yml workflow (test/qpy_compat/run_tests.sh) performs genuine cross-Qiskit-version regression testing for QPY circuit serialization compatibility -- internal to the Qiskit repo, not externally reusable.",
+    "source_url": "https://github.com/Qiskit/qiskit-addon-cutting; https://github.com/Qiskit/qiskit/blob/main/.github/workflows/qpy.yml",
+    "source_type": "GitHub repositories, raw workflow YAML",
+    "source_title": "See repositories.md / ci_cd_landscape.md for full detail",
+    "date_checked": "2026-08-20",
+    "notes": "These CI templates assert pass/fail of EXISTING tests at each version tier -- they do not diff behavior between versions or detect equivalence-level regressions themselves; that detection logic is left to whatever tests the project author already wrote. Most 'quantum + GitHub Action' search noise was post-quantum-cryptography (PQC) migration scanners, an unrelated field sharing the keyword -- filtered out."
+  },
+  {
+    "claim": "C10: Cross-SDK or cross-version quantum regression testing already exists as reusable open tooling.",
+    "status": "PARTIALLY_CONFIRMED",
+    "evidence": "Most significant find: furqan-nr/quantum-transpiler-regression-testing ('cart'), independently verified via GitHub repo AND Zenodo DOI resolution (10.5281/zenodo.21020113, 'Leakage-Safe Evaluation of Quantum Transpiler Regression Testing', Furqan Nasir/Arif Shah/Iftikhar Alam, City University of Science and Information Technology Peshawar, published 2026-06-29, MIT license). Finding: across 26 merged Qiskit transpiler bug-fixes, ~38% (10/26) are regressions invisible to black-box output-equivalence oracles -- direct evidence equivalence-checking alone is insufficient for real-world SDK regression detection. Scope: single-SDK (Qiskit transpiler only), Python CLI/scripts (not a pytest plugin or GitHub Action), repo created 2026-06-28 (brand new), 0 stars, single small-institution author group; accompanying paper stated as 'submitted to Quantum Information Processing' -- acceptance not verified. No cross-SDK (Qiskit vs Cirq vs PennyLane) tool of any kind was found; also see QUTest (arXiv:2605.19736, C05/C06) for cross-Qiskit-VERSION (not cross-SDK) tooling.",
+    "source_url": "https://github.com/furqan-nr/quantum-transpiler-regression-testing; https://doi.org/10.5281/zenodo.21020113",
+    "source_type": "GitHub repository, independently-resolved Zenodo DOI record",
+    "source_title": "furqan-nr/quantum-transpiler-regression-testing; Zenodo record 10.5281/zenodo.21020113",
+    "date_checked": "2026-08-20",
+    "notes": "Treat as directly relevant, possibly competing/complementary prior art -- do not omit from any novelty argument. Combined with QUTest, this shows single-SDK regression testing is an active, very recent (2026) research area; cross-SDK regression testing specifically remains unaddressed by any source found."
+  },
+  {
+    "claim": "C11: Other equivalence/regression tooling exists beyond MQT QCEC.",
+    "status": "NOT_FOUND",
+    "evidence": "GitHub repository search for 'quantum equivalence checking' returned only unrelated SAT-solver student projects (e.g. n26124939/Quentangle-SAT, 0 stars) whose legitimacy/functionality was not independently verified (marked UNKNOWN, not counted as evidence). No other academic or industry (IBM/Google/Xanadu/Quantinuum) open-source equivalence checker with CI integration was found beyond MQT QCEC (C01), QUTest (C05/C06), and the transpiler-regression pilot (C10).",
+    "source_url": "n/a (absence result from GitHub repo search)",
+    "source_type": "GitHub repository search",
+    "source_title": "gh search repos \"quantum equivalence checking\"",
+    "date_checked": "2026-08-20",
+    "notes": "NOT_FOUND rather than FALSE -- absence of evidence after search, not proof of non-existence."
+  }
+]

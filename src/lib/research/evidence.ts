@@ -1,6 +1,9 @@
 import type { ClaimStatus } from "./claims";
 
 export type EvidenceRecord = {
+  /** Claim IDs (C01–C13) this record supplies evidence for. Cross-checked against
+   *  research/evidence.json by `npm run validate:research`. */
+  claimIds: string[];
   claim: string;
   status: ClaimStatus;
   statusLabel: string;
@@ -13,6 +16,7 @@ export type EvidenceRecord = {
 
 export const EVIDENCE: EvidenceRecord[] = [
   {
+    claimIds: ["C01"],
     claim: "MQT QCEC provides substantially the same capability as the proposed cross-version regression-testing infrastructure.",
     status: "false",
     statusLabel: "FALSE",
@@ -25,6 +29,7 @@ export const EVIDENCE: EvidenceRecord[] = [
       "117 GitHub stars, 1,516+ commits, MIT license. Citation: Burgholzer & Wille, “QCEC: A JKQ tool for quantum circuit equivalence checking,” Software Impacts, 2021.",
   },
   {
+    claimIds: ["C02"],
     claim: "MQT Debugger provides substantially the same capability as the proposed CI/CD regression-testing infrastructure.",
     status: "false",
     statusLabel: "FALSE",
@@ -36,6 +41,7 @@ export const EVIDENCE: EvidenceRecord[] = [
     notes: "21 stars, 4 forks, 496 commits, MIT license. arXiv:2412.12269 submitted 2024-12-16.",
   },
   {
+    claimIds: ["C03"],
     claim: "“Q-Trace” or other quantum debugging/tracing systems overlap with the proposed CI/CD regression-testing idea.",
     status: "false",
     statusLabel: "FALSE",
@@ -47,6 +53,7 @@ export const EVIDENCE: EvidenceRecord[] = [
     notes: "MorphQ (Qiskit-testing-Qiskit) flagged for cross-check but not deeply verified in this pass.",
   },
   {
+    claimIds: ["C04"],
     claim: "A practitioner survey found approximately 31% of quantum software developers use quantum-specific testing tools.",
     status: "confirmed",
     statusLabel: "CONFIRMED",
@@ -60,6 +67,7 @@ export const EVIDENCE: EvidenceRecord[] = [
       "Authors themselves flag N=26 as a generalizability limitation (Section 9.2). Paper explicitly calls for, but does not build, “CI/CD pipelines tailored to hybrid systems” — evidence of need, not of prior-art absence.",
   },
   {
+    claimIds: ["C05", "C06"],
     claim: "Two arXiv papers previously cited as evidence for the research gap — verify their existence and content.",
     status: "partial",
     statusLabel: "PARTIALLY CONFIRMED",
@@ -72,20 +80,22 @@ export const EVIDENCE: EvidenceRecord[] = [
       "The single most material finding of the whole research phase: it directly narrows the novelty claim. What remains open per QUTest’s own stated limitations: pytest-native integration, cross-SDK testing, automated (not hand-written) regression detection.",
   },
   {
+    claimIds: ["C07"],
     claim: "There is no dedicated standard bug corpus for quantum SDK versions / quantum software regression testing.",
     status: "false",
     statusLabel: "FALSE",
     evidence:
-      "Bugs4Q (36+ manually-validated real Qiskit bugs, public repo) is described by independent replication work as “a widely used dataset.” Critically, arXiv:2606.27124 ran Bugs4Q across 21 Qiskit versions / 77,700 executions, found reproducibility collapsed from 62.2% to 16.2%, and released a patched fork “Bugs4Q-Robust.”",
+      "Bugs4Q (36 bugs in the 2021 preprint; 42 in the DOI-resolved JSS 2023 version) is described by independent replication work as “a widely used dataset.” Critically, arXiv:2606.27124 ran 37 Bugs4Q artifacts across 21 Qiskit core-library versions (77,700 executions), found reproducibility collapsed from 62.2% on v0.20.1 to 16.2% on v2.3.1, and released a patched fork “Bugs4Q-Robust” that restores it to 78.4%.",
     sourceUrl: "https://github.com/Z-928/Bugs4Q",
     sourceType: "arXiv papers, journal article, public GitHub repository",
     sourceTitle: "Bugs4Q (arXiv:2108.09744, JSS vol. 205 2023); cross-version replication (arXiv:2606.27124)",
     notes:
-      "No single corpus is a universal standard (unlike Defects4J for Java) — the narrowest defensible claim is that existing corpora are not packaged as ready-to-use pytest/CI fixtures.",
+      "No single corpus is a universal standard (unlike Defects4J for Java) — the narrowest defensible claim is that existing corpora are not packaged as ready-to-use pytest/CI fixtures. The replication authors note most failures needed source-code migration (import paths, API calls), not just dependency pinning — version drift in quantum SDKs is a code-level, not packaging-level, problem.",
   },
   {
     claim:
       "An open-source pytest plugin already discovers quantum tests, executes across multiple SDK versions, compares results, detects regressions, and runs in GitHub Actions.",
+    claimIds: ["C08"],
     status: "partial",
     statusLabel: "PARTIALLY CONFIRMED",
     evidence:
@@ -96,6 +106,7 @@ export const EVIDENCE: EvidenceRecord[] = [
     notes: "None execute a test suite against multiple installed versions of the same SDK and auto-diff results.",
   },
   {
+    claimIds: ["C09"],
     claim: "Existing GitHub Actions workflows/repositories combine quantum SDKs with matrix builds, multiple SDK versions, or regression testing.",
     status: "confirmed",
     statusLabel: "CONFIRMED",
@@ -107,6 +118,7 @@ export const EVIDENCE: EvidenceRecord[] = [
     notes: "These templates assert pass/fail of existing tests at each version tier — they do not diff behavior between versions themselves.",
   },
   {
+    claimIds: ["C10"],
     claim: "Cross-SDK or cross-version quantum regression testing already exists as reusable open tooling.",
     status: "partial",
     statusLabel: "PARTIALLY CONFIRMED",
@@ -118,6 +130,7 @@ export const EVIDENCE: EvidenceRecord[] = [
     notes: "Treat as directly relevant, possibly competing/complementary prior art.",
   },
   {
+    claimIds: ["C11"],
     claim: "Other equivalence/regression tooling exists beyond MQT QCEC.",
     status: "not_found",
     statusLabel: "NOT FOUND",
@@ -131,6 +144,7 @@ export const EVIDENCE: EvidenceRecord[] = [
   {
     claim:
       "A dedicated product/framework already exists combining quantum software testing + state-aware testing + autonomous/agentic behavior + CI/CD + cross-version regression detection.",
+    claimIds: ["C12"],
     status: "not_found",
     statusLabel: "NOT FOUND",
     evidence:

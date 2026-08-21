@@ -4,7 +4,7 @@ import { ExpandableCard } from "@/components/research/ExpandableCard";
 import { StatusBadge } from "@/components/research/StatusBadge";
 import type { ClaimStatus } from "@/lib/research/claims";
 import { EVIDENCE } from "@/lib/research/evidence";
-import { RESEARCH_REPO_LABEL, researchFileUrl } from "@/lib/research/links";
+import { RESEARCH_REPO_LABEL, researchFileUrl, siteFileUrl } from "@/lib/research/links";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
@@ -46,9 +46,14 @@ export default function EvidencePage() {
       />
 
       <P>
-        This page mirrors <SourceLink href={researchFileUrl("research/evidence.json")}>evidence.json</SourceLink>,
-        the machine-readable record in the GitHub repository. For a clean list of every URL opened during this
-        research — including sources that failed to load — see{" "}
+        Each card carries the claim IDs it supports. The cards are generated from the same typed data that{" "}
+        <SourceLink href={siteFileUrl("research/evidence.json")}>evidence.json</SourceLink> records, and CI runs{" "}
+        <code>validate:research</code> on every push: if a claim, status, or citation here ever drifts from the
+        machine-readable record — or a source stops being a resolvable URL — the build fails rather than
+        publishing a quietly-wrong page. The fuller narrative record (search logs, per-paper notes, gap
+        analysis) lives in{" "}
+        <SourceLink href={researchFileUrl("research/evidence.json")}>{RESEARCH_REPO_LABEL}</SourceLink>. For a
+        clean list of every URL opened during this research — including sources that failed to load — see{" "}
         <SourceLink href="/research/sources">Sources</SourceLink>.
       </P>
 
@@ -66,6 +71,9 @@ export default function EvidencePage() {
                   header={
                     <div className="mb-1 flex flex-wrap items-center gap-3">
                       <StatusBadge status={item.status} />
+                      <span className="font-mono text-[11px] tracking-wide text-muted/70">
+                        {item.claimIds.join(" · ")}
+                      </span>
                       <h3 className="text-sm font-semibold text-foreground">{item.claim}</h3>
                     </div>
                   }
