@@ -26,10 +26,16 @@ export type PetVisualState = {
   spin: number;
   /** Sustained glow multiplier from QPIT's emotional state (1 = neutral). */
   mood: number;
+  /** Gaze direction (-1..1 each axis), written by the physics layer. */
+  gazeX: number;
+  gazeY: number;
+  /** QPIT's current viewport position, written by the physics layer. */
+  petX: number;
+  petY: number;
 };
 
 export function createPetVisualState(): PetVisualState {
-  return { color: new THREE.Color("#06b6d4"), intensity: 0, spin: 0, mood: 1 };
+  return { color: new THREE.Color("#06b6d4"), intensity: 0, spin: 0, mood: 1, gazeX: 0, gazeY: 0, petX: 0, petY: 0 };
 }
 
 export function QpForm({
@@ -40,6 +46,10 @@ export function QpForm({
   reduceMotion: boolean;
 }) {
   const shellRef = useRef<THREE.Mesh>(null);
+  const eyesRef = useRef<THREE.Group>(null);
+  const eyeLRef = useRef<THREE.Mesh>(null);
+  const eyeRRef = useRef<THREE.Mesh>(null);
+  const blinkRef = useRef({ nextAt: 0, until: 0 }); // nextAt seeded on first frame
   const groupRef = useRef<THREE.Group>(null);
   const coreLightRef = useRef<THREE.PointLight>(null);
   const shellMaterialRef = useRef<THREE.MeshStandardMaterial>(null);
@@ -71,6 +81,26 @@ export function QpForm({
       pointMaterialRef.current.size = 0.03 + s.intensity * 0.02;
       pointMaterialRef.current.opacity = Math.min(1, (0.6 + s.intensity * 0.3) * (0.5 + 0.5 * s.mood));
     }
+
+    // Eyes: drift toward the gaze direction; blink now and then.
+    if (eyesRef.current) {
+      const gx = reduceMotion ? 0 : s.gazeX;
+      const gy = reduceMotion ? 0 : s.gazeY;
+      eyesRef.current.position.x += (gx * 0.22 - eyesRef.current.position.x) * Math.min(1, delta * 8);
+      eyesRef.current.position.y += (-gy * 0.18 - eyesRef.current.position.y) * Math.min(1, delta * 8);
+    }
+    const blink = blinkRef.current;
+    const elapsed = performance.now() / 1000;
+    if (blink.nextAt === 0) blink.nextAt = elapsed + 2 + Math.random() * 4;
+    if (!reduceMotion && elapsed > blink.nextAt && blink.until === 0) {
+      blink.until = elapsed + 0.12;
+      blink.nextAt = elapsed + 2.5 + Math.random() * 5;
+    }
+    if (blink.until !== 0 && elapsed > blink.until) blink.until = 0;
+    const eyeScaleY = blink.until !== 0 ? 0.12 : 1;
+    for (const eye of [eyeLRef.current, eyeRRef.current]) {
+      if (eye) eye.scale.y += (eyeScaleY - eye.scale.y) * Math.min(1, delta * 22);
+    }
   });
 
   return (
@@ -86,6 +116,18 @@ export function QpForm({
         <meshStandardMaterial ref={coreMaterialRef} toneMapped={false} />
       </mesh>
       <pointLight ref={coreLightRef} distance={3} />
+
+      {/* Eyes: two bright dots riding the front of the form, following the gaze. */}
+      <group ref={eyesRef} position={[0, 0, 0.8]}>
+        <mesh ref={eyeLRef} position={[-0.17, 0.06, 0]}>
+          <sphereGeometry args={[0.055, 12, 12]} />
+          <meshBasicMaterial color="#e6ecff" toneMapped={false} />
+        </mesh>
+        <mesh ref={eyeRRef} position={[0.17, 0.06, 0]}>
+          <sphereGeometry args={[0.055, 12, 12]} />
+          <meshBasicMaterial color="#e6ecff" toneMapped={false} />
+        </mesh>
+      </group>
 
       <group ref={groupRef}>
         <Points positions={positions} stride={3} frustumCulled>

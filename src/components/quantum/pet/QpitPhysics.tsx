@@ -77,6 +77,8 @@ export function QpitPhysics({
   interactive,
   reduceMotion,
   pokeSignal,
+  celebrateSignal = 0,
+  visualRef,
   onModeChange,
   onEmotionChange,
   onSpecialStart,
@@ -89,6 +91,10 @@ export function QpitPhysics({
   reduceMotion: boolean;
   /** increment to give QPIT a little hop (poke reaction). */
   pokeSignal: number;
+  /** increment for a celebratory hop + spin (e.g. VQE converged). */
+  celebrateSignal?: number;
+  /** optional shared visual state; the physics writes gaze + position into it. */
+  visualRef?: React.MutableRefObject<{ gazeX: number; gazeY: number; petX: number; petY: number }>;
   onModeChange?: (mode: QpitMode) => void;
   onEmotionChange?: (next: QpitEmotion, prev: QpitEmotion) => void;
   /** fires when a special moment begins (e.g. the anomaly appears). */
@@ -175,6 +181,15 @@ export function QpitPhysics({
     velRef.current.y -= 420;
     thetaRef.current.v += (randRef.current() < 0.5 ? -1 : 1) * 260;
   }, [pokeSignal]);
+
+  // Celebration (e.g. VQE converged) → a bigger hop and a joyful spin.
+  const celebrateSeen = useRef(celebrateSignal);
+  useEffect(() => {
+    if (celebrateSignal === celebrateSeen.current) return;
+    celebrateSeen.current = celebrateSignal;
+    velRef.current.y -= 540;
+    thetaRef.current.v += 430;
+  }, [celebrateSignal]);
 
   // --- pointer wiring -----------------------------------------------------
   useEffect(() => {
@@ -440,8 +455,20 @@ export function QpitPhysics({
     const noise = reduceMotion ? 0 : params.noise;
     const nx = noise ? (randRef.current() - 0.5) * noise * 900 : 0;
     const ny = noise ? (randRef.current() - 0.5) * noise * 900 : 0;
-    let ax = params.stiffness * (target.x - pos.x) - params.damping * vel.x + nx;
-    let ay = params.stiffness * (target.y - pos.y) - params.damping * vel.y + ny;
+    // Idle micro-wander: while docked and content, QPIT drifts on a slow
+    // Lissajous path around its dock — alive, not twitchy.
+    let wanderX = 0;
+    let wanderY = 0;
+    if (
+      !reduceMotion &&
+      modeRef.current === "docked" &&
+      (emotion === "IDLE" || emotion === "CURIOUS")
+    ) {
+      wanderX = 8 * Math.sin(t * 0.00042);
+      wanderY = 6 * Math.sin(t * 0.00031 + 1.3);
+    }
+    let ax = params.stiffness * (target.x + wanderX - pos.x) - params.damping * vel.x + nx;
+    let ay = params.stiffness * (target.y + wanderY - pos.y) - params.damping * vel.y + ny;
 
     // Black-hole pull: an inverse-square-ish tug toward the anomaly, capped so
     // the tether visibly strains but QPIT never actually falls in.
@@ -486,6 +513,30 @@ export function QpitPhysics({
       const breathe = params.breatheAmp * Math.sin((t / 1000) * params.breatheHz * Math.PI * 2);
       sx += breathe;
       sy += breathe;
+    }
+
+    // Pseudo-depth: lower on the page reads as slightly nearer.
+    if (!reduceMotion && typeof window !== "undefined") {
+      const depth = 0.94 + 0.12 * Math.min(1, Math.max(0, pos.y / window.innerHeight));
+      sx *= depth;
+      sy *= depth;
+    }
+
+    // Gaze: look along the velocity when moving, else toward the cursor.
+    if (visualRef?.current) {
+      visualRef.current.petX = pos.x;
+      visualRef.current.petY = pos.y;
+      const clamp1 = (v: number) => Math.max(-1, Math.min(1, v));
+      if (speed > 90) {
+        visualRef.current.gazeX = clamp1(vel.x / 900);
+        visualRef.current.gazeY = clamp1(vel.y / 900);
+      } else if (modeRef.current === "roaming") {
+        visualRef.current.gazeX = clamp1((cursorRef.current.x - pos.x) / 260);
+        visualRef.current.gazeY = clamp1((cursorRef.current.y - pos.y) / 260);
+      } else {
+        visualRef.current.gazeX *= 0.98;
+        visualRef.current.gazeY *= 0.98;
+      }
     }
 
     // --- special-moment visuals on the body ---

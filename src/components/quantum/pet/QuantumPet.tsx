@@ -18,6 +18,7 @@ import {
   sectionForPath,
 } from "@/lib/quantum/qpitContext";
 import { chattiness, QPIT_PARAMS, type QpitEmotion, type QpitSpecial } from "@/lib/quantum/qpitState";
+import { audioEnabled, playHum, playPop, playShimmer, playWarp, setAudioEnabled } from "@/lib/quantum/qpitAudio";
 import type { QuantumEvent } from "@/lib/quantum/events";
 import { usePrefersReducedMotion } from "@/lib/quantum/usePrefersReducedMotion";
 
@@ -124,13 +125,29 @@ export function QuantumPet() {
   const [speech, setSpeech] = useState<string | null>(null);
   const [mode, setMode] = useState<QpitMode>("docked");
   const [pokeSignal, setPokeSignal] = useState(0);
+  const [celebrateSignal, setCelebrateSignal] = useState(0);
   const [burst, setBurst] = useState(0);
+  const soundOn = useSyncExternalStore(
+    (onChange) => {
+      window.addEventListener("qpit-audio-change", onChange);
+      return () => window.removeEventListener("qpit-audio-change", onChange);
+    },
+    () => audioEnabled(),
+    () => false,
+  );
   const reduceMotion = usePrefersReducedMotion();
   const finePointer = useFinePointer();
   const pathname = usePathname();
 
   useEffect(() => {
     pokesRef.current = readSessionInt("qpit.pokes");
+  }, []);
+
+  const toggleSound = useCallback(() => {
+    const next = !audioEnabled();
+    setAudioEnabled(next);
+    if (next) playPop(); // audible confirmation on enable
+    window.dispatchEvent(new Event("qpit-audio-change"));
   }, []);
 
   const speak = useCallback((line: string | null, { force = false }: { force?: boolean } = {}) => {
@@ -157,6 +174,7 @@ export function QuantumPet() {
   // --- Real quantum events (behavior preserved from the original pet) ----
   useAnyQuantumEvent((event) => {
     applyEvent(stateRef.current, event);
+    if (event.type === "VQE_CONVERGED") setCelebrateSignal((n) => n + 1);
     speak(petLineFor(event), { force: event.type === "ERROR" });
   });
 
@@ -180,17 +198,30 @@ export function QuantumPet() {
   // --- Special moments (rare, already cooldown-gated by the physics) -----
   const onSpecialStart = useCallback(
     (kind: QpitSpecial) => {
-      if (kind === "BLACKHOLE") speak(momentLine("BLACKHOLE_NOTICED"), { force: true });
+      if (kind === "BLACKHOLE") {
+        speak(momentLine("BLACKHOLE_NOTICED"), { force: true });
+        playHum();
+      }
     },
     [speak],
   );
   const onSpecial = useCallback(
     (kind: QpitSpecial) => {
-      if (kind === "SUPERPOSITION") speak(momentLine("SUPERPOSITION_COLLAPSE"), { force: true });
-      else if (kind === "TUNNEL") speak(momentLine("TUNNEL_HOME"), { force: true });
-      else if (kind === "BLACKHOLE") speak(momentLine("BLACKHOLE_ESCAPED"), { force: true });
-      else if (kind === "ENTANGLE") speak(momentLine("ENTANGLED"), { force: true });
-      else if (kind === "WORMHOLE") speak(momentLine("WORMHOLE"), { force: true });
+      if (kind === "SUPERPOSITION") {
+        speak(momentLine("SUPERPOSITION_COLLAPSE"), { force: true });
+        playShimmer();
+      } else if (kind === "TUNNEL") {
+        speak(momentLine("TUNNEL_HOME"), { force: true });
+        playWarp();
+      } else if (kind === "BLACKHOLE") {
+        speak(momentLine("BLACKHOLE_ESCAPED"), { force: true });
+      } else if (kind === "ENTANGLE") {
+        speak(momentLine("ENTANGLED"), { force: true });
+        playShimmer();
+      } else if (kind === "WORMHOLE") {
+        speak(momentLine("WORMHOLE"), { force: true });
+        playWarp();
+      }
     },
     [speak],
   );
@@ -216,6 +247,19 @@ export function QuantumPet() {
     const onPointerOver = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") return;
       const target = event.target as Element | null;
+      // Scripted beats: any element can request a specific moment line.
+      const momentEl = target?.closest?.("[data-qpit-moment]");
+      if (momentEl) {
+        const now2 = performance.now();
+        if (now2 - lastHoverAtRef.current < HOVER_COOLDOWN_MS) return;
+        const key = momentEl.getAttribute("data-qpit-moment") ?? "";
+        const line = momentLine(key) ?? momentEl.getAttribute("data-qpit-line");
+        if (line && speak(line)) {
+          lastHoverAtRef.current = now2;
+          stateRef.current.intensity = Math.max(stateRef.current.intensity, 0.35);
+        }
+        return;
+      }
       const anchor = target?.closest?.("a[href], [data-qpit]");
       if (!anchor) return;
       const section = hoverSectionFor(anchor.getAttribute("href"), anchor.getAttribute("data-qpit"));
@@ -275,8 +319,26 @@ export function QuantumPet() {
     writeSessionInt("qpit.pokes", pokesRef.current);
     setPokeSignal((n) => n + 1);
     setBurst((n) => n + 1);
+    playPop();
     speak(pickLine(POKE_LINES), { force: true });
   }, [speak]);
+
+  // While roaming QPIT's body has pointer-events: none (so it never blocks
+  // the page) — but a click that lands on its body and NOT on an interactive
+  // element beneath should still count as a poke. Manual hit-test.
+  useEffect(() => {
+    if (mode !== "roaming") return;
+    const onClick = (event: MouseEvent) => {
+      const dx = event.clientX - stateRef.current.petX;
+      const dy = event.clientY - stateRef.current.petY;
+      if (Math.hypot(dx, dy) > 52) return;
+      const target = event.target as Element | null;
+      if (target?.closest?.("a, button, input, textarea, select, [role='button']")) return;
+      onPoke();
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, [mode, onPoke]);
 
   const interactive = finePointer && !reduceMotion;
 
@@ -285,6 +347,8 @@ export function QuantumPet() {
       interactive={interactive}
       reduceMotion={reduceMotion}
       pokeSignal={pokeSignal}
+      celebrateSignal={celebrateSignal}
+      visualRef={stateRef}
       onModeChange={setMode}
       onEmotionChange={onEmotionChange}
       onSpecialStart={onSpecialStart}
@@ -320,6 +384,17 @@ export function QuantumPet() {
           </div>
         )}
 
+        {mode === "docked" && (
+          <button
+            type="button"
+            onClick={toggleSound}
+            aria-label={soundOn ? "Mute QPIT sounds" : "Enable QPIT sounds (off by default)"}
+            aria-pressed={soundOn}
+            className="absolute -left-1 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-surface/80 font-mono text-[10px] text-muted backdrop-blur transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+          >
+            {soundOn ? "♪" : "∅"}
+          </button>
+        )}
         <button
           type="button"
           onClick={onPoke}

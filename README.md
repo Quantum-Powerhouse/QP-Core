@@ -113,6 +113,17 @@ bottom-right corner). Architecture, all under `src/components/quantum/`:
 Hover context is delegated and scalable: one document-level listener maps any
 internal link's `href` through the same route logic — new pages work automatically.
 `data-qpit="<section>"` on any element overrides the href-derived context.
+`data-qpit-moment="<MOMENT_KEY>"` (optionally with `data-qpit-line="custom text"`)
+lets any element stage a scripted QPIT line on hover — the API for docs-page beats.
+
+Sound is **opt-in**: a small toggle next to the docked orb enables tiny synthesized
+WebAudio cues (`src/lib/quantum/qpitAudio.ts` — poke pop, wormhole warp, black-hole
+hum, superposition shimmer). Off by default, preference in localStorage, silent
+experience remains first-class.
+
+E2E: `npm run test:e2e` runs Playwright pointer-physics tests (`e2e/qpit.spec.ts`) —
+mounting, cursor-follow, dock return, real-mouse and keyboard poke, and proof that
+QPIT never blocks page clicks. Runs in CI as its own job.
 
 QPIT never blocks interaction (pointer-events disabled while roaming), is keyboard
 accessible (the docked orb is a button), and never fabricates state — speech lines
