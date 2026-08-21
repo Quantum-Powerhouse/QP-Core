@@ -116,6 +116,11 @@ internal link's `href` through the same route logic — new pages work automatic
 `data-qpit-moment="<MOMENT_KEY>"` (optionally with `data-qpit-line="custom text"`)
 lets any element stage a scripted QPIT line on hover — the API for docs-page beats.
 
+Shake the cursor (3+ fast reversals) to summon the black-hole anomaly — photon
+ring, true-black shadow, accretion disk stretched to both sides. Hover it and
+QPIT explains what it is (honestly: a visual metaphor). Its own 25s cooldown
+makes it the one special a visitor can reliably reproduce.
+
 Sound is **opt-in**: a small toggle next to the docked orb enables tiny synthesized
 WebAudio cues (`src/lib/quantum/qpitAudio.ts` — poke pop, wormhole warp, black-hole
 hum, superposition shimmer). Off by default, preference in localStorage, silent
