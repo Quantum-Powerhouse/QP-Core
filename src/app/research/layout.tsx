@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { PageTransition } from "@/components/research/PageTransition";
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 
 const RESEARCH_NAV: { href: string; label: string }[] = [
   { href: "/research", label: "Overview" },
@@ -13,7 +15,9 @@ const RESEARCH_NAV: { href: string; label: string }[] = [
 
 export default function ResearchLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16">
+    <div className="flex flex-1 flex-col">
+      <SiteHeader />
+      <div className="mx-auto w-full max-w-6xl px-6 py-16">
       <div className="flex flex-col gap-10 lg:flex-row">
         <nav className="glass-panel rounded-xl p-4 lg:sticky lg:top-24 lg:h-fit lg:w-56 lg:shrink-0">
           <Link href="/research" className="font-mono text-sm text-accent">
@@ -33,6 +37,8 @@ export default function ResearchLayout({ children }: { children: React.ReactNode
           <PageTransition>{children}</PageTransition>
         </article>
       </div>
+      </div>
+      <SiteFooter />
     </div>
   );
 }
