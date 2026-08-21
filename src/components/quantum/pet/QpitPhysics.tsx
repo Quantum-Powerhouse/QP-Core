@@ -4,9 +4,13 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "
 import { motion, useAnimationFrame } from "framer-motion";
 import {
   advanceEmotion,
+  maybeBlackHole,
+  maybeEntangle,
   maybeSuperposition,
   maybeTunnelHome,
+  maybeWormhole,
   QPIT_PARAMS,
+  SPECIAL_COOLDOWN_MS,
   type QpitEmotion,
   type QpitEmotionState,
   type QpitSpecial,
@@ -75,6 +79,7 @@ export function QpitPhysics({
   pokeSignal,
   onModeChange,
   onEmotionChange,
+  onSpecialStart,
   onSpecial,
   children,
 }: {
@@ -86,12 +91,18 @@ export function QpitPhysics({
   pokeSignal: number;
   onModeChange?: (mode: QpitMode) => void;
   onEmotionChange?: (next: QpitEmotion, prev: QpitEmotion) => void;
+  /** fires when a special moment begins (e.g. the anomaly appears). */
+  onSpecialStart?: (kind: QpitSpecial) => void;
+  /** fires when a special moment completes. */
   onSpecial?: (kind: QpitSpecial) => void;
   children: React.ReactNode;
 }) {
   const hydrated = useHydrated();
   const [mode, setMode] = useState<QpitMode>("docked");
   const [ghosts, setGhosts] = useState<{ x: number; y: number } | null>(null);
+  const [anomaly, setAnomaly] = useState<{ x: number; y: number } | null>(null);
+  const [twin, setTwin] = useState<{ x: number; y: number } | null>(null);
+  const [portals, setPortals] = useState<{ a: { x: number; y: number }; b: { x: number; y: number } } | null>(null);
 
   // --- refs: everything the rAF loop touches ------------------------------
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -113,7 +124,15 @@ export function QpitPhysics({
   const lastEmotionTickRef = useRef(0);
   const lastSpecialAtRef = useRef(0);
   const sessionStartRef = useRef(0);
-  const specialRef = useRef<{ kind: QpitSpecial; phase: number; until: number } | null>(null);
+  const specialRef = useRef<{
+    kind: QpitSpecial;
+    phase: number;
+    until: number;
+    data?: { ax: number; ay: number; bx: number; by: number };
+  } | null>(null);
+  const shakeCountRef = useRef(0);
+  const lastVxSignRef = useRef(0);
+  const lastShakeAtRef = useRef(0);
   const trailSampleAtRef = useRef(0);
   const trailBufRef = useRef<{ x: number; y: number }[]>([]);
   const lastTimeRef = useRef<number | null>(null);
@@ -144,6 +163,8 @@ export function QpitPhysics({
     sessionStartRef.current = performance.now();
     lastMoveAtRef.current = performance.now();
     emotionRef.current = { emotion: "IDLE", since: performance.now() };
+    // First special becomes eligible ~30s after mount (not a full cooldown).
+    lastSpecialAtRef.current = performance.now() - (SPECIAL_COOLDOWN_MS - 30_000);
   }, []);
 
   // Poke → a small upward hop with recoil.
@@ -167,11 +188,43 @@ export function QpitPhysics({
       const now = performance.now();
       const prev = cursorRef.current;
       const dt = Math.max(1, now - lastMoveAtRef.current);
-      const dist = Math.hypot(event.clientX - prev.x, event.clientY - prev.y);
-      const inst = Math.min(6000, (dist / dt) * 1000);
+      const distMoved = Math.hypot(event.clientX - prev.x, event.clientY - prev.y);
+      const inst = Math.min(6000, (distMoved / dt) * 1000);
       cursorSpeedRef.current = cursorSpeedRef.current * 0.7 + inst * 0.3;
       lastMoveAtRef.current = now;
       cursorRef.current = { x: event.clientX, y: event.clientY };
+
+      // Shake detection: fast horizontal direction reversals summon anomalies.
+      const moveDx = event.clientX - prev.x;
+      const vxSign = Math.sign(moveDx);
+      if (vxSign !== 0) {
+        if (
+          lastVxSignRef.current !== 0 &&
+          vxSign !== lastVxSignRef.current &&
+          cursorSpeedRef.current > 700
+        ) {
+          if (now - lastShakeAtRef.current > 1200) shakeCountRef.current = 0;
+          shakeCountRef.current += 1;
+          lastShakeAtRef.current = now;
+          if (
+            !reduceMotion &&
+            modeRef.current === "roaming" &&
+            !specialRef.current &&
+            maybeBlackHole(shakeCountRef.current, now, lastSpecialAtRef.current, randRef.current)
+          ) {
+            shakeCountRef.current = 0;
+            lastSpecialAtRef.current = now;
+            // The anomaly opens a little away from QPIT, off to one side.
+            const side = randRef.current() < 0.5 ? -1 : 1;
+            const axp = Math.min(window.innerWidth - 90, Math.max(90, posRef.current.x + side * 190));
+            const ayp = Math.min(window.innerHeight - 90, Math.max(90, posRef.current.y - 60 + randRef.current() * 120));
+            specialRef.current = { kind: "BLACKHOLE", phase: 0, until: now + 1500, data: { ax: axp, ay: ayp, bx: 0, by: 0 } };
+            setAnomaly({ x: axp, y: ayp });
+            onSpecialStart?.("BLACKHOLE");
+          }
+        }
+        lastVxSignRef.current = vxSign;
+      }
 
       // Winding: how far the cursor has circled around QPIT (nearby only).
       const dx = event.clientX - posRef.current.x;
@@ -186,10 +239,13 @@ export function QpitPhysics({
         lastCursorAngleRef.current = null;
       }
 
-      const maxX = window.innerWidth - EDGE_MARGIN;
-      const maxY = window.innerHeight - EDGE_MARGIN;
-      targetRef.current.x = Math.min(maxX, Math.max(EDGE_MARGIN, event.clientX));
-      targetRef.current.y = Math.min(maxY, Math.max(EDGE_MARGIN, event.clientY + TETHER_DROP));
+      // During a wormhole transit the portal owns the target, not the cursor.
+      if (specialRef.current?.kind !== "WORMHOLE") {
+        const maxX = window.innerWidth - EDGE_MARGIN;
+        const maxY = window.innerHeight - EDGE_MARGIN;
+        targetRef.current.x = Math.min(maxX, Math.max(EDGE_MARGIN, event.clientX));
+        targetRef.current.y = Math.min(maxY, Math.max(EDGE_MARGIN, event.clientY + TETHER_DROP));
+      }
       setModeSafe("roaming");
     };
 
@@ -286,10 +342,61 @@ export function QpitPhysics({
         specialRef.current = { kind: "SUPERPOSITION", phase: 0, until: now + 1150 };
         setGhosts({ x: pos.x, y: pos.y });
       }
+
+      // Entanglement: pair up with a distant on-page link, pulse in sync.
+      if (
+        !reduceMotion &&
+        !specialRef.current &&
+        maybeEntangle(emotionRef.current, inputs, lastSpecialAtRef.current, sessionStartRef.current, randRef.current)
+      ) {
+        const candidates: { x: number; y: number }[] = [];
+        for (const el of document.querySelectorAll('a[href^="/"], [data-qpit]')) {
+          const r = el.getBoundingClientRect();
+          if (r.width === 0 || r.bottom < 0 || r.top > window.innerHeight) continue;
+          const cx2 = r.left + r.width / 2;
+          const cy2 = r.top + r.height / 2;
+          if (Math.hypot(cx2 - pos.x, cy2 - pos.y) > 260) candidates.push({ x: cx2, y: cy2 });
+        }
+        if (candidates.length > 0) {
+          const pick = candidates[Math.min(candidates.length - 1, Math.floor(randRef.current() * candidates.length))];
+          lastSpecialAtRef.current = now;
+          specialRef.current = { kind: "ENTANGLE", phase: 0, until: now + 1800 };
+          setTwin(pick);
+        }
+      }
+
+      // Wormhole: a portal pair opens; QPIT dives in and exits far away.
+      const petSpeedNow = Math.hypot(vel.x, vel.y);
+      if (
+        !reduceMotion &&
+        !specialRef.current &&
+        maybeWormhole(petSpeedNow, emotionRef.current, inputs, lastSpecialAtRef.current, sessionStartRef.current, randRef.current)
+      ) {
+        const spd = petSpeedNow || 1;
+        const axp = Math.min(window.innerWidth - 80, Math.max(80, pos.x + (vel.x / spd) * 130));
+        const ayp = Math.min(window.innerHeight - 80, Math.max(80, pos.y + (vel.y / spd) * 130));
+        let bxp = 0;
+        let byp = 0;
+        for (let tries = 0; tries < 8; tries++) {
+          bxp = 90 + randRef.current() * (window.innerWidth - 180);
+          byp = 90 + randRef.current() * (window.innerHeight - 180);
+          if (Math.hypot(bxp - axp, byp - ayp) > 320) break;
+        }
+        lastSpecialAtRef.current = now;
+        specialRef.current = { kind: "WORMHOLE", phase: 0, until: now + 900, data: { ax: axp, ay: ayp, bx: bxp, by: byp } };
+        targetRef.current.x = axp;
+        targetRef.current.y = ayp;
+        setPortals({ a: { x: axp, y: ayp }, b: { x: bxp, y: byp } });
+      }
     }
 
     // Special progression.
-    const special = specialRef.current;
+    let special = specialRef.current;
+    // Wormhole entry is distance-triggered, not just time-triggered.
+    if (special?.kind === "WORMHOLE" && special.phase === 0 && special.data) {
+      const dEntry = Math.hypot(pos.x - special.data.ax, pos.y - special.data.ay);
+      if (dEntry < 26) special.until = now - 1; // arrived — advance now
+    }
     if (special && now > special.until) {
       if (special.kind === "TUNNEL" && special.phase === 0) {
         // Mid-tunnel: jump home instantly, then flicker back in.
@@ -298,19 +405,55 @@ export function QpitPhysics({
         targetRef.current = { ...dock };
         velRef.current = { x: 0, y: 0 };
         specialRef.current = { kind: "TUNNEL", phase: 1, until: now + 220 };
+      } else if (special.kind === "BLACKHOLE" && special.phase === 0 && special.data) {
+        // Escape: a hard shove away from the anomaly, which begins to collapse.
+        const dx = pos.x - special.data.ax;
+        const dy = pos.y - special.data.ay;
+        const d = Math.hypot(dx, dy) || 1;
+        vel.x += (dx / d) * 760;
+        vel.y += (dy / d) * 760;
+        specialRef.current = { ...special, phase: 1, until: now + 700 };
+      } else if (special.kind === "WORMHOLE" && special.phase === 0 && special.data) {
+        // Transit: vanish at portal A, reappear at portal B with momentum kept.
+        posRef.current = { x: special.data.bx, y: special.data.by };
+        velRef.current = { x: vel.x * 0.5, y: vel.y * 0.5 };
+        specialRef.current = { ...special, phase: 1, until: now + 180 };
+      } else if (special.kind === "WORMHOLE" && special.phase === 1) {
+        // Exit settle: portals collapse; the cursor owns the target again.
+        const maxX = window.innerWidth - EDGE_MARGIN;
+        const maxY = window.innerHeight - EDGE_MARGIN;
+        targetRef.current.x = Math.min(maxX, Math.max(EDGE_MARGIN, cursorRef.current.x));
+        targetRef.current.y = Math.min(maxY, Math.max(EDGE_MARGIN, cursorRef.current.y + TETHER_DROP));
+        specialRef.current = { ...special, phase: 2, until: now + 420 };
+        setPortals(null);
       } else {
         if (special.kind === "SUPERPOSITION") setGhosts(null);
+        if (special.kind === "BLACKHOLE") setAnomaly(null);
+        if (special.kind === "ENTANGLE") setTwin(null);
         specialRef.current = null;
         onSpecial?.(special.kind);
       }
+      special = specialRef.current;
     }
 
     // --- integrate position (semi-implicit Euler, per-emotion params) ---
     const noise = reduceMotion ? 0 : params.noise;
     const nx = noise ? (randRef.current() - 0.5) * noise * 900 : 0;
     const ny = noise ? (randRef.current() - 0.5) * noise * 900 : 0;
-    const ax = params.stiffness * (target.x - pos.x) - params.damping * vel.x + nx;
-    const ay = params.stiffness * (target.y - pos.y) - params.damping * vel.y + ny;
+    let ax = params.stiffness * (target.x - pos.x) - params.damping * vel.x + nx;
+    let ay = params.stiffness * (target.y - pos.y) - params.damping * vel.y + ny;
+
+    // Black-hole pull: an inverse-square-ish tug toward the anomaly, capped so
+    // the tether visibly strains but QPIT never actually falls in.
+    if (special?.kind === "BLACKHOLE" && special.phase === 0 && special.data) {
+      const dx = special.data.ax - pos.x;
+      const dy = special.data.ay - pos.y;
+      const d = Math.hypot(dx, dy) || 1;
+      const pull = Math.min(1500, 2.6e7 / (d * d + 3000));
+      ax += (dx / d) * pull;
+      ay += (dy / d) * pull;
+    }
+
     vel.x += ax * dt;
     vel.y += ay * dt;
     pos.x += vel.x * dt;
@@ -345,13 +488,36 @@ export function QpitPhysics({
       sy += breathe;
     }
 
-    // --- tunneling flicker (compress + strobe opacity) ---
+    // --- special-moment visuals on the body ---
     let opacity = 1;
     if (special?.kind === "TUNNEL") {
       const flicker = 0.35 + 0.65 * Math.abs(Math.sin(now / 24));
       opacity = flicker;
       sy *= 0.55;
       sx *= 1.3;
+    } else if (special?.kind === "WORMHOLE") {
+      if (special.phase === 0) {
+        // Anticipation: lean into the dive, compressing slightly.
+        sx *= 1.12;
+        sy *= 0.9;
+      } else if (special.phase === 1) {
+        opacity = 0; // in transit between portals
+      } else {
+        // Fade back in over the settle window.
+        const settled = 1 - Math.min(1, (special.until - now) / 420);
+        opacity = 0.4 + 0.6 * settled;
+      }
+    } else if (special?.kind === "ENTANGLE") {
+      // Sync pulse — the twin's CSS pulse runs at the same ~4Hz.
+      const pulse = 1 + 0.07 * Math.sin(now / 40);
+      sx *= pulse;
+      sy *= pulse;
+    } else if (special?.kind === "BLACKHOLE" && special.phase === 0 && special.data) {
+      // Strain: stretch along the pull direction.
+      const d = Math.hypot(special.data.ax - pos.x, special.data.ay - pos.y);
+      const strain = Math.min(0.18, 60 / (d + 40));
+      sx *= 1 + strain;
+      sy *= 1 - 0.5 * strain;
     }
 
     body.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) rotate(${theta.a}deg) scale(${sx}, ${sy})`;
@@ -361,7 +527,11 @@ export function QpitPhysics({
     const path = tetherRef.current;
     const svg = tetherSvgRef.current;
     if (path && svg) {
-      if (modeRef.current !== "roaming" || special?.kind === "TUNNEL") {
+      if (
+        modeRef.current !== "roaming" ||
+        special?.kind === "TUNNEL" ||
+        (special?.kind === "WORMHOLE" && special.phase === 1)
+      ) {
         svg.style.opacity = "0";
       } else {
         svg.style.opacity = "1";
@@ -370,7 +540,14 @@ export function QpitPhysics({
         const py = pos.y - 34;
         const dist = Math.hypot(px - cx, py - cy);
         const sag = Math.max(0, TETHER_DROP - dist) * 0.6 + 8;
-        path.setAttribute("d", `M ${cx} ${cy} Q ${(cx + px) / 2} ${(cy + py) / 2 + sag} ${px} ${py}`);
+        let midX = (cx + px) / 2;
+        let midY = (cy + py) / 2 + sag;
+        // Gravitational lensing, loosely: the tether bows toward the anomaly.
+        if (special?.kind === "BLACKHOLE" && special.phase === 0 && special.data) {
+          midX += (special.data.ax - midX) * 0.35;
+          midY += (special.data.ay - midY) * 0.35;
+        }
+        path.setAttribute("d", `M ${cx} ${cy} Q ${midX} ${midY} ${px} ${py}`);
         // Dash flow speeds up with motion — the tether feels energized.
         path.setAttribute("stroke-dashoffset", String(-(t / 1000) * (20 + speed * 0.15)));
       }
@@ -455,6 +632,88 @@ export function QpitPhysics({
           ))}
         </>
       )}
+
+      {/* black-hole anomaly — dark core, slow-spinning accretion ring */}
+      {anomaly && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none fixed left-0 top-0 z-30 -translate-x-1/2 -translate-y-1/2"
+          style={{ x: anomaly.x, y: anomaly.y }}
+          initial={{ opacity: 0, scale: 0.3 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.35 }}
+        >
+          <div
+            className="h-[76px] w-[76px] rounded-full"
+            style={{
+              border: "1px solid color-mix(in srgb, var(--accent-2) 65%, transparent)",
+              boxShadow:
+                "0 0 18px color-mix(in srgb, var(--accent-2) 35%, transparent), inset 0 0 14px color-mix(in srgb, var(--accent-2) 25%, transparent)",
+              animation: "qpit-spin 3.2s linear infinite",
+              borderTopColor: "color-mix(in srgb, var(--accent) 80%, transparent)",
+            }}
+          />
+          <div
+            className="absolute left-1/2 top-1/2 h-[34px] w-[34px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{ background: "radial-gradient(circle, #000 0%, #000 55%, transparent 78%)" }}
+          />
+        </motion.div>
+      )}
+
+      {/* entanglement twin — a distant particle pulsing in sync with QPIT */}
+      {twin && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none fixed left-0 top-0 z-30 -translate-x-1/2 -translate-y-1/2"
+          style={{ x: twin.x, y: twin.y }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: [0, 1, 1, 0], scale: 1 }}
+          transition={{ duration: 1.8, times: [0, 0.15, 0.85, 1] }}
+        >
+          <div
+            className="h-5 w-5 rounded-full"
+            style={{
+              background: "radial-gradient(circle, color-mix(in srgb, var(--accent) 85%, white) 0%, transparent 70%)",
+              animation: "qpit-twin 0.25s ease-in-out infinite alternate",
+            }}
+          />
+          <div
+            className="absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{
+              border: "1px solid color-mix(in srgb, var(--accent) 50%, transparent)",
+              animation: "qpit-twin 0.25s ease-in-out infinite alternate-reverse",
+            }}
+          />
+        </motion.div>
+      )}
+
+      {/* wormhole portals — entry (cyan) and exit (violet) rings */}
+      {portals &&
+        [
+          { p: portals.a, color: "var(--accent)" },
+          { p: portals.b, color: "var(--accent-2)" },
+        ].map((portal, i) => (
+          <motion.div
+            key={i}
+            aria-hidden
+            className="pointer-events-none fixed left-0 top-0 z-30 -translate-x-1/2 -translate-y-1/2"
+            style={{ x: portal.p.x, y: portal.p.y }}
+            initial={{ opacity: 0, scale: 0.2, rotate: -60 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div
+              className="h-[46px] w-[46px] rounded-full"
+              style={{
+                border: `1.5px solid color-mix(in srgb, ${portal.color} 75%, transparent)`,
+                boxShadow: `0 0 14px color-mix(in srgb, ${portal.color} 40%, transparent), inset 0 0 10px color-mix(in srgb, ${portal.color} 30%, transparent)`,
+                animation: "qpit-spin 1.6s linear infinite",
+                borderStyle: "dashed",
+              }}
+            />
+          </motion.div>
+        ))}
 
       {/* Outer div: transform/opacity owned exclusively by the rAF integrator. */}
       <div

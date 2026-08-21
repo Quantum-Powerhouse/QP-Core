@@ -178,10 +178,19 @@ export function QuantumPet() {
   );
 
   // --- Special moments (rare, already cooldown-gated by the physics) -----
+  const onSpecialStart = useCallback(
+    (kind: QpitSpecial) => {
+      if (kind === "BLACKHOLE") speak(momentLine("BLACKHOLE_NOTICED"), { force: true });
+    },
+    [speak],
+  );
   const onSpecial = useCallback(
     (kind: QpitSpecial) => {
       if (kind === "SUPERPOSITION") speak(momentLine("SUPERPOSITION_COLLAPSE"), { force: true });
       else if (kind === "TUNNEL") speak(momentLine("TUNNEL_HOME"), { force: true });
+      else if (kind === "BLACKHOLE") speak(momentLine("BLACKHOLE_ESCAPED"), { force: true });
+      else if (kind === "ENTANGLE") speak(momentLine("ENTANGLED"), { force: true });
+      else if (kind === "WORMHOLE") speak(momentLine("WORMHOLE"), { force: true });
     },
     [speak],
   );
@@ -278,6 +287,7 @@ export function QuantumPet() {
       pokeSignal={pokeSignal}
       onModeChange={setMode}
       onEmotionChange={onEmotionChange}
+      onSpecialStart={onSpecialStart}
       onSpecial={onSpecial}
     >
       <div className="relative flex flex-col items-center gap-2">

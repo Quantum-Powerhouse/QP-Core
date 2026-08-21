@@ -127,7 +127,7 @@ export function advanceEmotion(state: QpitEmotionState, inputs: QpitInputs): Qpi
 // Special events — rare, cooldown-gated, controlled randomness.
 // ---------------------------------------------------------------------------
 
-export type QpitSpecial = "SUPERPOSITION" | "TUNNEL";
+export type QpitSpecial = "SUPERPOSITION" | "TUNNEL" | "BLACKHOLE" | "ENTANGLE" | "WORMHOLE";
 
 export const SPECIAL_COOLDOWN_MS = 75_000;
 export const SESSION_WARMUP_MS = 20_000;
@@ -135,6 +135,13 @@ export const SESSION_WARMUP_MS = 20_000;
 export const SUPERPOSITION_CHANCE = 0.002;
 export const TUNNEL_MIN_CURSOR_SPEED = 1200;
 export const TUNNEL_CHANCE = 0.5;
+/** Black hole: violent cursor shaking (fast direction reversals) summons it. */
+export const BLACKHOLE_MIN_SHAKES = 4;
+export const BLACKHOLE_CHANCE = 0.6;
+/** Entanglement / wormhole: ambient per-check chances while eligible. */
+export const ENTANGLE_CHANCE = 0.0015;
+export const WORMHOLE_CHANCE = 0.0015;
+export const WORMHOLE_MIN_PET_SPEED = 420;
 
 export type Rand = () => number;
 
@@ -163,6 +170,59 @@ export function maybeTunnelHome(
   if (cursorSpeed < TUNNEL_MIN_CURSOR_SPEED) return false;
   if (now - lastSpecialAt < SPECIAL_COOLDOWN_MS) return false;
   return rand() < TUNNEL_CHANCE;
+}
+
+/**
+ * Event special: enough rapid cursor direction-reversals ("shaking") may
+ * summon a tiny gravitational anomaly that pulls QPIT before it escapes.
+ */
+export function maybeBlackHole(
+  shakeCount: number,
+  now: number,
+  lastSpecialAt: number,
+  rand: Rand,
+): boolean {
+  if (shakeCount < BLACKHOLE_MIN_SHAKES) return false;
+  if (now - lastSpecialAt < SPECIAL_COOLDOWN_MS) return false;
+  return rand() < BLACKHOLE_CHANCE;
+}
+
+/**
+ * Ambient special: while calm and roaming, QPIT may entangle with a distant
+ * on-page element — a twin particle appears there and pulses in sync.
+ */
+export function maybeEntangle(
+  state: QpitEmotionState,
+  inputs: QpitInputs,
+  lastSpecialAt: number,
+  sessionStartAt: number,
+  rand: Rand,
+): boolean {
+  if (inputs.mode !== "roaming") return false;
+  if (state.emotion !== "IDLE" && state.emotion !== "CURIOUS") return false;
+  if (inputs.now - sessionStartAt < SESSION_WARMUP_MS) return false;
+  if (inputs.now - lastSpecialAt < SPECIAL_COOLDOWN_MS) return false;
+  return rand() < ENTANGLE_CHANCE;
+}
+
+/**
+ * Ambient special: while moving with some momentum, a wormhole pair may open —
+ * QPIT dives into the near portal and exits from the far one.
+ */
+export function maybeWormhole(
+  petSpeed: number,
+  state: QpitEmotionState,
+  inputs: QpitInputs,
+  lastSpecialAt: number,
+  sessionStartAt: number,
+  rand: Rand,
+): boolean {
+  if (inputs.mode !== "roaming") return false;
+  if (petSpeed < WORMHOLE_MIN_PET_SPEED) return false;
+  if (state.emotion === "SLEEPING" || state.emotion === "BORED") return false;
+  if (inputs.now - sessionStartAt < SESSION_WARMUP_MS) return false;
+  if (inputs.now - lastSpecialAt < SPECIAL_COOLDOWN_MS) return false;
+  return rand() < WORMHOLE_CHANCE;
 }
 
 // ---------------------------------------------------------------------------

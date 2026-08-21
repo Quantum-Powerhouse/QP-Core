@@ -102,6 +102,10 @@ export const MOMENT_LINES: Record<string, string[]> = {
   SUPERPOSITION_COLLAPSE: ["I picked this universe.", "I preferred the other universe.", "Okay. We're going with this one."],
   TUNNEL_HOME: ["Don't worry about it.", "Shortcut. Totally intentional.", "I tunneled. Probably."],
   OBSERVED: ["I'm observing you observing me.", "You're still watching me."],
+  BLACKHOLE_NOTICED: ["Uh-oh.", "That's new.", "Please don't be a singularity."],
+  BLACKHOLE_ESCAPED: ["Totally intentional.", "Not today, singularity.", "Escape velocity. Barely."],
+  ENTANGLED: ["We're entangled now.", "It felt that. I felt that.", "Spooky action. At this distance."],
+  WORMHOLE: ["Don't ask.", "Shortcut through nowhere.", "That tickled the topology."],
 };
 
 export function momentLine(moment: keyof typeof MOMENT_LINES | string, rand: Rand = Math.random): string | null {

@@ -122,3 +122,44 @@ test("chattiness: reading silences QPIT; pokes embolden; ignoring quiets; bounde
   assert.ok(chattiness({ msSinceScroll: 60_000, sessionPokes: 100, ignoredHovers: 0 }) <= 1.4);
   assert.ok(chattiness({ msSinceScroll: 60_000, sessionPokes: 0, ignoredHovers: 100 }) >= 0.3);
 });
+
+// --- new specials: black hole, entanglement, wormhole ---
+
+import {
+  maybeBlackHole,
+  maybeEntangle,
+  maybeWormhole,
+  BLACKHOLE_MIN_SHAKES,
+  WORMHOLE_MIN_PET_SPEED,
+} from "../src/lib/quantum/qpitState.ts";
+
+test("black hole: needs enough shakes, cooldown, and luck", () => {
+  const now = 600_000;
+  assert.equal(maybeBlackHole(BLACKHOLE_MIN_SHAKES, now, 0, () => 0), true);
+  assert.equal(maybeBlackHole(BLACKHOLE_MIN_SHAKES - 1, now, 0, () => 0), false);
+  assert.equal(maybeBlackHole(10, now, now - SPECIAL_COOLDOWN_MS + 1, () => 0), false);
+  assert.equal(maybeBlackHole(10, now, 0, () => 0.99), false);
+});
+
+test("entanglement: calm + roaming + warmed up + off cooldown", () => {
+  const idle = at("IDLE", 0);
+  const inputs = base({ now: 600_000 });
+  assert.equal(maybeEntangle(idle, inputs, 0, 0, () => 0), true);
+  assert.equal(maybeEntangle(at("EXCITED", 0), inputs, 0, 0, () => 0), false);
+  assert.equal(maybeEntangle(idle, base({ now: 600_000, mode: "docked" }), 0, 0, () => 0), false);
+  assert.equal(maybeEntangle(idle, inputs, inputs.now - SPECIAL_COOLDOWN_MS + 1, 0, () => 0), false);
+  assert.equal(maybeEntangle(idle, inputs, 0, inputs.now - SESSION_WARMUP_MS + 1, () => 0), false);
+  assert.equal(maybeEntangle(idle, inputs, 0, 0, () => 0.99), false);
+});
+
+test("wormhole: needs momentum, roaming, an awake QPIT, cooldown, and luck", () => {
+  const idle = at("IDLE", 0);
+  const inputs = base({ now: 600_000 });
+  const spd = WORMHOLE_MIN_PET_SPEED + 1;
+  assert.equal(maybeWormhole(spd, idle, inputs, 0, 0, () => 0), true);
+  assert.equal(maybeWormhole(WORMHOLE_MIN_PET_SPEED - 1, idle, inputs, 0, 0, () => 0), false);
+  assert.equal(maybeWormhole(spd, at("SLEEPING", 0), inputs, 0, 0, () => 0), false);
+  assert.equal(maybeWormhole(spd, idle, base({ now: 600_000, mode: "docked" }), 0, 0, () => 0), false);
+  assert.equal(maybeWormhole(spd, idle, inputs, inputs.now - SPECIAL_COOLDOWN_MS + 1, 0, () => 0), false);
+  assert.equal(maybeWormhole(spd, idle, inputs, 0, 0, () => 0.99), false);
+});
