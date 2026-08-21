@@ -130,15 +130,18 @@ import {
   maybeEntangle,
   maybeWormhole,
   BLACKHOLE_MIN_SHAKES,
+  BLACKHOLE_COOLDOWN_MS,
   WORMHOLE_MIN_PET_SPEED,
 } from "../src/lib/quantum/qpitState.ts";
 
-test("black hole: needs enough shakes, cooldown, and luck", () => {
+test("black hole: needs enough shakes, its own shorter cooldown, and luck", () => {
   const now = 600_000;
   assert.equal(maybeBlackHole(BLACKHOLE_MIN_SHAKES, now, 0, () => 0), true);
   assert.equal(maybeBlackHole(BLACKHOLE_MIN_SHAKES - 1, now, 0, () => 0), false);
-  assert.equal(maybeBlackHole(10, now, now - SPECIAL_COOLDOWN_MS + 1, () => 0), false);
+  assert.equal(maybeBlackHole(10, now, now - BLACKHOLE_COOLDOWN_MS + 1, () => 0), false);
+  assert.equal(maybeBlackHole(10, now, now - BLACKHOLE_COOLDOWN_MS - 1, () => 0), true, "eligible again after its own cooldown");
   assert.equal(maybeBlackHole(10, now, 0, () => 0.99), false);
+  assert.ok(BLACKHOLE_COOLDOWN_MS < SPECIAL_COOLDOWN_MS, "black hole recurs faster than ambient specials");
 });
 
 test("entanglement: calm + roaming + warmed up + off cooldown", () => {

@@ -106,6 +106,20 @@ export const MOMENT_LINES: Record<string, string[]> = {
   BLACKHOLE_ESCAPED: ["Totally intentional.", "Not today, singularity.", "Escape velocity. Barely."],
   ENTANGLED: ["We're entangled now.", "It felt that. I felt that.", "Spooky action. At this distance."],
   WORMHOLE: ["Don't ask.", "Shortcut through nowhere.", "That tickled the topology."],
+  BLACKHOLE_HOVER: [
+    "That's a black hole. The artistic kind.",
+    "Careful. Tiny singularity. Decorative, mostly.",
+    "A black hole — well, a visual metaphor of one.",
+  ],
+  ROAMING_CHATTER: [
+    "Wheee.",
+    "Where are we going?",
+    "You're fast today.",
+    "I like this direction.",
+    "Left! No — right!",
+    "Try shaking me. Actually, don't.",
+    "Still attached. Somehow.",
+  ],
 };
 
 export function momentLine(moment: keyof typeof MOMENT_LINES | string, rand: Rand = Math.random): string | null {

@@ -34,7 +34,7 @@ import {
  * React state only changes on dock/roam transitions and rare specials.
  */
 
-const TETHER_DROP = 92;
+const TETHER_DROP = 150;
 const IDLE_DOCK_MS = 3500;
 const EDGE_MARGIN = 56;
 const SWING_MAX_DEG = 30;
@@ -83,6 +83,7 @@ export function QpitPhysics({
   onEmotionChange,
   onSpecialStart,
   onSpecial,
+  onAnomalyHover,
   children,
 }: {
   /** false → permanently docked (touch devices, prefers-reduced-motion). */
@@ -99,6 +100,8 @@ export function QpitPhysics({
   onEmotionChange?: (next: QpitEmotion, prev: QpitEmotion) => void;
   /** fires when a special moment begins (e.g. the anomaly appears). */
   onSpecialStart?: (kind: QpitSpecial) => void;
+  /** fires when the user hovers the black-hole anomaly. */
+  onAnomalyHover?: () => void;
   /** fires when a special moment completes. */
   onSpecial?: (kind: QpitSpecial) => void;
   children: React.ReactNode;
@@ -137,6 +140,7 @@ export function QpitPhysics({
     data?: { ax: number; ay: number; bx: number; by: number };
   } | null>(null);
   const shakeCountRef = useRef(0);
+  const lastBlackHoleAtRef = useRef(0);
   const lastVxSignRef = useRef(0);
   const lastShakeAtRef = useRef(0);
   const trailSampleAtRef = useRef(0);
@@ -225,15 +229,16 @@ export function QpitPhysics({
             !reduceMotion &&
             modeRef.current === "roaming" &&
             !specialRef.current &&
-            maybeBlackHole(shakeCountRef.current, now, lastSpecialAtRef.current, randRef.current)
+            maybeBlackHole(shakeCountRef.current, now, lastBlackHoleAtRef.current, randRef.current)
           ) {
             shakeCountRef.current = 0;
+            lastBlackHoleAtRef.current = now;
             lastSpecialAtRef.current = now;
             // The anomaly opens a little away from QPIT, off to one side.
             const side = randRef.current() < 0.5 ? -1 : 1;
             const axp = Math.min(window.innerWidth - 90, Math.max(90, posRef.current.x + side * 190));
             const ayp = Math.min(window.innerHeight - 90, Math.max(90, posRef.current.y - 60 + randRef.current() * 120));
-            specialRef.current = { kind: "BLACKHOLE", phase: 0, until: now + 1500, data: { ax: axp, ay: ayp, bx: 0, by: 0 } };
+            specialRef.current = { kind: "BLACKHOLE", phase: 0, until: now + 2200, data: { ax: axp, ay: ayp, bx: 0, by: 0 } };
             setAnomaly({ x: axp, y: ayp });
             onSpecialStart?.("BLACKHOLE");
           }
@@ -427,7 +432,7 @@ export function QpitPhysics({
         const d = Math.hypot(dx, dy) || 1;
         vel.x += (dx / d) * 760;
         vel.y += (dy / d) * 760;
-        specialRef.current = { ...special, phase: 1, until: now + 700 };
+        specialRef.current = { ...special, phase: 1, until: now + 900 };
       } else if (special.kind === "WORMHOLE" && special.phase === 0 && special.data) {
         // Transit: vanish at portal A, reappear at portal B with momentum kept.
         posRef.current = { x: special.data.bx, y: special.data.by };
@@ -684,30 +689,48 @@ export function QpitPhysics({
         </>
       )}
 
-      {/* black-hole anomaly — dark core, slow-spinning accretion ring */}
+      {/* black-hole anomaly — a lensed look: photon ring around a true-black
+          core, with a wide accretion disk stretched out to both sides.
+          Hoverable on purpose: QPIT explains what it (metaphorically) is. */}
       {anomaly && (
         <motion.div
           aria-hidden
-          className="pointer-events-none fixed left-0 top-0 z-30 -translate-x-1/2 -translate-y-1/2"
+          className="fixed left-0 top-0 z-30 -translate-x-1/2 -translate-y-1/2 cursor-help"
           style={{ x: anomaly.x, y: anomaly.y }}
+          onPointerEnter={() => onAnomalyHover?.()}
           initial={{ opacity: 0, scale: 0.3 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.35 }}
         >
+          {/* accretion disk: stretched far to both sides, seen edge-on */}
           <div
-            className="h-[76px] w-[76px] rounded-full"
+            className="absolute left-1/2 top-1/2 h-[64px] w-[170px] -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
             style={{
-              border: "1px solid color-mix(in srgb, var(--accent-2) 65%, transparent)",
-              boxShadow:
-                "0 0 18px color-mix(in srgb, var(--accent-2) 35%, transparent), inset 0 0 14px color-mix(in srgb, var(--accent-2) 25%, transparent)",
-              animation: "qpit-spin 3.2s linear infinite",
-              borderTopColor: "color-mix(in srgb, var(--accent) 80%, transparent)",
+              transform: "translate(-50%, -50%) scaleY(0.28)",
+              border: "3px solid transparent",
+              background:
+                "linear-gradient(90deg, color-mix(in srgb, #f59e0b 70%, transparent), color-mix(in srgb, var(--accent-2) 80%, transparent), color-mix(in srgb, #f59e0b 70%, transparent)) border-box",
+              WebkitMask: "linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)",
+              WebkitMaskComposite: "xor",
+              maskComposite: "exclude",
+              filter: "blur(1px)",
+              animation: "qpit-spin 2.6s linear infinite",
             }}
           />
+          {/* photon ring: thin, bright, hugging the shadow */}
           <div
-            className="absolute left-1/2 top-1/2 h-[34px] w-[34px] -translate-x-1/2 -translate-y-1/2 rounded-full"
-            style={{ background: "radial-gradient(circle, #000 0%, #000 55%, transparent 78%)" }}
+            className="h-[64px] w-[64px] rounded-full"
+            style={{
+              border: "2px solid color-mix(in srgb, #f59e0b 85%, white)",
+              boxShadow:
+                "0 0 22px color-mix(in srgb, #f59e0b 55%, transparent), 0 0 44px color-mix(in srgb, var(--accent-2) 35%, transparent), inset 0 0 16px color-mix(in srgb, #f59e0b 40%, transparent)",
+            }}
+          />
+          {/* the shadow: genuinely black */}
+          <div
+            className="absolute left-1/2 top-1/2 h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{ background: "radial-gradient(circle, #000 0%, #000 68%, transparent 85%)" }}
           />
         </motion.div>
       )}

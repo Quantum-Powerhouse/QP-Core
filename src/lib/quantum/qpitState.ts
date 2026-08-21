@@ -56,8 +56,8 @@ export type QpitParams = {
 };
 
 export const QPIT_PARAMS: Record<QpitEmotion, QpitParams> = {
-  IDLE:      { stiffness: 90,  damping: 11, noise: 0.4, swingGain: 1.0, breatheAmp: 0.015, breatheHz: 0.22, glow: 1.0 },
-  CURIOUS:   { stiffness: 120, damping: 12, noise: 0.6, swingGain: 1.1, breatheAmp: 0.02,  breatheHz: 0.3,  glow: 1.15 },
+  IDLE:      { stiffness: 62,  damping: 11, noise: 0.4, swingGain: 1.0, breatheAmp: 0.015, breatheHz: 0.22, glow: 1.0 },
+  CURIOUS:   { stiffness: 85,  damping: 12, noise: 0.6, swingGain: 1.1, breatheAmp: 0.02,  breatheHz: 0.3,  glow: 1.15 },
   EXCITED:   { stiffness: 190, damping: 10, noise: 1.2, swingGain: 1.45, breatheAmp: 0.03, breatheHz: 0.6,  glow: 1.5 },
   SURPRISED: { stiffness: 240, damping: 8,  noise: 2.0, swingGain: 1.7, breatheAmp: 0.0,   breatheHz: 0.0,  glow: 1.6 },
   ORBITING:  { stiffness: 110, damping: 9,  noise: 0.5, swingGain: 1.2, breatheAmp: 0.02,  breatheHz: 0.4,  glow: 1.3 },
@@ -135,9 +135,11 @@ export const SESSION_WARMUP_MS = 20_000;
 export const SUPERPOSITION_CHANCE = 0.002;
 export const TUNNEL_MIN_CURSOR_SPEED = 1200;
 export const TUNNEL_CHANCE = 0.5;
-/** Black hole: violent cursor shaking (fast direction reversals) summons it. */
-export const BLACKHOLE_MIN_SHAKES = 4;
-export const BLACKHOLE_CHANCE = 0.6;
+/** Black hole: violent cursor shaking (fast direction reversals) summons it.
+ *  Deliberately user-triggerable, so it runs its own (shorter) cooldown. */
+export const BLACKHOLE_MIN_SHAKES = 3;
+export const BLACKHOLE_CHANCE = 0.75;
+export const BLACKHOLE_COOLDOWN_MS = 25_000;
 /** Entanglement / wormhole: ambient per-check chances while eligible. */
 export const ENTANGLE_CHANCE = 0.0015;
 export const WORMHOLE_CHANCE = 0.0015;
@@ -179,11 +181,11 @@ export function maybeTunnelHome(
 export function maybeBlackHole(
   shakeCount: number,
   now: number,
-  lastSpecialAt: number,
+  lastBlackHoleAt: number,
   rand: Rand,
 ): boolean {
   if (shakeCount < BLACKHOLE_MIN_SHAKES) return false;
-  if (now - lastSpecialAt < SPECIAL_COOLDOWN_MS) return false;
+  if (now - lastBlackHoleAt < BLACKHOLE_COOLDOWN_MS) return false;
   return rand() < BLACKHOLE_CHANCE;
 }
 

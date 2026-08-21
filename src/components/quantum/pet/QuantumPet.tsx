@@ -22,9 +22,9 @@ import { audioEnabled, playHum, playPop, playShimmer, playWarp, setAudioEnabled 
 import type { QuantumEvent } from "@/lib/quantum/events";
 import { usePrefersReducedMotion } from "@/lib/quantum/usePrefersReducedMotion";
 
-const SPEECH_COOLDOWN_MS = 3500;
+const SPEECH_COOLDOWN_MS = 2600;
 const SPEECH_VISIBLE_MS = 2600;
-const HOVER_COOLDOWN_MS = 9000;
+const HOVER_COOLDOWN_MS = 6500;
 const ENTRANCE_GREETING_DELAY_MS = 1400;
 const OBSERVED_HOVER_MS = 4000;
 
@@ -188,7 +188,7 @@ export function QuantumPet() {
         speak(momentLine("BORED_ENTER"));
       } else if (next === "ORBITING") {
         speak(momentLine("ORBITING_ENTER"));
-      } else if (next === "EXCITED" && Math.random() < 0.2 && chatOk()) {
+      } else if (next === "EXCITED" && Math.random() < 0.35 && chatOk()) {
         speak(momentLine("EXCITED_ENTER"));
       }
     },
@@ -205,6 +205,10 @@ export function QuantumPet() {
     },
     [speak],
   );
+  const onAnomalyHover = useCallback(() => {
+    speak(momentLine("BLACKHOLE_HOVER"), { force: true });
+  }, [speak]);
+
   const onSpecial = useCallback(
     (kind: QpitSpecial) => {
       if (kind === "SUPERPOSITION") {
@@ -278,6 +282,15 @@ export function QuantumPet() {
     document.addEventListener("pointerover", onPointerOver, { passive: true });
     return () => document.removeEventListener("pointerover", onPointerOver);
   }, [finePointer, pathname, speak, chatOk]);
+
+  // --- Roaming chatter: occasional travel commentary, governor-gated ------
+  useEffect(() => {
+    if (mode !== "roaming") return;
+    const timer = setInterval(() => {
+      if (Math.random() < 0.35 && chatOk()) speak(momentLine("ROAMING_CHATTER"));
+    }, 9000);
+    return () => clearInterval(timer);
+  }, [mode, chatOk, speak]);
 
   // --- Reading detection (scroll): visual pulse, and silences dialogue ---
   useEffect(() => {
@@ -353,6 +366,7 @@ export function QuantumPet() {
       onEmotionChange={onEmotionChange}
       onSpecialStart={onSpecialStart}
       onSpecial={onSpecial}
+      onAnomalyHover={onAnomalyHover}
     >
       <div className="relative flex flex-col items-center gap-2">
         <AnimatePresence>
@@ -395,6 +409,14 @@ export function QuantumPet() {
             {soundOn ? "♪" : "∅"}
           </button>
         )}
+        {/* orbital particles: constant slow motion so QPIT reads alive at rest */}
+        <div aria-hidden className="pointer-events-none absolute bottom-0 left-1/2 z-0 h-[100px] w-[100px] -translate-x-1/2 sm:h-[116px] sm:w-[116px]" style={{ animation: "qpit-spin 9s linear infinite" }}>
+          <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-accent opacity-70" />
+          <span className="absolute bottom-[12%] right-0 h-1 w-1 rounded-full opacity-60" style={{ background: "var(--accent-2)" }} />
+        </div>
+        <div aria-hidden className="pointer-events-none absolute bottom-[8px] left-1/2 z-0 h-[84px] w-[84px] -translate-x-1/2" style={{ animation: "qpit-spin 5.5s linear infinite reverse" }}>
+          <span className="absolute left-0 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-accent opacity-50" />
+        </div>
         <button
           type="button"
           onClick={onPoke}

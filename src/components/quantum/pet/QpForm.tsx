@@ -49,6 +49,8 @@ export function QpForm({
   const eyesRef = useRef<THREE.Group>(null);
   const eyeLRef = useRef<THREE.Mesh>(null);
   const eyeRRef = useRef<THREE.Mesh>(null);
+  const noseRef = useRef<THREE.Mesh>(null);
+  const noseMaterialRef = useRef<THREE.MeshBasicMaterial>(null);
   const blinkRef = useRef({ nextAt: 0, until: 0 }); // nextAt seeded on first frame
   const groupRef = useRef<THREE.Group>(null);
   const coreLightRef = useRef<THREE.PointLight>(null);
@@ -101,6 +103,30 @@ export function QpForm({
     for (const eye of [eyeLRef.current, eyeRRef.current]) {
       if (eye) eye.scale.y += (eyeScaleY - eye.scale.y) * Math.min(1, delta * 22);
     }
+
+    // Direction pointer: a small cone riding the rim, aimed where QPIT is
+    // headed. Grows with movement, melts away at rest.
+    if (noseRef.current) {
+      const gx = s.gazeX;
+      const gy = s.gazeY;
+      const mag = Math.min(1, Math.hypot(gx, gy));
+      const ang = Math.atan2(-gy, gx); // screen-y is down; three-y is up
+      const k = Math.min(1, delta * 10);
+      const targetX = Math.cos(ang) * 0.95;
+      const targetY = Math.sin(ang) * 0.95;
+      noseRef.current.position.x += (targetX - noseRef.current.position.x) * k;
+      noseRef.current.position.y += (targetY - noseRef.current.position.y) * k;
+      noseRef.current.position.z = 0.35;
+      noseRef.current.rotation.z = Math.atan2(noseRef.current.position.y, noseRef.current.position.x) - Math.PI / 2;
+      const targetScale = reduceMotion ? 0 : 0.25 + mag * 1.05;
+      const sNow = noseRef.current.scale.x;
+      const sNext = sNow + (targetScale - sNow) * k;
+      noseRef.current.scale.setScalar(sNext);
+      if (noseMaterialRef.current) {
+        noseMaterialRef.current.color = s.color;
+        noseMaterialRef.current.opacity = Math.min(0.95, 0.25 + mag * 0.75);
+      }
+    }
   });
 
   return (
@@ -119,15 +145,21 @@ export function QpForm({
 
       {/* Eyes: two bright dots riding the front of the form, following the gaze. */}
       <group ref={eyesRef} position={[0, 0, 0.8]}>
-        <mesh ref={eyeLRef} position={[-0.17, 0.06, 0]}>
-          <sphereGeometry args={[0.055, 12, 12]} />
+        <mesh ref={eyeLRef} position={[-0.2, 0.08, 0]}>
+          <sphereGeometry args={[0.08, 12, 12]} />
           <meshBasicMaterial color="#e6ecff" toneMapped={false} />
         </mesh>
-        <mesh ref={eyeRRef} position={[0.17, 0.06, 0]}>
-          <sphereGeometry args={[0.055, 12, 12]} />
+        <mesh ref={eyeRRef} position={[0.2, 0.08, 0]}>
+          <sphereGeometry args={[0.08, 12, 12]} />
           <meshBasicMaterial color="#e6ecff" toneMapped={false} />
         </mesh>
       </group>
+
+      {/* Direction pointer: a glowing cone on the rim, aimed at the heading. */}
+      <mesh ref={noseRef} position={[0.95, 0, 0.35]} scale={0.25}>
+        <coneGeometry args={[0.14, 0.34, 10]} />
+        <meshBasicMaterial ref={noseMaterialRef} transparent toneMapped={false} />
+      </mesh>
 
       <group ref={groupRef}>
         <Points positions={positions} stride={3} frustumCulled>
