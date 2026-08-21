@@ -17,12 +17,12 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Node 24 runs the TypeScript research data directly via native type
       # stripping, which is what lets validate-research.mjs import the same
       # modules the site renders instead of re-parsing them.
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm

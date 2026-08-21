@@ -9,26 +9,29 @@ export function AnimatedCounter({ value, className }: { value: number; className
   const reduceMotion = useReducedMotion();
   const motionValue = useMotionValue(0);
   const spring = useSpring(motionValue, { damping: 24, stiffness: 90 });
+  // Only the count-up animation may write to the DOM node. Without this the
+  // spring's initial 0 would overwrite the real server-rendered figure.
+  const counting = useRef(false);
 
   useEffect(() => {
-    if (!inView) return;
-    if (reduceMotion) {
-      if (ref.current) ref.current.textContent = String(value);
-      return;
-    }
+    if (!inView || reduceMotion) return;
+    counting.current = true;
+    if (ref.current) ref.current.textContent = "0";
     motionValue.set(value);
   }, [inView, value, reduceMotion, motionValue]);
 
   useEffect(() => {
     const unsubscribe = spring.on("change", (latest) => {
-      if (ref.current) ref.current.textContent = String(Math.round(latest));
+      if (counting.current && ref.current) ref.current.textContent = String(Math.round(latest));
     });
     return unsubscribe;
   }, [spring]);
 
+  // Render the true value, so crawlers, no-JS visitors, and reduced-motion
+  // users all get the real figure rather than a placeholder zero.
   return (
     <span ref={ref} className={className}>
-      0
+      {value}
     </span>
   );
 }
