@@ -20,6 +20,7 @@ export const SOURCE_GROUPS: SourceGroup[] = [
       { label: "Qiskit QPY cross-version compat harness", url: "https://github.com/Qiskit/qiskit/blob/main/.github/workflows/qpy.yml" },
       { label: "quantum-transpiler-regression-testing (\"cart\") pilot", url: "https://github.com/furqan-nr/quantum-transpiler-regression-testing" },
       { label: "Bugs4Q bug corpus repository", url: "https://github.com/Z-928/Bugs4Q" },
+      { label: "Benchpress cross-SDK benchmark suite (IBM)", url: "https://github.com/Qiskit/benchpress" },
     ],
   },
   {
@@ -38,6 +39,7 @@ export const SOURCE_GROUPS: SourceGroup[] = [
       { label: "MorphQ (2206.01111)", url: "https://arxiv.org/pdf/2206.01111" },
       { label: "Bugs4Q preprint (2108.09744)", url: "https://arxiv.org/abs/2108.09744" },
       { label: "Cross-Qiskit-version Bugs4Q replication study, ICSME 2026 (2606.27124)", url: "https://arxiv.org/abs/2606.27124" },
+      { label: "Benchpress — “Benchmarking the performance of quantum computing software” (2409.08844; Nat. Comput. Sci. 5, 427–435, 2025)", url: "https://arxiv.org/abs/2409.08844" },
       { label: "QBugs (2103.16968)", url: "https://arxiv.org/abs/2103.16968" },
       { label: "32,296-bug-report mined dataset (2512.24656)", url: "https://arxiv.org/abs/2512.24656" },
       { label: "QBugLM (2606.07314)", url: "https://arxiv.org/abs/2606.07314" },

@@ -123,7 +123,7 @@ export const EVIDENCE: EvidenceRecord[] = [
     status: "partial",
     statusLabel: "PARTIALLY CONFIRMED",
     evidence:
-      "quantum-transpiler-regression-testing (“cart”), independently verified via GitHub repo and Zenodo DOI resolution, found that ~38% of real Qiskit transpiler bug-fixes are regressions invisible to black-box equivalence oracles. Scope: single-SDK, CLI-based, brand new (0 stars). No cross-SDK tool of any kind was found anywhere.",
+      "quantum-transpiler-regression-testing (“cart”), independently verified via GitHub repo and Zenodo DOI resolution, found that ~38% of real Qiskit transpiler bug-fixes are regressions invisible to black-box equivalence oracles. Scope: single-SDK, CLI-based, brand new (0 stars). No cross-SDK regression/equivalence tool was found anywhere — the closest cross-SDK system, Benchpress (C14), is a performance benchmark with no detection capability.",
     sourceUrl: "https://github.com/furqan-nr/quantum-transpiler-regression-testing",
     sourceType: "GitHub repository, independently-resolved Zenodo DOI record",
     sourceTitle: "furqan-nr/quantum-transpiler-regression-testing; Zenodo 10.5281/zenodo.21020113",
@@ -154,5 +154,20 @@ export const EVIDENCE: EvidenceRecord[] = [
     sourceTitle: "QBugLM (arXiv:2606.07314); general web search for autonomous quantum testing agents",
     notes:
       "Explicitly marked NOT FOUND rather than FALSE — absence of evidence after a reasonably broad search, not proof of non-existence. Least load-bearing part of the original idea.",
+  },
+  {
+    claimIds: ["C14"],
+    claim:
+      "Benchpress (IBM) already provides a pytest-native, cross-SDK harness overlapping the proposed regression-testing infrastructure.",
+    status: "partial",
+    statusLabel: "PARTIALLY CONFIRMED",
+    evidence:
+      "Benchpress is a pytest-based benchmarking suite of 1,000+ tests executed across 8 SDKs (Qiskit, Braket, Cirq, Tket, BQSKit, Staq, pyqpanda3, and the Qiskit IBM transpiler) on circuits up to 930 qubits and ~1M two-qubit gates. It proves the pytest-native, cross-SDK orchestration pattern works at scale — the two pieces of the proposed gap it covers. It does not cover the other two: every test yields capability/performance results (pass/skip/fail/xfail plus timings via pytest-benchmark); there is no circuit equivalence checking, no cross-version regression detection, and no reusable GitHub Actions packaging.",
+    sourceUrl: "https://github.com/Qiskit/benchpress",
+    sourceType: "Official GitHub repository + arXiv paper (both opened directly)",
+    sourceTitle:
+      "Qiskit/benchpress (README, gym layout); “Benchmarking the performance of quantum computing software,” arXiv:2409.08844, publ. Nat. Comput. Sci. 5, 427–435 (2025)",
+    notes:
+      "Apache-2.0, ~155 stars, 323 commits. Found 2026-08-21, after the original 2026-08-16/20 sweep — added under the same verify-by-opening rule. Refines C10/C13: the narrowed gap statement stands, but “no cross-SDK tool of any kind” is now “no cross-SDK regression/equivalence tool.”",
   },
 ];

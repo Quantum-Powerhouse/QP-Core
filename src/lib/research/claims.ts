@@ -107,7 +107,7 @@ export const CLAIMS: Claim[] = [
     status: "partial",
     statusLabel: "PARTIALLY CONFIRMED",
     evidence:
-      "quantum-transpiler-regression-testing (“cart,” Zenodo DOI 10.5281/zenodo.21020113, June 2026) found 38% of real Qiskit transpiler bug-fixes are regressions invisible to equivalence oracles — single-SDK, CLI-based, brand-new, 0 stars. QUTest (C05) does cross-Qiskit-version testing with CI output. No cross-SDK tool of any kind was found.",
+      "quantum-transpiler-regression-testing (“cart,” Zenodo DOI 10.5281/zenodo.21020113, June 2026) found 38% of real Qiskit transpiler bug-fixes are regressions invisible to equivalence oracles — single-SDK, CLI-based, brand-new, 0 stars. QUTest (C05) does cross-Qiskit-version testing with CI output. No cross-SDK regression/equivalence tool was found — Benchpress (C14) is pytest-native and cross-SDK but benchmarks capability/performance only.",
     source: "github.com/furqan-nr/quantum-transpiler-regression-testing; Zenodo 10.5281/zenodo.21020113; arXiv:2605.19736",
     confidence: "Medium-High",
   },
@@ -136,8 +136,18 @@ export const CLAIMS: Claim[] = [
     status: "partial",
     statusLabel: "PARTIALLY CONFIRMED — a gap exists but is much narrower than originally framed",
     evidence:
-      "The narrow, defensible gap is: pytest-native + cross-SDK (not just cross-version) + automated regression/equivalence detection (not hand-written assertions) + reusable drop-in GitHub Actions packaging. No single system combines all four; several systems solve one or two of the four pieces.",
-    source: "Synthesis of C01–C12 — see the Gap Analysis page",
+      "The narrow, defensible gap is: pytest-native + cross-SDK (not just cross-version) + automated regression/equivalence detection (not hand-written assertions) + reusable drop-in GitHub Actions packaging. No single system combines all four; several systems solve one or two of the four pieces (Benchpress — C14 — covers pytest-native + cross-SDK, but only as a performance benchmark).",
+    source: "Synthesis of C01–C12 and C14 — see the Gap Analysis page",
     confidence: "Medium-High",
+  },
+  {
+    id: "C14",
+    claim: "Benchpress (IBM) already provides a pytest-native, cross-SDK harness overlapping the proposed infrastructure",
+    status: "partial",
+    statusLabel: "PARTIALLY CONFIRMED — the harness pattern exists; the detection capability does not",
+    evidence:
+      "Benchpress is a pytest-based suite of 1,000+ benchmarks run across 8 SDKs (Qiskit, Braket, Cirq, Tket, BQSKit, Staq, pyqpanda3, Qiskit IBM transpiler) on circuits up to 930 qubits — proving pytest-native cross-SDK orchestration works at scale. But every test measures capability/performance (pass/skip/fail/xfail + timings); it performs no equivalence checking, no cross-version regression detection, and ships no reusable GitHub Actions packaging. Apache-2.0, ~155 stars.",
+    source: "github.com/Qiskit/benchpress; arXiv:2409.08844; Nation et al., Nat. Comput. Sci. 5, 427–435 (2025)",
+    confidence: "High",
   },
 ];
