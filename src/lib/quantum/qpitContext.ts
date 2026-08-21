@@ -88,6 +88,27 @@ export const POKE_LINES: string[] = [
   "That tickled, superpositionally speaking.",
 ];
 
+/**
+ * Lines tied to emotional-state transitions and special moments. Keys are
+ * moments, not raw states — SLEEPING entry is deliberately silent (absence
+ * is personality too). Frequencies are governed by the caller's cooldowns
+ * and the chattiness governor in qpitState.ts.
+ */
+export const MOMENT_LINES: Record<string, string[]> = {
+  BORED_ENTER: ["Hey… are you bored?", "So. Quiet in here."],
+  WAKE_SURPRISED: ["Oh! You're back.", "I wasn't sleeping. I was decohering."],
+  EXCITED_ENTER: ["Whoa.", "Okay okay okay."],
+  ORBITING_ENTER: ["Are we orbiting? We're orbiting.", "Stable orbit achieved."],
+  SUPERPOSITION_COLLAPSE: ["I picked this universe.", "I preferred the other universe.", "Okay. We're going with this one."],
+  TUNNEL_HOME: ["Don't worry about it.", "Shortcut. Totally intentional.", "I tunneled. Probably."],
+  OBSERVED: ["I'm observing you observing me.", "You're still watching me."],
+};
+
+export function momentLine(moment: keyof typeof MOMENT_LINES | string, rand: Rand = Math.random): string | null {
+  const lines = MOMENT_LINES[moment];
+  return lines ? pickLine(lines, rand) : null;
+}
+
 export type Rand = () => number;
 
 export function pickLine(lines: readonly string[], rand: Rand = Math.random): string | null {

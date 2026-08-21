@@ -90,10 +90,20 @@ bottom-right corner). Architecture, all under `src/components/quantum/`:
   responds to hovering links and to being poked.
 - `pet/QpitPhysics.tsx` — the motion layer: on fine-pointer devices QPIT follows the
   cursor on a spring tether, hangs ~90px below it, swings like a pendulum from
-  horizontal velocity, and docks back to the corner after ~3.5s of stillness.
-  Cursor tracking writes framer-motion MotionValues directly (zero React re-renders
-  per pointer move). Touch devices and `prefers-reduced-motion` users get a calm,
-  permanently docked QPIT.
+  horizontal velocity, and docks back to the corner after ~3.5s of stillness. The
+  position is integrated by hand (semi-implicit Euler) inside one rAF loop with
+  direct style writes — zero React re-renders per frame — so every spring parameter
+  can change live with emotion. Touch devices and `prefers-reduced-motion` users get
+  a calm, permanently docked QPIT.
+- `src/lib/quantum/qpitState.ts` — the emotional state machine (pure, unit-tested):
+  IDLE / CURIOUS / EXCITED / SURPRISED / ORBITING / BORED / SLEEPING, derived from
+  cursor speed, idle time, and cursor winding. Each emotion carries physics + visual
+  params (`QPIT_PARAMS`): spring stiffness/damping, quantum jitter, swing gain,
+  breathing, glow. Special moments — superposition ghosts and tunneling home — are
+  cooldown-gated controlled randomness (visual metaphors, not physics claims), and a
+  chattiness governor keeps QPIT quiet while the user reads. To add a behavior: add
+  an emotion or moment there, give it params/lines, and the physics and dialogue
+  layers pick it up.
 - `pet/QpForm.tsx` — the WebGL form (react-three-fiber) whose color/spin/intensity
   encode the last real event.
 - `pet/petLines.ts` — event-reaction lines; `src/lib/quantum/qpitContext.ts` —

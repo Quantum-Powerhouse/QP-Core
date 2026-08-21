@@ -24,10 +24,12 @@ export type PetVisualState = {
   intensity: number;
   /** 0-1, sustained while "thinking" (e.g. a VQE run in progress). */
   spin: number;
+  /** Sustained glow multiplier from QPIT's emotional state (1 = neutral). */
+  mood: number;
 };
 
 export function createPetVisualState(): PetVisualState {
-  return { color: new THREE.Color("#06b6d4"), intensity: 0, spin: 0 };
+  return { color: new THREE.Color("#06b6d4"), intensity: 0, spin: 0, mood: 1 };
 }
 
 export function QpForm({
@@ -57,17 +59,17 @@ export function QpForm({
     }
 
     if (coreLightRef.current) coreLightRef.current.color = s.color;
-    if (coreLightRef.current) coreLightRef.current.intensity = 1.5 + s.intensity * 3;
+    if (coreLightRef.current) coreLightRef.current.intensity = (1.5 + s.intensity * 3) * s.mood;
     if (shellMaterialRef.current) shellMaterialRef.current.color = s.color;
     if (coreMaterialRef.current) {
       coreMaterialRef.current.color = s.color;
       coreMaterialRef.current.emissive = s.color;
-      coreMaterialRef.current.emissiveIntensity = 1.4 + s.intensity * 2;
+      coreMaterialRef.current.emissiveIntensity = (1.4 + s.intensity * 2) * s.mood;
     }
     if (pointMaterialRef.current) {
       pointMaterialRef.current.color = s.color;
       pointMaterialRef.current.size = 0.03 + s.intensity * 0.02;
-      pointMaterialRef.current.opacity = 0.6 + s.intensity * 0.3;
+      pointMaterialRef.current.opacity = Math.min(1, (0.6 + s.intensity * 0.3) * (0.5 + 0.5 * s.mood));
     }
   });
 

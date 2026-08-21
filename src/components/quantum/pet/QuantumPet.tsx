@@ -12,10 +12,12 @@ import {
   greetingForPath,
   hoverLineFor,
   hoverSectionFor,
+  momentLine,
   pickLine,
   POKE_LINES,
   sectionForPath,
 } from "@/lib/quantum/qpitContext";
+import { chattiness, QPIT_PARAMS, type QpitEmotion, type QpitSpecial } from "@/lib/quantum/qpitState";
 import type { QuantumEvent } from "@/lib/quantum/events";
 import { usePrefersReducedMotion } from "@/lib/quantum/usePrefersReducedMotion";
 
@@ -23,6 +25,7 @@ const SPEECH_COOLDOWN_MS = 3500;
 const SPEECH_VISIBLE_MS = 2600;
 const HOVER_COOLDOWN_MS = 9000;
 const ENTRANCE_GREETING_DELAY_MS = 1400;
+const OBSERVED_HOVER_MS = 4000;
 
 function applyEvent(state: PetVisualState, event: QuantumEvent): void {
   switch (event.type) {
@@ -90,18 +93,45 @@ function useFinePointer(): boolean {
   );
 }
 
+function readSessionInt(key: string): number {
+  try {
+    return parseInt(sessionStorage.getItem(key) ?? "0", 10) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+function writeSessionInt(key: string, value: number): void {
+  try {
+    sessionStorage.setItem(key, String(value));
+  } catch {
+    /* private mode — session memory is optional */
+  }
+}
+
 export function QuantumPet() {
   const stateRef = useRef<PetVisualState>(createPetVisualState());
   const lastSpokenAtRef = useRef(0);
   const lastHoverAtRef = useRef(0);
   const lastHoverSectionRef = useRef<string | null>(null);
   const lastGreetedSectionRef = useRef<string | null>(null);
+  const lastScrollAtRef = useRef(0);
+  const hoverShownCountRef = useRef(0);
+  const pokesRef = useRef(0);
+  const observedRef = useRef(false);
+  const observeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const speechTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [speech, setSpeech] = useState<string | null>(null);
   const [mode, setMode] = useState<QpitMode>("docked");
+  const [pokeSignal, setPokeSignal] = useState(0);
+  const [burst, setBurst] = useState(0);
   const reduceMotion = usePrefersReducedMotion();
   const finePointer = useFinePointer();
   const pathname = usePathname();
+
+  useEffect(() => {
+    pokesRef.current = readSessionInt("qpit.pokes");
+  }, []);
 
   const speak = useCallback((line: string | null, { force = false }: { force?: boolean } = {}) => {
     if (!line) return false;
@@ -114,11 +144,47 @@ export function QuantumPet() {
     return true;
   }, []);
 
+  /** The governor: QPIT knows when not to talk. */
+  const chatOk = useCallback(() => {
+    const factor = chattiness({
+      msSinceScroll: performance.now() - lastScrollAtRef.current,
+      sessionPokes: pokesRef.current,
+      ignoredHovers: hoverShownCountRef.current,
+    });
+    return Math.random() < factor;
+  }, []);
+
   // --- Real quantum events (behavior preserved from the original pet) ----
   useAnyQuantumEvent((event) => {
     applyEvent(stateRef.current, event);
     speak(petLineFor(event), { force: event.type === "ERROR" });
   });
+
+  // --- Emotional state → mood glow + transition lines --------------------
+  const onEmotionChange = useCallback(
+    (next: QpitEmotion, prev: QpitEmotion) => {
+      stateRef.current.mood = QPIT_PARAMS[next].glow;
+      if (prev === "SLEEPING" && next === "SURPRISED") {
+        speak(momentLine("WAKE_SURPRISED"), { force: true });
+      } else if (next === "BORED" && chatOk()) {
+        speak(momentLine("BORED_ENTER"));
+      } else if (next === "ORBITING") {
+        speak(momentLine("ORBITING_ENTER"));
+      } else if (next === "EXCITED" && Math.random() < 0.2 && chatOk()) {
+        speak(momentLine("EXCITED_ENTER"));
+      }
+    },
+    [speak, chatOk],
+  );
+
+  // --- Special moments (rare, already cooldown-gated by the physics) -----
+  const onSpecial = useCallback(
+    (kind: QpitSpecial) => {
+      if (kind === "SUPERPOSITION") speak(momentLine("SUPERPOSITION_COLLAPSE"), { force: true });
+      else if (kind === "TUNNEL") speak(momentLine("TUNNEL_HOME"), { force: true });
+    },
+    [speak],
+  );
 
   // --- Route awareness: greet each section once on arrival ---------------
   useEffect(() => {
@@ -148,20 +214,24 @@ export function QuantumPet() {
       const now = performance.now();
       if (now - lastHoverAtRef.current < HOVER_COOLDOWN_MS) return;
       if (lastHoverSectionRef.current === section) return;
+      // After the first few hover lines, QPIT gets progressively quieter.
+      if (hoverShownCountRef.current >= 4 && !chatOk()) return;
       if (!speak(hoverLineFor(section))) return;
       lastHoverAtRef.current = now;
       lastHoverSectionRef.current = section;
+      hoverShownCountRef.current += 1;
       stateRef.current.intensity = Math.max(stateRef.current.intensity, 0.35);
     };
     document.addEventListener("pointerover", onPointerOver, { passive: true });
     return () => document.removeEventListener("pointerover", onPointerOver);
-  }, [finePointer, pathname, speak]);
+  }, [finePointer, pathname, speak, chatOk]);
 
-  // --- Gentle scroll reaction (visual pulse only, never speech) ----------
+  // --- Reading detection (scroll): visual pulse, and silences dialogue ---
   useEffect(() => {
     let last = 0;
     const onScroll = () => {
       const now = performance.now();
+      lastScrollAtRef.current = now;
       if (now - last < 900) return;
       last = now;
       stateRef.current.intensity = Math.max(stateRef.current.intensity, 0.25);
@@ -170,18 +240,47 @@ export function QuantumPet() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // --- Observation moment: hovering the docked orb for a while -----------
+  const onOrbEnter = useCallback(() => {
+    if (observedRef.current || observeTimerRef.current) return;
+    observeTimerRef.current = setTimeout(() => {
+      observeTimerRef.current = null;
+      if (!observedRef.current) {
+        observedRef.current = true;
+        speak(momentLine("OBSERVED"), { force: true });
+      }
+    }, OBSERVED_HOVER_MS);
+  }, [speak]);
+  const onOrbLeave = useCallback(() => {
+    if (observeTimerRef.current) {
+      clearTimeout(observeTimerRef.current);
+      observeTimerRef.current = null;
+    }
+  }, []);
+
   // --- Poke: click/tap/keyboard on QPIT itself ---------------------------
   const onPoke = useCallback(() => {
     stateRef.current.intensity = 1;
     stateRef.current.spin = Math.max(stateRef.current.spin, 0.7);
+    pokesRef.current += 1;
+    writeSessionInt("qpit.pokes", pokesRef.current);
+    setPokeSignal((n) => n + 1);
+    setBurst((n) => n + 1);
     speak(pickLine(POKE_LINES), { force: true });
   }, [speak]);
 
   const interactive = finePointer && !reduceMotion;
 
   return (
-    <QpitPhysics interactive={interactive} onModeChange={setMode}>
-      <div className="flex flex-col items-center gap-2">
+    <QpitPhysics
+      interactive={interactive}
+      reduceMotion={reduceMotion}
+      pokeSignal={pokeSignal}
+      onModeChange={setMode}
+      onEmotionChange={onEmotionChange}
+      onSpecial={onSpecial}
+    >
+      <div className="relative flex flex-col items-center gap-2">
         <AnimatePresence>
           {speech && (
             <motion.div
@@ -198,9 +297,24 @@ export function QuantumPet() {
           )}
         </AnimatePresence>
 
+        {/* poke particle burst — 8 sparks, pure CSS, remounts per poke */}
+        {burst > 0 && !reduceMotion && (
+          <div key={burst} aria-hidden className="pointer-events-none absolute bottom-10 left-1/2 z-0">
+            {Array.from({ length: 8 }, (_, i) => (
+              <span
+                key={i}
+                className="absolute h-1 w-1 rounded-full bg-accent"
+                style={{ ["--a" as string]: `${i * 45}deg`, animation: "qpit-burst 0.6s ease-out forwards" }}
+              />
+            ))}
+          </div>
+        )}
+
         <button
           type="button"
           onClick={onPoke}
+          onPointerEnter={onOrbEnter}
+          onPointerLeave={onOrbLeave}
           aria-label="Poke QPIT, the site's quantum companion"
           className="h-[84px] w-[84px] cursor-pointer overflow-hidden rounded-full border border-border bg-surface/60 backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:h-[100px] sm:w-[100px]"
           style={{ pointerEvents: mode === "roaming" ? "none" : undefined }}
