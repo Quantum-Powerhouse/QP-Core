@@ -233,7 +233,7 @@ export function TranspilerTerminalStudio() {
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="mb-2 font-mono text-sm text-accent">Live Tool</p>
-          <RepresentsTag>
+          <RepresentsTag docsHref="/docs/qp-core/transpiler-pipeline">
             a compiled program — parsing and Amazon Braket IR emission, not a running or simulated circuit
           </RepresentsTag>
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -332,7 +332,7 @@ export function TranspilerTerminalStudio() {
 
           {tab === "instructions" && (
             <div className="flex h-full flex-col overflow-auto px-4 py-3">
-              <RepresentsTag>
+              <RepresentsTag docsHref="/docs/qp-core/transpiler-pipeline">
                 a flat instruction list from a simplified client-side line parser — not a full OpenQASM AST
                 (no grammar tree, no scoping, no expressions), and not what the production Qiskit-based
                 backend does internally

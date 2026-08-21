@@ -20,7 +20,7 @@ export function HamiltonianPanel() {
 
   return (
     <div className="mb-6 flex flex-col gap-3 rounded-xl border border-border bg-surface/60 p-4 backdrop-blur-xl">
-      <RepresentsTag>
+      <RepresentsTag docsHref="/docs/vqe-suite/hamiltonian-and-ansatz">
         the actual qubit Hamiltonian this simulator diagonalizes and optimizes against — every coefficient
         below is a real number the code computes with, not a label
       </RepresentsTag>

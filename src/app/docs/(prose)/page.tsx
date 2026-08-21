@@ -23,6 +23,12 @@ const DOCS = [
       "The H2 second-quantized Hamiltonian, its Jordan-Wigner-reduced 2-qubit form, and why the minimal ansatz circuit is exact for this problem.",
   },
   {
+    href: "/docs/vqe-suite/state-representations-and-measurement",
+    title: "VQE Suite: State Representations & Measurement",
+    description:
+      "How the ansatz statevector's amplitudes become measurement probabilities, why its reduced single-qubit state is mixed, and how a real projective measurement is sampled.",
+  },
+  {
     href: "/docs/vqe-suite/zero-noise-extrapolation",
     title: "VQE Suite: Zero-Noise Extrapolation",
     description:

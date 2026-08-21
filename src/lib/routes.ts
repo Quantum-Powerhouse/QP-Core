@@ -11,6 +11,7 @@ export const ROUTES: RouteEntry[] = [
   { path: "/docs", changeFrequency: "monthly", priority: 0.7 },
   { path: "/docs/qp-core/transpiler-pipeline", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/vqe-suite/hamiltonian-and-ansatz", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/vqe-suite/state-representations-and-measurement", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/vqe-suite/zero-noise-extrapolation", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/api-reference", changeFrequency: "monthly", priority: 0.8 },
   { path: "/research", changeFrequency: "monthly", priority: 0.8 },

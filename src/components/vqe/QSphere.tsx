@@ -86,7 +86,7 @@ export function QSphere({ theta }: { theta: number }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <RepresentsTag>
+      <RepresentsTag docsHref="/docs/vqe-suite/state-representations-and-measurement">
         how probability (point size) and phase sign (color) are distributed across the 4 computational basis
         states of the same VQE statevector — cyan = positive real amplitude, violet = negative
       </RepresentsTag>
