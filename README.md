@@ -89,7 +89,7 @@ bottom-right corner). Architecture, all under `src/components/quantum/`:
   every event is sourced from an actual computation), greets route changes, and
   responds to hovering links and to being poked.
 - `pet/QpitPhysics.tsx` — the motion layer: on fine-pointer devices QPIT follows the
-  cursor on a spring tether, hangs ~90px below it, swings like a pendulum from
+  cursor on a spring tether, hangs ~150px below it, swings like a pendulum from
   horizontal velocity, and docks back to the corner after ~3.5s of stillness. The
   position is integrated by hand (semi-implicit Euler) inside one rAF loop with
   direct style writes — zero React re-renders per frame — so every spring parameter
