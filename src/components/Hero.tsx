@@ -2,19 +2,17 @@ import { BlochSphere } from "@/components/three/BlochSphere";
 
 export function Hero() {
   return (
-    <section id="about" className="mx-auto max-w-6xl px-6 pb-16 pt-20 sm:pt-28">
+    <section className="mx-auto max-w-6xl px-6 pb-16 pt-20 sm:pt-28">
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <a
-          href="https://qp-core.vercel.app"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/playground/arcade"
           className="inline-flex items-center gap-2 rounded-full border border-border bg-slate-950/60 px-3 py-1 text-xs text-muted backdrop-blur-xl transition-colors hover:border-accent/50 hover:text-foreground"
         >
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
           </span>
-          ● System Live — WebGL Engine Active
+          ● Engine Live — 21 games running on it
         </a>
       </div>
 

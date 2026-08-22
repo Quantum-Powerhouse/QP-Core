@@ -1,11 +1,11 @@
 import { test, expect, type Page } from "@playwright/test";
 
 /**
- * QPIT integration tests: mounting, cursor physics, dock/roam pointer
+ * QPet integration tests: mounting, cursor physics, dock/roam pointer
  * gating, poke dialogue, and non-interference with normal page use.
  */
 
-const QPIT = 'button[aria-label^="Poke QPIT"]';
+const QPIT = 'button[aria-label^="Poke QPet"]';
 
 async function wrapperX(page: Page): Promise<number> {
   return page.evaluate((sel) => {

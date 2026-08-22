@@ -79,29 +79,29 @@ the FastAPI backend enables CORS for the site's origin.
   When `NEXT_PUBLIC_TRANSPILER_API_URL` is set, that page fetches the **live** spec from
   `${NEXT_PUBLIC_TRANSPILER_API_URL}/openapi.json` instead of this snapshot.
 
-## QPIT — the site's quantum companion
+## QPet — the site's quantum companion
 
-QPIT is the small interactive character living in the interface (the orb in the
+QPet is the small interactive character living in the interface (the orb in the
 bottom-right corner). Architecture, all under `src/components/quantum/`:
 
 - `pet/QuantumPet.tsx` — the character: reacts to **real** quantum events from the
   site-wide event bus (`src/lib/quantum/events.ts` documents the honesty boundary:
   every event is sourced from an actual computation), greets route changes, and
   responds to hovering links and to being poked.
-- `pet/QpitPhysics.tsx` — the motion layer: on fine-pointer devices QPIT follows the
+- `pet/QpitPhysics.tsx` — the motion layer: on fine-pointer devices QPet follows the
   cursor on a spring tether, hangs ~150px below it, swings like a pendulum from
   horizontal velocity, and docks back to the corner after ~3.5s of stillness. The
   position is integrated by hand (semi-implicit Euler) inside one rAF loop with
   direct style writes — zero React re-renders per frame — so every spring parameter
   can change live with emotion. Touch devices and `prefers-reduced-motion` users get
-  a calm, permanently docked QPIT.
+  a calm, permanently docked QPet.
 - `src/lib/quantum/qpitState.ts` — the emotional state machine (pure, unit-tested):
   IDLE / CURIOUS / EXCITED / SURPRISED / ORBITING / BORED / SLEEPING, derived from
   cursor speed, idle time, and cursor winding. Each emotion carries physics + visual
-  params (`QPIT_PARAMS`): spring stiffness/damping, quantum jitter, swing gain,
+  params (`QPet_PARAMS`): spring stiffness/damping, quantum jitter, swing gain,
   breathing, glow. Special moments — superposition ghosts and tunneling home — are
   cooldown-gated controlled randomness (visual metaphors, not physics claims), and a
-  chattiness governor keeps QPIT quiet while the user reads. To add a behavior: add
+  chattiness governor keeps QPet quiet while the user reads. To add a behavior: add
   an emotion or moment there, give it params/lines, and the physics and dialogue
   layers pick it up.
 - `pet/QpForm.tsx` — the WebGL form (react-three-fiber) whose color/spin/intensity
@@ -114,11 +114,11 @@ Hover context is delegated and scalable: one document-level listener maps any
 internal link's `href` through the same route logic — new pages work automatically.
 `data-qpit="<section>"` on any element overrides the href-derived context.
 `data-qpit-moment="<MOMENT_KEY>"` (optionally with `data-qpit-line="custom text"`)
-lets any element stage a scripted QPIT line on hover — the API for docs-page beats.
+lets any element stage a scripted QPet line on hover — the API for docs-page beats.
 
 Shake the cursor (3+ fast reversals) to summon the black-hole anomaly — photon
 ring, true-black shadow, accretion disk stretched to both sides. Hover it and
-QPIT explains what it is (honestly: a visual metaphor). Its own 25s cooldown
+QPet explains what it is (honestly: a visual metaphor). Its own 25s cooldown
 makes it the one special a visitor can reliably reproduce.
 
 Sound is **opt-in**: a small toggle next to the docked orb enables tiny synthesized
@@ -128,9 +128,9 @@ experience remains first-class.
 
 E2E: `npm run test:e2e` runs Playwright pointer-physics tests (`e2e/qpit.spec.ts`) —
 mounting, cursor-follow, dock return, real-mouse and keyboard poke, and proof that
-QPIT never blocks page clicks. Runs in CI as its own job.
+QPet never blocks page clicks. Runs in CI as its own job.
 
-QPIT never blocks interaction (pointer-events disabled while roaming), is keyboard
+QPet never blocks interaction (pointer-events disabled while roaming), is keyboard
 accessible (the docked orb is a button), and never fabricates state — speech lines
 describe real events, real routes, and real sections only.
 

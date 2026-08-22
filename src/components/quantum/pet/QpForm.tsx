@@ -112,13 +112,13 @@ export function QpForm({
       const mag = Math.min(1, Math.hypot(gx, gy));
       const ang = Math.atan2(-gy, gx); // screen-y is down; three-y is up
       const k = Math.min(1, delta * 10);
-      const targetX = Math.cos(ang) * 1.15;
-      const targetY = Math.sin(ang) * 1.15;
+      const targetX = Math.cos(ang) * 0.5;
+      const targetY = Math.sin(ang) * 0.5;
       noseRef.current.position.x += (targetX - noseRef.current.position.x) * k;
       noseRef.current.position.y += (targetY - noseRef.current.position.y) * k;
       noseRef.current.position.z = 0.35;
       noseRef.current.rotation.z = Math.atan2(noseRef.current.position.y, noseRef.current.position.x) - Math.PI / 2;
-      const targetScale = reduceMotion ? 0 : 0.1 + mag * 1.05;
+      const targetScale = reduceMotion ? 0 : 0.15 + mag * 0.85;
       const sNow = noseRef.current.scale.x;
       const sNext = sNow + (targetScale - sNow) * k;
       noseRef.current.scale.setScalar(sNext);
@@ -156,8 +156,8 @@ export function QpForm({
       </group>
 
       {/* Direction pointer: a glowing cone on the rim, aimed at the heading. */}
-      <mesh ref={noseRef} position={[0.95, 0, 0.35]} scale={0.25}>
-        <cylinderGeometry args={[0.018, 0.045, 1.15, 8]} />
+      <mesh ref={noseRef} position={[0.5, 0, 0.35]} scale={0.15}>
+        <cylinderGeometry args={[0.012, 0.05, 0.8, 8]} />
         <meshBasicMaterial ref={noseMaterialRef} transparent toneMapped={false} />
       </mesh>
 

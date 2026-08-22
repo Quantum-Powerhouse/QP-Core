@@ -204,7 +204,7 @@ export function QpitPhysics({
       const side = randRef.current() < 0.5 ? -1 : 1;
       const axp = Math.min(window.innerWidth - 110, Math.max(110, posRef.current.x + side * 200));
       const ayp = Math.min(window.innerHeight - 110, Math.max(110, posRef.current.y - 60 + randRef.current() * 120));
-      specialRef.current = { kind: "BLACKHOLE", phase: 0, until: now + 2200, data: { ax: axp, ay: ayp, bx: 0, by: 0 } };
+      specialRef.current = { kind: "BLACKHOLE", phase: 0, until: now + 3600, data: { ax: axp, ay: ayp, bx: 0, by: 0 } };
       setAnomaly({ x: axp, y: ayp });
       onSpecialStart?.("BLACKHOLE");
     },
@@ -464,7 +464,7 @@ export function QpitPhysics({
         const d = Math.hypot(dx, dy) || 1;
         vel.x += (dx / d) * 760;
         vel.y += (dy / d) * 760;
-        specialRef.current = { ...special, phase: 1, until: now + 900 };
+        specialRef.current = { ...special, phase: 1, until: now + 1300 };
       } else if (special.kind === "WORMHOLE" && special.phase === 0 && special.data) {
         // Transit: vanish at portal A, reappear at portal B with momentum kept.
         posRef.current = { x: special.data.bx, y: special.data.by };
@@ -738,7 +738,7 @@ export function QpitPhysics({
         >
           {/* accretion disk: stretched far to both sides, seen edge-on */}
           <div
-            className="absolute left-1/2 top-1/2 h-[64px] w-[170px] -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
+            className="absolute left-1/2 top-1/2 h-[104px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
             style={{
               transform: "translate(-50%, -50%) scaleY(0.28)",
               border: "3px solid transparent",
@@ -753,7 +753,7 @@ export function QpitPhysics({
           />
           {/* photon ring: thin, bright, hugging the shadow */}
           <div
-            className="h-[64px] w-[64px] rounded-full"
+            className="h-[100px] w-[100px] rounded-full"
             style={{
               border: "2px solid color-mix(in srgb, #f59e0b 85%, white)",
               boxShadow:
@@ -762,7 +762,7 @@ export function QpitPhysics({
           />
           {/* the shadow: genuinely black */}
           <div
-            className="absolute left-1/2 top-1/2 h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+            className="absolute left-1/2 top-1/2 h-[84px] w-[84px] -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{ background: "radial-gradient(circle, #000 0%, #000 68%, transparent 85%)" }}
           />
         </motion.div>

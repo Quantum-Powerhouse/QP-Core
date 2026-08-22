@@ -1,3 +1,4 @@
+import { AboutSection } from "@/components/AboutSection";
 import { CircuitTimelineSection } from "@/components/CircuitTimelineSection";
 import { ExploreFurther } from "@/components/ExploreFurther";
 import { Hero } from "@/components/Hero";
@@ -15,6 +16,7 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1">
         <Hero />
+        <AboutSection />
         <CircuitTimelineSection />
         <TranspilerTerminalStudio />
         <ProjectHighlights />

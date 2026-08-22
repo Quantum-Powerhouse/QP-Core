@@ -402,7 +402,7 @@ export function QuantumPet() {
           <button
             type="button"
             onClick={toggleSound}
-            aria-label={soundOn ? "Mute QPIT sounds" : "Enable QPIT sounds (off by default)"}
+            aria-label={soundOn ? "Mute QPet sounds" : "Enable QPet sounds (off by default)"}
             aria-pressed={soundOn}
             className="absolute -left-1 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-surface/80 font-mono text-[10px] text-muted backdrop-blur transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
           >
@@ -422,7 +422,7 @@ export function QuantumPet() {
           onClick={onPoke}
           onPointerEnter={onOrbEnter}
           onPointerLeave={onOrbLeave}
-          aria-label="Poke QPIT, the site's quantum companion"
+          aria-label="Poke QPet, the site's quantum pet"
           className="h-[108px] w-[108px] cursor-pointer overflow-hidden rounded-full border border-border bg-surface/60 backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:h-[128px] sm:w-[128px]"
           style={{ pointerEvents: mode === "roaming" ? "none" : undefined }}
         >
