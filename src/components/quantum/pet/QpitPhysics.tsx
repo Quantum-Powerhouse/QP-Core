@@ -514,7 +514,7 @@ export function QpitPhysics({
       const dx = special.data.ax - pos.x;
       const dy = special.data.ay - pos.y;
       const d = Math.hypot(dx, dy) || 1;
-      const pull = Math.min(1500, 2.6e7 / (d * d + 3000));
+      const pull = Math.min(1700, 3.2e7 / (d * d + 3000));
       ax += (dx / d) * pull;
       ay += (dy / d) * pull;
     }
@@ -728,7 +728,7 @@ export function QpitPhysics({
       {anomaly && (
         <motion.div
           aria-hidden
-          className="fixed left-0 top-0 z-30 -translate-x-1/2 -translate-y-1/2 cursor-help"
+          className="fixed left-0 top-0 -z-[5] -translate-x-1/2 -translate-y-1/2 cursor-help opacity-90"
           style={{ x: anomaly.x, y: anomaly.y }}
           onPointerEnter={() => onAnomalyHover?.()}
           initial={{ opacity: 0, scale: 0.3 }}
@@ -738,7 +738,7 @@ export function QpitPhysics({
         >
           {/* accretion disk: stretched far to both sides, seen edge-on */}
           <div
-            className="absolute left-1/2 top-1/2 h-[104px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
+            className="absolute left-1/2 top-1/2 h-[150px] w-[440px] -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
             style={{
               transform: "translate(-50%, -50%) scaleY(0.28)",
               border: "3px solid transparent",
@@ -753,7 +753,7 @@ export function QpitPhysics({
           />
           {/* photon ring: thin, bright, hugging the shadow */}
           <div
-            className="h-[100px] w-[100px] rounded-full"
+            className="h-[150px] w-[150px] rounded-full"
             style={{
               border: "2px solid color-mix(in srgb, #f59e0b 85%, white)",
               boxShadow:
@@ -762,7 +762,7 @@ export function QpitPhysics({
           />
           {/* the shadow: genuinely black */}
           <div
-            className="absolute left-1/2 top-1/2 h-[84px] w-[84px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+            className="absolute left-1/2 top-1/2 h-[126px] w-[126px] -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{ background: "radial-gradient(circle, #000 0%, #000 68%, transparent 85%)" }}
           />
         </motion.div>

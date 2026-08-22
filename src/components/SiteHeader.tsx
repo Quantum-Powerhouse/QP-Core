@@ -8,24 +8,24 @@ export function SiteHeader() {
           <span className="inline-block h-2 w-2 rounded-full bg-accent shadow-[0_0_12px_var(--accent)]" />
           Quantum Powerhouse
         </Link>
-        <nav className="hidden gap-8 text-sm text-muted sm:flex">
-          <Link href="/#about" className="transition-colors hover:text-foreground">
-            About
-          </Link>
-          <Link href="/#transpiler" className="transition-colors hover:text-foreground">
-            Transpiler
-          </Link>
+        <nav className="hidden gap-7 text-sm text-muted sm:flex">
           <Link href="/playground/arcade" className="text-accent transition-colors hover:text-foreground">
             Arcade
           </Link>
-          <a href="/docs" className="transition-colors hover:text-foreground">
-            Docs
-          </a>
-          <a href="/research" className="transition-colors hover:text-foreground">
+          <Link href="/learn" className="transition-colors hover:text-foreground">
+            Learn
+          </Link>
+          <Link href="/applications" className="transition-colors hover:text-foreground">
+            Applications
+          </Link>
+          <Link href="/research" className="transition-colors hover:text-foreground">
             Research
-          </a>
-          <Link href="/#projects" className="transition-colors hover:text-foreground">
-            Projects
+          </Link>
+          <Link href="/docs" className="transition-colors hover:text-foreground">
+            Docs
+          </Link>
+          <Link href="/#about" className="transition-colors hover:text-foreground">
+            About
           </Link>
           <Link href="/builder" className="transition-colors hover:text-foreground">
             Builder

@@ -1,4 +1,3 @@
-import { BlackHole } from "@/components/three/BlackHole";
 import { ARCADE_GAME_COUNT } from "@/components/arcade/manifest";
 import { getResearchStats } from "@/lib/research/stats";
 
@@ -18,10 +17,7 @@ export function AboutSection() {
 
   return (
     <section id="about" className="relative overflow-hidden">
-      {/* the resident black hole — decorative, and proud of it */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-60">
-        <BlackHole />
-      </div>
+      {/* the site-wide singularity shows through here; keep the band's edges soft */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
 
       <div className="relative mx-auto max-w-6xl px-6 py-24 sm:py-32">
@@ -38,7 +34,7 @@ export function AboutSection() {
             <p className="mt-2 text-sm leading-relaxed text-muted">
               Nothing renders here that didn&apos;t compute. Every probability bar is a real statevector, every
               convergence curve a real optimizer, every research claim a checked source. Where something is a visual
-              metaphor — like the black hole behind this text — it says so.
+              metaphor — like the black hole behind every page — it says so.
             </p>
           </div>
           <div className="glass-panel rounded-xl p-5">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
 import { JsonLd } from "@/components/JsonLd";
+import { BlackHole } from "@/components/three/BlackHole";
 import { ParticleField } from "@/components/three/ParticleField";
 import { QuantumEventProvider } from "@/components/quantum/QuantumEventProvider";
 import { QuantumPet } from "@/components/quantum/pet/QuantumPet";
@@ -36,6 +37,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <QuantumEventProvider>
           <ParticleField />
+          {/* The resident singularity: huge, translucent, behind everything. */}
+          <div
+            aria-hidden
+            className="pointer-events-none fixed inset-0 -z-10 opacity-40 [transform:translate(18%,-12%)_scale(1.75)] motion-reduce:opacity-25"
+          >
+            <BlackHole />
+          </div>
           {children}
           <QuantumPet />
         </QuantumEventProvider>

@@ -20,6 +20,8 @@ export type QpitSection =
   | "methodology"
   | "docs"
   | "playground"
+  | "learn"
+  | "applications"
   | "unknown";
 
 /** Longest-prefix-wins route → section mapping. Order matters only for readability. */
@@ -33,6 +35,8 @@ const SECTION_PREFIXES: [string, QpitSection][] = [
   ["/research", "research"],
   ["/docs", "docs"],
   ["/playground", "playground"],
+  ["/learn", "learn"],
+  ["/applications", "applications"],
 ];
 
 export function sectionForPath(pathname: string): QpitSection {
@@ -56,6 +60,8 @@ const GREETINGS: Record<QpitSection, string[]> = {
   methodology: ["How the checking got done.", "Rules first, conclusions second."],
   docs: ["Real math ahead.", "The equations match the source code."],
   playground: ["Careful. Things get weird around here.", "Go on, run something.", "You clicked that like you knew what it would do."],
+  learn: ["Class is in session. I'm the lab rat.", "Four levels. No slides. You'll be fine."],
+  applications: ["The honest map. Some of it will disappoint you.", "Hype goes to die here."],
   unknown: ["Hm. New territory."],
 };
 
@@ -71,6 +77,8 @@ const HOVER_LINES: Record<QpitSection, string[]> = {
   methodology: ["Rules of the game."],
   docs: ["Okay, this one gets weird. In a good way."],
   playground: ["I think you should explore that.", "Real simulation in there. Not slides."],
+  learn: ["A path through the games. Worth it."],
+  applications: ["What I'm actually for. Spoiler: not video."],
   unknown: [],
 };
 
@@ -139,6 +147,8 @@ export const LOOKING_AT: Record<QpitSection, string> = {
   methodology: "How the checking worked: open the primary source, or don't cite it.",
   docs: "Technical docs with server-rendered math, written against the actual source code.",
   playground: "A playground. The arcade has 21 games and labs; the VQE suite runs a real eigensolver; the transpiler compiles OpenQASM.",
+  learn: "A four-level path through the arcade games, in the order that builds intuition.",
+  applications: "The sourced map of what quantum computing is actually good for — and what it isn't.",
   unknown: "Honestly? Somewhere I don't have a map for.",
 };
 
@@ -153,6 +163,8 @@ export const NEXT_STEP: Record<QpitSection, { line: string; href: string }> = {
   methodology: { line: "See the method applied: the claims table.", href: "/research/claims" },
   docs: { line: "Watch the math you just read actually run.", href: "/playground/vqe-suite" },
   playground: { line: "Try the arcade's Grover Searchlight — then over-search it on purpose.", href: "/playground/arcade" },
+  learn: { line: "Start Level 1. Gate Mixer. Press H twice.", href: "/playground/arcade#gate-mixer" },
+  applications: { line: "Now feel the real one: simulate a molecule in the VQE suite.", href: "/playground/vqe-suite" },
   unknown: { line: "Home is always a safe measurement.", href: "/" },
 };
 
