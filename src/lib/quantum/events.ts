@@ -24,6 +24,10 @@
  *   above flows.
  * - USER_INTERACTION: generic, low-frequency; use sparingly for interactions
  *   that don't fit a more specific event.
+ * - ARCADE_RESULT: real — a number an arcade game just computed on the
+ *   physics stack (a sampled CHSH S, a Grover success probability, a BB84
+ *   QBER). The payload is the computed value and a plain-language summary
+ *   written by the game that computed it; QPet narrates it verbatim.
  */
 
 export type QuantumEventMap = {
@@ -37,6 +41,7 @@ export type QuantumEventMap = {
   MEASUREMENT: { outcomeIndex: number; probabilities: number[] };
   ERROR: { scope: "transpile" | "vqe" | "zne"; message: string };
   USER_INTERACTION: { label: string };
+  ARCADE_RESULT: { game: string; summary: string; value: number };
 };
 
 export type QuantumEventType = keyof QuantumEventMap;
@@ -86,6 +91,7 @@ export class QuantumEventBus {
       MEASUREMENT: 0,
       ERROR: 0,
       USER_INTERACTION: 0,
+      ARCADE_RESULT: 0,
     } satisfies Record<QuantumEventType, 0>) as QuantumEventType[]).map((type) =>
       // Safe: `type` ranges over every key of QuantumEventMap here, so this
       // reconstructs exactly the discriminated union `listener` accepts —

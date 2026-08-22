@@ -121,7 +121,19 @@ ring, true-black shadow, accretion disk stretched to both sides. Hover it and
 QPet explains what it is (honestly: a visual metaphor). Its own 25s cooldown
 makes it the one special a visitor can reliably reproduce.
 
-Sound is **opt-in**: a small toggle next to the docked orb enables tiny synthesized
+QPet also *works*. Click the docked orb to open the **QPet Console**: a transcript
+of what it has said, grounded questions ("what am I looking at?" / "what next?" —
+answered from the real route, with a "take me there" link), quantum facts, and
+superposition answers that show two candidate lines until you press **measure**,
+which collapses them with a genuine Born-rule sample. It **narrates the physics**:
+every VQE convergence, transpile, measurement and arcade result (`ARCADE_RESULT`
+events) becomes one computed sentence — numbers read from the event payload, never
+invented. A *basis* toggle switches playful ↔ rigorous phrasing.
+
+**Voice** is opt-in (console toggle, localStorage `qpet.voice`): Web Speech synthesis,
+no keys, no network — pitch and rate follow QPet's emotion (`src/lib/quantum/qpetVoice.ts`).
+
+Sound effects are **opt-in** too: a small toggle next to the docked orb enables tiny synthesized
 WebAudio cues (`src/lib/quantum/qpitAudio.ts` — poke pop, wormhole warp, black-hole
 hum, superposition shimmer). Off by default, preference in localStorage, silent
 experience remains first-class.

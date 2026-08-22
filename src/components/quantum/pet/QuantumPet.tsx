@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Canvas } from "@react-three/fiber";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAnyQuantumEvent } from "@/components/quantum/QuantumEventProvider";
@@ -12,21 +12,31 @@ import {
   greetingForPath,
   hoverLineFor,
   hoverSectionFor,
+  LOOKING_AT,
   momentLine,
+  NEXT_STEP,
   pickLine,
   POKE_LINES,
+  QUANTUM_FACTS,
   sectionForPath,
+  SUPERPOSED_ANSWERS,
 } from "@/lib/quantum/qpitContext";
 import { chattiness, QPIT_PARAMS, type QpitEmotion, type QpitSpecial } from "@/lib/quantum/qpitState";
 import { audioEnabled, playHum, playPop, playShimmer, playWarp, setAudioEnabled } from "@/lib/quantum/qpitAudio";
+import { setVoiceEnabled, voiceEnabled, voiceLine, voiceSupported } from "@/lib/quantum/qpetVoice";
 import type { QuantumEvent } from "@/lib/quantum/events";
+import { sampleMeasurement } from "@/lib/physics/measurement";
+import { c } from "@/lib/physics/linalg";
 import { usePrefersReducedMotion } from "@/lib/quantum/usePrefersReducedMotion";
 
 const SPEECH_COOLDOWN_MS = 2000;
-const SPEECH_VISIBLE_MS = 2600;
+const SPEECH_VISIBLE_MS = 3200;
 const HOVER_COOLDOWN_MS = 6500;
 const ENTRANCE_GREETING_DELAY_MS = 1400;
 const OBSERVED_HOVER_MS = 4000;
+const TRANSCRIPT_LEN = 6;
+
+type Basis = "playful" | "rigorous";
 
 function applyEvent(state: PetVisualState, event: QuantumEvent): void {
   switch (event.type) {
@@ -78,10 +88,57 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
     case "USER_INTERACTION":
       state.intensity = Math.max(state.intensity, 0.2);
       break;
+    case "ARCADE_RESULT":
+      state.color.set("#06b6d4");
+      state.intensity = Math.max(state.intensity, 0.6);
+      break;
   }
 }
 
-/** True once we know the device has a fine pointer (mouse/trackpad). */
+/**
+ * The narrator: turns real engine events into one computed sentence. Every
+ * number here is read from the event payload — nothing is invented.
+ */
+function narrate(event: QuantumEvent, basis: Basis): { line: string; force: boolean } | null {
+  switch (event.type) {
+    case "VQE_CONVERGED": {
+      const { finalEnergyHartree: e, exactGroundEnergyHartree: exact } = event.detail;
+      const errMilli = Math.abs(e - exact) * 1000;
+      const line =
+        basis === "rigorous"
+          ? `VQE converged: ${e.toFixed(5)} Ha, ${errMilli.toFixed(2)} mHa from exact.`
+          : `Ground state found: ${e.toFixed(4)} Ha. ${errMilli < 1.6 ? "Chemical accuracy. Show-off." : "Close. Nudge the angle."}`;
+      return { line, force: true };
+    }
+    case "VQE_ITERATION": {
+      const { iteration, energyHartree } = event.detail;
+      if (iteration % 10 !== 0) return null;
+      return { line: `Iteration ${iteration}: ${energyHartree.toFixed(4)} Ha.`, force: false };
+    }
+    case "TRANSPILATION_FINISHED": {
+      const { qubitCount, latencyMs, mock } = event.detail;
+      const q = qubitCount === null ? "?" : String(qubitCount);
+      return {
+        line: `${q} qubits compiled in ${Math.round(latencyMs)} ms${mock ? " — demo endpoint, so the IR is a placeholder" : ""}.`,
+        force: true,
+      };
+    }
+    case "NOISE_APPLIED": {
+      const { lambda, energyHartree } = event.detail;
+      return { line: `Noise λ=${lambda.toFixed(1)}: energy drifted to ${energyHartree.toFixed(4)} Ha.`, force: false };
+    }
+    case "MEASUREMENT": {
+      const { outcomeIndex, probabilities } = event.detail;
+      const p = probabilities[outcomeIndex] ?? 0;
+      return { line: `Collapsed to |${outcomeIndex}⟩ — that branch had ${(p * 100).toFixed(0)}%.`, force: false };
+    }
+    case "ARCADE_RESULT":
+      return { line: event.detail.summary, force: true };
+    default:
+      return null;
+  }
+}
+
 function useFinePointer(): boolean {
   return useSyncExternalStore(
     (onStoreChange) => {
@@ -90,7 +147,18 @@ function useFinePointer(): boolean {
       return () => mq.removeEventListener("change", onStoreChange);
     },
     () => window.matchMedia("(pointer: fine)").matches,
-    () => false, // server: assume no fine pointer until hydrated
+    () => false,
+  );
+}
+
+function useLocalFlag(event: string, read: () => boolean): boolean {
+  return useSyncExternalStore(
+    (onChange) => {
+      window.addEventListener(event, onChange);
+      return () => window.removeEventListener(event, onChange);
+    },
+    read,
+    () => false,
   );
 }
 
@@ -106,12 +174,13 @@ function writeSessionInt(key: string, value: number): void {
   try {
     sessionStorage.setItem(key, String(value));
   } catch {
-    /* private mode — session memory is optional */
+    /* private mode */
   }
 }
 
 export function QuantumPet() {
   const stateRef = useRef<PetVisualState>(createPetVisualState());
+  const emotionRef = useRef<QpitEmotion>("IDLE");
   const lastSpokenAtRef = useRef(0);
   const lastHoverAtRef = useRef(0);
   const lastHoverSectionRef = useRef<string | null>(null);
@@ -122,46 +191,59 @@ export function QuantumPet() {
   const observedRef = useRef(false);
   const observeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const speechTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const basisRef = useRef<Basis>("playful");
+
   const [speech, setSpeech] = useState<string | null>(null);
+  const [transcript, setTranscript] = useState<string[]>([]);
   const [mode, setMode] = useState<QpitMode>("docked");
   const [pokeSignal, setPokeSignal] = useState(0);
   const [celebrateSignal, setCelebrateSignal] = useState(0);
   const [burst, setBurst] = useState(0);
-  const soundOn = useSyncExternalStore(
-    (onChange) => {
-      window.addEventListener("qpit-audio-change", onChange);
-      return () => window.removeEventListener("qpit-audio-change", onChange);
-    },
-    () => audioEnabled(),
-    () => false,
-  );
+  const [consoleOpen, setConsoleOpen] = useState(false);
+  const [basis, setBasis] = useState<Basis>("playful");
+  const [pending, setPending] = useState<{ a: string; b: string; pA: number } | null>(null);
+
+  const soundOn = useLocalFlag("qpit-audio-change", audioEnabled);
+  const voiceOn = useLocalFlag("qpet-voice-change", voiceEnabled);
   const reduceMotion = usePrefersReducedMotion();
   const finePointer = useFinePointer();
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     pokesRef.current = readSessionInt("qpit.pokes");
   }, []);
+  useEffect(() => {
+    basisRef.current = basis;
+  }, [basis]);
 
   const toggleSound = useCallback(() => {
     const next = !audioEnabled();
     setAudioEnabled(next);
-    if (next) playPop(); // audible confirmation on enable
+    if (next) playPop();
     window.dispatchEvent(new Event("qpit-audio-change"));
   }, []);
+  const toggleVoice = useCallback(() => {
+    const next = !voiceEnabled();
+    setVoiceEnabled(next);
+    window.dispatchEvent(new Event("qpet-voice-change"));
+    if (next) voiceLine("Voice on. I sound like this.", emotionRef.current);
+  }, []);
 
+  /** Everything QPet says goes through here: bubble, transcript, and voice. */
   const speak = useCallback((line: string | null, { force = false }: { force?: boolean } = {}) => {
     if (!line) return false;
     const now = performance.now();
     if (!force && now - lastSpokenAtRef.current < SPEECH_COOLDOWN_MS) return false;
     lastSpokenAtRef.current = now;
     setSpeech(line);
+    setTranscript((t) => [...t.slice(-(TRANSCRIPT_LEN - 1)), line]);
+    voiceLine(line, emotionRef.current);
     if (speechTimeoutRef.current) clearTimeout(speechTimeoutRef.current);
     speechTimeoutRef.current = setTimeout(() => setSpeech(null), SPEECH_VISIBLE_MS);
     return true;
   }, []);
 
-  /** The governor: QPIT knows when not to talk. */
   const chatOk = useCallback(() => {
     const factor = chattiness({
       msSinceScroll: performance.now() - lastScrollAtRef.current,
@@ -171,31 +253,28 @@ export function QuantumPet() {
     return Math.random() < factor;
   }, []);
 
-  // --- Real quantum events (behavior preserved from the original pet) ----
+  // --- Real engine events: visual reaction + computed narration ----------
   useAnyQuantumEvent((event) => {
     applyEvent(stateRef.current, event);
     if (event.type === "VQE_CONVERGED") setCelebrateSignal((n) => n + 1);
-    speak(petLineFor(event), { force: event.type === "ERROR" });
+    const narrated = narrate(event, basisRef.current);
+    if (narrated) speak(narrated.line, { force: narrated.force });
+    else speak(petLineFor(event), { force: event.type === "ERROR" });
   });
 
-  // --- Emotional state → mood glow + transition lines --------------------
+  // --- Emotion → glow, prosody, and transition lines ---------------------
   const onEmotionChange = useCallback(
     (next: QpitEmotion, prev: QpitEmotion) => {
+      emotionRef.current = next;
       stateRef.current.mood = QPIT_PARAMS[next].glow;
-      if (prev === "SLEEPING" && next === "SURPRISED") {
-        speak(momentLine("WAKE_SURPRISED"), { force: true });
-      } else if (next === "BORED" && chatOk()) {
-        speak(momentLine("BORED_ENTER"));
-      } else if (next === "ORBITING") {
-        speak(momentLine("ORBITING_ENTER"));
-      } else if (next === "EXCITED" && Math.random() < 0.5 && chatOk()) {
-        speak(momentLine("EXCITED_ENTER"));
-      }
+      if (prev === "SLEEPING" && next === "SURPRISED") speak(momentLine("WAKE_SURPRISED"), { force: true });
+      else if (next === "BORED" && chatOk()) speak(momentLine("BORED_ENTER"));
+      else if (next === "ORBITING") speak(momentLine("ORBITING_ENTER"));
+      else if (next === "EXCITED" && Math.random() < 0.5 && chatOk()) speak(momentLine("EXCITED_ENTER"));
     },
     [speak, chatOk],
   );
 
-  // --- Special moments (rare, already cooldown-gated by the physics) -----
   const onSpecialStart = useCallback(
     (kind: QpitSpecial) => {
       if (kind === "BLACKHOLE") {
@@ -205,10 +284,7 @@ export function QuantumPet() {
     },
     [speak],
   );
-  const onAnomalyHover = useCallback(() => {
-    speak(momentLine("BLACKHOLE_HOVER"), { force: true });
-  }, [speak]);
-
+  const onAnomalyHover = useCallback(() => speak(momentLine("BLACKHOLE_HOVER"), { force: true }), [speak]);
   const onSpecial = useCallback(
     (kind: QpitSpecial) => {
       if (kind === "SUPERPOSITION") {
@@ -217,9 +293,8 @@ export function QuantumPet() {
       } else if (kind === "TUNNEL") {
         speak(momentLine("TUNNEL_HOME"), { force: true });
         playWarp();
-      } else if (kind === "BLACKHOLE") {
-        speak(momentLine("BLACKHOLE_ESCAPED"), { force: true });
-      } else if (kind === "ENTANGLE") {
+      } else if (kind === "BLACKHOLE") speak(momentLine("BLACKHOLE_ESCAPED"), { force: true });
+      else if (kind === "ENTANGLE") {
         speak(momentLine("ENTANGLED"), { force: true });
         playShimmer();
       } else if (kind === "WORMHOLE") {
@@ -230,28 +305,27 @@ export function QuantumPet() {
     [speak],
   );
 
-  // --- Route awareness: greet each section once on arrival ---------------
+  // --- Route awareness ---------------------------------------------------
   useEffect(() => {
     const section = sectionForPath(pathname);
     if (lastGreetedSectionRef.current === section) return;
     const firstArrival = lastGreetedSectionRef.current === null;
     lastGreetedSectionRef.current = section;
-    const delay = firstArrival ? ENTRANCE_GREETING_DELAY_MS : 600;
-    const timer = setTimeout(() => {
-      if (speak(greetingForPath(pathname))) {
-        stateRef.current.intensity = Math.max(stateRef.current.intensity, 0.35);
-      }
-    }, delay);
+    const timer = setTimeout(
+      () => {
+        if (speak(greetingForPath(pathname))) stateRef.current.intensity = Math.max(stateRef.current.intensity, 0.35);
+      },
+      firstArrival ? ENTRANCE_GREETING_DELAY_MS : 600,
+    );
     return () => clearTimeout(timer);
   }, [pathname, speak]);
 
-  // --- Hover context: delegated, scalable, mouse-only --------------------
+  // --- Hover context + scripted moments ---------------------------------
   useEffect(() => {
     if (!finePointer) return;
     const onPointerOver = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") return;
       const target = event.target as Element | null;
-      // Scripted beats: any element can request a specific moment line.
       const momentEl = target?.closest?.("[data-qpit-moment]");
       if (momentEl) {
         const now2 = performance.now();
@@ -271,7 +345,6 @@ export function QuantumPet() {
       const now = performance.now();
       if (now - lastHoverAtRef.current < HOVER_COOLDOWN_MS) return;
       if (lastHoverSectionRef.current === section) return;
-      // After the first few hover lines, QPIT gets progressively quieter.
       if (hoverShownCountRef.current >= 4 && !chatOk()) return;
       if (!speak(hoverLineFor(section))) return;
       lastHoverAtRef.current = now;
@@ -283,7 +356,7 @@ export function QuantumPet() {
     return () => document.removeEventListener("pointerover", onPointerOver);
   }, [finePointer, pathname, speak, chatOk]);
 
-  // --- Roaming chatter: occasional travel commentary, governor-gated ------
+  // --- Roaming chatter ---------------------------------------------------
   useEffect(() => {
     if (mode !== "roaming") return;
     const timer = setInterval(() => {
@@ -292,7 +365,7 @@ export function QuantumPet() {
     return () => clearInterval(timer);
   }, [mode, chatOk, speak]);
 
-  // --- Reading detection (scroll): visual pulse, and silences dialogue ---
+  // --- Reading detection -------------------------------------------------
   useEffect(() => {
     let last = 0;
     const onScroll = () => {
@@ -306,7 +379,7 @@ export function QuantumPet() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // --- Observation moment: hovering the docked orb for a while -----------
+  // --- Observation moment ------------------------------------------------
   const onOrbEnter = useCallback(() => {
     if (observedRef.current || observeTimerRef.current) return;
     observeTimerRef.current = setTimeout(() => {
@@ -324,8 +397,8 @@ export function QuantumPet() {
     }
   }, []);
 
-  // --- Poke: click/tap/keyboard on QPIT itself ---------------------------
-  const onPoke = useCallback(() => {
+  // --- Poke: reaction + (when docked) the console ------------------------
+  const poke = useCallback(() => {
     stateRef.current.intensity = 1;
     stateRef.current.spin = Math.max(stateRef.current.spin, 0.7);
     pokesRef.current += 1;
@@ -335,10 +408,11 @@ export function QuantumPet() {
     playPop();
     speak(pickLine(POKE_LINES), { force: true });
   }, [speak]);
+  const onOrbClick = useCallback(() => {
+    poke();
+    setConsoleOpen((o) => !o);
+  }, [poke]);
 
-  // While roaming QPIT's body has pointer-events: none (so it never blocks
-  // the page) — but a click that lands on its body and NOT on an interactive
-  // element beneath should still count as a poke. Manual hit-test.
   useEffect(() => {
     if (mode !== "roaming") return;
     const onClick = (event: MouseEvent) => {
@@ -347,13 +421,32 @@ export function QuantumPet() {
       if (Math.hypot(dx, dy) > 66) return;
       const target = event.target as Element | null;
       if (target?.closest?.("a, button, input, textarea, select, [role='button']")) return;
-      onPoke();
+      poke();
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);
-  }, [mode, onPoke]);
+  }, [mode, poke]);
+
+  // --- Console intents (grounded; nothing invented) ----------------------
+  const askLookingAt = useCallback(() => speak(LOOKING_AT[sectionForPath(pathname)], { force: true }), [pathname, speak]);
+  const askNext = useCallback(() => speak(NEXT_STEP[sectionForPath(pathname)].line, { force: true }), [pathname, speak]);
+  const askFact = useCallback(() => speak(pickLine(QUANTUM_FACTS), { force: true }), [speak]);
+  const askSuperposed = useCallback((key: keyof typeof SUPERPOSED_ANSWERS) => {
+    setPending(SUPERPOSED_ANSWERS[key]);
+    voiceLine("Mostly one thing, partly another. Measure me.", emotionRef.current);
+  }, []);
+  /** Collapse the pending answer with a genuine Born-rule sample over (√pA, √(1−pA)). */
+  const measure = useCallback(() => {
+    if (!pending) return;
+    const outcome = sampleMeasurement([c(Math.sqrt(pending.pA)), c(Math.sqrt(1 - pending.pA))]).outcomeIndex;
+    const chosen = outcome === 0 ? pending.a : pending.b;
+    setPending(null);
+    speak(chosen, { force: true });
+    stateRef.current.intensity = 1;
+  }, [pending, speak]);
 
   const interactive = finePointer && !reduceMotion;
+  const nextStep = NEXT_STEP[sectionForPath(pathname)];
 
   return (
     <QpitPhysics
@@ -369,6 +462,78 @@ export function QuantumPet() {
       onAnomalyHover={onAnomalyHover}
     >
       <div className="relative flex flex-col items-center gap-2">
+        {/* ── The QPet Console: transcript, grounded questions, toggles ── */}
+        <AnimatePresence>
+          {consoleOpen && mode === "docked" && (
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.96, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: 10, scale: 0.96, filter: "blur(6px)" }}
+              transition={{ type: "spring", bounce: 0, duration: 0.35 }}
+              className="glass-panel pointer-events-auto absolute bottom-full right-0 mb-3 flex w-72 flex-col gap-2 rounded-xl p-3 text-xs"
+              role="dialog"
+              aria-label="QPet console"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-accent">QPet · console</span>
+                <button type="button" onClick={() => setConsoleOpen(false)} className="text-muted hover:text-foreground" aria-label="Close console">
+                  ✕
+                </button>
+              </div>
+
+              <ul className="flex max-h-28 flex-col gap-1 overflow-y-auto font-mono text-[11px] text-muted">
+                {transcript.length === 0 && <li className="italic">…nothing said yet. Ask me something.</li>}
+                {transcript.map((line, i) => (
+                  <li key={i} className={i === transcript.length - 1 ? "text-foreground" : ""}>
+                    › {line}
+                  </li>
+                ))}
+              </ul>
+
+              {pending && (
+                <div className="flex flex-col gap-1 rounded-lg border border-accent/40 bg-surface/60 p-2">
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-accent">in superposition</p>
+                  <p className="text-foreground/70">{pending.a}</p>
+                  <p className="text-foreground/70">{pending.b}</p>
+                  <div className="h-1.5 overflow-hidden rounded-sm bg-surface-2">
+                    <div className="h-full bg-accent" style={{ width: `${pending.pA * 100}%` }} />
+                  </div>
+                  <button type="button" onClick={measure} className="mt-1 self-start rounded-md bg-accent px-2 py-1 font-mono text-[11px] font-semibold text-[#041014]">
+                    measure → collapse
+                  </button>
+                </div>
+              )}
+
+              <div className="flex flex-wrap gap-1.5">
+                <ConsoleChip onClick={askLookingAt}>what am I looking at?</ConsoleChip>
+                <ConsoleChip onClick={askNext}>what next?</ConsoleChip>
+                <ConsoleChip onClick={askFact}>a quantum fact</ConsoleChip>
+                <ConsoleChip onClick={() => askSuperposed("alive")}>are you alive?</ConsoleChip>
+                <ConsoleChip onClick={() => askSuperposed("scared")}>what scares you?</ConsoleChip>
+              </div>
+              <button
+                type="button"
+                onClick={() => router.push(nextStep.href)}
+                className="self-start font-mono text-[11px] text-accent underline-offset-2 hover:underline"
+              >
+                take me there → {nextStep.href}
+              </button>
+
+              <div className="flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-2">
+                <ConsoleChip onClick={toggleVoice} active={voiceOn} disabled={!voiceSupported()}>
+                  {voiceSupported() ? (voiceOn ? "voice: on" : "voice: off") : "voice: unsupported"}
+                </ConsoleChip>
+                <ConsoleChip onClick={toggleSound} active={soundOn}>
+                  {soundOn ? "sfx: on" : "sfx: off"}
+                </ConsoleChip>
+                <ConsoleChip onClick={() => setBasis((b) => (b === "playful" ? "rigorous" : "playful"))} active={basis === "rigorous"}>
+                  basis: {basis}
+                </ConsoleChip>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <AnimatePresence>
           {speech && (
             <motion.div
@@ -376,7 +541,7 @@ export function QuantumPet() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 6, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="whitespace-nowrap rounded-lg border border-border bg-background/90 px-3 py-1.5 font-mono text-xs text-foreground shadow-xl backdrop-blur"
+              className="max-w-[280px] rounded-lg border border-border bg-background/90 px-3 py-1.5 text-center font-mono text-xs text-foreground shadow-xl backdrop-blur"
               role="status"
               aria-live="polite"
             >
@@ -385,7 +550,6 @@ export function QuantumPet() {
           )}
         </AnimatePresence>
 
-        {/* poke particle burst — 8 sparks, pure CSS, remounts per poke */}
         {burst > 0 && !reduceMotion && (
           <div key={burst} aria-hidden className="pointer-events-none absolute bottom-10 left-1/2 z-0">
             {Array.from({ length: 8 }, (_, i) => (
@@ -398,18 +562,6 @@ export function QuantumPet() {
           </div>
         )}
 
-        {mode === "docked" && (
-          <button
-            type="button"
-            onClick={toggleSound}
-            aria-label={soundOn ? "Mute QPet sounds" : "Enable QPet sounds (off by default)"}
-            aria-pressed={soundOn}
-            className="absolute -left-1 top-8 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-border bg-surface/80 font-mono text-[10px] text-muted backdrop-blur transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-          >
-            {soundOn ? "♪" : "∅"}
-          </button>
-        )}
-        {/* orbital particles: constant slow motion so QPIT reads alive at rest */}
         <div aria-hidden className="pointer-events-none absolute bottom-0 left-1/2 z-0 h-[128px] w-[128px] -translate-x-1/2 sm:h-[148px] sm:w-[148px]" style={{ animation: "qpit-spin 9s linear infinite" }}>
           <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-accent opacity-70" />
           <span className="absolute bottom-[12%] right-0 h-1 w-1 rounded-full opacity-60" style={{ background: "var(--accent-2)" }} />
@@ -417,12 +569,14 @@ export function QuantumPet() {
         <div aria-hidden className="pointer-events-none absolute bottom-[10px] left-1/2 z-0 h-[108px] w-[108px] -translate-x-1/2" style={{ animation: "qpit-spin 5.5s linear infinite reverse" }}>
           <span className="absolute left-0 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-accent opacity-50" />
         </div>
+
         <button
           type="button"
-          onClick={onPoke}
+          onClick={onOrbClick}
           onPointerEnter={onOrbEnter}
           onPointerLeave={onOrbLeave}
-          aria-label="Poke QPet, the site's quantum pet"
+          aria-label="Poke QPet, the site's quantum pet — opens its console"
+          aria-expanded={consoleOpen}
           className="h-[108px] w-[108px] cursor-pointer overflow-hidden rounded-full border border-border bg-surface/60 backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:h-[128px] sm:w-[128px]"
           style={{ pointerEvents: mode === "roaming" ? "none" : undefined }}
         >
@@ -432,5 +586,30 @@ export function QuantumPet() {
         </button>
       </div>
     </QpitPhysics>
+  );
+}
+
+function ConsoleChip({
+  onClick,
+  children,
+  active = false,
+  disabled = false,
+}: {
+  onClick: () => void;
+  children: React.ReactNode;
+  active?: boolean;
+  disabled?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={`rounded-full border px-2 py-0.5 font-mono text-[11px] transition-colors duration-150 ease-out disabled:opacity-40 ${
+        active ? "border-accent bg-accent/15 text-accent" : "border-border text-muted hover:border-accent/60 hover:text-foreground"
+      }`}
+    >
+      {children}
+    </button>
   );
 }

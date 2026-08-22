@@ -19,9 +19,11 @@ import {
 import { zeroDensityMatrix, applyUnitary, applyDepolarizing1Q, embedSingleQubitOperator } from "@/lib/physics/densityMatrix";
 import { GATE_H } from "@/lib/arcade/qlogic";
 import { ArcadeButton, GameCard, ProbBars, Slider, Stat } from "@/components/arcade/kit";
+import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 
 /* 15 ─ Grover Searchlight: amplitude amplification you can overdo. */
 export function GroverSearchlight() {
+  const bus = useQuantumEventBus();
   const N_QUBITS = 3;
   const [marked, setMarked] = useState(5);
   const [state, setState] = useState(() => groverInit(N_QUBITS));
@@ -51,8 +53,16 @@ export function GroverSearchlight() {
         <ArcadeButton
           primary
           onClick={() => {
-            setState((s) => groverStep(s, marked));
-            setIters((i) => i + 1);
+            const nextState = groverStep(state, marked);
+            const p = probabilitiesOf(nextState)[marked];
+            const nextIters = iters + 1;
+            setState(nextState);
+            setIters(nextIters);
+            bus.emit("ARCADE_RESULT", {
+              game: "Grover",
+              value: p,
+              summary: `Grover iteration ${nextIters}: the prize drawer is at ${(p * 100).toFixed(1)}%${nextIters > optimal ? " — over-rotated, it's falling now" : nextIters === optimal ? " — that's the sweet spot" : ""}.`,
+            });
           }}
         >
           Grover iteration
@@ -68,6 +78,7 @@ export function GroverSearchlight() {
 
 /* 16 ─ Deutsch's oracle: one query, guaranteed answer. */
 export function DeutschGame() {
+  const bus = useQuantumEventBus();
   const [secret, setSecret] = useState<DeutschOracle | null>(null);
   const [verdict, setVerdict] = useState<string | null>(null);
   const pick = () => {
@@ -79,6 +90,11 @@ export function DeutschGame() {
     if (!secret) return;
     const { pConstant } = deutschRun(secret);
     const isConstant = pConstant > 0.5;
+    bus.emit("ARCADE_RESULT", {
+      game: "Deutsch",
+      value: pConstant,
+      summary: `Deutsch circuit: one query, verdict ${isConstant ? "constant" : "balanced"} — and it was right.`,
+    });
     setVerdict(
       `circuit says: ${isConstant ? "CONSTANT" : "BALANCED"} (P = ${pConstant.toFixed(2)}) — truth: ${secret} (${
         secret.startsWith("const") ? "constant" : "balanced"
@@ -204,9 +220,20 @@ export function RepetitionRescue() {
 
 /* 20 ─ BB84: catch the eavesdropper by physics alone. */
 export function Bb84Game() {
+  const bus = useQuantumEventBus();
   const [eve, setEve] = useState(false);
   const [rounds, setRounds] = useState<BB84Round[]>([]);
   const stats = useMemo(() => bb84Qber(rounds), [rounds]);
+  const exchange = () => {
+    const next = [...rounds, ...Array.from({ length: 40 }, () => bb84Round(eve, Math.random))];
+    setRounds(next);
+    const q = bb84Qber(next);
+    bus.emit("ARCADE_RESULT", {
+      game: "BB84",
+      value: q.qber,
+      summary: `BB84: ${q.sifted} sifted bits, error rate ${(q.qber * 100).toFixed(0)}%${q.sifted >= 12 && q.qber > 0.15 ? " — someone is on the line" : q.sifted >= 12 ? " — clean channel" : ""}.`,
+    });
+  };
   const alarm = stats.sifted >= 12 && stats.qber > 0.15;
   return (
     <GameCard title="BB84 — Catch Eve" tag="game" computes="every round draws real random bits/bases; Eve's wrong-basis measurements scramble states exactly as the protocol predicts">
@@ -215,7 +242,7 @@ export function Bb84Game() {
         <em> must</em> disturb the states (no-cloning, two cards up), and the error rate betrays her at ~25%.
       </p>
       <div className="flex items-center gap-2">
-        <ArcadeButton primary onClick={() => setRounds((r) => [...r, ...Array.from({ length: 40 }, () => bb84Round(eve, Math.random))])}>
+        <ArcadeButton primary onClick={exchange}>
           exchange 40 qubits
         </ArcadeButton>
         <ArcadeButton onClick={() => setEve((e) => !e)}>{eve ? "Eve: ON 🕵" : "Eve: off"}</ArcadeButton>

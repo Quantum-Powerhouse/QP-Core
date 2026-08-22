@@ -19,6 +19,7 @@ import {
   teleportationStages,
 } from "@/lib/arcade/qlogic";
 import { ArcadeButton, GameCard, ProbBars, Slider, Stat } from "@/components/arcade/kit";
+import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 
 /* 8 ─ Entanglement Dial: slide from product state to Bell pair. */
 export function EntanglementDial() {
@@ -43,10 +44,11 @@ export function EntanglementDial() {
 
 /* 9 ─ CHSH: beat the classical bound with sampled Bell-pair rounds. */
 export function ChshGame() {
+  const bus = useQuantumEventBus();
   const [stats, setStats] = useState({ n: 0, e00: 0, e01: 0, e10: 0, e11: 0 });
   const run = (rounds: number) => {
-    setStats((prev) => {
-      const next = { ...prev };
+    {
+      const next = { ...stats };
       const settings: [keyof Omit<typeof next, "n">, number, number][] = [
         ["e00", CHSH_ANGLES.a0, CHSH_ANGLES.b0],
         ["e01", CHSH_ANGLES.a0, CHSH_ANGLES.b1],
@@ -60,8 +62,15 @@ export function ChshGame() {
         }
         next.n += 1;
       }
-      return next;
-    });
+      const nn = next.n || 1;
+      const S = next.e00 / nn + next.e01 / nn + next.e10 / nn - next.e11 / nn;
+      setStats(next);
+      bus.emit("ARCADE_RESULT", {
+        game: "CHSH",
+        value: S,
+        summary: `CHSH S = ${S.toFixed(2)} after ${next.n} rounds — ${Math.abs(S) > 2 ? "past the classical bound of 2" : "still under the classical bound; more rounds"}.`,
+      });
+    }
   };
   const n = stats.n || 1;
   const S = stats.e00 / n + stats.e01 / n + stats.e10 / n - stats.e11 / n;
