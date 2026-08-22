@@ -61,6 +61,9 @@ the FastAPI backend enables CORS for the site's origin.
 - `src/app/sitemap.ts`, `src/app/robots.ts` — generated sitemap/robots
 - `src/app/opengraph-image.tsx` (and per-route equivalents) — dynamic OG/Twitter card images via `next/og`
 - `src/app/playground/vqe-suite/` — dedicated route for the VQE Suite playground
+- `src/lib/physics/fastStatevector.ts` — a Float64Array kernel (in-place gates, flat memory) that
+  reaches 20+ qubits in the browser; cross-checked against the readable engine in tests and
+  raced against it live in the arcade's Engine Scaling Benchmark
 - `src/lib/physics/` — a real, self-contained quantum chemistry + circuit simulation stack (no backend
   dependency): linear algebra, Pauli operators, the H2 Hamiltonian (O'Malley et al. 2016), a statevector
   simulator, a density-matrix/Kraus-channel simulator, the H2 ansatz circuit, a parameter-shift VQE optimizer,
@@ -129,6 +132,14 @@ which collapses them with a genuine Born-rule sample. It **narrates the physics*
 every VQE convergence, transpile, measurement and arcade result (`ARCADE_RESULT`
 events) becomes one computed sentence — numbers read from the event payload, never
 invented. A *basis* toggle switches playful ↔ rigorous phrasing.
+
+**Grab it**: press and drag the docked orb, let go — QPet flies with your momentum,
+rubber-bands off the viewport edges, and springs home. **Moments log** (in the console)
+tracks which of the five rare moments you've discovered, with a hint for each.
+**`window.QPet`** in the browser console: `QPet.trigger('BLACKHOLE')`, `QPet.say('hi')`,
+`QPet.moments()` — for demos and the curious. **Voice commands** (🎤 chip, Web Speech
+recognition, opt-in per press): "take me to the Bell test", "what am I looking at",
+"measure", "make a black hole" — a deterministic intent parser, no LLM.
 
 **Voice** is opt-in (console toggle, localStorage `qpet.voice`): Web Speech synthesis,
 no keys, no network — pitch and rate follow QPet's emotion (`src/lib/quantum/qpetVoice.ts`).

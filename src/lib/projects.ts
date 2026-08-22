@@ -10,7 +10,7 @@ export const projects: Project[] = [
   {
     title: "Quantum Arcade",
     description:
-      "Twenty-one playable quantum games and labs — Grover search, CHSH Bell violation, teleportation, BB84, decoherence, error correction — every result computed live by the in-browser simulator.",
+      "Twenty-three playable quantum games and labs — Grover search, CHSH Bell violation, teleportation, BB84, decoherence, error correction — every result computed live by the in-browser simulator.",
     tags: ["Games", "Statevector Simulation", "Quantum Education"],
     href: "/playground/arcade",
   },

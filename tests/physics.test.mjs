@@ -112,3 +112,35 @@ test("complex helpers: conjugate and product are consistent", () => {
   approx(zz.re, 0.58, 1e-12);
   approx(zz.im, 0, 1e-12);
 });
+
+// --- typed-array kernel agrees with the readable engine ---
+import { fastZero, fastH, fastX, fastRY, fastCNOT, fastProbabilities, fastNorm } from "../src/lib/physics/fastStatevector.ts";
+
+test("fast kernel matches the readable engine on a random 5-qubit circuit", () => {
+  const n = 5;
+  let s = zeroState(n);
+  const f = fastZero(n);
+  let seed = 11;
+  const rand = () => (seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296;
+  for (let step = 0; step < 40; step++) {
+    const q = Math.floor(rand() * n);
+    const kind = Math.floor(rand() * 4);
+    if (kind === 0) { s = applySingleQubitGate(s, H, q); fastH(f, q); }
+    else if (kind === 1) { const th = rand() * Math.PI; s = applyRY(s, th, q); fastRY(f, th, q); }
+    else if (kind === 2) { const tgt = (q + 1) % n; s = applyCNOT(s, q, tgt); fastCNOT(f, q, tgt); }
+    else { fastX(f, q); s = applySingleQubitGate(s, [[c(0), c(1)], [c(1), c(0)]], q); }
+  }
+  const pa = probabilitiesOf(s);
+  const pb = fastProbabilities(f);
+  for (let i = 0; i < pa.length; i++) approx(pa[i], pb[i], 1e-10, `amplitude ${i}`);
+  approx(fastNorm(f), 1, 1e-10, "fast norm");
+});
+
+test("fast kernel handles 18 qubits in bounded time", () => {
+  const t0 = performance.now();
+  const f = fastZero(18);
+  for (let q = 0; q < 18; q++) fastH(f, q);
+  for (let q = 0; q < 17; q++) fastCNOT(f, q, q + 1);
+  approx(fastNorm(f), 1, 1e-8, "norm at 18 qubits");
+  assert.ok(performance.now() - t0 < 8000, "18-qubit layer should finish in seconds");
+});

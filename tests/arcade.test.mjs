@@ -137,3 +137,30 @@ test("bitEntropy: fair bits ≈1, constant bits = 0", () => {
   approx(bitEntropy([0, 1, 0, 1, 0, 1, 0, 1]), 1);
   approx(bitEntropy([1, 1, 1, 1]), 0);
 });
+
+// --- frontier games ---
+import { qaoaMaxCut, quantumWalk, classicalWalk, walkSpread } from "../src/lib/arcade/qlogic.ts";
+
+test("QAOA at γ=β=0 is the uniform superposition with ⟨cut⟩ = 2 on the 4-ring", () => {
+  const r = qaoaMaxCut(0, 0);
+  approx(r.expectedCut, 2, 1e-9);
+  assert.equal(r.bestCut, 4);
+  for (const p of r.probs) approx(p, 1 / 16, 1e-9);
+});
+
+test("QAOA has a parameter region that beats random guessing", () => {
+  let best = 0;
+  for (let g = 0; g <= Math.PI; g += 0.1) for (let b = 0; b <= Math.PI / 2; b += 0.1) best = Math.max(best, qaoaMaxCut(g, b).expectedCut);
+  assert.ok(best > 2.8, `best ⟨cut⟩ ${best} should clearly exceed the random baseline 2`);
+});
+
+test("quantum walk spreads ballistically, classical diffusively", () => {
+  const t = 40;
+  const q = quantumWalk(t);
+  const cl = classicalWalk(t);
+  approx(q.reduce((a, b) => a + b, 0), 1, 1e-9, "quantum walk normalized");
+  approx(cl.reduce((a, b) => a + b, 0), 1, 1e-9, "classical walk normalized");
+  const ratio = walkSpread(q) / walkSpread(cl);
+  assert.ok(ratio > 2, `quantum/classical spread ratio ${ratio} should exceed 2 at t=${t}`);
+  assert.ok(Math.abs(walkSpread(cl) - Math.sqrt(t)) < 0.5, "classical σ ≈ √t");
+});

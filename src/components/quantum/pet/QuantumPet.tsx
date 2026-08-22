@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAnyQuantumEvent } from "@/components/quantum/QuantumEventProvider";
 import { createPetVisualState, QpForm, type PetVisualState } from "@/components/quantum/pet/QpForm";
 import { petLineFor } from "@/components/quantum/pet/petLines";
-import { QpitPhysics, type QpitMode } from "@/components/quantum/pet/QpitPhysics";
+import { QpitPhysics, type QpitControl, type QpitMode } from "@/components/quantum/pet/QpitPhysics";
 import {
   greetingForPath,
   hoverLineFor,
@@ -15,6 +15,7 @@ import {
   LOOKING_AT,
   momentLine,
   NEXT_STEP,
+  parseVoiceCommand,
   pickLine,
   POKE_LINES,
   QUANTUM_FACTS,
@@ -162,6 +163,40 @@ function useLocalFlag(event: string, read: () => boolean): boolean {
   );
 }
 
+const MOMENT_KINDS: QpitSpecial[] = ["BLACKHOLE", "SUPERPOSITION", "TUNNEL", "ENTANGLE", "WORMHOLE"];
+const MOMENT_HINTS: Record<QpitSpecial, string> = {
+  BLACKHOLE: "shake the cursor hard",
+  SUPERPOSITION: "roam calmly for a while",
+  TUNNEL: "fling the cursor off the page",
+  ENTANGLE: "roam near links, patiently",
+  WORMHOLE: "move with some speed",
+};
+
+function readMoments(): QpitSpecial[] {
+  try {
+    if (typeof window === "undefined") return [];
+    const raw = sessionStorage.getItem("qpet.moments");
+    return raw ? (JSON.parse(raw) as QpitSpecial[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+type RecognitionLike = {
+  lang: string;
+  interimResults: boolean;
+  maxAlternatives: number;
+  onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+  start: () => void;
+};
+function recognitionCtor(): (new () => RecognitionLike) | null {
+  if (typeof window === "undefined") return null;
+  const w = window as unknown as { SpeechRecognition?: new () => RecognitionLike; webkitSpeechRecognition?: new () => RecognitionLike };
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
+}
+
 function readSessionInt(key: string): number {
   try {
     return parseInt(sessionStorage.getItem(key) ?? "0", 10) || 0;
@@ -202,6 +237,11 @@ export function QuantumPet() {
   const [consoleOpen, setConsoleOpen] = useState(false);
   const [basis, setBasis] = useState<Basis>("playful");
   const [pending, setPending] = useState<{ a: string; b: string; pA: number } | null>(null);
+  const [moments, setMoments] = useState<QpitSpecial[]>(() => readMoments());
+  const [listening, setListening] = useState(false);
+  const controlRef = useRef<QpitControl | null>(null);
+  const dragRef = useRef({ down: false, moved: false, x0: 0, y0: 0 });
+  const suppressClickRef = useRef(false);
 
   const soundOn = useLocalFlag("qpit-audio-change", audioEnabled);
   const voiceOn = useLocalFlag("qpet-voice-change", voiceEnabled);
@@ -275,18 +315,33 @@ export function QuantumPet() {
     [speak, chatOk],
   );
 
+  const recordMoment = useCallback((kind: QpitSpecial) => {
+    setMoments((prev) => {
+      if (prev.includes(kind)) return prev;
+      const next = [...prev, kind];
+      try {
+        sessionStorage.setItem("qpet.moments", JSON.stringify(next));
+      } catch {
+        /* private mode */
+      }
+      return next;
+    });
+  }, []);
+
   const onSpecialStart = useCallback(
     (kind: QpitSpecial) => {
+      recordMoment(kind);
       if (kind === "BLACKHOLE") {
         speak(momentLine("BLACKHOLE_NOTICED"), { force: true });
         playHum();
       }
     },
-    [speak],
+    [speak, recordMoment],
   );
   const onAnomalyHover = useCallback(() => speak(momentLine("BLACKHOLE_HOVER"), { force: true }), [speak]);
   const onSpecial = useCallback(
     (kind: QpitSpecial) => {
+      recordMoment(kind);
       if (kind === "SUPERPOSITION") {
         speak(momentLine("SUPERPOSITION_COLLAPSE"), { force: true });
         playShimmer();
@@ -302,7 +357,7 @@ export function QuantumPet() {
         playWarp();
       }
     },
-    [speak],
+    [speak, recordMoment],
   );
 
   // --- Route awareness ---------------------------------------------------
@@ -409,9 +464,64 @@ export function QuantumPet() {
     speak(pickLine(POKE_LINES), { force: true });
   }, [speak]);
   const onOrbClick = useCallback(() => {
+    if (suppressClickRef.current) return; // that click was the end of a drag
     poke();
     setConsoleOpen((o) => !o);
   }, [poke]);
+
+  // --- Grab-and-fling: hold the orb, drag it, let go with momentum -------
+  const onOrbPointerDown = useCallback((e: React.PointerEvent<HTMLButtonElement>) => {
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    dragRef.current = { down: true, moved: false, x0: e.clientX, y0: e.clientY };
+    controlRef.current?.grab(e.clientX, e.clientY);
+  }, []);
+  const onOrbPointerMove = useCallback((e: React.PointerEvent<HTMLButtonElement>) => {
+    const d = dragRef.current;
+    if (!d.down) return;
+    if (!d.moved && Math.hypot(e.clientX - d.x0, e.clientY - d.y0) > 8) d.moved = true;
+    if (d.moved) controlRef.current?.drag(e.clientX, e.clientY);
+  }, []);
+  const onOrbPointerUp = useCallback(
+    (e: React.PointerEvent<HTMLButtonElement>) => {
+      const d = dragRef.current;
+      if (!d.down) return;
+      d.down = false;
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch {
+        /* already released */
+      }
+      if (d.moved) {
+        controlRef.current?.release(NaN, NaN);
+        suppressClickRef.current = true;
+        setTimeout(() => {
+          suppressClickRef.current = false;
+        }, 350);
+        speak(pickLine(["Wheee— put me down!", "Thrown. Rude. Fun.", "Conservation of momentum, apparently."]), { force: true });
+      } else {
+        // a plain click: undo the grab without a fling
+        controlRef.current?.release(0, 0);
+      }
+    },
+    [speak],
+  );
+
+  // --- window.QPet: a console API for demos and the curious --------------
+  useEffect(() => {
+    const api = {
+      trigger: (kind: QpitSpecial) => controlRef.current?.trigger(kind) ?? false,
+      say: (text: string) => speak(String(text), { force: true }),
+      moments: () => [...moments],
+      help: () =>
+        "QPet.trigger('BLACKHOLE'|'SUPERPOSITION'|'TUNNEL'|'ENTANGLE'|'WORMHOLE') · QPet.say('…') · QPet.moments()",
+    };
+    (window as unknown as { QPet?: typeof api }).QPet = api;
+    return () => {
+      delete (window as unknown as { QPet?: typeof api }).QPet;
+    };
+  }, [speak, moments]);
+
 
   useEffect(() => {
     if (mode !== "roaming") return;
@@ -445,6 +555,41 @@ export function QuantumPet() {
     stateRef.current.intensity = 1;
   }, [pending, speak]);
 
+  // --- Voice commands: opt-in, deterministic intents, no LLM -------------
+  const listen = useCallback(() => {
+    const Ctor = recognitionCtor();
+    if (!Ctor || listening) return;
+    const rec = new Ctor();
+    rec.lang = "en-US";
+    rec.interimResults = false;
+    rec.maxAlternatives = 1;
+    setListening(true);
+    rec.onend = () => setListening(false);
+    rec.onerror = () => setListening(false);
+    rec.onresult = (e) => {
+      const transcript = e.results[0]?.[0]?.transcript ?? "";
+      const intent = parseVoiceCommand(transcript);
+      if (intent.intent === "navigate") {
+        speak(`Taking you to ${intent.label}.`, { force: true });
+        router.push(intent.href);
+      } else if (intent.intent === "looking") speak(LOOKING_AT[sectionForPath(pathname)], { force: true });
+      else if (intent.intent === "next") speak(NEXT_STEP[sectionForPath(pathname)].line, { force: true });
+      else if (intent.intent === "fact") speak(pickLine(QUANTUM_FACTS), { force: true });
+      else if (intent.intent === "measure") {
+        if (pending) measure();
+        else speak("Nothing is in superposition right now. Ask me if I'm alive.", { force: true });
+      } else if (intent.intent === "summon") {
+        const ok = controlRef.current?.trigger(intent.kind) ?? false;
+        speak(ok ? "As you wish." : "Not right now — something's already happening.", { force: true });
+      } else speak(`Didn't catch that ("${transcript}"). Try: take me to the arcade.`, { force: true });
+    };
+    try {
+      rec.start();
+    } catch {
+      setListening(false);
+    }
+  }, [listening, speak, router, pathname, pending, measure]);
+
   const interactive = finePointer && !reduceMotion;
   const nextStep = NEXT_STEP[sectionForPath(pathname)];
 
@@ -460,6 +605,7 @@ export function QuantumPet() {
       onSpecialStart={onSpecialStart}
       onSpecial={onSpecial}
       onAnomalyHover={onAnomalyHover}
+      controlRef={controlRef}
     >
       <div className="relative flex flex-col items-center gap-2">
         {/* ── The QPet Console: transcript, grounded questions, toggles ── */}
@@ -504,6 +650,20 @@ export function QuantumPet() {
                 </div>
               )}
 
+              <div className="flex flex-col gap-0.5 rounded-lg border border-border/60 bg-surface/40 p-2">
+                <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
+                  moments discovered · {moments.length}/{MOMENT_KINDS.length}
+                </p>
+                <ul className="flex flex-wrap gap-x-2 gap-y-0.5 font-mono text-[10px]">
+                  {MOMENT_KINDS.map((k) => (
+                    <li key={k} className={moments.includes(k) ? "text-accent" : "text-muted"}>
+                      {moments.includes(k) ? "✓" : "·"} {k.toLowerCase()}
+                      {!moments.includes(k) && <span className="opacity-70"> — {MOMENT_HINTS[k]}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
               <div className="flex flex-wrap gap-1.5">
                 <ConsoleChip onClick={askLookingAt}>what am I looking at?</ConsoleChip>
                 <ConsoleChip onClick={askNext}>what next?</ConsoleChip>
@@ -525,6 +685,9 @@ export function QuantumPet() {
                 </ConsoleChip>
                 <ConsoleChip onClick={toggleSound} active={soundOn}>
                   {soundOn ? "sfx: on" : "sfx: off"}
+                </ConsoleChip>
+                <ConsoleChip onClick={listen} active={listening} disabled={!recognitionCtor()}>
+                  {recognitionCtor() ? (listening ? "listening…" : "🎤 say a command") : "mic: unsupported"}
                 </ConsoleChip>
                 <ConsoleChip onClick={() => setBasis((b) => (b === "playful" ? "rigorous" : "playful"))} active={basis === "rigorous"}>
                   basis: {basis}
@@ -573,6 +736,10 @@ export function QuantumPet() {
         <button
           type="button"
           onClick={onOrbClick}
+          onPointerDown={onOrbPointerDown}
+          onPointerMove={onOrbPointerMove}
+          onPointerUp={onOrbPointerUp}
+          onPointerCancel={onOrbPointerUp}
           onPointerEnter={onOrbEnter}
           onPointerLeave={onOrbLeave}
           aria-label="Poke QPet, the site's quantum pet — opens its console"

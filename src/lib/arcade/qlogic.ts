@@ -325,3 +325,107 @@ export function teleportationStages(theta: number, phi: number): TeleportStage[]
   stages.push({ label: "Bell-basis rotate message", state: [...s] });
   return stages;
 }
+
+// ---------------------------------------------------------------------------
+// QAOA on MaxCut (4-node ring), depth p = 1 — built from the gate set.
+// ---------------------------------------------------------------------------
+
+export const MAXCUT_EDGES: [number, number][] = [[0, 1], [1, 2], [2, 3], [3, 0]];
+
+/** ZZ(γ) = exp(-i γ Z⊗Z / 2) on (i, j): CNOT · RZ(γ) on j · CNOT. */
+function applyZZ(state: Statevector, i: number, j: number, gamma: number): Statevector {
+  let s = applyCNOT(state, i, j);
+  s = applySingleQubitGate(s, rzGate(gamma), j);
+  return applyCNOT(s, i, j);
+}
+
+export function qaoaMaxCut(gamma: number, beta: number): { probs: number[]; expectedCut: number; bestCut: number; bestProb: number } {
+  const n = 4;
+  let s = zeroState(n);
+  for (let q = 0; q < n; q++) s = applySingleQubitGate(s, GATE_H, q);
+  for (const [i, j] of MAXCUT_EDGES) s = applyZZ(s, i, j, 2 * gamma);
+  // mixer RX(2β) = H · RZ(2β) · H
+  for (let q = 0; q < n; q++) {
+    s = applySingleQubitGate(s, GATE_H, q);
+    s = applySingleQubitGate(s, rzGate(2 * beta), q);
+    s = applySingleQubitGate(s, GATE_H, q);
+  }
+  const probs = probabilitiesOf(s);
+  let expectedCut = 0;
+  let bestCut = 0;
+  let bestProb = 0;
+  for (let b = 0; b < probs.length; b++) {
+    let cut = 0;
+    for (const [i, j] of MAXCUT_EDGES) if (((b >> i) & 1) !== ((b >> j) & 1)) cut++;
+    expectedCut += probs[b] * cut;
+    if (cut > bestCut) bestCut = cut;
+  }
+  for (let b = 0; b < probs.length; b++) {
+    let cut = 0;
+    for (const [i, j] of MAXCUT_EDGES) if (((b >> i) & 1) !== ((b >> j) & 1)) cut++;
+    if (cut === bestCut) bestProb += probs[b];
+  }
+  return { probs, expectedCut, bestCut, bestProb };
+}
+
+// ---------------------------------------------------------------------------
+// Quantum walk vs classical random walk on a line — direct amplitude
+// evolution of the Hadamard coined walk (a genuine quantum dynamics
+// computation, not a drawing).
+// ---------------------------------------------------------------------------
+
+export function quantumWalk(steps: number): number[] {
+  const size = 2 * steps + 1;
+  const center = steps;
+  // amplitudes per position for coin states |L⟩ (0) and |R⟩ (1)
+  let re = [new Float64Array(size), new Float64Array(size)];
+  let im = [new Float64Array(size), new Float64Array(size)];
+  // symmetric start: (|L⟩ + i|R⟩)/√2 at the center
+  re[0][center] = Math.SQRT1_2;
+  im[1][center] = Math.SQRT1_2;
+  for (let t = 0; t < steps; t++) {
+    const nre = [new Float64Array(size), new Float64Array(size)];
+    const nim = [new Float64Array(size), new Float64Array(size)];
+    for (let x = 0; x < size; x++) {
+      // Hadamard coin
+      const lRe = Math.SQRT1_2 * (re[0][x] + re[1][x]);
+      const lIm = Math.SQRT1_2 * (im[0][x] + im[1][x]);
+      const rRe = Math.SQRT1_2 * (re[0][x] - re[1][x]);
+      const rIm = Math.SQRT1_2 * (im[0][x] - im[1][x]);
+      // shift: L moves left, R moves right
+      if (x > 0) { nre[0][x - 1] += lRe; nim[0][x - 1] += lIm; }
+      if (x < size - 1) { nre[1][x + 1] += rRe; nim[1][x + 1] += rIm; }
+    }
+    re = nre;
+    im = nim;
+  }
+  const probs: number[] = [];
+  for (let x = 0; x < size; x++) probs.push(re[0][x] ** 2 + im[0][x] ** 2 + re[1][x] ** 2 + im[1][x] ** 2);
+  return probs;
+}
+
+export function classicalWalk(steps: number): number[] {
+  const size = 2 * steps + 1;
+  let p = new Float64Array(size);
+  p[steps] = 1;
+  for (let t = 0; t < steps; t++) {
+    const q = new Float64Array(size);
+    for (let x = 0; x < size; x++) {
+      if (p[x] === 0) continue;
+      if (x > 0) q[x - 1] += p[x] / 2;
+      if (x < size - 1) q[x + 1] += p[x] / 2;
+    }
+    p = q;
+  }
+  return Array.from(p);
+}
+
+/** Standard deviation of position for a distribution indexed from -steps..steps. */
+export function walkSpread(probs: number[]): number {
+  const steps = (probs.length - 1) / 2;
+  let mean = 0;
+  for (let x = 0; x < probs.length; x++) mean += probs[x] * (x - steps);
+  let v = 0;
+  for (let x = 0; x < probs.length; x++) v += probs[x] * (x - steps - mean) ** 2;
+  return Math.sqrt(v);
+}

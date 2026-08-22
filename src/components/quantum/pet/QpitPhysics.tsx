@@ -55,6 +55,14 @@ const EMOTION_TETHER: Record<QpitEmotion, { stroke: string; opacity: number }> =
 
 export type QpitMode = "docked" | "roaming";
 
+/** Imperative handle for the UI layer: drag-and-fling, and forcing a moment. */
+export type QpitControl = {
+  grab: (x: number, y: number) => void;
+  drag: (x: number, y: number) => void;
+  release: (vx: number, vy: number) => void;
+  trigger: (kind: QpitSpecial) => boolean;
+};
+
 const emptySubscribe = () => () => {};
 function useHydrated(): boolean {
   return useSyncExternalStore(emptySubscribe, () => true, () => false);
@@ -85,6 +93,7 @@ export function QpitPhysics({
   onSpecialStart,
   onSpecial,
   onAnomalyHover,
+  controlRef,
   children,
 }: {
   /** false → permanently docked (touch devices, prefers-reduced-motion). */
@@ -103,6 +112,8 @@ export function QpitPhysics({
   onSpecialStart?: (kind: QpitSpecial) => void;
   /** fires when the user hovers the black-hole anomaly. */
   onAnomalyHover?: () => void;
+  /** receives the imperative control handle once mounted. */
+  controlRef?: React.MutableRefObject<QpitControl | null>;
   /** fires when a special moment completes. */
   onSpecial?: (kind: QpitSpecial) => void;
   children: React.ReactNode;
@@ -142,6 +153,8 @@ export function QpitPhysics({
   } | null>(null);
   const shakeCountRef = useRef(0);
   const lastBlackHoleAtRef = useRef(0);
+  const grabRef = useRef({ active: false, offX: 0, offY: 0, tx: 0, ty: 0, vx: 0, vy: 0, lastX: 0, lastY: 0, lastT: 0 });
+  const flungRef = useRef(false);
   const lastVxSignRef = useRef(0);
   const lastShakeAtRef = useRef(0);
   const trailSampleAtRef = useRef(0);
@@ -210,6 +223,128 @@ export function QpitPhysics({
     },
     [onSpecialStart],
   );
+
+  const startSuperposition = useCallback((now: number) => {
+    lastSpecialAtRef.current = now;
+    specialRef.current = { kind: "SUPERPOSITION", phase: 0, until: now + 1150 };
+    setGhosts({ x: posRef.current.x, y: posRef.current.y });
+  }, []);
+
+  const startEntangle = useCallback((now: number): boolean => {
+    const pos = posRef.current;
+    const candidates: { x: number; y: number }[] = [];
+    for (const el of document.querySelectorAll('a[href^="/"], [data-qpit]')) {
+      const r = el.getBoundingClientRect();
+      if (r.width === 0 || r.bottom < 0 || r.top > window.innerHeight) continue;
+      const cx2 = r.left + r.width / 2;
+      const cy2 = r.top + r.height / 2;
+      if (Math.hypot(cx2 - pos.x, cy2 - pos.y) > 260) candidates.push({ x: cx2, y: cy2 });
+    }
+    if (candidates.length === 0) return false;
+    const pick = candidates[Math.min(candidates.length - 1, Math.floor(randRef.current() * candidates.length))];
+    lastSpecialAtRef.current = now;
+    specialRef.current = { kind: "ENTANGLE", phase: 0, until: now + 1800 };
+    setTwin(pick);
+    return true;
+  }, []);
+
+  const startWormhole = useCallback((now: number) => {
+    const pos = posRef.current;
+    const vel = velRef.current;
+    const spd = Math.hypot(vel.x, vel.y);
+    const ang = randRef.current() * Math.PI * 2;
+    const dx = spd > 40 ? vel.x / spd : Math.cos(ang);
+    const dy = spd > 40 ? vel.y / spd : Math.sin(ang);
+    const axp = Math.min(window.innerWidth - 80, Math.max(80, pos.x + dx * 130));
+    const ayp = Math.min(window.innerHeight - 80, Math.max(80, pos.y + dy * 130));
+    let bxp = 0;
+    let byp = 0;
+    for (let tries = 0; tries < 8; tries++) {
+      bxp = 90 + randRef.current() * (window.innerWidth - 180);
+      byp = 90 + randRef.current() * (window.innerHeight - 180);
+      if (Math.hypot(bxp - axp, byp - ayp) > 320) break;
+    }
+    lastSpecialAtRef.current = now;
+    specialRef.current = { kind: "WORMHOLE", phase: 0, until: now + 900, data: { ax: axp, ay: ayp, bx: bxp, by: byp } };
+    targetRef.current.x = axp;
+    targetRef.current.y = ayp;
+    setModeSafe("roaming");
+    setPortals({ a: { x: axp, y: ayp }, b: { x: bxp, y: byp } });
+  }, [setModeSafe]);
+
+  // Imperative control for the UI layer: grab-and-fling, and forced moments.
+  useEffect(() => {
+    if (!controlRef) return;
+    controlRef.current = {
+      grab: (x, y) => {
+        const g = grabRef.current;
+        g.active = true;
+        g.offX = x - posRef.current.x;
+        g.offY = y - posRef.current.y;
+        g.tx = posRef.current.x;
+        g.ty = posRef.current.y;
+        g.lastX = x;
+        g.lastY = y;
+        g.lastT = performance.now();
+        g.vx = 0;
+        g.vy = 0;
+        flungRef.current = false;
+      },
+      drag: (x, y) => {
+        const g = grabRef.current;
+        if (!g.active) return;
+        const now = performance.now();
+        const dt = Math.max(8, now - g.lastT) / 1000;
+        g.vx = g.vx * 0.5 + ((x - g.lastX) / dt) * 0.5;
+        g.vy = g.vy * 0.5 + ((y - g.lastY) / dt) * 0.5;
+        g.lastX = x;
+        g.lastY = y;
+        g.lastT = now;
+        g.tx = x - g.offX;
+        g.ty = y - g.offY;
+      },
+      release: (vx, vy) => {
+        const g = grabRef.current;
+        if (!g.active) return;
+        g.active = false;
+        const ux = Number.isFinite(vx) ? vx : g.vx;
+        const uy = Number.isFinite(vy) ? vy : g.vy;
+        const cap = 2600;
+        velRef.current.x = Math.max(-cap, Math.min(cap, ux));
+        velRef.current.y = Math.max(-cap, Math.min(cap, uy));
+        flungRef.current = true;
+        lastMoveAtRef.current = performance.now();
+        setModeSafe("roaming");
+      },
+      trigger: (kind) => {
+        if (specialRef.current) return false;
+        const now = performance.now();
+        if (kind === "BLACKHOLE") {
+          triggerBlackHole(now);
+          return true;
+        }
+        if (kind === "SUPERPOSITION") {
+          startSuperposition(now);
+          return true;
+        }
+        if (kind === "WORMHOLE") {
+          startWormhole(now);
+          return true;
+        }
+        if (kind === "ENTANGLE") return startEntangle(now);
+        if (kind === "TUNNEL") {
+          lastSpecialAtRef.current = now;
+          specialRef.current = { kind: "TUNNEL", phase: 0, until: now + 220 };
+          goHome();
+          return true;
+        }
+        return false;
+      },
+    };
+    return () => {
+      controlRef.current = null;
+    };
+  }, [controlRef, triggerBlackHole, startSuperposition, startWormhole, startEntangle, goHome, setModeSafe]);
 
   // Touch devices have no pointermove stream: taps and scrolls count as
   // activity so QPIT wakes, floats, and reacts instead of dozing off.
@@ -282,8 +417,8 @@ export function QpitPhysics({
         lastCursorAngleRef.current = null;
       }
 
-      // During a wormhole transit the portal owns the target, not the cursor.
-      if (specialRef.current?.kind !== "WORMHOLE") {
+      // During a wormhole transit, a grab, or a fling, the cursor doesn't own the target.
+      if (specialRef.current?.kind !== "WORMHOLE" && !grabRef.current.active && !flungRef.current) {
         const maxX = window.innerWidth - EDGE_MARGIN;
         const maxY = window.innerHeight - EDGE_MARGIN;
         targetRef.current.x = Math.min(maxX, Math.max(EDGE_MARGIN, event.clientX));
@@ -339,7 +474,7 @@ export function QpitPhysics({
     const params = QPIT_PARAMS[emotion];
 
     // Idle → drift home.
-    if (modeRef.current === "roaming" && now - lastMoveAtRef.current > IDLE_DOCK_MS) {
+    if (modeRef.current === "roaming" && now - lastMoveAtRef.current > IDLE_DOCK_MS && !grabRef.current.active && !flungRef.current) {
       goHome();
     }
 
@@ -381,9 +516,7 @@ export function QpitPhysics({
         !specialRef.current &&
         maybeSuperposition(emotionRef.current, inputs, lastSpecialAtRef.current, sessionStartRef.current, randRef.current)
       ) {
-        lastSpecialAtRef.current = now;
-        specialRef.current = { kind: "SUPERPOSITION", phase: 0, until: now + 1150 };
-        setGhosts({ x: pos.x, y: pos.y });
+        startSuperposition(now);
       }
 
       // Entanglement: pair up with a distant on-page link, pulse in sync.
@@ -392,20 +525,7 @@ export function QpitPhysics({
         !specialRef.current &&
         maybeEntangle(emotionRef.current, inputs, lastSpecialAtRef.current, sessionStartRef.current, randRef.current)
       ) {
-        const candidates: { x: number; y: number }[] = [];
-        for (const el of document.querySelectorAll('a[href^="/"], [data-qpit]')) {
-          const r = el.getBoundingClientRect();
-          if (r.width === 0 || r.bottom < 0 || r.top > window.innerHeight) continue;
-          const cx2 = r.left + r.width / 2;
-          const cy2 = r.top + r.height / 2;
-          if (Math.hypot(cx2 - pos.x, cy2 - pos.y) > 260) candidates.push({ x: cx2, y: cy2 });
-        }
-        if (candidates.length > 0) {
-          const pick = candidates[Math.min(candidates.length - 1, Math.floor(randRef.current() * candidates.length))];
-          lastSpecialAtRef.current = now;
-          specialRef.current = { kind: "ENTANGLE", phase: 0, until: now + 1800 };
-          setTwin(pick);
-        }
+        startEntangle(now);
       }
 
       // Wormhole: a portal pair opens; QPIT dives in and exits far away.
@@ -415,21 +535,7 @@ export function QpitPhysics({
         !specialRef.current &&
         maybeWormhole(petSpeedNow, emotionRef.current, inputs, lastSpecialAtRef.current, sessionStartRef.current, randRef.current)
       ) {
-        const spd = petSpeedNow || 1;
-        const axp = Math.min(window.innerWidth - 80, Math.max(80, pos.x + (vel.x / spd) * 130));
-        const ayp = Math.min(window.innerHeight - 80, Math.max(80, pos.y + (vel.y / spd) * 130));
-        let bxp = 0;
-        let byp = 0;
-        for (let tries = 0; tries < 8; tries++) {
-          bxp = 90 + randRef.current() * (window.innerWidth - 180);
-          byp = 90 + randRef.current() * (window.innerHeight - 180);
-          if (Math.hypot(bxp - axp, byp - ayp) > 320) break;
-        }
-        lastSpecialAtRef.current = now;
-        specialRef.current = { kind: "WORMHOLE", phase: 0, until: now + 900, data: { ax: axp, ay: ayp, bx: bxp, by: byp } };
-        targetRef.current.x = axp;
-        targetRef.current.y = ayp;
-        setPortals({ a: { x: axp, y: ayp }, b: { x: bxp, y: byp } });
+        startWormhole(now);
       }
 
       // Black holes also open unprovoked now and then.
@@ -519,10 +625,37 @@ export function QpitPhysics({
       ay += (dy / d) * pull;
     }
 
-    vel.x += ax * dt;
-    vel.y += ay * dt;
-    pos.x += vel.x * dt;
-    pos.y += vel.y * dt;
+    const grab = grabRef.current;
+    if (grab.active) {
+      // Held: track the pointer 1:1 (respecting the grab offset), remember velocity.
+      pos.x = grab.tx;
+      pos.y = grab.ty;
+      vel.x = grab.vx;
+      vel.y = grab.vy;
+    } else if (flungRef.current) {
+      // Thrown: light drag, rubber-band off the viewport edges, settle -> home.
+      vel.x -= vel.x * 1.1 * dt;
+      vel.y -= vel.y * 1.1 * dt;
+      pos.x += vel.x * dt;
+      pos.y += vel.y * dt;
+      const minX = EDGE_MARGIN;
+      const maxX = window.innerWidth - EDGE_MARGIN;
+      const minY = EDGE_MARGIN;
+      const maxY = window.innerHeight - EDGE_MARGIN;
+      if (pos.x < minX) { pos.x = minX; vel.x = Math.abs(vel.x) * 0.55; }
+      if (pos.x > maxX) { pos.x = maxX; vel.x = -Math.abs(vel.x) * 0.55; }
+      if (pos.y < minY) { pos.y = minY; vel.y = Math.abs(vel.y) * 0.55; }
+      if (pos.y > maxY) { pos.y = maxY; vel.y = -Math.abs(vel.y) * 0.55; }
+      if (Math.hypot(vel.x, vel.y) < 60) {
+        flungRef.current = false;
+        goHome();
+      }
+    } else {
+      vel.x += ax * dt;
+      vel.y += ay * dt;
+      pos.x += vel.x * dt;
+      pos.y += vel.y * dt;
+    }
 
     // --- pendulum swing (own underdamped spring on the angle) ---
     const theta = thetaRef.current;

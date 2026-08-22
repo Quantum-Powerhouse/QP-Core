@@ -41,3 +41,26 @@ test("quantum facts are short enough to voice and non-empty", () => {
   assert.ok(QUANTUM_FACTS.length >= 5);
   for (const f of QUANTUM_FACTS) assert.ok(f.length < 140, `fact too long to voice: ${f}`);
 });
+
+import { parseVoiceCommand } from "../src/lib/quantum/qpitContext.ts";
+
+test("voice commands: navigation phrases resolve to real routes", () => {
+  assert.deepEqual(parseVoiceCommand("QPet, take me to the arcade").intent, "navigate");
+  assert.equal(parseVoiceCommand("take me to the bell test").href, "/playground/arcade#chsh-beat-the-classical-bound");
+  assert.equal(parseVoiceCommand("open the research").href, "/research");
+  assert.equal(parseVoiceCommand("show me grover").href, "/playground/arcade#grover-searchlight");
+  assert.equal(parseVoiceCommand("go home").href, "/");
+});
+
+test("voice commands: questions, measurement, summons, unknown", () => {
+  assert.equal(parseVoiceCommand("what am I looking at").intent, "looking");
+  assert.equal(parseVoiceCommand("what should I do next").intent, "next");
+  assert.equal(parseVoiceCommand("tell me a quantum fact").intent, "fact");
+  assert.equal(parseVoiceCommand("measure it").intent, "measure");
+  const s = parseVoiceCommand("make a black hole");
+  assert.equal(s.intent, "summon");
+  assert.equal(s.kind, "BLACKHOLE");
+  assert.equal(parseVoiceCommand("open a wormhole").kind, "WORMHOLE");
+  assert.equal(parseVoiceCommand("blorp frobnicate").intent, "unknown");
+  assert.equal(parseVoiceCommand("").intent, "unknown");
+});

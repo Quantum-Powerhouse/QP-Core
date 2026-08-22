@@ -218,3 +218,48 @@ export function hoverSectionFor(href: string | null, dataQpit?: string | null): 
 export function hoverLineFor(section: QpitSection, rand: Rand = Math.random): string | null {
   return pickLine(HOVER_LINES[section], rand);
 }
+
+// ---------------------------------------------------------------------------
+// Voice commands — a deterministic intent parser (no LLM). Tested.
+// ---------------------------------------------------------------------------
+
+export type VoiceIntent =
+  | { intent: "navigate"; href: string; label: string }
+  | { intent: "looking" }
+  | { intent: "next" }
+  | { intent: "fact" }
+  | { intent: "measure" }
+  | { intent: "summon"; kind: "BLACKHOLE" | "WORMHOLE" | "SUPERPOSITION" }
+  | { intent: "unknown" };
+
+const NAV_TARGETS: [RegExp, string, string][] = [
+  [/\b(bell|chsh)\b/, "/playground/arcade#chsh-beat-the-classical-bound", "the CHSH game"],
+  [/\bgrover\b/, "/playground/arcade#grover-searchlight", "Grover"],
+  [/\b(teleport)/, "/playground/arcade#teleportation-walkthrough", "teleportation"],
+  [/\b(bb84|key exchange|eve)\b/, "/playground/arcade#bb84-catch-eve", "BB84"],
+  [/\b(arcade|games?)\b/, "/playground/arcade", "the arcade"],
+  [/\b(learn|lessons?|course|path)\b/, "/learn", "the learning path"],
+  [/\b(application|good for|uses?)\b/, "/applications", "applications"],
+  [/\b(research|claims|evidence|sources)\b/, "/research", "research"],
+  [/\b(docs|documentation|math)\b/, "/docs", "the docs"],
+  [/\b(builder|who built|author)\b/, "/builder", "the builder"],
+  [/\b(vqe|molecule|hydrogen|eigensolver)\b/, "/playground/vqe-suite", "the VQE suite"],
+  [/\b(transpiler|qasm|braket|compile)\b/, "/playground/qp-core", "the transpiler"],
+  [/\b(home|start|front)\b/, "/", "home"],
+];
+
+export function parseVoiceCommand(raw: string): VoiceIntent {
+  const text = raw.toLowerCase().trim();
+  if (!text) return { intent: "unknown" };
+  if (/black\s?hole|singularity/.test(text)) return { intent: "summon", kind: "BLACKHOLE" };
+  if (/wormhole|portal/.test(text)) return { intent: "summon", kind: "WORMHOLE" };
+  if (/superposition/.test(text)) return { intent: "summon", kind: "SUPERPOSITION" };
+  if (/measure|collapse/.test(text)) return { intent: "measure" };
+  if (/looking at|what is this|where am i|what am i/.test(text)) return { intent: "looking" };
+  if (/what next|what should|recommend|next step/.test(text)) return { intent: "next" };
+  if (/\bfact\b|tell me something|teach me/.test(text)) return { intent: "fact" };
+  for (const [re, href, label] of NAV_TARGETS) {
+    if (re.test(text)) return { intent: "navigate", href, label };
+  }
+  return { intent: "unknown" };
+}
