@@ -8,6 +8,7 @@ export const ROUTES: RouteEntry[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/playground/qp-core", changeFrequency: "weekly", priority: 0.9 },
   { path: "/playground/vqe-suite", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/playground/arcade", changeFrequency: "monthly", priority: 0.9 },
   { path: "/docs", changeFrequency: "monthly", priority: 0.7 },
   { path: "/docs/qp-core/transpiler-pipeline", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/vqe-suite/hamiltonian-and-ansatz", changeFrequency: "monthly", priority: 0.8 },

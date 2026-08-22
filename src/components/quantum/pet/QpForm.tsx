@@ -112,13 +112,13 @@ export function QpForm({
       const mag = Math.min(1, Math.hypot(gx, gy));
       const ang = Math.atan2(-gy, gx); // screen-y is down; three-y is up
       const k = Math.min(1, delta * 10);
-      const targetX = Math.cos(ang) * 0.95;
-      const targetY = Math.sin(ang) * 0.95;
+      const targetX = Math.cos(ang) * 1.15;
+      const targetY = Math.sin(ang) * 1.15;
       noseRef.current.position.x += (targetX - noseRef.current.position.x) * k;
       noseRef.current.position.y += (targetY - noseRef.current.position.y) * k;
       noseRef.current.position.z = 0.35;
       noseRef.current.rotation.z = Math.atan2(noseRef.current.position.y, noseRef.current.position.x) - Math.PI / 2;
-      const targetScale = reduceMotion ? 0 : 0.2 + mag * 1.6;
+      const targetScale = reduceMotion ? 0 : 0.1 + mag * 1.05;
       const sNow = noseRef.current.scale.x;
       const sNext = sNow + (targetScale - sNow) * k;
       noseRef.current.scale.setScalar(sNext);
@@ -134,30 +134,30 @@ export function QpForm({
       <ambientLight intensity={0.4} />
       <mesh ref={shellRef}>
         <icosahedronGeometry args={[1, 1]} />
-        <meshStandardMaterial ref={shellMaterialRef} wireframe transparent opacity={0.55} />
+        <meshStandardMaterial ref={shellMaterialRef} wireframe transparent opacity={0.38} />
       </mesh>
 
       <mesh>
-        <sphereGeometry args={[0.16, 24, 24]} />
+        <sphereGeometry args={[0.12, 24, 24]} />
         <meshStandardMaterial ref={coreMaterialRef} toneMapped={false} />
       </mesh>
       <pointLight ref={coreLightRef} distance={3} />
 
       {/* Eyes: two bright dots riding the front of the form, following the gaze. */}
       <group ref={eyesRef} position={[0, 0, 0.8]}>
-        <mesh ref={eyeLRef} position={[-0.2, 0.08, 0]}>
-          <sphereGeometry args={[0.08, 12, 12]} />
+        <mesh ref={eyeLRef} position={[-0.16, 0.1, 0]}>
+          <sphereGeometry args={[0.055, 12, 12]} />
           <meshBasicMaterial color="#e6ecff" toneMapped={false} />
         </mesh>
-        <mesh ref={eyeRRef} position={[0.2, 0.08, 0]}>
-          <sphereGeometry args={[0.08, 12, 12]} />
+        <mesh ref={eyeRRef} position={[0.16, 0.1, 0]}>
+          <sphereGeometry args={[0.055, 12, 12]} />
           <meshBasicMaterial color="#e6ecff" toneMapped={false} />
         </mesh>
       </group>
 
       {/* Direction pointer: a glowing cone on the rim, aimed at the heading. */}
       <mesh ref={noseRef} position={[0.95, 0, 0.35]} scale={0.25}>
-        <coneGeometry args={[0.24, 0.55, 12]} />
+        <cylinderGeometry args={[0.018, 0.045, 1.15, 8]} />
         <meshBasicMaterial ref={noseMaterialRef} transparent toneMapped={false} />
       </mesh>
 

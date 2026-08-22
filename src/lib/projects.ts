@@ -8,6 +8,13 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "Quantum Arcade",
+    description:
+      "Twenty-one playable quantum games and labs — Grover search, CHSH Bell violation, teleportation, BB84, decoherence, error correction — every result computed live by the in-browser simulator.",
+    tags: ["Games", "Statevector Simulation", "Quantum Education"],
+    href: "/playground/arcade",
+  },
+  {
     title: "QP-Core Transpiler",
     description:
       "A FastAPI service that parses OpenQASM 2.0/3.0 circuits and compiles them into Amazon Braket IR, powering the live terminal on this page.",

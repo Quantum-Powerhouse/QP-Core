@@ -1,5 +1,5 @@
-import { h2AnsatzGates, H2_NUM_QUBITS, type AnsatzGate } from "@/lib/physics/h2Ansatz";
-import { h2ElectronicHamiltonianMatrix, h2NuclearRepulsion } from "@/lib/physics/h2Hamiltonian";
+import { h2AnsatzGates, H2_NUM_QUBITS, type AnsatzGate } from "./h2Ansatz.ts";
+import { h2ElectronicHamiltonianMatrix, h2NuclearRepulsion } from "./h2Hamiltonian.ts";
 import {
   applyDepolarizing1Q,
   applyDepolarizing2Q,
@@ -9,10 +9,10 @@ import {
   expectationValue as densityExpectationValue,
   ryMatrix,
   zeroDensityMatrix,
-} from "@/lib/physics/densityMatrix";
-import { type ComplexMatrix, richardsonExtrapolateToZero } from "@/lib/physics/linalg";
-import { PAULI_X } from "@/lib/physics/pauli";
-import { energyAtTheta } from "@/lib/physics/vqe";
+} from "./densityMatrix.ts";
+import { type ComplexMatrix, richardsonExtrapolateToZero } from "./linalg.ts";
+import { PAULI_X } from "./pauli.ts";
+import { energyAtTheta } from "./vqe.ts";
 
 type PhysicalGate = { unitary: ComplexMatrix; qubits: number[] };
 

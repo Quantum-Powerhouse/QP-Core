@@ -1,6 +1,6 @@
-import { h2AnsatzGates, H2_NUM_QUBITS } from "@/lib/physics/h2Ansatz";
-import { h2ElectronicHamiltonianMatrix, h2NuclearRepulsion } from "@/lib/physics/h2Hamiltonian";
-import { jacobiEigenSymmetric } from "@/lib/physics/linalg";
+import { h2AnsatzGates, H2_NUM_QUBITS } from "./h2Ansatz.ts";
+import { h2ElectronicHamiltonianMatrix, h2NuclearRepulsion } from "./h2Hamiltonian.ts";
+import { jacobiEigenSymmetric } from "./linalg.ts";
 import {
   applyCNOT,
   applyRY,
@@ -8,7 +8,7 @@ import {
   expectationValue,
   zeroState,
   type Statevector,
-} from "@/lib/physics/statevector";
+} from "./statevector.ts";
 
 /** Runs the H2 ansatz circuit (see h2Ansatz.ts) for a given variational angle theta. */
 export function runH2AnsatzStatevector(theta: number): Statevector {

@@ -1,4 +1,4 @@
-import { c, type Complex, type ComplexMatrix, expectationReal } from "@/lib/physics/linalg";
+import { c, type Complex, type ComplexMatrix, expectationReal } from "./linalg.ts";
 
 export type Statevector = Complex[];
 

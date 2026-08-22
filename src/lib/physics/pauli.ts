@@ -1,4 +1,4 @@
-import { c, type ComplexMatrix, kron, matAdd, matScale } from "@/lib/physics/linalg";
+import { c, type ComplexMatrix, kron, matAdd, matScale } from "./linalg.ts";
 
 export const PAULI_I: ComplexMatrix = [
   [c(1), c(0)],

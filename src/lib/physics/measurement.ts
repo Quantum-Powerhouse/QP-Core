@@ -1,4 +1,4 @@
-import type { Statevector } from "@/lib/physics/statevector";
+import type { Statevector } from "./statevector.ts";
 
 export type MeasurementResult = {
   outcomeIndex: number;

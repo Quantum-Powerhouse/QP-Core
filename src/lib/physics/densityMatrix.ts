@@ -6,8 +6,8 @@ import {
   matAdd,
   matMul,
   matScale,
-} from "@/lib/physics/linalg";
-import { PAULI_I, PAULI_X, PAULI_Y, PAULI_Z, pauliStringMatrix, type PauliLabel } from "@/lib/physics/pauli";
+} from "./linalg.ts";
+import { PAULI_I, PAULI_X, PAULI_Y, PAULI_Z, pauliStringMatrix, type PauliLabel } from "./pauli.ts";
 
 export function zeroDensityMatrix(numQubits: number): ComplexMatrix {
   const dim = 2 ** numQubits;

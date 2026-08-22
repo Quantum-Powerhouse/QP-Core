@@ -1,5 +1,5 @@
-import { cMul, cConj, cAdd, c, type Complex } from "@/lib/physics/linalg";
-import type { Statevector } from "@/lib/physics/statevector";
+import { cMul, cConj, cAdd, c, type Complex } from "./linalg.ts";
+import type { Statevector } from "./statevector.ts";
 
 export type ReducedDensityMatrix = {
   /** rho[a][b], a,b in {0,1} for qubit 0. */

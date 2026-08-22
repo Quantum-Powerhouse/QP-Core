@@ -22,7 +22,7 @@ import { audioEnabled, playHum, playPop, playShimmer, playWarp, setAudioEnabled 
 import type { QuantumEvent } from "@/lib/quantum/events";
 import { usePrefersReducedMotion } from "@/lib/quantum/usePrefersReducedMotion";
 
-const SPEECH_COOLDOWN_MS = 2600;
+const SPEECH_COOLDOWN_MS = 2000;
 const SPEECH_VISIBLE_MS = 2600;
 const HOVER_COOLDOWN_MS = 6500;
 const ENTRANCE_GREETING_DELAY_MS = 1400;
@@ -188,7 +188,7 @@ export function QuantumPet() {
         speak(momentLine("BORED_ENTER"));
       } else if (next === "ORBITING") {
         speak(momentLine("ORBITING_ENTER"));
-      } else if (next === "EXCITED" && Math.random() < 0.35 && chatOk()) {
+      } else if (next === "EXCITED" && Math.random() < 0.5 && chatOk()) {
         speak(momentLine("EXCITED_ENTER"));
       }
     },
@@ -287,8 +287,8 @@ export function QuantumPet() {
   useEffect(() => {
     if (mode !== "roaming") return;
     const timer = setInterval(() => {
-      if (Math.random() < 0.35 && chatOk()) speak(momentLine("ROAMING_CHATTER"));
-    }, 9000);
+      if (Math.random() < 0.45 && chatOk()) speak(momentLine("ROAMING_CHATTER"));
+    }, 7000);
     return () => clearInterval(timer);
   }, [mode, chatOk, speak]);
 

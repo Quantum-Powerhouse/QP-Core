@@ -1,4 +1,4 @@
-import { pauliSumMatrix, type PauliSum } from "@/lib/physics/pauli";
+import { pauliSumMatrix, type PauliSum } from "./pauli.ts";
 
 /**
  * H2 minimal-basis (STO-3G), parity-reduced 2-qubit electronic Hamiltonian.
