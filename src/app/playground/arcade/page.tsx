@@ -29,6 +29,8 @@ import {
   RepetitionRescue,
   TunnelingCurve,
 } from "@/components/arcade/GamesAdvanced";
+import { EngineBenchmark } from "@/components/arcade/EngineBenchmark";
+import { HardwareComparison } from "@/components/HardwareComparison";
 import { softwareApplicationSchema } from "@/lib/jsonld";
 import { SITE_URL, buildMetadata } from "@/lib/seo";
 
@@ -91,6 +93,17 @@ export default function ArcadePage() {
             </div>
           </section>
         ))}
+        <section className="mx-auto max-w-6xl px-6 py-10">
+          <h2 className="text-xl font-semibold text-foreground">Reality check</h2>
+          <p className="mt-1 mb-6 text-sm text-muted">
+            How far the browser engine scales on your machine — and how the ideal CHSH result compares with a real
+            device&apos;s noise model.
+          </p>
+          <div className="grid gap-5 md:grid-cols-2">
+            <EngineBenchmark />
+            <HardwareComparison />
+          </div>
+        </section>
       </main>
       <SiteFooter />
       <JsonLd

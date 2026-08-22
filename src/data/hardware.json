@@ -1,0 +1,34 @@
+{
+  "experiment": "CHSH Bell test on a 2-qubit Bell state, 4 measurement settings",
+  "generated_at": "2026-08-22T03:22:47.185462+00:00",
+  "classical_bound": 2.0,
+  "tsirelson_bound": 2.8284271247461903,
+  "runs": [
+    {
+      "label": "ideal statevector (noiseless)",
+      "shots": null,
+      "S": 2.828432
+    },
+    {
+      "label": "ibm_brisbane noise model (Aer, real calibration snapshot)",
+      "shots": 4000,
+      "S": 2.444,
+      "correlations": {
+        "a0-b0": 0.629,
+        "a0-b1": 0.6165,
+        "a1-b0": 0.6015,
+        "a1-b1": -0.597
+      },
+      "device": "ibm_brisbane",
+      "qubits_on_device": 127,
+      "note": "Simulation using the published error rates of a real 127-qubit device. Not a hardware run."
+    },
+    {
+      "label": "real hardware",
+      "device": null,
+      "shots": null,
+      "S": null,
+      "note": "Not run yet \u2014 set QISKIT_IBM_TOKEN and re-run this script to execute on an IBM Quantum device."
+    }
+  ]
+}

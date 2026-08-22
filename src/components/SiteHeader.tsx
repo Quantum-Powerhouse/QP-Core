@@ -27,6 +27,9 @@ export function SiteHeader() {
           <Link href="/#projects" className="transition-colors hover:text-foreground">
             Projects
           </Link>
+          <Link href="/builder" className="transition-colors hover:text-foreground">
+            Builder
+          </Link>
         </nav>
       </div>
     </header>
