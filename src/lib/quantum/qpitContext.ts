@@ -9,6 +9,8 @@
  * Tested by tests/qpit-context.test.mjs (node --test, native type stripping).
  */
 
+import { ARCADE_GAME_COUNT } from "../../components/arcade/manifest.ts";
+
 export type QpitSection =
   | "home"
   | "research"
@@ -22,6 +24,7 @@ export type QpitSection =
   | "playground"
   | "learn"
   | "applications"
+  | "field"
   | "unknown";
 
 /** Longest-prefix-wins route → section mapping. Order matters only for readability. */
@@ -37,6 +40,7 @@ const SECTION_PREFIXES: [string, QpitSection][] = [
   ["/playground", "playground"],
   ["/learn", "learn"],
   ["/applications", "applications"],
+  ["/field", "field"],
 ];
 
 export function sectionForPath(pathname: string): QpitSection {
@@ -62,6 +66,7 @@ const GREETINGS: Record<QpitSection, string[]> = {
   playground: ["Careful. Things get weird around here.", "Go on, run something.", "You clicked that like you knew what it would do."],
   learn: ["Class is in session. I'm the lab rat.", "Four levels. No slides. You'll be fine."],
   applications: ["The honest map. Some of it will disappoint you.", "Hype goes to die here."],
+  field: ["Receipts for the whole industry.", "Every card says what kind of claim it is."],
   unknown: ["Hm. New territory."],
 };
 
@@ -79,6 +84,7 @@ const HOVER_LINES: Record<QpitSection, string[]> = {
   playground: ["I think you should explore that.", "Real simulation in there. Not slides."],
   learn: ["A path through the games. Worth it."],
   applications: ["What I'm actually for. Spoiler: not video."],
+  field: ["The scoreboard. Logical qubits, not marketing ones."],
   unknown: [],
 };
 
@@ -146,9 +152,10 @@ export const LOOKING_AT: Record<QpitSection, string> = {
   "prior-art": "The prior-art matrix: two dozen systems, each checked for what it really does and doesn't do.",
   methodology: "How the checking worked: open the primary source, or don't cite it.",
   docs: "Technical docs with server-rendered math, written against the actual source code.",
-  playground: "A playground. The arcade has 21 games and labs; the VQE suite runs a real eigensolver; the transpiler compiles OpenQASM.",
+  playground: `A playground. The arcade has ${ARCADE_GAME_COUNT} games and labs; the VQE suite runs a real eigensolver; the transpiler compiles OpenQASM.`,
   learn: "A four-level path through the arcade games, in the order that builds intuition.",
   applications: "The sourced map of what quantum computing is actually good for — and what it isn't.",
+  field: "The state of the industry with receipts: hardware scoreboard, post-quantum crypto deadlines, the timeline debate, careers.",
   unknown: "Honestly? Somewhere I don't have a map for.",
 };
 
@@ -165,6 +172,7 @@ export const NEXT_STEP: Record<QpitSection, { line: string; href: string }> = {
   playground: { line: "Try the arcade's Grover Searchlight — then over-search it on purpose.", href: "/playground/arcade" },
   learn: { line: "Start Level 1. Gate Mixer. Press H twice.", href: "/playground/arcade#gate-mixer" },
   applications: { line: "Now feel the real one: simulate a molecule in the VQE suite.", href: "/playground/vqe-suite" },
+  field: { line: "Start with the hardware scoreboard — results first, promises second.", href: "/field/hardware" },
   unknown: { line: "Home is always a safe measurement.", href: "/" },
 };
 

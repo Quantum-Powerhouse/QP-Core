@@ -17,7 +17,7 @@ type Run = {
 export function HardwareComparison() {
   const data = hardware as { experiment: string; generated_at: string; classical_bound: number; tsirelson_bound: number; runs: Run[] };
   return (
-    <section className="glass-panel rounded-xl p-5">
+    <section id="simulation-vs-device-chsh" className="glass-panel scroll-mt-24 rounded-xl p-5">
       <h3 className="text-base font-semibold text-foreground">Simulation vs. device: CHSH</h3>
       <p className="mt-1 text-sm text-muted">{data.experiment}. Classical bound 2, Tsirelson bound 2.83.</p>
       <div className="mt-4 flex flex-col gap-3">

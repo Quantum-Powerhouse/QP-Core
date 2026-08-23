@@ -15,8 +15,8 @@ export function SiteHeader() {
           <Link href="/learn" className="transition-colors hover:text-foreground">
             Learn
           </Link>
-          <Link href="/applications" className="transition-colors hover:text-foreground">
-            Applications
+          <Link href="/field" className="transition-colors hover:text-foreground">
+            Field
           </Link>
           <Link href="/research" className="transition-colors hover:text-foreground">
             Research

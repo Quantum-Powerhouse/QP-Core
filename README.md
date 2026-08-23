@@ -82,6 +82,18 @@ the FastAPI backend enables CORS for the site's origin.
   When `NEXT_PUBLIC_TRANSPILER_API_URL` is set, that page fetches the **live** spec from
   `${NEXT_PUBLIC_TRANSPILER_API_URL}/openapi.json` instead of this snapshot.
 
+## The Field — industry state, with receipts
+
+`/field` holds primary-source-verified content written to the research section's
+standard: hardware scoreboard (logical qubits, fidelity, code distance — results vs
+roadmaps), post-quantum cryptography (NIST standards, the 2030/2035 timeline, Mosca's
+inequality, RSA-2048 qubit estimates), what gets solved first, the timeline debate,
+and careers. Content is typed data in `src/lib/field/*.ts`; every claim carries a
+status (verified / vendor-reported / projection / opinion / estimate / contested),
+a YYYY-MM date and an http source, enforced by `tests/field.test.mjs` — which also
+rejects hype phrasing. `FIELD_CHECKED_ON` in `src/lib/field/types.ts` is the last
+verification date; update it when re-checking sources.
+
 ## QPet — the site's quantum companion
 
 QPet is the small interactive character living in the interface (the orb in the
