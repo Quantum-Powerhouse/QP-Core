@@ -7,6 +7,7 @@ const STATUS_TONE: Record<FieldStatus, string> = {
   opinion: "border-[var(--accent-2)]/70 text-[var(--accent-2)]",
   estimate: "border-muted/70 text-muted",
   contested: "border-[#ff6b6b]/60 text-[#ff6b6b]",
+  preprint: "border-[#c084fc]/60 text-[#c084fc]",
 };
 
 /** One claim, one status, one source — the site's citation pattern, reused. */

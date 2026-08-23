@@ -53,6 +53,14 @@ export default function FirstSolvedPage() {
         <Link href="/playground/vqe-suite" className="text-accent">VQE suite</Link> solves H₂ to chemical accuracy in
         your browser — the same idea the 2029 roadmaps intend to run at a million physical qubits.
       </p>
+      <section className="glass-panel mt-12 rounded-xl p-5">
+        <h2 className="font-mono text-xs uppercase tracking-widest text-accent">See also</h2>
+        <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+          <li><Link href="/applications" className="text-accent underline-offset-2 hover:underline">The full applications map</Link></li>
+          <li><Link href="/field/open-problems" className="text-accent underline-offset-2 hover:underline">Why ML advantage is unproven: dequantization</Link></li>
+          <li><Link href="/playground/vqe-suite" className="text-accent underline-offset-2 hover:underline">Run a real molecule</Link></li>
+        </ul>
+      </section>
     </>
   );
 }

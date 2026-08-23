@@ -18,7 +18,9 @@ export type FieldStatus =
   /** a resource estimate or aggregator statistic with stated caveats */
   | "estimate"
   /** publicly disputed in the peer-reviewed record */
-  | "contested";
+  | "contested"
+  /** a preprint not yet peer-reviewed at the check date */
+  | "preprint";
 
 export type FieldSource = { label: string; url: string };
 
@@ -41,6 +43,7 @@ export const FIELD_STATUS_LABEL: Record<FieldStatus, string> = {
   opinion: "Opinion — named, dated",
   estimate: "Estimate — with caveats",
   contested: "Contested — disputed in the record",
+  preprint: "Preprint — not yet peer-reviewed",
 };
 
 export const FIELD_CHECKED_ON = "2026-08-21";

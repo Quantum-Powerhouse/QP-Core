@@ -169,6 +169,23 @@ QPet never blocks interaction (pointer-events disabled while roaming), is keyboa
 accessible (the docked orb is a button), and never fabricates state — speech lines
 describe real events, real routes, and real sections only.
 
+## The Field, the Lab, and the phone menu
+
+- **The Field** (`src/lib/field/*.ts` → `/field/*`): ten sourced sections — hardware scoreboard,
+  post-quantum cryptography, what gets solved first, the timeline debate, careers, quantum
+  networking, quantum sensing, national strategies, open-source tooling, open problems. Every
+  entry is a typed `FieldClaim` with a status (verified / vendor-reported / projection / opinion /
+  estimate / contested / preprint), a YYYY-MM date, and an http source; `tests/field.test.mjs`
+  fails the build on missing sources, invalid statuses, hype phrasing, roadmaps not tagged as
+  projections, preprints not tagged as preprints, and open problems without their framing paper.
+- **Circuit Lab** (`src/lib/lab/circuit.ts` → `/lab`): build circuits on up to five qubits;
+  exact statevector (amplitudes, phases, per-qubit Bloch vectors), depolarizing noise on an exact
+  density matrix, 1024 sampled shots, OpenQASM 2.0 export into the transpiler. Engine is pure and
+  unit-tested (`tests/lab.test.mjs`).
+- **Phone navigation** (`src/components/MobileNav.tsx`): the header used to hide every link below
+  the `sm` breakpoint with nothing in their place. A labelled disclosure menu now lists every
+  section; `e2e/mobile-nav.spec.ts` asserts all sections are reachable at 375/390/428 px.
+
 ## Deploy
 
 Deploy on [Vercel](https://vercel.com/new) or any Node host that supports

@@ -98,7 +98,7 @@ export default function LearnPage() {
           ))}
         </div>
         <p className="mt-10 text-sm text-muted">
-          Then read <Link href="/applications" className="text-accent">what it&apos;s actually good for</Link> — so the
+          Graduated? Open the <Link href="/lab" className="text-accent">Circuit Lab</Link> and build something the games never showed you. Then read <Link href="/applications" className="text-accent">what it&apos;s actually good for</Link> — so the
           hype never gets you.
         </p>
       </main>

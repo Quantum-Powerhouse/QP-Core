@@ -9,6 +9,11 @@ const FIELD_NAV: { href: string; label: string }[] = [
   { href: "/field/first-solved", label: "What gets solved first" },
   { href: "/field/timeline", label: "The timeline debate" },
   { href: "/field/careers", label: "Careers" },
+  { href: "/field/networking", label: "Quantum networking" },
+  { href: "/field/sensing", label: "Quantum sensing" },
+  { href: "/field/strategies", label: "National strategies" },
+  { href: "/field/tooling", label: "Open-source tooling" },
+  { href: "/field/open-problems", label: "Open problems" },
   { href: "/applications", label: "Applications map" },
 ];
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { FieldClaimCard, StatusLegend } from "@/components/field/FieldClaimCard";
 import { HARDWARE_MILESTONES, HARDWARE_ROADMAPS, HARDWARE_STATE } from "@/lib/field/hardware";
 import { buildMetadata } from "@/lib/seo";
@@ -58,6 +59,16 @@ export default function HardwarePage() {
           <FieldClaimCard key={c.id} claim={c} />
         ))}
       </div>
+      <section className="glass-panel mt-12 rounded-xl p-5">
+        <h2 className="font-mono text-xs uppercase tracking-widest text-accent">See also</h2>
+        <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+          <li><Link href="/field/timeline" className="text-accent underline-offset-2 hover:underline">The timeline debate — what the roadmaps promise</Link></li>
+          <li><Link href="/field/strategies" className="text-accent underline-offset-2 hover:underline">DARPA&apos;s benchmarking referee</Link></li>
+          <li><Link href="/field/tooling" className="text-accent underline-offset-2 hover:underline">Stim — the simulator behind the thresholds</Link></li>
+          <li><Link href="/field/open-problems" className="text-accent underline-offset-2 hover:underline">The threshold theorem&apos;s assumptions</Link></li>
+          <li><Link href="/lab" className="text-accent underline-offset-2 hover:underline">Watch noise eat a state in the Circuit Lab</Link></li>
+        </ul>
+      </section>
     </>
   );
 }

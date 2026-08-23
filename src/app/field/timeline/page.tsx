@@ -67,6 +67,14 @@ export default function TimelinePage() {
           </li>
         </ul>
       </section>
+      <section className="glass-panel mt-12 rounded-xl p-5">
+        <h2 className="font-mono text-xs uppercase tracking-widest text-accent">See also</h2>
+        <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+          <li><Link href="/field/hardware" className="text-accent underline-offset-2 hover:underline">Hardware scoreboard — the verified results</Link></li>
+          <li><Link href="/field/strategies" className="text-accent underline-offset-2 hover:underline">DARPA QBI: utility-scale by 2033?</Link></li>
+          <li><Link href="/field/open-problems" className="text-accent underline-offset-2 hover:underline">NISQ advantage — still an open question</Link></li>
+        </ul>
+      </section>
     </>
   );
 }

@@ -88,6 +88,14 @@ export default function CareersPage() {
           the calendar.
         </p>
       </section>
+      <section className="glass-panel mt-12 rounded-xl p-5">
+        <h2 className="font-mono text-xs uppercase tracking-widest text-accent">See also</h2>
+        <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+          <li><Link href="/field/tooling" className="text-accent underline-offset-2 hover:underline">The tools these roles use</Link></li>
+          <li><Link href="/lab" className="text-accent underline-offset-2 hover:underline">Build a circuit — the software-engineer artifact</Link></li>
+          <li><Link href="/field/strategies" className="text-accent underline-offset-2 hover:underline">Where the public money is going</Link></li>
+        </ul>
+      </section>
     </>
   );
 }

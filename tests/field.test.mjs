@@ -12,6 +12,11 @@ import { PQC_STANDARDS, PQC_THREAT, RSA_ESTIMATES } from "../src/lib/field/pqc.t
 import { CAREER_FACTS, CAREER_ROLES, EMPLOYERS } from "../src/lib/field/careers.ts";
 import { TIMELINE_OPTIMISTS, TIMELINE_SKEPTICS } from "../src/lib/field/timeline.ts";
 import { FIRST_SOLVED } from "../src/lib/field/firstSolved.ts";
+import { NETWORKING } from "../src/lib/field/networking.ts";
+import { SENSING } from "../src/lib/field/sensing.ts";
+import { STRATEGIES } from "../src/lib/field/strategies.ts";
+import { TOOLING } from "../src/lib/field/tooling.ts";
+import { OPEN_PROBLEMS } from "../src/lib/field/openProblems.ts";
 
 const ALL = [
   ...HARDWARE_MILESTONES,
@@ -23,6 +28,11 @@ const ALL = [
   ...TIMELINE_OPTIMISTS,
   ...TIMELINE_SKEPTICS,
   ...FIRST_SOLVED,
+  ...NETWORKING,
+  ...SENSING,
+  ...STRATEGIES,
+  ...TOOLING,
+  ...OPEN_PROBLEMS,
 ];
 
 const HYPE = [/revolutioni[sz]e/i, /change the world/i, /take over/i, /game[- ]changer/i, /limitless/i, /unprecedented power/i];
@@ -81,4 +91,22 @@ test("career roles each link to proof on this site or a public repo; employers h
     for (const p of r.proof) assert.ok(p.href.startsWith("/") || isHttp(p.href), `${r.role}: bad proof href ${p.href}`);
   }
   for (const e of EMPLOYERS) assert.ok(isHttp(e.url), `${e.name}: bad url`);
+});
+
+test("preprints are labeled as preprints, never as verified results", () => {
+  for (const c of [...NETWORKING, ...SENSING]) {
+    if (/preprint/i.test(c.body)) assert.equal(c.status, "preprint", `${c.id} mentions a preprint but is tagged ${c.status}`);
+  }
+});
+
+test("legislation in progress and roadmap missions are projections", () => {
+  for (const c of STRATEGIES) {
+    if (/in progress|not yet law|planned for|mission is a target/i.test(c.body)) {
+      assert.equal(c.status, "projection", `${c.id} describes a plan but is tagged ${c.status}`);
+    }
+  }
+});
+
+test("every open problem names its framing paper on arXiv", () => {
+  for (const c of OPEN_PROBLEMS) assert.ok(/arxiv\.org/.test(c.source.url), `${c.id} should cite the arXiv paper that framed it`);
 });

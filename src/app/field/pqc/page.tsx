@@ -90,6 +90,14 @@ export default function PqcPage() {
           <li>Plan against NIST&apos;s dates: nothing new on 112-bit RSA/ECC after 2030; nothing at all after 2035.</li>
         </ol>
       </section>
+      <section className="glass-panel mt-12 rounded-xl p-5">
+        <h2 className="font-mono text-xs uppercase tracking-widest text-accent">See also</h2>
+        <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+          <li><Link href="/playground/arcade#bb84-catch-eve" className="text-accent underline-offset-2 hover:underline">Play BB84 — catch the eavesdropper</Link></li>
+          <li><Link href="/field/networking" className="text-accent underline-offset-2 hover:underline">Quantum networking — entanglement on real fiber</Link></li>
+          <li><Link href="/field/hardware" className="text-accent underline-offset-2 hover:underline">How far the hardware is from breaking RSA</Link></li>
+        </ul>
+      </section>
     </>
   );
 }
