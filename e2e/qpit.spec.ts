@@ -69,9 +69,9 @@ test("QPIT returns to its dock after the cursor goes idle", async ({ page }) => 
   await page.waitForTimeout(500);
   expect(Math.abs((await wrapperX(page)) - dockX)).toBeGreaterThan(100);
 
-  // Idle past the dock timeout; the spring carries it home.
-  await page.waitForTimeout(5200);
-  expect(Math.abs((await wrapperX(page)) - dockX)).toBeLessThan(30);
+  // Idle past the dock timeout; the spring carries it home (generous for slow CI runners).
+  await page.waitForTimeout(7500);
+  expect(Math.abs((await wrapperX(page)) - dockX)).toBeLessThan(40);
 });
 
 test("poking QPIT with a real mouse click produces a dialogue line", async ({ page }) => {

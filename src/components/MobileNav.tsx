@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -16,10 +16,14 @@ export function MobileNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close when the route changes (Link navigation keeps the header mounted).
+  // Close when the route actually changes (Link navigation keeps the header
+  // mounted). Must not fire on mount: a mount-time close raced a fast tap on
+  // slow devices and shut the menu the instant it opened.
+  const lastPathRef = useRef(pathname);
   useEffect(() => {
-    const id = requestAnimationFrame(() => setOpen(false));
-    return () => cancelAnimationFrame(id);
+    if (lastPathRef.current === pathname) return;
+    lastPathRef.current = pathname;
+    setOpen(false);
   }, [pathname]);
 
   useEffect(() => {

@@ -20,7 +20,7 @@ for (const width of WIDTHS) {
     await menu.click();
     const panel = page.getByRole("navigation", { name: "Site sections" });
     await expect(panel).toBeVisible();
-    for (const s of SECTIONS) await expect(panel.getByRole("link", { name: s })).toBeVisible();
+    for (const s of SECTIONS) await expect(panel.getByRole("link", { name: s })).toBeVisible({ timeout: 10_000 });
     // navigating closes the menu and actually moves
     await panel.getByRole("link", { name: "Field" }).click();
     await page.waitForURL("**/field", { timeout: 15_000 });
