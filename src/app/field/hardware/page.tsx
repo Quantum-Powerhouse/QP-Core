@@ -50,7 +50,7 @@ export default function HardwarePage() {
       <h2 className="mt-12 text-xl font-semibold text-foreground">Roadmaps — promises with dates</h2>
       <p className="mt-1 mb-5 text-sm text-muted">
         None of these has happened. They are listed because they are the claims the industry will be measured against,
-        and because their spread — from IBM&apos;s 200 logical qubits to IonQ&apos;s 80,000 in the same year — is itself
+        and because their spread — IBM&apos;s 200 logical qubits in 2029 against IonQ&apos;s 80,000 in 2030 — is itself
         informative.
       </p>
       <div className="flex flex-col gap-4">
