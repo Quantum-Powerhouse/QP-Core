@@ -13,7 +13,6 @@ export const metadata: Metadata = buildMetadata({
   path: "/playground/qp-core",
   keywords: [
     "OpenQASM to Amazon Braket transpiler",
-    "Rust quantum compiler pass",
     "OpenQASM 3.0 parser",
     "Amazon Braket IR",
     "Qiskit transpiler playground",
@@ -50,7 +49,6 @@ export default function QpCorePlaygroundPage() {
           url: `${SITE_URL}/playground/qp-core`,
           keywords: [
             "OpenQASM to Amazon Braket transpiler",
-            "Rust quantum compiler pass",
             "Amazon Braket IR",
           ],
         })}

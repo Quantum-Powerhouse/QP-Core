@@ -32,6 +32,7 @@ import {
 import { QaoaMaxCut, WalkRace } from "@/components/arcade/GamesFrontier";
 import { EngineBenchmark } from "@/components/arcade/EngineBenchmark";
 import { HardwareComparison } from "@/components/HardwareComparison";
+import { Reveal } from "@/components/Reveal";
 import { softwareApplicationSchema } from "@/lib/jsonld";
 import { SITE_URL, buildMetadata } from "@/lib/seo";
 
@@ -94,7 +95,9 @@ export default function ArcadePage() {
             <p className="mt-1 mb-6 text-sm text-muted">{section.blurb}</p>
             <div className="grid gap-5 md:grid-cols-2">
               {section.games.map((Game, i) => (
-                <Game key={i} />
+                <Reveal key={i} delayMs={(i % 2) * 60}>
+                  <Game />
+                </Reveal>
               ))}
             </div>
           </section>

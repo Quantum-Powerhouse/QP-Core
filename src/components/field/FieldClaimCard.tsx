@@ -10,9 +10,12 @@ const STATUS_TONE: Record<FieldStatus, string> = {
   preprint: "border-[#c084fc]/60 text-[#c084fc]",
 };
 
+import { Reveal } from "@/components/Reveal";
+
 /** One claim, one status, one source — the site's citation pattern, reused. */
 export function FieldClaimCard({ claim }: { claim: FieldClaim }) {
   return (
+    <Reveal>
     <article id={claim.id} className="glass-panel flex scroll-mt-24 flex-col gap-3 rounded-xl p-5">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <h3 className="text-base font-semibold leading-snug text-foreground">{claim.title}</h3>
@@ -34,6 +37,7 @@ export function FieldClaimCard({ claim }: { claim: FieldClaim }) {
         <span className="ml-auto">checked {FIELD_CHECKED_ON}</span>
       </footer>
     </article>
+    </Reveal>
   );
 }
 

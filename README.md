@@ -169,6 +169,25 @@ QPet never blocks interaction (pointer-events disabled while roaming), is keyboa
 accessible (the docked orb is a button), and never fabricates state — speech lines
 describe real events, real routes, and real sections only.
 
+## Real hardware, the paper, and provenance
+
+- **Hardware lane** (`/hardware` → `src/app/api/hardware/[...path]/route.ts` → the FastAPI
+  service's `/api/v1/hardware/*`): submit an OpenQASM 2.0 circuit (≤5 qubits, ≤50 gates) to a
+  real IBM Quantum device via Qiskit Runtime and see the measured counts beside the exact
+  Born-rule prediction. Guardrails are server-side and tested without a token: size caps, a
+  monthly shot ledger, one job at a time, and a 503 — never a fake result — when
+  `QISKIT_IBM_TOKEN` is absent. Activation = deploy the backend (Render blueprint) with the
+  token, then set `NEXT_PUBLIC_TRANSPILER_API_URL` here. The page states its own status.
+- **The paper** (`/research/paper`): the research record rendered as a citable PDF
+  (`paper/` in the research repository, attached to GitHub release v1.1.0), with BibTeX,
+  `CITATION.cff`, and an honest archival status (Zenodo DOI pending the owner's toggle;
+  arXiv not submitted).
+- **Provenance**: a homepage research callout states the finding itself; the footer carries
+  the author byline; `/engineering` documents the real tradeoffs (including a false "Rust
+  compiler pass" keyword found and removed); `/builder` shows live GitHub activity.
+- **Motion**: `Reveal` is an entrance-only, reduced-motion-aware scroll reveal used on Field
+  cards and arcade cards — content arriving, never data moving.
+
 ## The Field, the Lab, and the phone menu
 
 - **The Field** (`src/lib/field/*.ts` → `/field/*`): ten sourced sections — hardware scoreboard,

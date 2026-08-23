@@ -2,6 +2,7 @@
 export const NAV_ITEMS: { href: string; label: string; accent?: boolean }[] = [
   { href: "/playground/arcade", label: "Arcade", accent: true },
   { href: "/lab", label: "Lab" },
+  { href: "/hardware", label: "Hardware" },
   { href: "/learn", label: "Learn" },
   { href: "/field", label: "Field" },
   { href: "/research", label: "Research" },

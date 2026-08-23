@@ -4,6 +4,7 @@ import { ExploreFurther } from "@/components/ExploreFurther";
 import { Hero } from "@/components/Hero";
 import { JsonLd } from "@/components/JsonLd";
 import { ProjectHighlights } from "@/components/ProjectHighlights";
+import { ResearchCallout } from "@/components/ResearchCallout";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { TranspilerTerminalStudio } from "@/components/TranspilerTerminalStudio";
@@ -16,6 +17,7 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1">
         <Hero />
+        <ResearchCallout />
         <AboutSection />
         <CircuitTimelineSection />
         <TranspilerTerminalStudio />
@@ -32,7 +34,6 @@ export default function Home() {
           url: `${SITE_URL}/playground/qp-core`,
           keywords: [
             "OpenQASM to Amazon Braket transpiler",
-            "Rust quantum compiler pass",
             "Amazon Braket IR",
           ],
         })}

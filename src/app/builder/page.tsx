@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ARCADE_GAME_COUNT } from "@/components/arcade/manifest";
+import { RepoPulse } from "@/components/RepoPulse";
 import { getResearchStats } from "@/lib/research/stats";
 import { buildMetadata } from "@/lib/seo";
 
@@ -55,7 +56,7 @@ export default function BuilderPage() {
           <div className="glass-panel rounded-xl p-5">
             <h2 className="font-mono text-xs uppercase tracking-widest text-accent">How it was built — honestly</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              I direct AI coding agents the way a lead directs a team: I set the rules (nothing fake, every claim
+              I built this alone, directing AI coding agents the way a lead directs a team: I set the rules (nothing fake, every claim
               sourced, tests before merge), review every decision, and keep the physics and the research judgment mine.
               The commit history says <em>Co-Authored-By</em> where an agent typed — and the verification discipline
               (unit + end-to-end suites, evidence-integrity CI, primary-source-only research) is exactly what makes that
@@ -81,6 +82,10 @@ export default function BuilderPage() {
             ))}
           </dl>
         </section>
+
+        <div className="mt-10">
+          <RepoPulse />
+        </div>
 
         <section className="mt-10 glass-panel rounded-xl p-5">
           <h2 className="font-mono text-xs uppercase tracking-widest text-accent">What&apos;s next</h2>

@@ -25,6 +25,8 @@ export type QpitSection =
   | "learn"
   | "applications"
   | "lab"
+  | "hardware"
+  | "engineering"
   | "field"
   | "unknown";
 
@@ -41,6 +43,8 @@ const SECTION_PREFIXES: [string, QpitSection][] = [
   ["/playground", "playground"],
   ["/learn", "learn"],
   ["/lab", "lab"],
+  ["/hardware", "hardware"],
+  ["/engineering", "engineering"],
   ["/applications", "applications"],
   ["/field", "field"],
 ];
@@ -68,6 +72,8 @@ const GREETINGS: Record<QpitSection, string[]> = {
   playground: ["Careful. Things get weird around here.", "Go on, run something.", "You clicked that like you knew what it would do."],
   learn: ["Class is in session. I'm the lab rat.", "Four levels. No slides. You'll be fine."],
   lab: ["The open bench. Try not to entangle me.", "Every click re-runs the engine. No mercy."],
+  hardware: ["This is where circuits leave the browser.", "Real noise lives here. Respect it."],
+  engineering: ["The tradeoffs. Nobody hides these.", "Where the hard parts get admitted."],
   applications: ["The honest map. Some of it will disappoint you.", "Hype goes to die here."],
   field: ["Receipts for the whole industry.", "Every card says what kind of claim it is."],
   unknown: ["Hm. New territory."],
@@ -87,6 +93,8 @@ const HOVER_LINES: Record<QpitSection, string[]> = {
   playground: ["I think you should explore that.", "Real simulation in there. Not slides."],
   learn: ["A path through the games. Worth it."],
   lab: ["Build your own circuit in there."],
+  hardware: ["Real processor. Real noise."],
+  engineering: ["The honest part about how it was built."],
   applications: ["What I'm actually for. Spoiler: not video."],
   field: ["The scoreboard. Logical qubits, not marketing ones."],
   unknown: [],
@@ -159,6 +167,8 @@ export const LOOKING_AT: Record<QpitSection, string> = {
   playground: `A playground. The arcade has ${ARCADE_GAME_COUNT} games and labs; the VQE suite runs a real eigensolver; the transpiler compiles OpenQASM.`,
   learn: "A four-level path through the arcade games, in the order that builds intuition.",
   lab: "The Circuit Lab: build any circuit on up to five qubits and watch the exact state, noise, and sampled shots respond.",
+  hardware: "The hardware lane: a circuit runs on a real IBM device and comes back beside the exact prediction — or the page says honestly why it can't yet.",
+  engineering: "The engineering decisions page: each tradeoff with its problem, the call, the cost, and a link to check it.",
   applications: "The sourced map of what quantum computing is actually good for — and what it isn't.",
   field: "The state of the industry with receipts: hardware scoreboard, post-quantum crypto deadlines, the timeline debate, careers.",
   unknown: "Honestly? Somewhere I don't have a map for.",
@@ -177,6 +187,8 @@ export const NEXT_STEP: Record<QpitSection, { line: string; href: string }> = {
   playground: { line: "Try the arcade's Grover Searchlight — then over-search it on purpose.", href: "/playground/arcade" },
   learn: { line: "Start Level 1. Gate Mixer. Press H twice.", href: "/playground/arcade#gate-mixer" },
   lab: { line: "Load the Bell preset, then add noise and watch purity fall.", href: "/playground/arcade#decoherence-dial" },
+  hardware: { line: "See what the devices have actually achieved.", href: "/field/hardware" },
+  engineering: { line: "Meet the person who made the calls.", href: "/builder" },
   applications: { line: "Now feel the real one: simulate a molecule in the VQE suite.", href: "/playground/vqe-suite" },
   field: { line: "Start with the hardware scoreboard — results first, promises second.", href: "/field/hardware" },
   unknown: { line: "Home is always a safe measurement.", href: "/" },
