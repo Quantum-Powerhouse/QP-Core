@@ -1,7 +1,7 @@
 name: Lighthouse
 
 # Performance / accessibility / SEO budget against production, on a schedule
-# and on demand. Informational at first (no hard fail) — budgets tighten once
+# and on demand. Informational at first (no hard fail): budgets tighten once
 # the baseline is known. Mobile emulation, because that is where three WebGL
 # canvases hurt first.
 

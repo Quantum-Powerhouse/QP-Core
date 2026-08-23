@@ -1,5 +1,5 @@
 /**
- * Circuit Lab engine tests — the sandbox must be as exact as the games.
+ * Circuit Lab engine tests, the sandbox must be as exact as the games.
  */
 
 import { test } from "node:test";

@@ -1,5 +1,5 @@
 /**
- * The physics engine's own test suite — the numbers the whole site rests on.
+ * The physics engine's own test suite, the numbers the whole site rests on.
  * Runs the real TypeScript modules under node --test (native type stripping).
  */
 

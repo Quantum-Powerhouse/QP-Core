@@ -126,7 +126,7 @@ def main() -> None:
             "device": None,
             "shots": None,
             "S": None,
-            "note": "Not run yet — set QISKIT_IBM_TOKEN and re-run this script to execute on an IBM Quantum device.",
+            "note": "Not run yet. Set QISKIT_IBM_TOKEN and re-run this script to execute on an IBM Quantum device.",
         })
 
     dest = Path(__file__).resolve().parents[2] / "src" / "data" / "hardware.json"

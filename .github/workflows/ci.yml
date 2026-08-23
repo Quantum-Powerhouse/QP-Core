@@ -43,7 +43,7 @@ jobs:
       - name: Validate research artifacts
         run: npm run validate:research
 
-      # Unit tests (node --test, native type stripping — no test framework).
+      # Unit tests (node --test, native type stripping: no test framework).
       - name: Test
         run: npm test
 

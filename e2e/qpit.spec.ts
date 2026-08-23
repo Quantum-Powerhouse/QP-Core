@@ -81,7 +81,7 @@ test("poking QPIT with a real mouse click produces a dialogue line", async ({ pa
   await page.waitForTimeout(1200);
 
   // Move the mouse so QPIT roams and hangs ~92px below the cursor, then
-  // click on its body — the roaming hit-test path a real user exercises.
+  // click on its body, the roaming hit-test path a real user exercises.
   // Aim over hero prose (no links beneath), so the poke hit-test wins.
   for (let i = 0; i <= 6; i++) {
     await page.mouse.move(200 + i * 10, 190);

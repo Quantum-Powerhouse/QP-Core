@@ -1,6 +1,6 @@
 /**
  * Unit tests for QPIT's pure contextual logic (src/lib/quantum/qpitContext.ts).
- * Runs on node --test with native TypeScript type stripping — same mechanism
+ * Runs on node --test with native TypeScript type stripping, same mechanism
  * scripts/validate-research.mjs relies on. No test framework dependency.
  */
 

@@ -1,6 +1,6 @@
 /**
  * Field content integrity: every claim must carry a valid status, an ISO
- * month, and an http(s) source — and must not use hype phrasing. Same
+ * month, and an http(s) source, and must not use hype phrasing. Same
  * discipline the research validator applies to evidence.json.
  */
 
@@ -64,7 +64,7 @@ test("roadmap entries are tagged as projections, never as verified", () => {
   for (const c of HARDWARE_ROADMAPS) assert.equal(c.status, "projection", `${c.id} must be a projection`);
 });
 
-test("timeline entries are opinions or projections — never presented as results", () => {
+test("timeline entries are opinions or projections ,  never presented as results", () => {
   for (const c of [...TIMELINE_OPTIMISTS, ...TIMELINE_SKEPTICS]) {
     assert.ok(c.status === "opinion" || c.status === "projection", `${c.id}: timeline claims are opinions/projections, got ${c.status}`);
   }

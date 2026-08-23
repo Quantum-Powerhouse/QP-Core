@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * E2E tests for QPIT's pointer physics — things unit tests can't cover:
+ * E2E tests for QPIT's pointer physics, things unit tests can't cover:
  * real pointer events, rAF-driven transforms, hydration, and that QPIT
  * never blocks normal page interaction.
  *
