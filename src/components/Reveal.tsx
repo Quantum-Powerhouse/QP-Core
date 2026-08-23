@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /**
  * Scroll-triggered reveal: an element fades and lifts 8px into place when it
- * first enters the viewport. Entrance only — it marks content arriving, it
+ * first enters the viewport. Entrance only, it marks content arriving, it
  * never moves data the reader is using. Honors prefers-reduced-motion by
  * rendering static.
  */

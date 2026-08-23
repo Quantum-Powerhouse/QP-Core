@@ -9,7 +9,7 @@ type TranspileRequest = {
 /**
  * Temporary mock transpiler endpoint used until NEXT_PUBLIC_TRANSPILER_API_URL
  * points at the real FastAPI backend on Render. The braket_ir field is a
- * clearly labeled placeholder, but qiskit_python and metrics are genuinely
+ * clearly labeled placeholder, but qiskit_python and metrics are still
  * derived from the submitted QASM (see src/lib/qasmAnalyzer.ts) rather than
  * hardcoded, so the "live" numbers reflect the actual circuit pasted in.
  */

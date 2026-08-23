@@ -5,9 +5,9 @@ import { HARDWARE_MILESTONES, HARDWARE_ROADMAPS, HARDWARE_STATE } from "@/lib/fi
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Hardware Scoreboard — Logical Qubits, Fidelity, Code Distance (2023–2026)",
+  title: "Hardware Scoreboard: Logical Qubits, Fidelity, Code Distance (2023-2026)",
   description:
-    "Quantum hardware progress scored the honest way: logical qubits, gate fidelity and code distance. Google Willow, Quantinuum Helios, Harvard/QuEra, Microsoft — verified results separated from vendor roadmaps from IBM, Quantinuum, IonQ and PsiQuantum.",
+    "Quantum hardware progress scored by logical qubits, gate fidelity and code distance. Google Willow, Quantinuum Helios, Harvard/QuEra, Microsoft, verified results separated from vendor roadmaps from IBM, Quantinuum, IonQ and PsiQuantum.",
   path: "/field/hardware",
   keywords: ["logical qubits 2026", "below threshold error correction", "Google Willow", "Quantinuum Helios", "IBM Starling roadmap", "quantum hardware scoreboard"],
   ogTitle: "Hardware Scoreboard",
@@ -33,25 +33,25 @@ export default function HardwarePage() {
             <li key={s.label} className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
               <span className={`shrink-0 font-mono ${s.achieved ? "text-accent" : "text-[#f59e0b]"}`}>{s.achieved ? "✓ achieved" : "✗ not yet"}</span>
               <span>
-                <span className="text-foreground">{s.label}</span> <span className="text-muted">— {s.note}</span>
+                <span className="text-foreground">{s.label}</span> <span className="text-muted">, {s.note}</span>
               </span>
             </li>
           ))}
         </ul>
       </section>
 
-      <h2 className="mt-12 text-xl font-semibold text-foreground">Milestones, 2023–2026</h2>
-      <p className="mt-1 mb-5 text-sm text-muted">Chronological. A vendor blog is a real source for what a vendor measured — it is not peer review, and the tag says so.</p>
+      <h2 className="mt-12 text-xl font-semibold text-foreground">Milestones, 2023-2026</h2>
+      <p className="mt-1 mb-5 text-sm text-muted">Chronological. A vendor blog is a real source for what a vendor measured, it is not peer review, and the tag says so.</p>
       <div className="flex flex-col gap-4">
         {HARDWARE_MILESTONES.map((c) => (
           <FieldClaimCard key={c.id} claim={c} />
         ))}
       </div>
 
-      <h2 className="mt-12 text-xl font-semibold text-foreground">Roadmaps — promises with dates</h2>
+      <h2 className="mt-12 text-xl font-semibold text-foreground">Roadmaps: promises with dates</h2>
       <p className="mt-1 mb-5 text-sm text-muted">
         None of these has happened. They are listed because they are the claims the industry will be measured against,
-        and because their spread — IBM&apos;s 200 logical qubits in 2029 against IonQ&apos;s 80,000 in 2030 — is itself
+        and because their spread. IBM&apos;s 200 logical qubits in 2029 against IonQ&apos;s 80,000 in 2030, is itself
         informative.
       </p>
       <div className="flex flex-col gap-4">
@@ -62,9 +62,9 @@ export default function HardwarePage() {
       <section className="glass-panel mt-12 rounded-xl p-5">
         <h2 className="font-mono text-xs uppercase tracking-widest text-accent">See also</h2>
         <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
-          <li><Link href="/field/timeline" className="text-accent underline-offset-2 hover:underline">The timeline debate — what the roadmaps promise</Link></li>
+          <li><Link href="/field/timeline" className="text-accent underline-offset-2 hover:underline">The timeline debate, what the roadmaps promise</Link></li>
           <li><Link href="/field/strategies" className="text-accent underline-offset-2 hover:underline">DARPA&apos;s benchmarking referee</Link></li>
-          <li><Link href="/field/tooling" className="text-accent underline-offset-2 hover:underline">Stim — the simulator behind the thresholds</Link></li>
+          <li><Link href="/field/tooling" className="text-accent underline-offset-2 hover:underline">Stim, the simulator behind the thresholds</Link></li>
           <li><Link href="/field/open-problems" className="text-accent underline-offset-2 hover:underline">The threshold theorem&apos;s assumptions</Link></li>
           <li><Link href="/lab" className="text-accent underline-offset-2 hover:underline">Watch noise eat a state in the Circuit Lab</Link></li>
         </ul>

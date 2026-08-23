@@ -209,7 +209,7 @@ export function BlochSphere() {
   const betaMag = Math.sin(thetaRad / 2);
 
   // Pauli expectation values: the Bloch vector (x, y, z) IS (<X>, <Y>, <Z>)
-  // for a single-qubit pure state — this is the expectation-value
+  // for a single-qubit pure state, this is the expectation-value
   // representation of the same state shown as amplitudes above.
   const expX = Math.sin(thetaRad) * Math.cos(phiRad);
   const expY = Math.sin(thetaRad) * Math.sin(phiRad);
@@ -219,7 +219,7 @@ export function BlochSphere() {
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_260px]">
       <div className="lg:col-span-2">
         <RepresentsTag>
-          single-qubit expectation values ⟨X⟩, ⟨Y⟩, ⟨Z⟩ for a user-set state — a visual metaphor and a real
+          single-qubit expectation values ⟨X⟩, ⟨Y⟩, ⟨Z⟩ for a user-set state, a visual metaphor and a real
           calculation, not a running simulation
         </RepresentsTag>
       </div>
@@ -285,7 +285,7 @@ export function BlochSphere() {
           <p className="text-foreground">⟨Y⟩ = sinθ·sinφ = {expY.toFixed(3)}</p>
           <p className="text-foreground">⟨Z⟩ = cosθ = {expZ.toFixed(3)}</p>
           <p className="pt-1 text-muted">
-            The Bloch vector (x, y, z) = (⟨X⟩, ⟨Y⟩, ⟨Z⟩) — the same state, shown as expectation values instead
+            The Bloch vector (x, y, z) = (⟨X⟩, ⟨Y⟩, ⟨Z⟩), the same state, shown as expectation values instead
             of amplitudes.
           </p>
         </div>

@@ -9,7 +9,7 @@ import { SITE_URL, buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "VQE Suite: Qiskit-Style H2 Variational Eigensolver + ZNE Playground",
   description:
-    "Live VQE Suite playground — a real variational quantum eigensolver for the H2 molecule with a chemical-accuracy convergence curve, plus a Zero-Noise Extrapolation (ZNE) error-mitigation panel, both simulated in the browser.",
+    "Live VQE Suite playground, a real variational quantum eigensolver for the H2 molecule with a chemical-accuracy convergence curve, plus a Zero-Noise Extrapolation (ZNE) error-mitigation panel, both simulated in the browser.",
   path: "/playground/vqe-suite",
   keywords: [
     "Qiskit VQE benchmark suite",
@@ -31,7 +31,7 @@ export default function VqeSuitePlaygroundPage() {
           <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">VQE Suite</h1>
           <p className="mt-4 max-w-2xl text-muted">
             A hardware-efficient variational quantum eigensolver for molecular hydrogen, plus a
-            NISQ error-mitigation panel demonstrating Zero-Noise Extrapolation — both running as
+            NISQ error-mitigation panel demonstrating Zero-Noise Extrapolation, both running as
             real simulations in your browser.
           </p>
         </div>

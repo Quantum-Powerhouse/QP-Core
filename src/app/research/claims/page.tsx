@@ -17,7 +17,7 @@ export default function ClaimsPage() {
       <DocTitle
         eyebrow="Research / Claims"
         title="Claims table"
-        dek="Every claim (C01–C13) from the original research brief, independently verified against primary sources."
+        dek="Every claim (C01. C13) from the original research brief, independently verified against primary sources."
       />
 
       <P>

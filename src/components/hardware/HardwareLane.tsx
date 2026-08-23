@@ -27,7 +27,7 @@ type RunResult = {
 };
 
 /**
- * The live-hardware lane. Three honest states:
+ * The live-hardware lane. Three states:
  *   1. backend not deployed  → explains exactly what is missing
  *   2. backend up, no token  → same, one step closer
  *   3. enabled               → submit ≤5-qubit OpenQASM, see real counts
@@ -103,14 +103,13 @@ export function HardwareLane() {
             <Stat label="max qubits" value={String(status.max_qubits ?? 5)} />
             <Stat label="max gates" value={String(status.max_gates ?? 50)} />
             <Stat label="shots per job" value={String(status.shots_per_job ?? 1024)} />
-            <Stat label="monthly shot budget" value={status.monthly_shot_budget ? `${status.shots_used_this_month ?? 0} / ${status.monthly_shot_budget}` : "—"} accent={enabled} />
+            <Stat label="monthly shot budget" value={status.monthly_shot_budget ? `${status.shots_used_this_month ?? 0} / ${status.monthly_shot_budget}` : "n/a"} accent={enabled} />
           </div>
         )}
         {!enabled && (
           <p className="mt-4 font-mono text-[11px] leading-relaxed text-muted">
             What activates it: deploy the FastAPI service (one-click Render blueprint in the backend repo) and set{" "}
-            <code>QISKIT_IBM_TOKEN</code> there, then <code>NEXT_PUBLIC_TRANSPILER_API_URL</code> here. The guardrails
-            — size caps, a monthly shot ledger, one job at a time — are already enforced server-side and covered by
+            <code>QISKIT_IBM_TOKEN</code> there, then <code>NEXT_PUBLIC_TRANSPILER_API_URL</code> here. The guardrails (size caps, a monthly shot ledger, one job at a time) are enforced on the server and covered by
             the backend&apos;s tests.
           </p>
         )}
@@ -141,7 +140,7 @@ export function HardwareLane() {
           <ArcadeButton primary onClick={submit} disabled={!enabled || running}>
             {running ? "running on hardware…" : enabled ? "run on real hardware" : "run on real hardware (inactive)"}
           </ArcadeButton>
-          {!enabled && status && <span className="font-mono text-[11px] text-muted">disabled until the lane is live — nothing is simulated in its place</span>}
+          {!enabled && status && <span className="font-mono text-[11px] text-muted">disabled until the lane is live; no simulation stands in for it</span>}
           {error && <span className="font-mono text-[11px] text-[#ff6b6b]">{error}</span>}
         </div>
       </section>
@@ -149,10 +148,10 @@ export function HardwareLane() {
       {result && (
         <section className="glass-panel rounded-xl p-5">
           <h2 className="text-base font-semibold text-foreground">
-            Real device vs. exact prediction — <span className="font-mono text-accent">{result.backend}</span>
+            Real device vs. exact prediction, <span className="font-mono text-accent">{result.backend}</span>
           </h2>
           <p className="mt-1 font-mono text-[11px] text-muted">
-            job {result.job_id} · {result.shots} shots · {result.num_qubits} qubits. Grey = exact Born-rule prediction; cyan = what the device measured. The gap is real noise.
+            job {result.job_id} · {result.shots} shots · {result.num_qubits} qubits. Grey = exact Born-rule prediction; cyan = what the device measured. The difference is device noise.
           </p>
           <div className="mt-4 flex flex-col gap-1.5">
             {keys.map((k) => (

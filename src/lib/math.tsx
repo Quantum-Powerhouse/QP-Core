@@ -2,7 +2,7 @@ import katex from "katex";
 
 /**
  * Server-rendered math via KaTeX. Runs at build time for these static doc
- * pages, so no KaTeX JS is shipped to the client — only the rendered HTML
+ * pages, so no KaTeX JS is shipped to the client, only the rendered HTML
  * plus katex's stylesheet (imported once in src/app/docs/layout.tsx).
  */
 export function Katex({ expr, display = false }: { expr: string; display?: boolean }) {

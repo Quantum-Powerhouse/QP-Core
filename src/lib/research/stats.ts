@@ -13,7 +13,7 @@ export type ResearchStats = {
 
 /**
  * Every number here is derived from the same CLAIMS / EVIDENCE / PRIOR_ART arrays
- * the claims/evidence/prior-art pages render — nothing is hand-typed separately,
+ * the claims/evidence/prior-art pages render, nothing is hand-typed separately,
  * so the stats can't drift out of sync with the underlying research data.
  */
 export function getResearchStats(): ResearchStats {

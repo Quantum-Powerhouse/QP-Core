@@ -30,7 +30,7 @@ export function EntanglementDial() {
     <GameCard title="Entanglement Dial" tag="lab" computes="RY(θ)+CNOT on a real 2-qubit statevector; purity Tr(ρ²) of the actual reduced density matrix">
       <p className="text-muted">
         Turn one knob from &ldquo;two separate qubits&rdquo; to &ldquo;one inseparable pair.&rdquo; Watch qubit A&apos;s
-        purity drop to ½ — alone, it becomes a pure coin flip, because the information lives in the <em>pair</em>.
+        purity drop to ½, alone, it becomes a pure coin flip, because the information lives in the <em>pair</em>.
       </p>
       <Slider label="entangling angle θ" value={theta} min={0} max={Math.PI} step={0.01} onChange={setTheta} />
       <ProbBars probs={probs} labels={["|00⟩", "|01⟩", "|10⟩", "|11⟩"]} />
@@ -68,7 +68,7 @@ export function ChshGame() {
       bus.emit("ARCADE_RESULT", {
         game: "CHSH",
         value: S,
-        summary: `CHSH S = ${S.toFixed(2)} after ${next.n} rounds — ${Math.abs(S) > 2 ? "past the classical bound of 2" : "still under the classical bound; more rounds"}.`,
+        summary: `CHSH S = ${S.toFixed(2)} after ${next.n} rounds, ${Math.abs(S) > 2 ? "past the classical bound of 2" : "still under the classical bound; more rounds"}.`,
       });
     }
   };
@@ -76,7 +76,7 @@ export function ChshGame() {
   const S = stats.e00 / n + stats.e01 / n + stats.e10 / n - stats.e11 / n;
   const beating = stats.n >= 30 && Math.abs(S) > 2;
   return (
-    <GameCard title="CHSH — Beat the Classical Bound" tag="game" computes="every round rotates a real Bell state's measurement bases and samples the joint outcome; S is estimated from those samples only">
+    <GameCard title="CHSH. Beat the Classical Bound" tag="game" computes="every round rotates a real Bell state's measurement bases and samples the joint outcome; S is estimated from those samples only">
       <p className="text-muted">
         Classical physics caps |S| at 2. A Bell pair reaches 2√2 ≈ 2.83. Collect rounds and watch your sampled S
         climb past what any local hidden-variable story allows.
@@ -89,10 +89,10 @@ export function ChshGame() {
       </div>
       <div className="flex items-center gap-3">
         <Stat label="rounds" value={String(stats.n)} />
-        <Stat label="S (sampled)" value={stats.n ? S.toFixed(3) : "—"} accent={beating} />
+        <Stat label="S (sampled)" value={stats.n ? S.toFixed(3) : "n/a"} accent={beating} />
         <Stat label="quantum max" value="2.828" />
       </div>
-      {beating && <p className="font-mono text-xs text-accent">|S| &gt; 2 — Bell inequality violated in your browser (in simulation, and in every real lab that has tried).</p>}
+      {beating && <p className="font-mono text-xs text-accent">|S| &gt; 2. Bell inequality violated in your browser (in simulation, and in every real lab that has tried).</p>}
     </GameCard>
   );
 }
@@ -108,7 +108,7 @@ export function TeleportSteps() {
   return (
     <GameCard title="Teleportation Walkthrough" tag="demo" computes="the real 3-qubit statevector at each protocol stage; bars are its live probabilities">
       <p className="text-muted">
-        A message qubit, an entangled pair, and two classical bits — the state moves without any qubit traveling.
+        A message qubit, an entangled pair, and two classical bits, the state moves without any qubit traveling.
         Step through the actual amplitudes.
       </p>
       <div className="flex flex-col gap-2">
@@ -127,7 +127,7 @@ export function TeleportSteps() {
       {stage === stages.length - 1 && (
         <p className="font-mono text-xs text-muted">
           Next, Alice measures q0 and q1 and phones Bob two classical bits; his conditional X/Z fix reconstructs the
-          message exactly. No cloning happened — Alice&apos;s copy is gone.
+          message exactly. No cloning happened. Alice&apos;s copy is gone.
         </p>
       )}
     </GameCard>
@@ -146,7 +146,7 @@ export function SuperdenseCoding() {
     return probabilitiesOf(s);
   }, [bits]);
   return (
-    <GameCard title="Superdense Coding" tag="demo" computes="encode on a real Bell pair (I/X/Z/XZ), decode with CNOT+H — the bars are the decoded statevector">
+    <GameCard title="Superdense Coding" tag="demo" computes="encode on a real Bell pair (I/X/Z/XZ), decode with CNOT+H, the bars are the decoded statevector">
       <p className="text-muted">
         Share a Bell pair in advance, and one qubit can carry <em>two</em> classical bits. Pick the bits; the decoder
         lands on the matching basis state with certainty.
@@ -178,17 +178,17 @@ export function SuperdenseCoding() {
 export function NoCloning() {
   const [attempts, setAttempts] = useState(0);
   return (
-    <GameCard title="The Cloning Button" tag="game" computes="nothing — that is the point; the linearity argument below is the whole result">
+    <GameCard title="The Cloning Button" tag="game" computes="nothing; the linearity argument below is the whole result">
       <p className="text-muted">One button. It copies an unknown qubit. Try it.</p>
       <ArcadeButton primary onClick={() => setAttempts((a) => a + 1)}>
         clone the qubit
       </ArcadeButton>
       {attempts > 0 && (
         <div className="flex flex-col gap-2 font-mono text-xs text-muted">
-          <p className="text-accent">Refused ({attempts}×). Not stubbornness — mathematics:</p>
+          <p className="text-accent">Refused ({attempts}×). Not stubbornness, mathematics:</p>
           <p>
             A cloner must send |0⟩|0⟩→|0⟩|0⟩ and |1⟩|0⟩→|1⟩|1⟩. Linearity then forces (|0⟩+|1⟩)|0⟩ →
-            |00⟩+|11⟩ — an entangled pair, <em>not</em> two copies (|0⟩+|1⟩)(|0⟩+|1⟩). No unitary machine can do it.
+            |00⟩+|11⟩, an entangled pair, <em>not</em> two copies (|0⟩+|1⟩)(|0⟩+|1⟩). No unitary machine can do it.
             This impossibility is what makes quantum key distribution (two cards down) secure.
           </p>
         </div>
@@ -215,7 +215,7 @@ export function PhaseKickback() {
   return (
     <GameCard title="Phase Kickback" tag="demo" computes="a real CNOT on |+⟩⊗|−⟩; the control's X-basis probabilities are read from the actual state">
       <p className="text-muted">
-        CNOT is supposed to change the <em>target</em>. Put the target in |−⟩ and fire: the target shrugs — the{" "}
+        CNOT is supposed to change the <em>target</em>. Put the target in |−⟩ and fire: the target shrugs, the{" "}
         <em>control</em> flips from |+⟩ to |−⟩. This backwards kick powers Deutsch, Grover, and phase estimation.
       </p>
       <ArcadeButton primary onClick={() => setKicked((k) => !k)}>
@@ -236,9 +236,9 @@ export function EntangledDice() {
   };
   const agree = rolls.length > 0 && rolls.every((r) => r.a === r.b);
   return (
-    <GameCard title="Entangled Dice" tag="demo" computes="each roll samples a real Bell state in matching bases — agreement is computed, not scripted">
+    <GameCard title="Entangled Dice" tag="demo" computes="each roll samples a real Bell state in matching bases, agreement is computed, not scripted">
       <p className="text-muted">
-        Two dice, one wavefunction. Each roll is individually 50/50 random — and they <em>always</em> agree. Randomness
+        Two dice, one wavefunction. Each roll is individually 50/50 random, and they <em>always</em> agree. Randomness
         and perfect correlation, at the same time.
       </p>
       <div className="flex items-center gap-2">

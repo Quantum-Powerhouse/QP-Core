@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 /**
  * Proxy to the FastAPI backend's hardware lane. When the backend URL isn't
- * configured, say so in a structured way — the page renders an honest
- * "wired but inactive" state instead of a fake result.
+ * configured, say so in a structured way, the page renders a
+ * "wired but inactive" state instead of a made-up result.
  */
 const BACKEND = process.env.NEXT_PUBLIC_TRANSPILER_API_URL?.replace(/\/$/, "");
 

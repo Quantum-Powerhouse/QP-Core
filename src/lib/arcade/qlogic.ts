@@ -1,8 +1,8 @@
 /**
- * Quantum Arcade engine — pure logic, no React, built entirely on the site's
+ * Quantum Arcade engine, pure logic, no React, built entirely on the site's
  * from-scratch physics stack (src/lib/physics/*). Every number a game shows
  * comes from a real statevector/density-matrix computation or a clearly
- * labeled analytic textbook formula. No fake results, ever.
+ * labeled analytic textbook formula. No made-up results.
  *
  * Tested by tests/arcade.test.mjs.
  */
@@ -179,7 +179,7 @@ export function chshSample(angleA: number, angleB: number, rand: Rand): { a: 1 |
 export const CHSH_ANGLES = { a0: 0, a1: Math.PI / 4, b0: Math.PI / 8, b1: -Math.PI / 8 };
 
 // ---------------------------------------------------------------------------
-// Entanglement dial: RY(θ) on qubit 0 then CNOT — product ↔ Bell.
+// Entanglement dial: RY(θ) on qubit 0 then CNOT, product ↔ Bell.
 // ---------------------------------------------------------------------------
 
 export function entangleDial(theta: number): { probs: number[]; purityOfA: number } {
@@ -190,7 +190,7 @@ export function entangleDial(theta: number): { probs: number[]; purityOfA: numbe
 }
 
 // ---------------------------------------------------------------------------
-// Deutsch's problem (1 query decides constant vs balanced — for real)
+// Deutsch's problem (1 query decides constant vs balanced, for real)
 // ---------------------------------------------------------------------------
 
 export type DeutschOracle = "const0" | "const1" | "identity" | "negation";
@@ -282,7 +282,7 @@ export function repetitionRound(flipProbability: number, rand: Rand): {
 // Sampling helpers
 // ---------------------------------------------------------------------------
 
-/** n real Born-rule samples of |+⟩ — a genuine quantum-model RNG. */
+/** n real Born-rule samples of |+⟩, a genuine quantum-model RNG. */
 export function sampleRandomBits(n: number): number[] {
   const bits: number[] = [];
   for (let i = 0; i < n; i++) {
@@ -319,7 +319,7 @@ export function teleportationStages(theta: number, phi: number): TeleportStage[]
   const stages: TeleportStage[] = [{ label: "Message ⊗ |00⟩", state: [...s] }];
   s = applySingleQubitGate(s, GATE_H, 1);
   s = applyCNOT(s, 1, 2);
-  stages.push({ label: "Entangle q1–q2 (Bell pair)", state: [...s] });
+  stages.push({ label: "Entangle q1, q2 (Bell pair)", state: [...s] });
   s = applyCNOT(s, 0, 1);
   s = applySingleQubitGate(s, GATE_H, 0);
   stages.push({ label: "Bell-basis rotate message", state: [...s] });
@@ -327,7 +327,7 @@ export function teleportationStages(theta: number, phi: number): TeleportStage[]
 }
 
 // ---------------------------------------------------------------------------
-// QAOA on MaxCut (4-node ring), depth p = 1 — built from the gate set.
+// QAOA on MaxCut (4-node ring), depth p = 1, built from the gate set.
 // ---------------------------------------------------------------------------
 
 export const MAXCUT_EDGES: [number, number][] = [[0, 1], [1, 2], [2, 3], [3, 0]];
@@ -369,7 +369,7 @@ export function qaoaMaxCut(gamma: number, beta: number): { probs: number[]; expe
 }
 
 // ---------------------------------------------------------------------------
-// Quantum walk vs classical random walk on a line — direct amplitude
+// Quantum walk vs classical random walk on a line, direct amplitude
 // evolution of the Hadamard coined walk (a genuine quantum dynamics
 // computation, not a drawing).
 // ---------------------------------------------------------------------------

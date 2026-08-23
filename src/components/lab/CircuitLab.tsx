@@ -30,7 +30,7 @@ const GATES: GateName[] = ["H", "X", "Y", "Z", "S", "T", "RX", "RY", "RZ", "CNOT
  * (amplitudes, phases, per-qubit Bloch vectors), dial in depolarizing noise
  * and watch the density matrix lose purity, sample shots, and export
  * OpenQASM straight into the site's transpiler. Every number recomputes from
- * the engine on every change — there is no cached or drawn result.
+ * the engine on every change, there is no cached or drawn result.
  */
 export function CircuitLab() {
   const bus = useQuantumEventBus();
@@ -92,7 +92,7 @@ export function CircuitLab() {
     bus.emit("ARCADE_RESULT", {
       game: "Circuit Lab",
       value: counts[top] / 1024,
-      summary: `Lab: 1024 shots on ${n} qubits — |${top.toString(2).padStart(n, "0")}⟩ came up ${((counts[top] / 1024) * 100).toFixed(1)}%${noisy ? ` with purity ${purity.toFixed(3)} under noise` : ""}.`,
+      summary: `Lab: 1024 shots on ${n} qubits, |${top.toString(2).padStart(n, "0")}⟩ came up ${((counts[top] / 1024) * 100).toFixed(1)}%${noisy ? ` with purity ${purity.toFixed(3)} under noise` : ""}.`,
     });
   };
 
@@ -102,7 +102,7 @@ export function CircuitLab() {
       setCopied(true);
       setTimeout(() => setCopied(false), 1400);
     } catch {
-      /* clipboard blocked — the text is visible below anyway */
+      /* clipboard blocked, the text is visible below anyway */
     }
   };
 
@@ -214,7 +214,7 @@ export function CircuitLab() {
       <div className="grid gap-6 md:grid-cols-2">
         <section className="glass-panel rounded-xl p-5">
           <h2 className="text-base font-semibold text-foreground">Exact state</h2>
-          <p className="mt-1 text-sm text-muted">The full statevector — amplitude, phase, probability for every basis state.</p>
+          <p className="mt-1 text-sm text-muted">The full statevector, amplitude, phase, probability for every basis state.</p>
           <div className="mt-3 flex max-h-64 flex-col gap-1 overflow-y-auto pr-1">
             {table.map((row) => (
               <div key={row.label} className="flex items-center gap-2 font-mono text-xs">
@@ -236,7 +236,7 @@ export function CircuitLab() {
 
         <section className="glass-panel rounded-xl p-5">
           <h2 className="text-base font-semibold text-foreground">Each qubit alone</h2>
-          <p className="mt-1 text-sm text-muted">Reduced Bloch vectors. Entangled qubits shrink toward the center — information has left the individual.</p>
+          <p className="mt-1 text-sm text-muted">Reduced Bloch vectors. Entangled qubits shrink toward the center, information has left the individual.</p>
           <div className="mt-3 flex flex-wrap gap-3">
             {blochs.map((b, k) => {
               const len = Math.hypot(b.x, b.y, b.z);
@@ -257,7 +257,7 @@ export function CircuitLab() {
       <div className="grid gap-6 md:grid-cols-2">
         <section className="glass-panel rounded-xl p-5">
           <h2 className="text-base font-semibold text-foreground">Noise</h2>
-          <p className="mt-1 text-sm text-muted">A depolarizing channel after every gate — exact density matrix, the same model the VQE suite&apos;s ZNE uses.</p>
+          <p className="mt-1 text-sm text-muted">A depolarizing channel after every gate, exact density matrix, the same model the VQE suite&apos;s ZNE uses.</p>
           <div className="mt-3 flex flex-col gap-2">
             <Slider label="1-qubit gate error p₁" value={noise.p1} min={0} max={0.2} step={0.005} onChange={(v) => setNoise((s) => ({ ...s, p1: v }))} format={(v) => `${(v * 100).toFixed(1)}%`} />
             <Slider label="2-qubit gate error p₂" value={noise.p2} min={0} max={0.3} step={0.005} onChange={(v) => setNoise((s) => ({ ...s, p2: v }))} format={(v) => `${(v * 100).toFixed(1)}%`} />
@@ -283,7 +283,7 @@ export function CircuitLab() {
 
         <section className="glass-panel rounded-xl p-5">
           <h2 className="text-base font-semibold text-foreground">Measure</h2>
-          <p className="mt-1 text-sm text-muted">1024 real shots sampled from the {noisy ? "noisy" : "ideal"} distribution. Randomness is the physics, not a decoration.</p>
+          <p className="mt-1 text-sm text-muted">1024 real shots sampled from the {noisy ? "noisy" : "ideal"} distribution. The randomness comes from the physics.</p>
           <div className="mt-3 flex items-center gap-2">
             <ArcadeButton primary onClick={runShots}>
               run 1024 shots

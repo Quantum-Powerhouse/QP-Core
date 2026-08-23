@@ -24,7 +24,7 @@ export default function ApiReferenceDocPage() {
       <DocTitle
         eyebrow="API"
         title="API Reference"
-        dek="The real OpenAPI schema for QP-Core's FastAPI backend — 3 operations, generated directly from the service's Pydantic models, not hand-written."
+        dek="The real OpenAPI schema for QP-Core's FastAPI backend, 3 operations, generated directly from the service's Pydantic models, not hand-written."
       />
 
       {isLive ? (
@@ -35,7 +35,7 @@ export default function ApiReferenceDocPage() {
         <>
           <Note tone="warning">
             Snapshot mode: <code>NEXT_PUBLIC_TRANSPILER_API_URL</code> isn&apos;t set, so this is a static
-            snapshot (<code>public/openapi/quantumflow-api.json</code>) rather than a live spec — the backend
+            snapshot (<code>public/openapi/quantumflow-api.json</code>) rather than a live spec, the backend
             has no deployed URL configured for this build. Regenerate it from the real service with:
           </Note>
           <pre className="mb-4 overflow-x-auto rounded-lg border border-border bg-surface/60 p-3 font-mono text-xs text-muted">

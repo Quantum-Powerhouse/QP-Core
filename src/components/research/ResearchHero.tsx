@@ -51,7 +51,7 @@ export function ResearchHero({ stats }: { stats: ResearchStats }) {
           Is there a real gap in quantum CI/CD regression testing?
         </h1>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted sm:text-base">
-          A primary-source-verified investigation — every finding traced back to an official repository, an
+          A primary-source-verified investigation, every finding traced back to an official repository, an
           arXiv paper, or an independently-resolved citation.
         </p>
 

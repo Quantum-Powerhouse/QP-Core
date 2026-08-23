@@ -172,7 +172,7 @@ function CopyButton({ text, onCopied }: { text: string; onCopied: () => void }) 
           await navigator.clipboard.writeText(text);
           onCopied();
         } catch {
-          // clipboard unavailable — silently ignore
+          // clipboard unavailable, silently ignore
         }
       }}
       className="rounded-md border border-border px-2.5 py-1 font-mono text-[11px] text-muted transition-colors hover:border-accent/50 hover:text-accent"
@@ -234,15 +234,14 @@ export function TranspilerTerminalStudio() {
         <div>
           <p className="mb-2 font-mono text-sm text-accent">Live Tool</p>
           <RepresentsTag docsHref="/docs/qp-core/transpiler-pipeline">
-            a compiled program — parsing and Amazon Braket IR emission, not a running or simulated circuit
+            a compiled program, parsing and Amazon Braket IR emission, not a running or simulated circuit
           </RepresentsTag>
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
             Quantum Transpiler Terminal Studio
           </h2>
           <p className="mt-3 max-w-2xl text-muted">
             Paste an OpenQASM 2.0 or 3.0 circuit, transpile it, and inspect the
-            generated Qiskit Python, optimized IR, and real circuit metrics —
-            computed live from whatever you paste in.
+            generated Qiskit Python, optimized IR, and real circuit metrics,             computed live from whatever you paste in.
           </p>
         </div>
         <a
@@ -270,7 +269,7 @@ export function TranspilerTerminalStudio() {
               <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
             </div>
             <span className="font-mono text-xs text-muted">
-              qasm-to-braket-ir — zsh
+              qasm-to-braket-ir, zsh
             </span>
           </div>
           {tab === "qasm" && (
@@ -333,12 +332,12 @@ export function TranspilerTerminalStudio() {
           {tab === "instructions" && (
             <div className="flex h-full flex-col overflow-auto px-4 py-3">
               <RepresentsTag docsHref="/docs/qp-core/transpiler-pipeline">
-                a flat instruction list from a simplified client-side line parser — not a full OpenQASM AST
+                a flat instruction list from a simplified client-side line parser, not a full OpenQASM AST
                 (no grammar tree, no scoping, no expressions), and not what the production Qiskit-based
                 backend does internally
               </RepresentsTag>
               <p className="mb-3 font-mono text-[11px] text-muted">
-                Updates live as you type — no network round-trip. {liveAnalysis.originalGateCount} gates parsed,{" "}
+                Updates live as you type, no network round-trip. {liveAnalysis.originalGateCount} gates parsed,{" "}
                 {liveAnalysis.cancelledCount} cancelled ({liveAnalysis.reductionPct}% reduction), same
                 computation as the Circuit Metrics tab.
               </p>

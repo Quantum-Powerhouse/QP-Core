@@ -1,5 +1,5 @@
 /**
- * "Field" content — the state of the quantum industry, written to the same
+ * "Field" content, the state of the quantum industry, written to the same
  * standard as the research section: every entry names a source a reader can
  * open, and carries a status that says what kind of claim it is.
  *
@@ -11,9 +11,9 @@ export type FieldStatus =
   | "verified"
   /** a vendor-published result not (yet) independently peer-reviewed */
   | "vendor-reported"
-  /** a roadmap target or forecast — a promise, not a result */
+  /** a roadmap target or forecast, a promise, not a result */
   | "projection"
-  /** a named person's stated view — an opinion, dated */
+  /** a named person's stated view, an opinion, dated */
   | "opinion"
   /** a resource estimate or aggregator statistic with stated caveats */
   | "estimate"
@@ -37,13 +37,13 @@ export type FieldClaim = {
 };
 
 export const FIELD_STATUS_LABEL: Record<FieldStatus, string> = {
-  verified: "Verified — published result",
+  verified: "Verified, published result",
   "vendor-reported": "Vendor-reported result",
-  projection: "Projection — roadmap target",
-  opinion: "Opinion — named, dated",
-  estimate: "Estimate — with caveats",
-  contested: "Contested — disputed in the record",
-  preprint: "Preprint — not yet peer-reviewed",
+  projection: "Projection, roadmap target",
+  opinion: "Opinion, named, dated",
+  estimate: "Estimate, with caveats",
+  contested: "Contested, disputed in the record",
+  preprint: "Preprint, not yet peer-reviewed",
 };
 
 export const FIELD_CHECKED_ON = "2026-08-21";

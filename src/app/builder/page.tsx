@@ -8,11 +8,11 @@ import { getResearchStats } from "@/lib/research/stats";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "The Builder — Said Mohaddes Sadeqi",
+  title: "The Builder: Said Mohaddes Sadeqi",
   description:
-    "Who built Quantum Powerhouse, how, and what the decisions were: a from-scratch quantum engine, a verified research study, an open-source pytest plugin, and an honest account of AI-assisted engineering.",
+    "Who built Quantum Powerhouse and how: a quantum engine written from scratch, a research study checked against primary sources, and an open-source pytest plugin.",
   path: "/builder",
-  keywords: ["Said Mohaddes Sadeqi", "quantum software engineer", "portfolio", "AI-assisted engineering"],
+  keywords: ["Said Mohaddes Sadeqi", "quantum software engineer", "portfolio", "quantum computing portfolio"],
   ogTitle: "The Builder",
 });
 
@@ -25,8 +25,8 @@ export default function BuilderPage() {
         <p className="mb-2 font-mono text-sm text-accent">The builder</p>
         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Said Mohaddes Sadeqi</h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-          I build quantum software that has to prove itself: every number this site shows is computed, every research
-          claim is traced to a primary source, and every tool ends in something another engineer can install.
+          I build quantum software. The numbers on this site come out of calculations that run in your browser, the
+          research claims link to the primary sources I read, and the tools are things another engineer can install.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3 text-sm">
@@ -48,26 +48,24 @@ export default function BuilderPage() {
           <div className="glass-panel rounded-xl p-5">
             <h2 className="font-mono text-xs uppercase tracking-widest text-accent">What I decided</h2>
             <ul className="mt-3 flex flex-col gap-2 text-sm leading-relaxed text-muted">
-              <li><strong className="text-foreground">Write the physics myself.</strong> A statevector and density-matrix engine in TypeScript, a parameter-shift VQE, Richardson-extrapolated ZNE — so the browser is the lab bench and nothing is a recording.</li>
-              <li><strong className="text-foreground">Make honesty mechanical.</strong> CI fails if a rendered research claim drifts from the evidence record; every arcade card names what computes it; the pet physically cannot state a number the engine didn&apos;t produce.</li>
-              <li><strong className="text-foreground">Let the research correct itself.</strong> I set out to prove a gap, found QUTest and Benchpress, narrowed the claim in public, and then built the one tool the surviving gap actually called for.</li>
+              <li>I wrote the physics myself: a statevector and density-matrix engine in TypeScript, a parameter-shift VQE and Richardson-extrapolated zero-noise extrapolation. The browser does the computing, so nothing on the site is a recording.</li>
+              <li>I made the checks part of the build. CI fails if a research claim on the site drifts from the evidence record, every arcade card says what computes its numbers, and the pet cannot state a number the engine did not produce.</li>
+              <li>I let the research correct me. I set out to show a gap, found QUTest and Benchpress, narrowed the claim in public, and then built the tool the remaining gap called for.</li>
             </ul>
           </div>
           <div className="glass-panel rounded-xl p-5">
-            <h2 className="font-mono text-xs uppercase tracking-widest text-accent">How it was built — honestly</h2>
+            <h2 className="font-mono text-xs uppercase tracking-widest text-accent">How I work</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              I built this alone, directing AI coding agents the way a lead directs a team: I set the rules (nothing fake, every claim
-              sourced, tests before merge), review every decision, and keep the physics and the research judgment mine.
-              The commit history says <em>Co-Authored-By</em> where an agent typed — and the verification discipline
-              (unit + end-to-end suites, evidence-integrity CI, primary-source-only research) is exactly what makes that
-              collaboration trustworthy. Ask me why the parameter-shift rule works or why the creature uses a
-              semi-implicit Euler integrator; those are my answers, not the agent&apos;s.
+              Rules first, then code: nothing fake, every claim sourced, tests before merge. Unit and end-to-end suites
+              run on every push, the research record is cross-checked in CI, and I only cite sources I opened. The
+              physics and the research judgment are mine. Ask me why the parameter-shift rule gives an exact gradient,
+              or why the pet uses a semi-implicit Euler integrator.
             </p>
           </div>
         </section>
 
         <section className="mt-10">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-accent">By the numbers — all live-derived</h2>
+          <h2 className="font-mono text-xs uppercase tracking-widest text-accent">By the numbers</h2>
           <dl className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
             {[
               { v: String(ARCADE_GAME_COUNT), l: "interactive quantum games & labs" },

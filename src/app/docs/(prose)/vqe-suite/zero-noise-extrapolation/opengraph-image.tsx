@@ -8,6 +8,6 @@ export default function Image() {
   return renderOgCard({
     eyebrow: "docs / vqe-suite",
     title: "Zero-Noise Extrapolation",
-    subtitle: "Gate folding, depolarizing noise, and Richardson extrapolation — with real measured numbers",
+    subtitle: "Gate folding, depolarizing noise, and Richardson extrapolation, with real measured numbers",
   });
 }

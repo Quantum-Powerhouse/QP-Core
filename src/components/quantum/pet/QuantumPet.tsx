@@ -98,7 +98,7 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
 
 /**
  * The narrator: turns real engine events into one computed sentence. Every
- * number here is read from the event payload — nothing is invented.
+ * number here is read from the event payload, nothing is invented.
  */
 function narrate(event: QuantumEvent, basis: Basis): { line: string; force: boolean } | null {
   switch (event.type) {
@@ -120,7 +120,7 @@ function narrate(event: QuantumEvent, basis: Basis): { line: string; force: bool
       const { qubitCount, latencyMs, mock } = event.detail;
       const q = qubitCount === null ? "?" : String(qubitCount);
       return {
-        line: `${q} qubits compiled in ${Math.round(latencyMs)} ms${mock ? " — demo endpoint, so the IR is a placeholder" : ""}.`,
+        line: `${q} qubits compiled in ${Math.round(latencyMs)} ms${mock ? ", demo endpoint, so the IR is a placeholder" : ""}.`,
         force: true,
       };
     }
@@ -131,7 +131,7 @@ function narrate(event: QuantumEvent, basis: Basis): { line: string; force: bool
     case "MEASUREMENT": {
       const { outcomeIndex, probabilities } = event.detail;
       const p = probabilities[outcomeIndex] ?? 0;
-      return { line: `Collapsed to |${outcomeIndex}⟩ — that branch had ${(p * 100).toFixed(0)}%.`, force: false };
+      return { line: `Collapsed to |${outcomeIndex}⟩, that branch had ${(p * 100).toFixed(0)}%.`, force: false };
     }
     case "ARCADE_RESULT":
       return { line: event.detail.summary, force: true };
@@ -498,7 +498,7 @@ export function QuantumPet() {
         setTimeout(() => {
           suppressClickRef.current = false;
         }, 350);
-        speak(pickLine(["Wheee— put me down!", "Thrown. Rude. Fun.", "Conservation of momentum, apparently."]), { force: true });
+        speak(pickLine(["Wheee, put me down!", "Thrown. Rude. Fun.", "Conservation of momentum, apparently."]), { force: true });
       } else {
         // a plain click: undo the grab without a fling
         controlRef.current?.release(0, 0);
@@ -580,7 +580,7 @@ export function QuantumPet() {
         else speak("Nothing is in superposition right now. Ask me if I'm alive.", { force: true });
       } else if (intent.intent === "summon") {
         const ok = controlRef.current?.trigger(intent.kind) ?? false;
-        speak(ok ? "As you wish." : "Not right now — something's already happening.", { force: true });
+        speak(ok ? "As you wish." : "Not right now, something's already happening.", { force: true });
       } else speak(`Didn't catch that ("${transcript}"). Try: take me to the arcade.`, { force: true });
     };
     try {
@@ -658,7 +658,7 @@ export function QuantumPet() {
                   {MOMENT_KINDS.map((k) => (
                     <li key={k} className={moments.includes(k) ? "text-accent" : "text-muted"}>
                       {moments.includes(k) ? "✓" : "·"} {k.toLowerCase()}
-                      {!moments.includes(k) && <span className="opacity-70"> — {MOMENT_HINTS[k]}</span>}
+                      {!moments.includes(k) && <span className="opacity-70">, {MOMENT_HINTS[k]}</span>}
                     </li>
                   ))}
                 </ul>
@@ -742,7 +742,7 @@ export function QuantumPet() {
           onPointerCancel={onOrbPointerUp}
           onPointerEnter={onOrbEnter}
           onPointerLeave={onOrbLeave}
-          aria-label="Poke QPet, the site's quantum pet — opens its console"
+          aria-label="Poke QPet, the site's quantum pet, opens its console"
           aria-expanded={consoleOpen}
           className="h-[108px] w-[108px] cursor-pointer overflow-hidden rounded-full border border-border bg-surface/60 backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:h-[128px] sm:w-[128px]"
           style={{ pointerEvents: mode === "roaming" ? "none" : undefined }}

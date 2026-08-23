@@ -72,7 +72,7 @@ export function StateMatch() {
   const yb = blochOf(yours);
   return (
     <GameCard title="State Match" tag="game" computes="|⟨target|yours⟩|² between two real single-qubit states">
-      <p className="text-muted">A hidden state is drawn. Steer yours (cyan) onto the ghost (dim) — fidelity ≥ 99% wins.</p>
+      <p className="text-muted">A hidden state is drawn. Steer yours (cyan) onto the ghost (dim), fidelity ≥ 99% wins.</p>
       <div className="flex items-center gap-4">
         <div className="relative">
           <div className="opacity-35">
@@ -112,7 +112,7 @@ export function BornCasino() {
   const guess = (g: 0 | 1) => {
     const result = sampleMeasurement(applyRY(zeroState(1), theta, 0)).outcomeIndex;
     const hit = result === g;
-    setLast(`collapsed to |${result}⟩ — ${hit ? "you called it" : "missed"}`);
+    setLast(`collapsed to |${result}⟩, ${hit ? "you called it" : "missed"}`);
     setStreak((s) => {
       const next = hit ? s + 1 : 0;
       setBest((b) => Math.max(b, next));
@@ -120,8 +120,8 @@ export function BornCasino() {
     });
   };
   return (
-    <GameCard title="Born Casino" tag="game" computes="a fresh statevector each round; the collapse is a genuine inverse-CDF sample of |amplitude|²">
-      <p className="text-muted">Set the odds with θ, then call the collapse. Long streaks get exponentially unlikely — that is the Born rule doing its job.</p>
+    <GameCard title="Born Casino" tag="game" computes="a fresh statevector each round; the collapse is an inverse-CDF sample of |amplitude|²">
+      <p className="text-muted">Set the odds with θ, then call the collapse. Long streaks get exponentially unlikely, that is the Born rule doing its job.</p>
       <Slider label="θ (sets P(|1⟩) = sin²(θ/2))" value={theta} min={0} max={Math.PI} step={0.01} onChange={setTheta} />
       <ProbBars probs={probs} labels={["|0⟩", "|1⟩"]} />
       <div className="flex items-center gap-2">
@@ -145,9 +145,9 @@ export function RabiTrainer() {
   const p1 = useMemo(() => probabilitiesOf(applyRY(zeroState(1), theta, 0))[1], [theta]);
   const perfect = p1 >= 0.999;
   return (
-    <GameCard title="π-Pulse Trainer" tag="game" computes="P(|1⟩) from RY(θ) applied to a real statevector — the textbook sin²(θ/2), earned honestly">
+    <GameCard title="π-Pulse Trainer" tag="game" computes="P(|1⟩) from RY(θ) applied to a real statevector, the textbook sin²(θ/2)">
       <p className="text-muted">
-        Drive the qubit with a rotation pulse. A perfect <span className="font-mono">π</span> pulse lands the whole amplitude on |1⟩ — this is exactly how real qubits get flipped.
+        Drive the qubit with a rotation pulse. A perfect <span className="font-mono">π</span> pulse lands the whole amplitude on |1⟩, this is exactly how real qubits get flipped.
       </p>
       <Slider label="pulse angle θ" value={theta} min={0} max={2 * Math.PI} step={0.005} onChange={setTheta} format={(v) => `${v.toFixed(3)} rad`} />
       <div className="flex items-center gap-3">
@@ -156,7 +156,7 @@ export function RabiTrainer() {
         </div>
         <Stat label="P(|1⟩)" value={`${(p1 * 100).toFixed(2)}%`} accent={perfect} />
       </div>
-      {perfect && <p className="font-mono text-xs text-accent">π-pulse achieved — that is a NOT gate, built from calibration.</p>}
+      {perfect && <p className="font-mono text-xs text-accent">π-pulse achieved, that is a NOT gate, built from calibration.</p>}
     </GameCard>
   );
 }
@@ -166,9 +166,9 @@ export function InterferenceLab() {
   const [phi, setPhi] = useState(0);
   const probs = useMemo(() => interferenceProbabilities(phi), [phi]);
   return (
-    <GameCard title="Interference Lab" tag="lab" computes="H · RZ(φ) · H on a real statevector — the fringe is computed, not drawn">
+    <GameCard title="Interference Lab" tag="lab" computes="H · RZ(φ) · H on a real statevector, the fringe is computed, not drawn">
       <p className="text-muted">
-        Split one qubit onto two paths (H), twist the phase between them, recombine (H). The output probability swings from certain to impossible — with nothing removed, only phase.
+        Split one qubit onto two paths (H), twist the phase between them, recombine (H). The output probability swings from certain to impossible, with nothing removed, only phase.
       </p>
       <Slider label="path phase φ" value={phi} min={0} max={2 * Math.PI} step={0.01} onChange={setPhi} format={(v) => `${((v / Math.PI) * 180).toFixed(0)}°`} />
       <ProbBars probs={probs} labels={["|0⟩", "|1⟩"]} />
@@ -203,9 +203,9 @@ export function MeasurementDuel() {
   );
   const total = (pair: [number, number]) => pair[0] + pair[1] || 1;
   return (
-    <GameCard title="Measurement Duel" tag="lab" computes="20 real sampled shots per press on the same |+⟩ state — only the measurement basis differs">
+    <GameCard title="Measurement Duel" tag="lab" computes="20 real sampled shots per press on the same |+⟩ state, only the measurement basis differs">
       <p className="text-muted">
-        One fixed state, two questions. Ask in Z: pure coin-flip. Ask in X: dead certain. The state didn&apos;t change — your question did.
+        One fixed state, two questions. Ask in Z: pure coin-flip. Ask in X: dead certain. The state didn&apos;t change, your question did.
       </p>
       <div className="flex gap-2">
         <ArcadeButton primary onClick={() => shoot("z", 20)}>
@@ -239,7 +239,7 @@ export function BlochQuiz() {
   const guess = (g: string) => {
     const right = g === round.answer;
     setScore((s) => ({ right: s.right + (right ? 1 : 0), total: s.total + 1 }));
-    setReveal(right ? `right — it was ${round.answer}` : `no — it was ${round.answer}`);
+    setReveal(right ? `right, it was ${round.answer}` : `no, it was ${round.answer}`);
     setTimeout(() => {
       setReveal(null);
       setRound(newQuizRound());

@@ -38,7 +38,7 @@ export function GroverSearchlight() {
   return (
     <GameCard title="Grover Searchlight" tag="game" computes="a real 3-qubit statevector; each press applies the actual oracle phase-flip + inversion about the mean">
       <p className="text-muted">
-        Eight drawers, one prize. Classically you open ~4. Grover finds it in {optimal} iterations — and if you keep
+        Eight drawers, one prize. Classically you open ~4. Grover finds it in {optimal} iterations, and if you keep
         going past the sweet spot, the amplitude rotates <em>away</em> again. Try over-searching.
       </p>
       <div className="flex flex-wrap items-center gap-2">
@@ -61,7 +61,7 @@ export function GroverSearchlight() {
             bus.emit("ARCADE_RESULT", {
               game: "Grover",
               value: p,
-              summary: `Grover iteration ${nextIters}: the prize drawer is at ${(p * 100).toFixed(1)}%${nextIters > optimal ? " — over-rotated, it's falling now" : nextIters === optimal ? " — that's the sweet spot" : ""}.`,
+              summary: `Grover iteration ${nextIters}: the prize drawer is at ${(p * 100).toFixed(1)}%${nextIters > optimal ? ", over-rotated, it's falling now" : nextIters === optimal ? ", that's the sweet spot" : ""}.`,
             });
           }}
         >
@@ -71,7 +71,7 @@ export function GroverSearchlight() {
         <Stat label="iterations" value={`${iters} / ${optimal} optimal`} accent={iters === optimal} />
       </div>
       <ProbBars probs={probs} />
-      {iters > optimal && <p className="font-mono text-xs text-[#f59e0b]">over-rotated — the searchlight swung past the prize</p>}
+      {iters > optimal && <p className="font-mono text-xs text-[#f59e0b]">over-rotated, the searchlight swung past the prize</p>}
     </GameCard>
   );
 }
@@ -93,10 +93,10 @@ export function DeutschGame() {
     bus.emit("ARCADE_RESULT", {
       game: "Deutsch",
       value: pConstant,
-      summary: `Deutsch circuit: one query, verdict ${isConstant ? "constant" : "balanced"} — and it was right.`,
+      summary: `Deutsch circuit: one query, verdict ${isConstant ? "constant" : "balanced"}, and it was right.`,
     });
     setVerdict(
-      `circuit says: ${isConstant ? "CONSTANT" : "BALANCED"} (P = ${pConstant.toFixed(2)}) — truth: ${secret} (${
+      `circuit says: ${isConstant ? "CONSTANT" : "BALANCED"} (P = ${pConstant.toFixed(2)}), truth: ${secret} (${
         secret.startsWith("const") ? "constant" : "balanced"
       }) ${isConstant === secret.startsWith("const") ? "✓" : "✗"}`,
     );
@@ -105,7 +105,7 @@ export function DeutschGame() {
     <GameCard title="Deutsch's One-Question Oracle" tag="game" computes="the full Deutsch circuit runs on a real 2-qubit statevector; the verdict is read from its output probabilities">
       <p className="text-muted">
         A mystery coin function: constant (same answer always) or balanced (half and half). Classically you must ask
-        twice. The Deutsch circuit asks <em>once</em> — and is never wrong.
+        twice. The Deutsch circuit asks <em>once</em>, and is never wrong.
       </p>
       <div className="flex items-center gap-2">
         <ArcadeButton primary onClick={pick}>
@@ -115,7 +115,7 @@ export function DeutschGame() {
           ask the oracle (1 query)
         </ArcadeButton>
       </div>
-      {secret && !verdict && <p className="font-mono text-xs text-muted">secret drawn — one query allowed…</p>}
+      {secret && !verdict && <p className="font-mono text-xs text-muted">secret drawn, one query allowed…</p>}
       {verdict && <p className="font-mono text-xs text-accent">{verdict}</p>}
     </GameCard>
   );
@@ -127,9 +127,9 @@ export function QuantumRng() {
   const entropy = useMemo(() => bitEntropy(bits), [bits]);
   const ones = bits.reduce((a, b) => a + b, 0);
   return (
-    <GameCard title="Born-Rule Randomness" tag="lab" computes="each bit is an inverse-CDF sample of a real H|0⟩ statevector — the model's randomness is genuine Born-rule sampling">
+    <GameCard title="Born-Rule Randomness" tag="lab" computes="each bit is an inverse-CDF sample of a real H|0⟩ statevector, the randomness is Born-rule sampling">
       <p className="text-muted">
-        Hardware quantum RNGs sell exactly this: prepare |+⟩, measure, repeat. Sample away — entropy should hug 1
+        Hardware quantum RNGs sell exactly this: prepare |+⟩, measure, repeat. Sample away, entropy should hug 1
         bit/bit.
       </p>
       <div className="flex items-center gap-2">
@@ -165,7 +165,7 @@ export function DecoherenceDial() {
     <GameCard title="Decoherence Dial" tag="lab" computes="a real density matrix under the actual depolarizing channel; coherence is 2|ρ01| off that matrix">
       <p className="text-muted">
         This is the enemy every quantum computer fights. Turn up the noise on a crisp |+⟩ and watch its off-diagonal
-        coherence — the part that interferes — bleed away into a classical coin.
+        coherence, the part that interferes, bleed away into a classical coin.
       </p>
       <Slider label="depolarizing strength p" value={p} min={0} max={1} step={0.01} onChange={setP} />
       <div className="flex gap-3">
@@ -175,7 +175,7 @@ export function DecoherenceDial() {
       <div className="h-3 overflow-hidden rounded-sm bg-surface-2">
         <div className="h-full bg-accent transition-[width] duration-150 ease-out" style={{ width: `${coherence * 100}%` }} />
       </div>
-      {coherence < 0.05 && <p className="font-mono text-xs text-[#f59e0b]">fully decohered — just a classical mixture now</p>}
+      {coherence < 0.05 && <p className="font-mono text-xs text-[#f59e0b]">fully decohered, just a classical mixture now</p>}
     </GameCard>
   );
 }
@@ -201,7 +201,7 @@ export function RepetitionRescue() {
     <GameCard title="Repetition Rescue" tag="game" computes="Monte-Carlo rounds of the 3-qubit bit-flip code with true majority-vote decoding, against an unprotected qubit at the same noise">
       <p className="text-muted">
         Encode one bit into three qubits; majority vote fixes any single flip. Below ~50% noise the code beats the bare
-        qubit — the same idea, scaled up, is how Willow-class processors reach below-threshold error correction.
+        qubit, the same idea, scaled up, is how Willow-class processors reach below-threshold error correction.
       </p>
       <Slider label="per-qubit flip probability" value={flipP} min={0} max={0.5} step={0.01} onChange={setFlipP} />
       <div className="flex items-center gap-2">
@@ -212,7 +212,7 @@ export function RepetitionRescue() {
       </div>
       <ProbBars probs={[tally.saved / rounds, tally.rawOk / rounds]} labels={["encoded", "bare"]} />
       {tally.rounds > 0 && tally.saved > tally.rawOk && (
-        <p className="font-mono text-xs text-accent">the code is winning — redundancy + majority vote beats raw luck</p>
+        <p className="font-mono text-xs text-accent">the code is winning, redundancy + majority vote beats raw luck</p>
       )}
     </GameCard>
   );
@@ -231,12 +231,12 @@ export function Bb84Game() {
     bus.emit("ARCADE_RESULT", {
       game: "BB84",
       value: q.qber,
-      summary: `BB84: ${q.sifted} sifted bits, error rate ${(q.qber * 100).toFixed(0)}%${q.sifted >= 12 && q.qber > 0.15 ? " — someone is on the line" : q.sifted >= 12 ? " — clean channel" : ""}.`,
+      summary: `BB84: ${q.sifted} sifted bits, error rate ${(q.qber * 100).toFixed(0)}%${q.sifted >= 12 && q.qber > 0.15 ? ", someone is on the line" : q.sifted >= 12 ? ", clean channel" : ""}.`,
     });
   };
   const alarm = stats.sifted >= 12 && stats.qber > 0.15;
   return (
-    <GameCard title="BB84 — Catch Eve" tag="game" computes="every round draws real random bits/bases; Eve's wrong-basis measurements scramble states exactly as the protocol predicts">
+    <GameCard title="BB84. Catch Eve" tag="game" computes="every round draws real random bits/bases; Eve's wrong-basis measurements scramble states exactly as the protocol predicts">
       <p className="text-muted">
         Alice sends key bits in random bases; Bob measures in his own. Toggle an eavesdropper: her measurements
         <em> must</em> disturb the states (no-cloning, two cards up), and the error rate betrays her at ~25%.
@@ -252,8 +252,8 @@ export function Bb84Game() {
         <Stat label="sifted key bits" value={String(stats.sifted)} />
         <Stat label="QBER" value={`${(stats.qber * 100).toFixed(1)}%`} accent={alarm} />
       </div>
-      {alarm && <p className="font-mono text-xs text-[#ff6b6b]">⚠ error rate far above channel noise — the key is burned, Eve is caught</p>}
-      {stats.sifted >= 12 && !alarm && <p className="font-mono text-xs text-accent">clean channel — the sifted bits become a shared secret key</p>}
+      {alarm && <p className="font-mono text-xs text-[#ff6b6b]">⚠ error rate far above channel noise, the key is burned, Eve is caught</p>}
+      {stats.sifted >= 12 && !alarm && <p className="font-mono text-xs text-accent">clean channel, the sifted bits become a shared secret key</p>}
     </GameCard>
   );
 }
@@ -265,9 +265,9 @@ export function TunnelingCurve() {
   const barrier = 1;
   const T = useMemo(() => tunnelingTransmission(energy, barrier, width), [energy, width]);
   return (
-    <GameCard title="Tunneling Odds" tag="model" computes="the idealized rectangular-barrier formula T ≈ e^(−2κL) — an analytic textbook model, not a simulation">
+    <GameCard title="Tunneling Odds" tag="model" computes="the idealized rectangular-barrier formula T ≈ e^(−2κL), an analytic textbook model, not a simulation">
       <p className="text-muted">
-        Classically, a ball below the wall&apos;s height never crosses. Quantum mechanically the odds are small — but
+        Classically, a ball below the wall&apos;s height never crosses. Quantum mechanically the odds are small, but
         never zero. Thinner or lower walls help exponentially.
       </p>
       <Slider label="particle energy (barrier = 1)" value={energy} min={0} max={1} step={0.01} onChange={setEnergy} />

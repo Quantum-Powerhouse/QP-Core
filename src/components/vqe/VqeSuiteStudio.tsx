@@ -99,7 +99,7 @@ export function VqeSuiteStudio() {
           <p className="mt-3 max-w-2xl text-muted">
             A real variational quantum eigensolver for H<sub>2</sub>, simulated in the browser:
             an exact statevector simulator, the parameter-shift optimizer, and a
-            density-matrix error-mitigation pipeline — no backend required.
+            density-matrix error-mitigation pipeline, no backend required.
           </p>
         </div>
       </div>
@@ -119,7 +119,7 @@ export function VqeSuiteStudio() {
               <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
               <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
             </div>
-            <span className="font-mono text-xs text-muted">h2-vqe-zne — zsh</span>
+            <span className="font-mono text-xs text-muted">h2-vqe-zne, zsh</span>
           </div>
         </div>
 

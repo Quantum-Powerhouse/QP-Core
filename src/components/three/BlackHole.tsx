@@ -41,7 +41,7 @@ function DustField({ count, innerRadius, outerRadius, color, size, speed }: { co
   );
 }
 
-/** Flattened, glowing ring standing in for an accretion disk — additive-blended, not lit. */
+/** Flattened, glowing ring standing in for an accretion disk, additive-blended, not lit. */
 function AccretionDisk() {
   const ref = useRef<THREE.Group>(null);
   const reduceMotion = usePrefersReducedMotion();
@@ -83,7 +83,7 @@ function AccretionDisk() {
   );
 }
 
-/** Unlit dark core plus an additive fresnel-style rim glow — the "event horizon." */
+/** Unlit dark core plus an additive fresnel-style rim glow, the "event horizon." */
 function EventHorizon(props: ThreeElements["group"]) {
   const rimMaterial = useMemo(
     () =>

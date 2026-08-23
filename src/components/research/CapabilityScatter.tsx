@@ -19,7 +19,7 @@ function score(value: Cell): number {
  * Y axis: how much testing-depth capability it has (0-4, counted from
  * regressionTesting + equivalenceChecking + automatedFaultDetection + bugCorpus).
  * Both axes are derived directly from the same matrix cells rendered in the
- * table below — no relationship or ranking here is invented.
+ * table below, no relationship or ranking here is invented.
  */
 export function CapabilityScatter() {
   const [active, setActive] = useState<string | null>(null);
@@ -84,7 +84,7 @@ export function CapabilityScatter() {
                 style={{ cursor: p.sourceUrl ? "pointer" : "default" }}
               >
                 <title>
-                  {p.name} — CI/orchestration {p.ci}/5, testing depth {p.depth}/4
+                  {p.name}. CI/orchestration {p.ci}/5, testing depth {p.depth}/4
                 </title>
               </motion.circle>
             </g>

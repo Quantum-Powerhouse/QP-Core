@@ -25,7 +25,7 @@ export function runH2AnsatzStatevector(theta: number): Statevector {
 export function exactGroundStateEnergy(): number {
   const hMatrix = h2ElectronicHamiltonianMatrix();
   // The H2 Hamiltonian in this basis is real (I, Z, ZZ, YY, XX terms all have
-  // real matrix elements here — see h2Hamiltonian.ts docs), so a real
+  // real matrix elements here, see h2Hamiltonian.ts docs), so a real
   // symmetric eigensolver is sufficient and exact.
   const real = hMatrix.map((row) => row.map((v) => v.re));
   const { values } = jacobiEigenSymmetric(real);
@@ -63,7 +63,7 @@ export type VqeStepResult = {
  * One real parameter-shift-rule gradient-descent step: PREPARE the ansatz at
  * theta, MEASURE/ESTIMATE the energy there and at theta +/- pi/2, then UPDATE
  * theta by the resulting gradient. Every field here is a genuine computed
- * value — used both by runVqe's loop and by the interactive step-through UI.
+ * value, used both by runVqe's loop and by the interactive step-through UI.
  */
 export function vqeStep(theta: number, learningRate: number): VqeStepResult {
   const energyBefore = energyAtTheta(theta);

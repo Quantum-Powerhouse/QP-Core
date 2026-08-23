@@ -20,7 +20,7 @@ export type QasmAnalysis = {
   depth: number;
   qiskitPython: string;
   optimizedQasm: string;
-  /** Per-gate keep/cancel decision from the pass below — the real "what changed?" data. */
+  /** Per-gate keep/cancel decision from the pass below, the real "what changed?" data. */
   instructions: InstructionStatus[];
 };
 
@@ -34,7 +34,7 @@ const QREG_RE = /qreg\s+q\[(\d+)\]|qubit\[(\d+)\]\s*q/;
  * and derives real metrics from it: a gate-count reduction from cancelling
  * adjacent self-inverse single-qubit gates, and a circuit depth from greedy
  * per-qubit layering. Everything here is computed from the actual input,
- * not hardcoded — it just doesn't implement a full quantum compiler.
+ * not hardcoded, it just doesn't implement a full quantum compiler.
  */
 export function analyzeQasm(qasm: string): QasmAnalysis {
   const gates: ParsedGate[] = [];

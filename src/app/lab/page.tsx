@@ -8,7 +8,7 @@ import { softwareApplicationSchema } from "@/lib/jsonld";
 import { SITE_URL, buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Circuit Lab — Build Quantum Circuits and Watch the Exact State",
+  title: "Circuit Lab: Build Quantum Circuits and Watch the Exact State",
   description:
     "A real quantum circuit sandbox: place gates on up to 5 qubits, see the exact statevector (amplitudes, phases, per-qubit Bloch vectors), dial in depolarizing noise on an exact density matrix, sample shots, and export OpenQASM to the site's transpiler.",
   path: "/lab",
@@ -25,12 +25,12 @@ export default function LabPage() {
         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Circuit Lab</h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
           The games teach one idea each. This is the open bench. Build any circuit on up to five qubits and watch the
-          exact state answer every change — amplitudes with phases, each qubit&apos;s Bloch vector, the density matrix
+          exact state answer every change, amplitudes with phases, each qubit&apos;s Bloch vector, the density matrix
           under noise, and real sampled measurements. Nothing here is pre-rendered: the engine runs on every click.
         </p>
         <p className="mt-3 max-w-2xl text-sm text-muted">
           Intuition to form: put a gate in, watch the bars. Add a CNOT and see a qubit&apos;s Bloch arrow shrink to
-          nothing — entanglement, measured. Turn up noise and watch purity fall; that is what{" "}
+          nothing, entanglement, measured. Turn up noise and watch purity fall; that is what{" "}
           <Link href="/playground/arcade#repetition-rescue" className="text-accent">error correction</Link> fights and{" "}
           <Link href="/docs/vqe-suite/zero-noise-extrapolation" className="text-accent">ZNE</Link> extrapolates away.
           Start from the{" "}

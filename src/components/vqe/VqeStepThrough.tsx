@@ -95,7 +95,7 @@ export function VqeStepThrough() {
   return (
     <div className="flex flex-col gap-4">
       <RepresentsTag docsHref="/docs/vqe-suite/hamiltonian-and-ansatz">
-        one real parameter-shift-rule gradient step per click — every number below comes from the same
+        one real parameter-shift-rule gradient step per click, every number below comes from the same
         statevector simulator used by the Convergence tab, evaluated fresh, not replayed from a precomputed run
       </RepresentsTag>
 
@@ -123,10 +123,10 @@ export function VqeStepThrough() {
       {lastStep ? (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           <StepStat label="θ (PREPARE)" value={lastStep.theta.toFixed(6)} />
-          <StepStat label="E(θ) — MEASURE/ESTIMATE" value={`${lastStep.energyBefore.toFixed(6)} Ha`} />
+          <StepStat label="E(θ). MEASURE/ESTIMATE" value={`${lastStep.energyBefore.toFixed(6)} Ha`} />
           <StepStat label="E(θ + π/2)" value={`${lastStep.energyPlusShift.toFixed(6)} Ha`} />
           <StepStat label="E(θ − π/2)" value={`${lastStep.energyMinusShift.toFixed(6)} Ha`} />
-          <StepStat label="∇E — UPDATE" value={lastStep.gradient.toExponential(4)} />
+          <StepStat label="∇E. UPDATE" value={lastStep.gradient.toExponential(4)} />
           <StepStat label="θ_next = θ − lr·∇E" value={lastStep.nextTheta.toFixed(6)} />
         </div>
       ) : (
@@ -137,7 +137,7 @@ export function VqeStepThrough() {
 
       {converged && finalPoint && (
         <div className="rounded-lg border border-accent/40 bg-accent/10 p-3 font-mono text-xs text-foreground">
-          CONVERGED — |∇E| = {Math.abs(lastStep!.gradient).toExponential(3)} {"<"} {GRADIENT_CONVERGENCE_THRESHOLD.toExponential(0)}: no further energy
+          CONVERGED, |∇E| = {Math.abs(lastStep!.gradient).toExponential(3)} {"<"} {GRADIENT_CONVERGENCE_THRESHOLD.toExponential(0)}: no further energy
           decrease expected. Final energy {finalPoint.energyHartree.toFixed(6)} Ha, {Math.abs((finalPoint.energyHartree - exactEnergy) * 1000).toFixed(4)} mHa
           from the exact ground state ({exactEnergy.toFixed(6)} Ha).
         </div>

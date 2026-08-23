@@ -11,7 +11,7 @@ type Row = { qubits: number; ms: number | null; fastMs: number; gates: number };
 /**
  * Live scaling benchmark of the in-browser statevector engine: for n qubits,
  * apply one layer of Hadamards plus a CNOT chain and time it. Real numbers
- * from the visitor's own machine — the honest way to show the 2^n wall.
+ * from the visitor's own machine, the direct way to show the 2^n wall.
  */
 export function EngineBenchmark() {
   const [rows, setRows] = useState<Row[]>([]);
@@ -25,7 +25,7 @@ export function EngineBenchmark() {
     for (let n = 4; n <= 22; n += 2) {
       await new Promise((r) => setTimeout(r, 0)); // yield so the UI paints each row
       const gates = 2 * n - 1;
-      // readable engine (object per amplitude) — stops once it gets slow
+      // readable engine (object per amplitude), stops once it gets slow
       let ms: number | null = null;
       if (!readableDone) {
         const t0 = performance.now();
@@ -53,7 +53,7 @@ export function EngineBenchmark() {
     <GameCard title="Engine Scaling Benchmark" tag="bench" computes="wall-clock time on your device for 2^n amplitudes (one H layer + a CNOT chain): the readable object-per-amplitude engine vs the Float64Array kernel">
       <p className="text-muted">
         The 2ⁿ wall, measured live: every extra qubit doubles the amplitudes. Grey is the readable teaching engine
-        behind the games; cyan is the typed-array kernel — same physics, flat memory, in-place gates — which is how
+        behind the games; cyan is the typed-array kernel, same physics, flat memory, in-place gates, which is how
         the browser reaches 20+ qubits.
       </p>
       <div className="flex items-center gap-2">
@@ -76,7 +76,7 @@ export function EngineBenchmark() {
                   <div className="h-full bg-accent transition-[width] duration-300 ease-out" style={{ width: `${Math.max(1, (r.fastMs / maxMs) * 100)}%` }} />
                 </div>
               </div>
-              <span className="w-20 text-right text-muted">{r.ms === null ? "—" : fmt(r.ms)}</span>
+              <span className="w-20 text-right text-muted">{r.ms === null ? "n/a" : fmt(r.ms)}</span>
               <span className="w-20 text-right text-accent">{fmt(r.fastMs)}</span>
             </div>
           );

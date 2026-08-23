@@ -1,10 +1,10 @@
 /**
- * QPIT's contextual personality — pure logic, no DOM, no React.
+ * QPIT's contextual personality, pure logic, no DOM, no React.
  *
  * Everything here maps *real UI facts* (the current route, the destination of
  * a link the user is hovering) to short personality lines. QPIT never claims
  * knowledge it doesn't have: lines are flavor about real sections of this
- * site, not invented facts — same honesty boundary as src/lib/quantum/events.ts.
+ * site, not invented facts, same rule as src/lib/quantum/events.ts.
  *
  * Tested by tests/qpit-context.test.mjs (node --test, native type stripping).
  */
@@ -74,7 +74,7 @@ const GREETINGS: Record<QpitSection, string[]> = {
   lab: ["The open bench. Try not to entangle me.", "Every click re-runs the engine. No mercy."],
   hardware: ["This is where circuits leave the browser.", "Real noise lives here. Respect it."],
   engineering: ["The tradeoffs. Nobody hides these.", "Where the hard parts get admitted."],
-  applications: ["The honest map. Some of it will disappoint you.", "Hype goes to die here."],
+  applications: ["The applications map. Some of it will disappoint you.", "Hype goes to die here."],
   field: ["Receipts for the whole industry.", "Every card says what kind of claim it is."],
   unknown: ["Hm. New territory."],
 };
@@ -85,7 +85,7 @@ const HOVER_LINES: Record<QpitSection, string[]> = {
   research: ["Ah. Serious stuff.", "The rigorous bit."],
   claims: ["Verdicts in there.", "Every claim wears its status."],
   evidence: ["Receipts. I like receipts."],
-  sources: ["A very honest reading list."],
+  sources: ["The reading list. Every link was opened."],
   "gap-analysis": ["The humbling. Worth a look."],
   "prior-art": ["Now we're getting interesting."],
   methodology: ["Rules of the game."],
@@ -94,7 +94,7 @@ const HOVER_LINES: Record<QpitSection, string[]> = {
   learn: ["A path through the games. Worth it."],
   lab: ["Build your own circuit in there."],
   hardware: ["Real processor. Real noise."],
-  engineering: ["The honest part about how it was built."],
+  engineering: ["How it was built, and what it cost."],
   applications: ["What I'm actually for. Spoiler: not video."],
   field: ["The scoreboard. Logical qubits, not marketing ones."],
   unknown: [],
@@ -112,7 +112,7 @@ export const POKE_LINES: string[] = [
 
 /**
  * Lines tied to emotional-state transitions and special moments. Keys are
- * moments, not raw states — SLEEPING entry is deliberately silent (absence
+ * moments, not raw states. SLEEPING entry is deliberately silent (absence
  * is personality too). Frequencies are governed by the caller's cooldowns
  * and the chattiness governor in qpitState.ts.
  */
@@ -131,14 +131,14 @@ export const MOMENT_LINES: Record<string, string[]> = {
   BLACKHOLE_HOVER: [
     "That's a black hole. The artistic kind.",
     "Careful. Tiny singularity. Decorative, mostly.",
-    "A black hole — well, a visual metaphor of one.",
+    "A black hole, well, a visual metaphor of one.",
   ],
   ROAMING_CHATTER: [
     "Wheee.",
     "Where are we going?",
     "You're fast today.",
     "I like this direction.",
-    "Left! No — right!",
+    "Left! No, right!",
     "Try shaking me. Actually, don't.",
     "Still attached. Somehow.",
   ],
@@ -156,52 +156,52 @@ export function momentLine(moment: keyof typeof MOMENT_LINES | string, rand: Ran
  */
 export const LOOKING_AT: Record<QpitSection, string> = {
   home: "The front door: a live Bloch sphere, the transpiler terminal, and the project grid. Everything on it computes for real.",
-  research: "The research wing — a primary-source-verified study of the quantum CI/CD testing gap. Claims carry verdicts, not vibes.",
+  research: "The research wing, a primary-source-verified study of the quantum CI/CD testing gap. Claims carry verdicts, not vibes.",
   claims: "The claims table: every hypothesis this research started with, and what checking it actually found.",
   evidence: "The evidence cards: each claim's primary source, what it says, and how confident we are.",
-  sources: "Every URL this research opened. Including the ones that failed to load — those are listed too.",
-  "gap-analysis": "The honest synthesis: what's novel, what isn't, and the one gap that survived — cross-SDK regression testing.",
+  sources: "Every URL this research opened. Including the ones that failed to load, those are listed too.",
+  "gap-analysis": "The synthesis: what's novel, what isn't, and the one gap that survived, cross-SDK regression testing.",
   "prior-art": "The prior-art matrix: two dozen systems, each checked for what it really does and doesn't do.",
   methodology: "How the checking worked: open the primary source, or don't cite it.",
   docs: "Technical docs with server-rendered math, written against the actual source code.",
   playground: `A playground. The arcade has ${ARCADE_GAME_COUNT} games and labs; the VQE suite runs a real eigensolver; the transpiler compiles OpenQASM.`,
   learn: "A four-level path through the arcade games, in the order that builds intuition.",
   lab: "The Circuit Lab: build any circuit on up to five qubits and watch the exact state, noise, and sampled shots respond.",
-  hardware: "The hardware lane: a circuit runs on a real IBM device and comes back beside the exact prediction — or the page says honestly why it can't yet.",
+  hardware: "The hardware lane: a circuit runs on a real IBM device and comes back beside the exact prediction, or the page says why it can't yet.",
   engineering: "The engineering decisions page: each tradeoff with its problem, the call, the cost, and a link to check it.",
-  applications: "The sourced map of what quantum computing is actually good for — and what it isn't.",
+  applications: "The sourced map of what quantum computing is actually good for, and what it isn't.",
   field: "The state of the industry with receipts: hardware scoreboard, post-quantum crypto deadlines, the timeline debate, careers.",
   unknown: "Honestly? Somewhere I don't have a map for.",
 };
 
 export const NEXT_STEP: Record<QpitSection, { line: string; href: string }> = {
   home: { line: "Go break a Bell inequality. The arcade has a CHSH game.", href: "/playground/arcade" },
-  research: { line: "Read the gap analysis — it's where the hypothesis got humbled.", href: "/research/gap-analysis" },
+  research: { line: "Read the gap analysis, it's where the hypothesis got humbled.", href: "/research/gap-analysis" },
   claims: { line: "See the receipts behind these verdicts.", href: "/research/evidence" },
   evidence: { line: "Now the synthesis of all of it.", href: "/research/gap-analysis" },
   sources: { line: "Back to what those sources decided.", href: "/research/claims" },
-  "gap-analysis": { line: "Enough reading. Run something real — the VQE suite.", href: "/playground/vqe-suite" },
+  "gap-analysis": { line: "Enough reading. Run something real, the VQE suite.", href: "/playground/vqe-suite" },
   "prior-art": { line: "The gap analysis explains what all those systems leave open.", href: "/research/gap-analysis" },
   methodology: { line: "See the method applied: the claims table.", href: "/research/claims" },
   docs: { line: "Watch the math you just read actually run.", href: "/playground/vqe-suite" },
-  playground: { line: "Try the arcade's Grover Searchlight — then over-search it on purpose.", href: "/playground/arcade" },
+  playground: { line: "Try the arcade's Grover Searchlight, then over-search it on purpose.", href: "/playground/arcade" },
   learn: { line: "Start Level 1. Gate Mixer. Press H twice.", href: "/playground/arcade#gate-mixer" },
   lab: { line: "Load the Bell preset, then add noise and watch purity fall.", href: "/playground/arcade#decoherence-dial" },
   hardware: { line: "See what the devices have actually achieved.", href: "/field/hardware" },
   engineering: { line: "Meet the person who made the calls.", href: "/builder" },
   applications: { line: "Now feel the real one: simulate a molecule in the VQE suite.", href: "/playground/vqe-suite" },
-  field: { line: "Start with the hardware scoreboard — results first, promises second.", href: "/field/hardware" },
+  field: { line: "Start with the hardware scoreboard, results first, promises second.", href: "/field/hardware" },
   unknown: { line: "Home is always a safe measurement.", href: "/" },
 };
 
 /** Short, true quantum facts QPet can offer. */
 export const QUANTUM_FACTS: string[] = [
-  "A qubit's state can't be copied. Not 'hard to' — provably can't. It's why quantum key exchange is secure.",
+  "A qubit's state can't be copied. Not 'hard to', provably can't. It's why quantum key exchange is secure.",
   "Measuring in a different basis asks a different question of the same state. Same qubit, different answers.",
   "Grover's search finds one item among N in about the square root of N steps. Keep going and it overshoots.",
   "A Bell pair scores up to 2.83 on the CHSH test. Any classical explanation caps at 2.",
   "Decoherence is the real enemy: the off-diagonal terms of a density matrix leaking away into the environment.",
-  "Teleportation moves a state, not matter — and it needs two classical bits, so it can't beat light.",
+  "Teleportation moves a state, not matter, and it needs two classical bits, so it can't beat light.",
   "The H2 molecule, in the smallest basis, needs just two qubits. This site's VQE solves it in your browser.",
 ];
 
@@ -231,7 +231,7 @@ export function greetingForPath(pathname: string, rand: Rand = Math.random): str
 /**
  * Hover context for an anchor: internal links map through sectionForPath;
  * external/anchor-only links get nothing. `dataQpit`, when present on the
- * element (data-qpit="evidence"), overrides the href-derived section — the
+ * element (data-qpit="evidence"), overrides the href-derived section, the
  * scalable escape hatch for non-link hover targets.
  */
 export function hoverSectionFor(href: string | null, dataQpit?: string | null): QpitSection | null {
@@ -246,7 +246,7 @@ export function hoverLineFor(section: QpitSection, rand: Rand = Math.random): st
 }
 
 // ---------------------------------------------------------------------------
-// Voice commands — a deterministic intent parser (no LLM). Tested.
+// Voice commands, a deterministic intent parser (no LLM). Tested.
 // ---------------------------------------------------------------------------
 
 export type VoiceIntent =

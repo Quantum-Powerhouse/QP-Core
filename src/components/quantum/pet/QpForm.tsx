@@ -20,7 +20,7 @@ function randomInSphere(count: number, radius: number) {
 
 export type PetVisualState = {
   color: THREE.Color;
-  /** 0-1, decays toward 0 each frame — a reaction pulse, not a sustained level. */
+  /** 0-1, decays toward 0 each frame, a reaction pulse, not a sustained level. */
   intensity: number;
   /** 0-1, sustained while "thinking" (e.g. a VQE run in progress). */
   spin: number;

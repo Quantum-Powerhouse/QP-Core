@@ -96,7 +96,7 @@ export function applyDepolarizing2Q(rho: ComplexMatrix, p: number): ComplexMatri
   return out;
 }
 
-/** Tr(H rho) — real part only (imaginary part is ~0 for a valid Hermitian H and density matrix). */
+/** Tr(H rho), real part only (imaginary part is ~0 for a valid Hermitian H and density matrix). */
 export function expectationValue(rho: ComplexMatrix, h: ComplexMatrix): number {
   const hRho = matMul(h, rho);
   let trace = 0;

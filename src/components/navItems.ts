@@ -1,4 +1,4 @@
-/** The site map, shared by the desktop nav and the phone menu. Plain data — no "use client". */
+/** The site map, shared by the desktop nav and the phone menu. Plain data, no "use client". */
 export const NAV_ITEMS: { href: string; label: string; accent?: boolean }[] = [
   { href: "/playground/arcade", label: "Arcade", accent: true },
   { href: "/lab", label: "Lab" },

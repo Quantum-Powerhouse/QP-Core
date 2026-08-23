@@ -22,16 +22,16 @@ import {
  *
  * The position is integrated by hand (semi-implicit Euler) so the spring
  * stiffness, damping, stochastic jitter, swing response, and breathing can
- * all change live with QPIT's emotional state — something a fixed spring
+ * all change live with QPIT's emotional state, something a fixed spring
  * config can't do. Pendulum swing derives from horizontal velocity; squash &
  * stretch derive from speed; a sagging SVG tether links cursor to creature.
  *
  * Special moments (superposition ghosts, tunneling home) are rare,
- * cooldown-gated visual metaphors — creative quantum flavor, not physics
+ * cooldown-gated visual metaphors, creative quantum flavor, not physics
  * claims.
  *
  * Performance: pointer handling and the whole integrator write styles
- * directly to refs inside one rAF loop — zero React re-renders per frame.
+ * directly to refs inside one rAF loop, zero React re-renders per frame.
  * React state only changes on dock/roam transitions and rare specials.
  */
 
@@ -553,7 +553,7 @@ export function QpitPhysics({
     // Wormhole entry is distance-triggered, not just time-triggered.
     if (special?.kind === "WORMHOLE" && special.phase === 0 && special.data) {
       const dEntry = Math.hypot(pos.x - special.data.ax, pos.y - special.data.ay);
-      if (dEntry < 26) special.until = now - 1; // arrived — advance now
+      if (dEntry < 26) special.until = now - 1; // arrived, advance now
     }
     if (special && now > special.until) {
       if (special.kind === "TUNNEL" && special.phase === 0) {
@@ -599,7 +599,7 @@ export function QpitPhysics({
     const nx = noise ? (randRef.current() - 0.5) * noise * 900 : 0;
     const ny = noise ? (randRef.current() - 0.5) * noise * 900 : 0;
     // Idle micro-wander: while docked and content, QPIT drifts on a slow
-    // Lissajous path around its dock — alive, not twitchy.
+    // Lissajous path around its dock, alive, not twitchy.
     let wanderX = 0;
     let wanderY = 0;
     if (
@@ -730,7 +730,7 @@ export function QpitPhysics({
         opacity = 0.4 + 0.6 * settled;
       }
     } else if (special?.kind === "ENTANGLE") {
-      // Sync pulse — the twin's CSS pulse runs at the same ~4Hz.
+      // Sync pulse, the twin's CSS pulse runs at the same ~4Hz.
       const pulse = 1 + 0.07 * Math.sin(now / 40);
       sx *= pulse;
       sy *= pulse;
@@ -770,7 +770,7 @@ export function QpitPhysics({
           midY += (special.data.ay - midY) * 0.35;
         }
         path.setAttribute("d", `M ${cx} ${cy} Q ${midX} ${midY} ${px} ${py}`);
-        // Dash flow speeds up with motion — the tether feels energized.
+        // Dash flow speeds up with motion, the tether feels energized.
         path.setAttribute("stroke-dashoffset", String(-(t / 1000) * (20 + speed * 0.15)));
       }
     }
@@ -828,7 +828,7 @@ export function QpitPhysics({
         />
       ))}
 
-      {/* superposition ghosts — two faint possible positions, then collapse */}
+      {/* superposition ghosts, two faint possible positions, then collapse */}
       {ghosts && (
         <>
           {[
@@ -855,7 +855,7 @@ export function QpitPhysics({
         </>
       )}
 
-      {/* black-hole anomaly — a lensed look: photon ring around a true-black
+      {/* black-hole anomaly, a lensed look: photon ring around a true-black
           core, with a wide accretion disk stretched out to both sides.
           Hoverable on purpose: QPIT explains what it (metaphorically) is. */}
       {anomaly && (
@@ -893,7 +893,7 @@ export function QpitPhysics({
                 "0 0 22px color-mix(in srgb, #f59e0b 55%, transparent), 0 0 44px color-mix(in srgb, var(--accent-2) 35%, transparent), inset 0 0 16px color-mix(in srgb, #f59e0b 40%, transparent)",
             }}
           />
-          {/* the shadow: genuinely black */}
+          {/* the shadow: fully black */}
           <div
             className="absolute left-1/2 top-1/2 h-[126px] w-[126px] -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{ background: "radial-gradient(circle, #000 0%, #000 68%, transparent 85%)" }}
@@ -901,7 +901,7 @@ export function QpitPhysics({
         </motion.div>
       )}
 
-      {/* entanglement twin — a distant particle pulsing in sync with QPIT */}
+      {/* entanglement twin, a distant particle pulsing in sync with QPIT */}
       {twin && (
         <motion.div
           aria-hidden
@@ -928,7 +928,7 @@ export function QpitPhysics({
         </motion.div>
       )}
 
-      {/* wormhole portals — entry (cyan) and exit (violet) rings */}
+      {/* wormhole portals, entry (cyan) and exit (violet) rings */}
       {portals &&
         [
           { p: portals.a, color: "var(--accent)" },

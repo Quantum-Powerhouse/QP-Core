@@ -14,7 +14,7 @@ const DOCS = [
     href: "/docs/qp-core/transpiler-pipeline",
     title: "QP-Core: Transpiler Pipeline",
     description:
-      "How an OpenQASM 2/3 circuit becomes Amazon Braket IR — parsing, Qiskit's optimization passes, and IR emission.",
+      "How an OpenQASM 2/3 circuit becomes Amazon Braket IR, parsing, Qiskit's optimization passes, and IR emission.",
   },
   {
     href: "/docs/vqe-suite/hamiltonian-and-ansatz",
@@ -32,7 +32,7 @@ const DOCS = [
     href: "/docs/vqe-suite/zero-noise-extrapolation",
     title: "VQE Suite: Zero-Noise Extrapolation",
     description:
-      "Depolarizing noise, digital gate folding, and Richardson extrapolation — with real numbers from the shipped implementation.",
+      "Depolarizing noise, digital gate folding, and Richardson extrapolation, with real numbers from the shipped implementation.",
   },
 ];
 
@@ -42,7 +42,7 @@ export default function DocsIndexPage() {
       <DocTitle
         eyebrow="Documentation"
         title="How it actually works"
-        dek="Written against the real, shipped source — every equation, code excerpt, and number here is either derived on the page or pulled directly from the repository it describes."
+        dek="Written against the real, shipped source, every equation, code excerpt, and number here is either derived on the page or pulled directly from the repository it describes."
       />
       <div className="flex flex-col gap-4">
         {DOCS.map((doc) => (

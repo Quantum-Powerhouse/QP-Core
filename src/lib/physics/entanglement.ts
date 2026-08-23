@@ -9,8 +9,8 @@ export type ReducedDensityMatrix = {
 /**
  * Partial trace over qubit 1 of a 2-qubit pure state, giving the reduced
  * density matrix for qubit 0: rho_0[a][b] = sum_q1 state[2*q1+a] * conj(state[2*q1+b]).
- * General formula for any 2-qubit statevector — not special-cased to the H2
- * ansatz — using the same bit convention as src/lib/physics/statevector.ts
+ * General formula for any 2-qubit statevector, not special-cased to the H2
+ * ansatz, using the same bit convention as src/lib/physics/statevector.ts
  * (bit k of the basis index is qubit k).
  */
 export function reducedDensityMatrixQubit0(state: Statevector): ReducedDensityMatrix {
@@ -32,7 +32,7 @@ export function reducedDensityMatrixQubit0(state: Statevector): ReducedDensityMa
   };
 }
 
-/** Tr(rho^2) for a 2x2 density matrix — 1 for a pure (unentangled) reduced state, down to 0.5 for maximally mixed. */
+/** Tr(rho^2) for a 2x2 density matrix, 1 for a pure (unentangled) reduced state, down to 0.5 for maximally mixed. */
 export function purity({ rho }: ReducedDensityMatrix): number {
   // Tr(rho^2) = sum_{a,b} rho[a][b] * rho[b][a] = sum_{a,b} |rho[a][b]|^2 (rho is Hermitian, so rho[b][a] = conj(rho[a][b])).
   let total = 0;

@@ -11,12 +11,12 @@ const LINKS = [
   },
   {
     title: "Documentation",
-    description: "The math and the architecture, written against the real source — not marketing copy.",
+    description: "The math and the architecture, written against the real source, not marketing copy.",
     href: "/docs",
   },
   {
     title: "Research",
-    description: "A primary-source-verified investigation into the quantum CI/CD regression-testing gap — claims checked, not assumed.",
+    description: "A primary-source-verified investigation into the quantum CI/CD regression-testing gap, claims checked, not assumed.",
     href: "/research",
   },
 ];

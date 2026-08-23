@@ -6,7 +6,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "Sources",
-  description: "Every source opened during the quantum CI/CD regression-testing research, grouped and linked — including sources that failed to load and leads that were never independently verified.",
+  description: "Every source opened during the quantum CI/CD regression-testing research, grouped and linked, including sources that failed to load and leads that were never independently verified.",
   path: "/research/sources",
 });
 

@@ -7,7 +7,7 @@ export const GITHUB_ORG_URL = "https://github.com/Quantum-Powerhouse";
 export const GITHUB_REPO_URL = "https://github.com/Quantum-Powerhouse/QP-Core";
 
 export const DEFAULT_DESCRIPTION =
-  "Quantum Powerhouse — a quantum computing developer studio. QP-Core (OpenQASM 2.0/3.0 to Amazon Braket IR transpiler), a Qiskit VQE Suite, and a NISQ error mitigation toolkit.";
+  "Quantum Powerhouse, a quantum computing developer studio. QP-Core (OpenQASM 2.0/3.0 to Amazon Braket IR transpiler), a Qiskit VQE Suite, and a NISQ error mitigation toolkit.";
 
 export const DEFAULT_KEYWORDS = [
   "OpenQASM to Amazon Braket transpiler",

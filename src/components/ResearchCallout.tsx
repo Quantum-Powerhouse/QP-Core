@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getResearchStats } from "@/lib/research/stats";
 
 /**
- * The homepage's research callout: the finding itself, not a link to it.
+ * The homepage's research callout states the finding on the homepage.
  * Every number derives from the same data the research pages render.
  */
 export function ResearchCallout() {
@@ -17,18 +17,18 @@ export function ResearchCallout() {
         <div className="mt-5 grid gap-6 md:grid-cols-[1.4fr_1fr]">
           <div className="text-sm leading-relaxed text-muted">
             <p>
-              <strong className="text-foreground">Finding:</strong> narrower than the hypothesis. Cross-<em>version</em>{" "}
-              regression testing already exists (QUTest, 2026, Qiskit-only); pytest-native cross-SDK harnesses exist
-              for <em>benchmarking</em> (IBM&apos;s Benchpress, eight SDKs) but detect nothing; pytest plugins that
-              assert equivalence exist but are immature and not cross-version. No tool combined pytest-native +
-              cross-SDK + automated equivalence/regression detection + reusable CI packaging.
+              The finding was narrower than the hypothesis. Cross-<em>version</em> regression testing already exists
+              (QUTest, 2026, Qiskit only). Pytest-native cross-SDK harnesses exist for <em>benchmarking</em> (IBM&apos;s
+              Benchpress, eight SDKs) but detect nothing. Pytest plugins that assert equivalence exist but are immature
+              and not cross-version. No tool combined pytest-native, cross-SDK, automated equivalence or regression
+              detection, and reusable CI packaging.
             </p>
             <p className="mt-3">
-              <strong className="text-foreground">What followed:</strong> the one surviving gap became a shipped tool —{" "}
+              The one gap that survived became a tool,{" "}
               <a href="https://github.com/sadeqisaidmohaddes-star/pytest-qequiv" className="text-accent" target="_blank" rel="noopener noreferrer">
                 pytest-qequiv
-              </a>
-              , cross-SDK unitary equivalence assertions for Qiskit, Cirq and Braket with endianness normalization.
+              </a>,
+              cross-SDK unitary equivalence assertions for Qiskit, Cirq and Braket with endianness normalization.
               The study also corrected two of its own starting assumptions in public (a bug corpus does exist; the
               31% adoption statistic is N = 26).
             </p>

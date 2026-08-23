@@ -1,6 +1,6 @@
 import type { FieldClaim } from "./types";
 
-/** Careers — a small, high-barrier, well-paid specialist market. No hype. */
+/** Careers, a small, high-barrier, well-paid specialist market. No hype. */
 
 export const CAREER_FACTS: FieldClaim[] = [
   {
@@ -13,7 +13,7 @@ export const CAREER_FACTS: FieldClaim[] = [
   },
   {
     id: "hughes-2022-degrees",
-    title: "Degrees: employers hire across bachelor's, master's and PhD — except for the most specialized roles",
+    title: "Degrees: employers hire across bachelor's, master's and PhD: except for the most specialized roles",
     body: "A survey of 57 quantum companies (Hughes et al., IEEE Transactions on Education, 2022) found that 'except for the highly specific jobs, companies … are looking for a range of degree levels … from bachelors to masters to PhDs', and that the broader roles 'require a range of skills, most of which are not quantum related'. Read that as: algorithms and device physics research skews PhD; software, systems, applications and cryptography engineering are reachable with a strong portfolio.",
     status: "verified",
     date: "2022-11",
@@ -21,8 +21,8 @@ export const CAREER_FACTS: FieldClaim[] = [
   },
   {
     id: "glassdoor-qse",
-    title: "Compensation: a US 'Quantum Software Engineer' averages ~$208k on Glassdoor — from 16 reports",
-    body: "Glassdoor's May 2026 figure for Quantum Software Engineer in the United States is $208,435 (range $168k–$263k), based on sixteen anonymous submissions; its 'Quantum Computing Engineer' figure is $164,333. Treat these as a rough ceiling signal, not a market rate: aggregator data in a 16,000-person field is thin, self-selected, and skewed toward large US employers. Offers vary enormously by PhD, employer, and equity.",
+    title: "Compensation: a US 'Quantum Software Engineer' averages ~$208k on Glassdoor: from 16 reports",
+    body: "Glassdoor's May 2026 figure for Quantum Software Engineer in the United States is $208,435 (range $168k, $263k), based on sixteen anonymous submissions; its 'Quantum Computing Engineer' figure is $164,333. Treat these as a rough ceiling signal, not a market rate: aggregator data in a 16,000-person field is thin, self-selected, and skewed toward large US employers. Offers vary enormously by PhD, employer, and equity.",
     status: "estimate",
     date: "2026-05",
     source: { label: "Glassdoor: Quantum Software Engineer salaries (n=16)", url: "https://www.glassdoor.com/Salaries/quantum-software-engineer-salary-SRCH_KO0,25.htm" },
@@ -90,7 +90,7 @@ export const CAREER_ROLES: CareerRole[] = [
   },
   {
     role: "Quantum applications scientist",
-    does: "Maps domain problems (chemistry, materials, finance) onto hybrid algorithms and benchmarks them honestly.",
+    does: "Maps domain problems (chemistry, materials, finance) onto hybrid algorithms and benchmarks them.",
     needs: "Domain science + quantum algorithms; rigorous benchmarking against classical baselines.",
     proof: [
       { label: "H₂ VQE at chemical accuracy", href: "/playground/vqe-suite" },
@@ -103,8 +103,8 @@ export const CAREER_ROLES: CareerRole[] = [
     does: "Inventories quantum-vulnerable crypto, plans and executes migrations to ML-KEM/ML-DSA, crypto-agility.",
     needs: "Applied cryptography, protocols (TLS, PKI), secure software engineering; no quantum hardware knowledge required.",
     proof: [
-      { label: "pqc-scan — crypto inventory with a Quantum Readiness Score", href: "https://github.com/sadeqisaidmohaddes-star/pqc-scan" },
-      { label: "BB84 — Catch Eve (arcade)", href: "/playground/arcade#bb84-catch-eve" },
+      { label: "pqc-scan, crypto inventory with a Quantum Readiness Score", href: "https://github.com/sadeqisaidmohaddes-star/pqc-scan" },
+      { label: "BB84. Catch Eve (arcade)", href: "/playground/arcade#bb84-catch-eve" },
       { label: "Post-quantum cryptography section", href: "/field/pqc" },
     ],
     typicalDegree: "BSc/MSc common; the most accessible entry point",
@@ -121,6 +121,6 @@ export const EMPLOYERS: { name: string; url: string; kind: string }[] = [
   { name: "Rigetti", url: "https://www.rigetti.com/", kind: "superconducting" },
   { name: "PsiQuantum", url: "https://www.psiquantum.com/", kind: "photonic" },
   { name: "QuEra", url: "https://www.quera.com/", kind: "neutral atom" },
-  { name: "JPMorgan Chase — Global Technology Applied Research", url: "https://www.jpmorgan.com/technology/applied-research", kind: "finance R&D" },
+  { name: "JPMorgan Chase. Global Technology Applied Research", url: "https://www.jpmorgan.com/technology/applied-research", kind: "finance R&D" },
   { name: "US national labs (e.g., Fermilab SQMS, Oak Ridge)", url: "https://sqms.fnal.gov/", kind: "government research" },
 ];

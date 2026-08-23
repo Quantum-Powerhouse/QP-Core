@@ -12,7 +12,7 @@ const STATUS_TONE: Record<FieldStatus, string> = {
 
 import { Reveal } from "@/components/Reveal";
 
-/** One claim, one status, one source — the site's citation pattern, reused. */
+/** One claim, one status, one source, the site's citation pattern, reused. */
 export function FieldClaimCard({ claim }: { claim: FieldClaim }) {
   return (
     <Reveal>

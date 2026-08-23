@@ -17,7 +17,7 @@ export const CLAIMS: Claim[] = [
     status: "false",
     statusLabel: "FALSE (overlap claim); CONFIRMED (existence/capabilities)",
     evidence:
-      "Mature equivalence-checking library (decision-diagram / ZX-calculus engines), Qiskit + OpenQASM only. Its own CI is an OS/compiler matrix only — no SDK-version matrix, no CI/CD product for user projects.",
+      "Mature equivalence-checking library (decision-diagram / ZX-calculus engines), Qiskit + OpenQASM only. Its own CI is an OS/compiler matrix only, no SDK-version matrix, no CI/CD product for user projects.",
     source: "github.com/munich-quantum-toolkit/qcec (README + CI YAML); mqt.readthedocs.io verification handbook",
     confidence: "High",
   },
@@ -37,7 +37,7 @@ export const CLAIMS: Claim[] = [
     status: "false",
     statusLabel: "FALSE (“Q-Trace” itself); real systems found operate at single-run fault-localization level only",
     evidence:
-      "“Q-Trace” is not a real named tool. QMon, TraceQ, the Microsoft QDK Trace Simulator, CUDA-Q statistical assertions, Proq, Bloq/AutoBloq, and MorphQ were all verified — none do cross-version/cross-SDK regression testing or CI integration.",
+      "“Q-Trace” is not a real named tool. QMon, TraceQ, the Microsoft QDK Trace Simulator, CUDA-Q statistical assertions, Proq, Bloq/AutoBloq, and MorphQ were all verified, none do cross-version/cross-SDK regression testing or CI integration.",
     source: "arxiv.org/html/2512.13422; arxiv.org/pdf/2508.14533; arxiv.org/abs/2507.16255; arxiv.org/abs/2506.18458; arxiv.org/pdf/2206.01111",
     confidence: "High",
   },
@@ -55,9 +55,9 @@ export const CLAIMS: Claim[] = [
     id: "C05",
     claim: "First alleged arXiv paper (evidence for the gap)",
     status: "partial",
-    statusLabel: "PARTIALLY CONFIRMED — no pre-given ID existed to check; best reconstructed candidate is highly material",
+    statusLabel: "PARTIALLY CONFIRMED, no pre-given ID existed to check; best reconstructed candidate is highly material",
     evidence:
-      "No specific ID was supplied. Best candidate found: QUTest (arXiv:2605.19736) — a published cross-Qiskit-version regression-testing tool with CI-compatible (JUnit/xUnit) output. This partially contradicts the originally claimed gap rather than supporting it.",
+      "No specific ID was supplied. Best candidate found: QUTest (arXiv:2605.19736), a published cross-Qiskit-version regression-testing tool with CI-compatible (JUnit/xUnit) output. This partially contradicts the originally claimed gap rather than supporting it.",
     source: "arxiv.org/abs/2605.19736 (full HTML verified)",
     confidence: "Medium",
   },
@@ -87,7 +87,7 @@ export const CLAIMS: Claim[] = [
     status: "partial",
     statusLabel: "PARTIALLY CONFIRMED",
     evidence:
-      "pytest-quantum, qtest-quantum, and qc-assert are real, installable, but do framework-to-framework (not version-to-version) equivalence or single-run assertions only; all are under 9 months old, 0–2 stars. No plugin executes across multiple SDK versions with automated diffing.",
+      "pytest-quantum, qtest-quantum, and qc-assert are real, installable, but do framework-to-framework (not version-to-version) equivalence or single-run assertions only; all are under 9 months old, 0-2 stars. No plugin executes across multiple SDK versions with automated diffing.",
     source: "github.com/qbench/pytest-quantum; github.com/metin-5115/qtest; github.com/JMORAF87/qc-assert; PyPI release metadata",
     confidence: "High",
   },
@@ -97,7 +97,7 @@ export const CLAIMS: Claim[] = [
     status: "confirmed",
     statusLabel: "CONFIRMED (narrow)",
     evidence:
-      "Qiskit’s official ecosystem CI template (test_latest / development / minimum_versions.yml) is real, reusable, and active across ~8 repos — but only checks pass/fail of existing tests per version tier, it doesn’t diff behavior. Qiskit core’s qpy.yml does genuine but narrowly-scoped (serialization-only) cross-version regression testing, internal only.",
+      "Qiskit’s official ecosystem CI template (test_latest / development / minimum_versions.yml) is real, reusable, and active across ~8 repos, but only checks pass/fail of existing tests per version tier, it doesn’t diff behavior. Qiskit core’s qpy.yml does genuine but narrowly-scoped (serialization-only) cross-version regression testing, internal only.",
     source: "github.com/Qiskit/qiskit-addon-cutting; github.com/Qiskit/qiskit/blob/main/.github/workflows/qpy.yml",
     confidence: "High",
   },
@@ -107,7 +107,7 @@ export const CLAIMS: Claim[] = [
     status: "partial",
     statusLabel: "PARTIALLY CONFIRMED",
     evidence:
-      "quantum-transpiler-regression-testing (“cart,” Zenodo DOI 10.5281/zenodo.21020113, June 2026) found 38% of real Qiskit transpiler bug-fixes are regressions invisible to equivalence oracles — single-SDK, CLI-based, brand-new, 0 stars. QUTest (C05) does cross-Qiskit-version testing with CI output. No cross-SDK regression/equivalence tool was found — Benchpress (C14) is pytest-native and cross-SDK but benchmarks capability/performance only.",
+      "quantum-transpiler-regression-testing (“cart,” Zenodo DOI 10.5281/zenodo.21020113, June 2026) found 38% of real Qiskit transpiler bug-fixes are regressions invisible to equivalence oracles, single-SDK, CLI-based, brand-new, 0 stars. QUTest (C05) does cross-Qiskit-version testing with CI output. No cross-SDK regression/equivalence tool was found. Benchpress (C14) is pytest-native and cross-SDK but benchmarks capability/performance only.",
     source: "github.com/furqan-nr/quantum-transpiler-regression-testing; Zenodo 10.5281/zenodo.21020113; arXiv:2605.19736",
     confidence: "Medium-High",
   },
@@ -134,20 +134,20 @@ export const CLAIMS: Claim[] = [
     id: "C13",
     claim: "Overall research gap: does a genuine, defensible gap remain?",
     status: "partial",
-    statusLabel: "PARTIALLY CONFIRMED — a gap exists but is much narrower than originally framed",
+    statusLabel: "PARTIALLY CONFIRMED, a gap exists but is much narrower than originally framed",
     evidence:
-      "The narrow, defensible gap is: pytest-native + cross-SDK (not just cross-version) + automated regression/equivalence detection (not hand-written assertions) + reusable drop-in GitHub Actions packaging. No single system combines all four; several systems solve one or two of the four pieces (Benchpress — C14 — covers pytest-native + cross-SDK, but only as a performance benchmark).",
-    source: "Synthesis of C01–C12 and C14 — see the Gap Analysis page",
+      "The narrow, defensible gap is: pytest-native + cross-SDK (not just cross-version) + automated regression/equivalence detection (not hand-written assertions) + reusable drop-in GitHub Actions packaging. No single system combines all four; several systems solve one or two of the four pieces (Benchpress. C14, covers pytest-native + cross-SDK, but only as a performance benchmark).",
+    source: "Synthesis of C01. C12 and C14, see the Gap Analysis page",
     confidence: "Medium-High",
   },
   {
     id: "C14",
     claim: "Benchpress (IBM) already provides a pytest-native, cross-SDK harness overlapping the proposed infrastructure",
     status: "partial",
-    statusLabel: "PARTIALLY CONFIRMED — the harness pattern exists; the detection capability does not",
+    statusLabel: "PARTIALLY CONFIRMED, the harness pattern exists; the detection capability does not",
     evidence:
-      "Benchpress is a pytest-based suite of 1,000+ benchmarks run across 8 SDKs (Qiskit, Braket, Cirq, Tket, BQSKit, Staq, pyqpanda3, Qiskit IBM transpiler) on circuits up to 930 qubits — proving pytest-native cross-SDK orchestration works at scale. But every test measures capability/performance (pass/skip/fail/xfail + timings); it performs no equivalence checking, no cross-version regression detection, and ships no reusable GitHub Actions packaging. Apache-2.0, ~155 stars.",
-    source: "github.com/Qiskit/benchpress; arXiv:2409.08844; Nation et al., Nat. Comput. Sci. 5, 427–435 (2025)",
+      "Benchpress is a pytest-based suite of 1,000+ benchmarks run across 8 SDKs (Qiskit, Braket, Cirq, Tket, BQSKit, Staq, pyqpanda3, Qiskit IBM transpiler) on circuits up to 930 qubits, proving pytest-native cross-SDK orchestration works at scale. But every test measures capability/performance (pass/skip/fail/xfail + timings); it performs no equivalence checking, no cross-version regression detection, and ships no reusable GitHub Actions packaging. Apache-2.0, ~155 stars.",
+    source: "github.com/Qiskit/benchpress; arXiv:2409.08844; Nation et al., Nat. Comput. Sci. 5, 427-435 (2025)",
     confidence: "High",
   },
 ];

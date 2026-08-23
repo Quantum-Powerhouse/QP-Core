@@ -1,10 +1,10 @@
 /**
- * QPet's voice — Web Speech synthesis, zero dependencies, zero keys.
+ * QPet's voice. Web Speech synthesis, zero dependencies, zero keys.
  *
  * Strictly opt-in (localStorage "qpet.voice"), enabled only from a user
  * gesture. The slightly synthetic timbre is on-brand: this is a qubit
  * talking, not a person. Emotion drives pitch and rate, so SLEEPING drawls
- * and SURPRISED yelps. Same honesty boundary as everything else — it only
+ * and SURPRISED yelps. Same rule as everything else, it only
  * ever voices lines the site already decided to say.
  */
 
@@ -63,7 +63,7 @@ export function voiceLine(text: string, emotion: QpitEmotion = "IDLE"): void {
   if (!voiceSupported() || !voiceEnabled()) return;
   const synth = window.speechSynthesis;
   synth.cancel();
-  const utter = new SpeechSynthesisUtterance(text.replace(/[—…]/g, ", "));
+  const utter = new SpeechSynthesisUtterance(text.replace(/[, …]/g, ", "));
   const voice = pickVoice();
   if (voice) utter.voice = voice;
   const p = PROSODY[emotion];

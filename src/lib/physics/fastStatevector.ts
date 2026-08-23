@@ -1,8 +1,7 @@
 /**
  * Fast statevector kernel: split Float64Array (re, im) with in-place gates.
  *
- * The readable engine (statevector.ts) allocates an object per amplitude —
- * fine for teaching and for the 2–4 qubit games, but it hits a wall around
+ * The readable engine (statevector.ts) allocates an object per amplitude,  * fine for teaching and for the 2-4 qubit games, but it hits a wall around
  * 14 qubits. This kernel keeps the same semantics (qubit 0 = least
  * significant bit) on flat typed arrays and mutates in place, so 20+ qubits
  * fit in memory and run in well under a second. Used by the scaling

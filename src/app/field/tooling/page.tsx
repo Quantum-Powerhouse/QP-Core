@@ -5,7 +5,7 @@ import { TOOLING } from "@/lib/field/tooling";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Open-Source Quantum Tooling — Qiskit 2.0, OpenQASM 3, CUDA-Q, Stim",
+  title: "Open-Source Quantum Tooling: Qiskit 2.0, OpenQASM 3, CUDA-Q, Stim",
   description:
     "What a quantum software engineer installs, with licenses and release facts from the repositories: Qiskit 2.0 (March 2025), the OpenQASM 3.1 specification, NVIDIA's CUDA-Q, Google's Stim stabilizer simulator, and a dated adoption snapshot.",
   path: "/field/tooling",
@@ -42,9 +42,9 @@ export default function ToolingPage() {
       <section className="glass-panel mt-12 rounded-xl p-5">
         <h2 className="font-mono text-xs uppercase tracking-widest text-accent">See also</h2>
         <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
-          <li><Link href="/research/prior-art" className="text-accent underline-offset-2 hover:underline">Prior-art matrix — the testing tools, checked</Link></li>
-          <li><Link href="/research/claims" className="text-accent underline-offset-2 hover:underline">Claim C14 — Benchpress</Link></li>
-          <li><Link href="/field/hardware" className="text-accent underline-offset-2 hover:underline">Hardware scoreboard — where Stim&apos;s thresholds get tested</Link></li>
+          <li><Link href="/research/prior-art" className="text-accent underline-offset-2 hover:underline">Prior-art matrix, the testing tools, checked</Link></li>
+          <li><Link href="/research/claims" className="text-accent underline-offset-2 hover:underline">Claim C14. Benchpress</Link></li>
+          <li><Link href="/field/hardware" className="text-accent underline-offset-2 hover:underline">Hardware scoreboard, where Stim&apos;s thresholds get tested</Link></li>
         </ul>
       </section>
     </>

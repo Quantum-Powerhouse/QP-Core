@@ -9,8 +9,8 @@ export function CircuitTimelineSection() {
           Gate Timeline
         </h2>
         <p className="mt-3 max-w-2xl text-muted">
-          A sample 3-qubit circuit — Hadamard, CNOT entanglement, a phase
-          gate, and measurement — rendered as a glowing, animated timeline.
+          A sample 3-qubit circuit. Hadamard, CNOT entanglement, a phase
+          gate, and measurement, rendered as a glowing, animated timeline.
         </p>
       </div>
       <CircuitVisualizer />

@@ -8,7 +8,7 @@ import { NAV_ITEMS } from "@/components/navItems";
 
 /**
  * Phone navigation. Before this existed the header hid its links below the
- * `sm` breakpoint with nothing in their place — every phone visitor lost the
+ * `sm` breakpoint with nothing in their place, every phone visitor lost the
  * whole site map. This is a plain disclosure menu: a labelled button, a
  * panel that lists every section, closes on navigation and on Escape.
  */

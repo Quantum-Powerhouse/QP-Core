@@ -12,7 +12,7 @@ export function Hero() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
           </span>
-          ● Engine Live — 21 games running on it
+          ● Engine Live, 21 games running on it
         </a>
       </div>
 
@@ -26,7 +26,7 @@ export function Hero() {
       </h1>
       <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
         An OpenQASM-to-Amazon-Braket-IR transpiler, a from-scratch variational
-        quantum eigensolver, and a Zero-Noise Extrapolation engine — simulated
+        quantum eigensolver, and a Zero-Noise Extrapolation engine, simulated
         and computed live in your browser, not slides about what quantum
         software could do. Rotate the Bloch sphere below, or drop straight
         into the transpiler terminal.
@@ -48,7 +48,7 @@ export function Hero() {
 
       <div className="mt-16">
         <p className="mb-4 font-mono text-xs uppercase tracking-widest text-muted">
-          Interactive Bloch Sphere — |Ψ⟩ = α|0⟩ + β|1⟩
+          Interactive Bloch Sphere, |Ψ⟩ = α|0⟩ + β|1⟩
         </p>
         <BlochSphere />
       </div>

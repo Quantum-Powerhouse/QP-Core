@@ -10,7 +10,7 @@ const DATE_PUBLISHED = "2026-08-17";
 export const metadata: Metadata = buildMetadata({
   title: "Zero-Noise Extrapolation: Gate Folding & Richardson Extrapolation",
   description:
-    "The math behind the VQE Suite's ZNE panel: depolarizing-channel Kraus operators, digital gate folding, and Richardson extrapolation via Lagrange interpolation — with real measured numbers.",
+    "The math behind the VQE Suite's ZNE panel: depolarizing-channel Kraus operators, digital gate folding, and Richardson extrapolation via Lagrange interpolation, with real measured numbers.",
   path: "/docs/vqe-suite/zero-noise-extrapolation",
   keywords: ["Quantum Zero Noise Extrapolation toolkit", "Richardson extrapolation quantum", "NISQ error mitigation"],
   ogTitle: "VQE Suite: Zero-Noise Extrapolation",
@@ -44,7 +44,7 @@ export default function ZneDocPage() {
       <DocTitle
         eyebrow="VQE Suite / Physics"
         title="Zero-Noise Extrapolation"
-        dek="How the ZNE panel turns a noisy energy estimate back toward the noiseless answer: depolarizing noise, digital gate folding, and Richardson extrapolation — with real numbers from the shipped simulator."
+        dek="How the ZNE panel turns a noisy energy estimate back toward the noiseless answer: depolarizing noise, digital gate folding, and Richardson extrapolation, with real numbers from the shipped simulator."
       />
 
       <H2>Depolarizing noise</H2>
@@ -61,7 +61,7 @@ export default function ZneDocPage() {
         expr="\rho \to (1-p)\rho + \frac{p}{15}\sum_{P \neq I\otimes I} P\rho P^\dagger"
       />
       <P>
-        implemented directly on a 4×4 density matrix in <code>src/lib/physics/densityMatrix.ts</code> — the
+        implemented directly on a 4×4 density matrix in <code>src/lib/physics/densityMatrix.ts</code>, the
         playground&apos;s two sliders set the single-qubit gate error rate and the two-qubit (CNOT) gate error
         rate independently, since real hardware&apos;s two-qubit gates are consistently noisier.
       </P>
@@ -75,7 +75,7 @@ export default function ZneDocPage() {
       <Katex display expr="U_\lambda = U\,(U^\dagger U)^{k}, \qquad \lambda = 2k+1" />
       <P>
         Ideally <Katex expr="U^\dagger U = I" />, so <Katex expr="U_\lambda" /> computes the same thing as{" "}
-        <Katex expr="U" /> — but each extra <Katex expr="U^\dagger U" /> pair re-executes every physical gate,
+        <Katex expr="U" />, but each extra <Katex expr="U^\dagger U" /> pair re-executes every physical gate,
         which re-exposes the state to the depolarizing channels above. More folds, same ideal answer, more
         accumulated noise:
       </P>
@@ -90,7 +90,7 @@ export default function ZneDocPage() {
         <Katex expr="n" /> known noise scales, Richardson extrapolation fits the unique degree-<Katex expr="(n-1)" />{" "}
         polynomial through those points and evaluates it at <Katex expr="\lambda = 0" />. Since these are exact
         deterministic simulation outputs (not statistically noisy samples), plain Lagrange interpolation is the
-        right tool — no least-squares regression needed:
+        right tool, no least-squares regression needed:
       </P>
       <Katex
         display
@@ -106,8 +106,7 @@ export default function ZneDocPage() {
       <Note>
         These numbers are a real run of the shipped code (<code>runZne()</code> in{" "}
         <code>src/lib/physics/zne.ts</code>) at the VQE-optimized <Katex expr="\theta \approx -0.2297" />, with
-        error rates <Katex expr="p_1 = 0.2\%" /> per single-qubit gate and <Katex expr="p_2 = 2\%" /> per CNOT —
-        not illustrative/rounded figures.
+        error rates <Katex expr="p_1 = 0.2\%" /> per single-qubit gate and <Katex expr="p_2 = 2\%" /> per CNOT,         not illustrative/rounded figures.
       </Note>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse font-mono text-xs">
@@ -151,7 +150,7 @@ export default function ZneDocPage() {
         Chemical accuracy is conventionally <Katex expr="1.6" /> mHa. The raw λ=1 estimate misses it by nearly
         40×; quadratic Richardson extrapolation recovers it from the same noisy data. Reproduce this yourself,
         or with your own error rates, on{" "}
-        <SourceLink href="/playground/vqe-suite">the VQE Suite playground</SourceLink> — see also{" "}
+        <SourceLink href="/playground/vqe-suite">the VQE Suite playground</SourceLink>, see also{" "}
         <SourceLink href="/docs/vqe-suite/hamiltonian-and-ansatz">Hamiltonian &amp; Ansatz</SourceLink> for the
         parameter-shift optimizer that produces <Katex expr="\theta" />.
       </P>

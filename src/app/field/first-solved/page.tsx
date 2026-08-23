@@ -5,9 +5,9 @@ import { FIRST_SOLVED, FIRST_SOLVED_TIERS } from "@/lib/field/firstSolved";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "What Gets Solved First — Quantum Applications by Evidence",
+  title: "What Gets Solved First: Quantum Applications by Evidence",
   description:
-    "By expert consensus (Hoefler/Häner/Troyer, CACM 2023; Microsoft resource estimates) the first practical quantum advantage lands in chemistry and materials via hybrid workflows — not general optimization or AI. Sourced, with the hype separated out.",
+    "By expert consensus (Hoefler/Häner/Troyer, CACM 2023; Microsoft resource estimates) the first practical quantum advantage lands in chemistry and materials via hybrid workflows, not general optimization or AI. Sourced, with the hype separated out.",
   path: "/field/first-solved",
   keywords: ["quantum advantage chemistry", "what will quantum computers solve first", "quantum optimization hype", "Hoefler Troyer quantum advantage"],
   ogTitle: "What Gets Solved First",
@@ -19,8 +19,7 @@ export default function FirstSolvedPage() {
       <p className="mb-2 font-mono text-sm text-accent">The field · applications</p>
       <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">What gets solved first</h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-        The expert answer is narrower and more technical than the popular one: simulating quantum systems —
-        molecules and materials — through hybrid quantum-classical workflows, because nature is the problem class
+        The expert answer is narrower and more technical than the popular one: simulating quantum systems,         molecules and materials, through hybrid quantum-classical workflows, because nature is the problem class
         where the speedup is exponential and the input is small. The rest is sorted below by the strength of its
         evidence. The longer, sourced map is on the{" "}
         <Link href="/applications" className="text-accent">applications page</Link>.
@@ -51,7 +50,7 @@ export default function FirstSolvedPage() {
       <p className="mt-8 text-sm text-muted">
         Want to feel the credible case rather than read it: the{" "}
         <Link href="/playground/vqe-suite" className="text-accent">VQE suite</Link> solves H₂ to chemical accuracy in
-        your browser — the same idea the 2029 roadmaps intend to run at a million physical qubits.
+        your browser, the same idea the 2029 roadmaps intend to run at a million physical qubits.
       </p>
       <section className="glass-panel mt-12 rounded-xl p-5">
         <h2 className="font-mono text-xs uppercase tracking-widest text-accent">See also</h2>

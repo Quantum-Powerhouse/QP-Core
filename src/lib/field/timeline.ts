@@ -1,7 +1,7 @@
 import type { FieldClaim } from "./types";
 
 /**
- * The timeline debate. The honest shape of it, as of the check date: the
+ * The timeline debate. The shape of it, as of the check date: the
  * *results* (below-threshold error correction, logical-beats-physical) are
  * verified and no longer seriously disputed; the disagreement is about how
  * fast useful fault-tolerant machines follow, and whether scaling economics
@@ -21,7 +21,7 @@ export const TIMELINE_OPTIMISTS: FieldClaim[] = [
   {
     id: "ibm-2029",
     title: "IBM: a fault-tolerant Starling system by 2029",
-    body: "IBM's roadmap commits to 200 logical qubits executing 100 million gates in 2029. It is the most detailed public engineering plan in the industry — and a roadmap, not a result.",
+    body: "IBM's roadmap commits to 200 logical qubits executing 100 million gates in 2029. It is the most detailed public engineering plan in the industry, and a roadmap, not a result.",
     status: "projection",
     date: "2025-06",
     source: { label: "IBM Quantum blog", url: "https://www.ibm.com/quantum/blog/large-scale-ftqc" },
@@ -29,7 +29,7 @@ export const TIMELINE_OPTIMISTS: FieldClaim[] = [
   {
     id: "aaronson-2025",
     title: "Scott Aaronson (UT Austin): from cautious to 'one of the most optimistic talks I've ever given'",
-    body: "A decade-long voice of caution, Aaronson wrote on 21 December 2025 that 2025's hardware met or exceeded his expectations — multiple platforms above 99.9% two-qubit fidelity and below fault-tolerance thresholds — and that his Q2B keynote, 'Why I Think Quantum Computing Works', was among the most optimistic he has given. He paraphrased his critics: 'A decade ago you said you were 35. Now you say you're 45.' He remains clear that useful fault-tolerant machines are a matter of years, not months.",
+    body: "A decade-long voice of caution, Aaronson wrote on 21 December 2025 that 2025's hardware met or exceeded his expectations, multiple platforms above 99.9% two-qubit fidelity and below fault-tolerance thresholds, and that his Q2B keynote, 'Why I Think Quantum Computing Works', was among the most optimistic he has given. He paraphrased his critics: 'A decade ago you said you were 35. Now you say you're 45.' He remains clear that useful fault-tolerant machines are a matter of years, not months.",
     status: "opinion",
     date: "2025-12",
     source: { label: "Shtetl-Optimized, 'More on whether useful quantum computing is imminent'", url: "https://scottaaronson.blog/?p=9425" },
@@ -39,7 +39,7 @@ export const TIMELINE_OPTIMISTS: FieldClaim[] = [
 export const TIMELINE_SKEPTICS: FieldClaim[] = [
   {
     id: "huang-2025",
-    title: "Jensen Huang (NVIDIA): '15 to 30 years' — then a public retraction ten weeks later",
+    title: "Jensen Huang (NVIDIA): '15 to 30 years': then a public retraction ten weeks later",
     body: "At CES on 7 January 2025 Huang said that if you put 'very useful quantum computers' at 15 years 'that would probably be on the early side' and 30 'probably on the late side', sending quantum stocks down sharply. At NVIDIA's first Quantum Day on 20 March 2025 he opened with: 'This is the first event in history where a company CEO invites all of the guests to explain why he was wrong.' Worth recording on both sides: the original skepticism, and how quickly a well-informed outsider reversed it.",
     status: "opinion",
     date: "2025-03",
@@ -48,8 +48,8 @@ export const TIMELINE_SKEPTICS: FieldClaim[] = [
   },
   {
     id: "kalai-2026",
-    title: "Gil Kalai (Hebrew University): still a skeptic — correlated noise may forbid scalable error correction",
-    body: "Kalai's long-standing thesis is that some principle of correlated noise, beyond plain quantum mechanics, screens off quantum computation; as of his 10 March 2026 post he still identifies as a skeptic. Aaronson's characterization, which Kalai reproduces: he 'starts with quantum computation being impossible as his axiom, then works backwards to find what kinds of correlated noise would kill' error correction. This is the principled impossibility position — and, after the 2024–2026 below-threshold results, a minority one.",
+    title: "Gil Kalai (Hebrew University): still a skeptic: correlated noise may forbid scalable error correction",
+    body: "Kalai's long-standing thesis is that some principle of correlated noise, beyond plain quantum mechanics, screens off quantum computation; as of his 10 March 2026 post he still identifies as a skeptic. Aaronson's characterization, which Kalai reproduces: he 'starts with quantum computation being impossible as his axiom, then works backwards to find what kinds of correlated noise would kill' error correction. This is the principled impossibility position, and, after the 2024-2026 below-threshold results, a minority one.",
     status: "opinion",
     date: "2026-03",
     source: { label: "Combinatorics and more, 10 Mar 2026", url: "https://gilkalai.wordpress.com/2026/03/10/scott-aaronsons-view-of-my-view-about-quantum-computing/" },

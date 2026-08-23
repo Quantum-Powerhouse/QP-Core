@@ -47,7 +47,7 @@ export default function PriorArtPage() {
       <DocTitle
         eyebrow="Research / Prior Art"
         title="Prior-art comparison matrix"
-        dek="21 systems — libraries, papers, benchmarks, CI templates, and pilots — compared across every dimension relevant to the proposed CI/CD regression-testing idea. Cells use YES / NO / PARTIAL / UNKNOWN only; nothing here was assumed."
+        dek="21 systems, libraries, papers, benchmarks, CI templates, and pilots, compared across every dimension relevant to the proposed CI/CD regression-testing idea. Cells use YES / NO / PARTIAL / UNKNOWN only; nothing here was assumed."
       />
 
       <P>
@@ -66,10 +66,10 @@ export default function PriorArtPage() {
 
       <H2>Capability coverage</H2>
       <P>
-        Each system&apos;s two axis scores are counted directly from the matrix cells below — CI/orchestration
+        Each system&apos;s two axis scores are counted directly from the matrix cells below. CI/orchestration
         from pytest + GitHub Actions + CI/CD + Cross-Version + Cross-SDK, testing depth from Regression Testing
         + Equivalence Checking + Auto Fault Detection + Bug Corpus. Dot size scales with total capability
-        count. No relationship between systems is implied beyond this — the research found none to visualize.
+        count. No relationship between systems is implied beyond this, the research found none to visualize.
       </P>
       <CapabilityScatter />
 

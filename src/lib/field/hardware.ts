@@ -1,7 +1,7 @@
 import type { FieldClaim } from "./types";
 
 /**
- * Hardware scoreboard — scored on logical qubits, gate fidelity, and code
+ * Hardware scoreboard, scored on logical qubits, gate fidelity, and code
  * distance, not raw physical qubit counts. Each entry says whether it is a
  * published result or a roadmap promise.
  */
@@ -13,7 +13,7 @@ export const HARDWARE_MILESTONES: FieldClaim[] = [
     body: "A 105-qubit superconducting processor ran surface-code memories at distance 3, 5 and 7. Each step of +2 in code distance suppressed the logical error rate by Λ = 2.14 ± 0.02; the distance-7 code reached 0.143% ± 0.003% error per cycle with real-time decoding. The logical memory also beat break-even, outliving the processor's best physical qubit by 2.4 ± 0.3×.",
     status: "verified",
     date: "2024-12",
-    source: { label: "Google Quantum AI, Nature 638, 920–926 (2025)", url: "https://www.nature.com/articles/s41586-024-08449-y" },
+    source: { label: "Google Quantum AI, Nature 638, 920-926 (2025)", url: "https://www.nature.com/articles/s41586-024-08449-y" },
     also: { label: "arXiv:2408.13687", url: "https://arxiv.org/abs/2408.13687" },
   },
   {
@@ -36,10 +36,10 @@ export const HARDWARE_MILESTONES: FieldClaim[] = [
   {
     id: "harvard-quera-48-logical",
     title: "Harvard / MIT / QuEra: 48 logical qubits on neutral atoms",
-    body: "A reconfigurable neutral-atom processor ran algorithms on up to 48 logical qubits with hundreds of logical gates — the first logical-qubit demonstration at that scale — using 280 physical atoms and error-detecting codes.",
+    body: "A reconfigurable neutral-atom processor ran algorithms on up to 48 logical qubits with hundreds of logical gates, the first logical-qubit demonstration at that scale, using 280 physical atoms and error-detecting codes.",
     status: "verified",
     date: "2023-12",
-    source: { label: "Bluvstein et al., Nature 626, 58–65 (2024) — arXiv:2312.03982", url: "https://arxiv.org/abs/2312.03982" },
+    source: { label: "Bluvstein et al., Nature 626, 58-65 (2024), arXiv:2312.03982", url: "https://arxiv.org/abs/2312.03982" },
   },
   {
     id: "harvard-quera-448-architecture",
@@ -53,7 +53,7 @@ export const HARDWARE_MILESTONES: FieldClaim[] = [
   {
     id: "quantinuum-helios",
     title: "Quantinuum Helios: 98 physical qubits, 99.921% two-qubit fidelity, 48 error-corrected logical qubits at 2:1",
-    body: "Helios launched with 98 fully connected trapped-ion qubits, 99.921% average two-qubit gate fidelity and 99.9975% single-qubit fidelity. Three distinct logical results were reported — read the distinctions carefully: 94 error-*detected* logical qubits entangled in a GHZ state (~1:1 encoding, Iceberg code); 50 error-detected logical qubits at better-than-break-even; and 48 error-*corrected* logical qubits at a 2:1 physical-to-logical ratio via code concatenation.",
+    body: "Helios launched with 98 fully connected trapped-ion qubits, 99.921% average two-qubit gate fidelity and 99.9975% single-qubit fidelity. Three distinct logical results were reported, read the distinctions carefully: 94 error-*detected* logical qubits entangled in a GHZ state (~1:1 encoding, Iceberg code); 50 error-detected logical qubits at better-than-break-even; and 48 error-*corrected* logical qubits at a 2:1 physical-to-logical ratio via code concatenation.",
     status: "vendor-reported",
     date: "2025-11",
     source: { label: "Quantinuum blog, 5 Nov 2025", url: "https://www.quantinuum.com/blog/introducing-helios-the-most-accurate-quantum-computer-in-the-world" },
@@ -72,7 +72,7 @@ export const HARDWARE_MILESTONES: FieldClaim[] = [
 export const HARDWARE_ROADMAPS: FieldClaim[] = [
   {
     id: "ibm-starling-2029",
-    title: "IBM: Starling (2029) — 200 logical qubits, 100 million gates; Blue Jay (post-2033) — 2,000 logical qubits",
+    title: "IBM: Starling (2029): 200 logical qubits, 100 million gates; Blue Jay (post-2033): 2,000 logical qubits",
     body: "IBM's published path: Loon (2025) demonstrates qLDPC architecture elements; Kookaburra (2026) the first fault-tolerant module; Cockatoo (2027) entanglement between modules; Starling (2029) a full system executing 100 million gates on 200 logical qubits; Blue Jay (after 2033) one billion operations on 2,000 logical qubits.",
     status: "projection",
     date: "2025-06",
@@ -81,7 +81,7 @@ export const HARDWARE_ROADMAPS: FieldClaim[] = [
   },
   {
     id: "quantinuum-apollo-2029",
-    title: "Quantinuum: Sol (2027) then Apollo (2029) — universal, fully fault-tolerant",
+    title: "Quantinuum: Sol (2027) then Apollo (2029): universal, fully fault-tolerant",
     body: "Quantinuum's roadmap names Sol for 2027 (trap chip 'back from fabrication and advancing through product validation' as of 2026) and Apollo for 2029, described as 'fully fault-tolerant and universal', with 'hundreds of logical qubits' by 2030.",
     status: "projection",
     date: "2024-09",
@@ -105,7 +105,7 @@ export const HARDWARE_ROADMAPS: FieldClaim[] = [
   },
 ];
 
-/** The three-line honest summary the page leads with. */
+/** The three-line summary the page leads with. */
 export const HARDWARE_STATE = [
   { label: "Below-threshold error correction", achieved: true, note: "Google Willow (Nature, 2025); Harvard/QuEra 448-atom architecture (Nature, 2026)." },
   { label: "Logical qubits beating physical qubits", achieved: true, note: "Microsoft/Quantinuum 800× (2024); Willow memory 2.4× beyond break-even (2025); Helios (2025)." },

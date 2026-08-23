@@ -2,14 +2,14 @@ import type { QuantumEvent } from "@/lib/quantum/events";
 
 /**
  * Short reaction lines, keyed by real event type. Every line here describes
- * something the event payload actually reports — no invented state, no
+ * something the event payload actually reports, no invented state, no
  * claims about hardware or physical measurement. A few variants per type so
  * the Pet doesn't repeat itself; petLineFor() picks one at random.
  */
 const LINES: Record<string, string[]> = {
   STATE_CHANGED: ["New state, noted.", "I like this phase.", "Nice angle."],
   TRANSPILATION_STARTED: ["Parsing your QASM.", "Let's see this circuit.", "Compiling…"],
-  TRANSPILATION_FINISHED_MOCK: ["Demo mode — no backend configured.", "That's the mock endpoint talking."],
+  TRANSPILATION_FINISHED_MOCK: ["Demo mode, no backend configured.", "That's the mock endpoint talking."],
   TRANSPILATION_FINISHED_LIVE: ["Braket IR, done.", "Compiled clean."],
   VQE_STARTED: ["Optimizing…", "Let's find that ground state.", "Here we go."],
   VQE_ITERATION: ["Energy's dropping.", "Getting closer."],

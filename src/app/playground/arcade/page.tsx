@@ -39,7 +39,7 @@ import { SITE_URL, buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Quantum Arcade: 23 Real Interactive Quantum Games & Labs",
   description:
-    "Twenty-plus playable quantum games, labs, and demos — Grover search, Bell/CHSH violation, teleportation, BB84 key exchange, decoherence, error correction — every one computed live by a real statevector or density-matrix simulator in your browser.",
+    "Twenty-plus playable quantum games, labs, and demos. Grover search, Bell/CHSH violation, teleportation, BB84 key exchange, decoherence, error correction, every one computed live by a real statevector or density-matrix simulator in your browser.",
   path: "/playground/arcade",
   keywords: [
     "interactive quantum computing games",
@@ -55,22 +55,22 @@ export const metadata: Metadata = buildMetadata({
 const SECTIONS: { heading: string; blurb: string; games: React.ComponentType[] }[] = [
   {
     heading: "One qubit, no mercy",
-    blurb: "The fundamentals — every widget drives a real statevector.",
+    blurb: "The fundamentals, every widget drives a real statevector.",
     games: [GateMixer, StateMatch, BornCasino, RabiTrainer, InterferenceLab, MeasurementDuel, BlochQuiz],
   },
   {
     heading: "Entanglement & protocols",
-    blurb: "Two qubits, one wavefunction — the part with no classical story.",
+    blurb: "Two qubits, one wavefunction, the part with no classical story.",
     games: [EntanglementDial, EntangledDice, ChshGame, TeleportSteps, SuperdenseCoding, PhaseKickback, NoCloning],
   },
   {
     heading: "Algorithms, noise & spies",
-    blurb: "Where quantum computing earns its keep — and fights for its life.",
+    blurb: "Where quantum computing earns its keep, and fights for its life.",
     games: [GroverSearchlight, DeutschGame, QuantumRng, DecoherenceDial, RepetitionRescue, Bb84Game, TunnelingCurve],
   },
   {
     heading: "The frontier",
-    blurb: "Where today's research lives — variational optimization and ballistic quantum walks.",
+    blurb: "Where today's research lives, variational optimization and ballistic quantum walks.",
     games: [QaoaMaxCut, WalkRace],
   },
 ];
@@ -86,7 +86,7 @@ export default function ArcadePage() {
           <p className="mt-3 max-w-2xl text-muted">
             Twenty-three games, labs, and demos. Nothing here is a canned animation: every bar, dial, and verdict is
             computed live by the same from-scratch statevector and density-matrix engine that powers the VQE suite.
-            One card runs an analytic textbook formula instead of a simulation — it says so on the card.
+            One card runs an analytic textbook formula instead of a simulation, it says so on the card.
           </p>
         </div>
         {SECTIONS.map((section) => (
@@ -105,7 +105,7 @@ export default function ArcadePage() {
         <section className="mx-auto max-w-6xl px-6 py-10">
           <h2 className="text-xl font-semibold text-foreground">Reality check</h2>
           <p className="mt-1 mb-6 text-sm text-muted">
-            How far the browser engine scales on your machine — and how the ideal CHSH result compares with a real
+            How far the browser engine scales on your machine, and how the ideal CHSH result compares with a real
             device&apos;s noise model.
           </p>
           <div className="grid gap-5 md:grid-cols-2">

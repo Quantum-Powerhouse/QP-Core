@@ -4,7 +4,7 @@
  * Strictly opt-in: nothing is constructed until the user enables sound via
  * the toggle (a user gesture, which also satisfies autoplay policy). The
  * preference persists in localStorage under "qpit.audio". All cues are very
- * short (< 400ms) and very quiet (master gain 0.08) — texture, not noise.
+ * short (< 400ms) and very quiet (master gain 0.08), texture, not noise.
  */
 
 const STORAGE_KEY = "qpit.audio";
@@ -25,7 +25,7 @@ export function setAudioEnabled(on: boolean): void {
   try {
     localStorage.setItem(STORAGE_KEY, on ? "1" : "0");
   } catch {
-    /* private mode — the toggle still works for this page life */
+    /* private mode, the toggle still works for this page life */
   }
   if (on) ensureContext();
   else if (ctx && ctx.state === "running") void ctx.suspend();

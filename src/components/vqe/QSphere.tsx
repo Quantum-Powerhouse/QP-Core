@@ -88,7 +88,7 @@ export function QSphere({ theta }: { theta: number }) {
     <div className="flex flex-col gap-3">
       <RepresentsTag docsHref="/docs/vqe-suite/state-representations-and-measurement">
         how probability (point size) and phase sign (color) are distributed across the 4 computational basis
-        states of the same VQE statevector — cyan = positive real amplitude, violet = negative
+        states of the same VQE statevector, cyan = positive real amplitude, violet = negative
       </RepresentsTag>
       <div className="h-[360px] overflow-hidden rounded-xl border border-border bg-surface/60 backdrop-blur-xl sm:h-[420px]">
         <Canvas camera={{ position: [3.2, 2, 3.2], fov: 45 }} dpr={[1, 1.5]}>
@@ -97,7 +97,7 @@ export function QSphere({ theta }: { theta: number }) {
       </div>
       <p className="font-mono text-[11px] leading-relaxed text-muted">
         Point size ∝ √probability (so area, not radius, encodes probability). Basis states are placed by
-        Hamming weight — |00⟩ at the top pole, |11⟩ at the bottom pole, |01⟩/|10⟩ on the equator — the same
+        Hamming weight, |00⟩ at the top pole, |11⟩ at the bottom pole, |01⟩/|10⟩ on the equator, the same
         convention Qiskit&apos;s own QSphere uses.
       </p>
     </div>

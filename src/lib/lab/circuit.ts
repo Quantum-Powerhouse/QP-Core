@@ -1,11 +1,11 @@
 /**
- * Circuit Lab engine — a small, real circuit simulator built on the site's
+ * Circuit Lab engine, a small, real circuit simulator built on the site's
  * physics stack. A circuit is a list of gate operations on n ≤ 5 qubits; the
  * engine runs it two ways:
  *
  *   - ideal:  exact statevector (src/lib/physics/statevector.ts)
  *   - noisy:  exact density matrix with a depolarizing channel after every
- *             gate (src/lib/physics/densityMatrix.ts) — the same channel the
+ *             gate (src/lib/physics/densityMatrix.ts), the same channel the
  *             VQE suite's ZNE panel uses
  *
  * Everything a visitor sees in the lab (amplitudes, phases, probabilities,
@@ -43,18 +43,18 @@ export type GateOp = {
 export type Circuit = { numQubits: number; ops: GateOp[] };
 
 export const GATE_INFO: Record<GateName, { label: string; arity: 1 | 2; param: boolean; blurb: string }> = {
-  H: { label: "H", arity: 1, param: false, blurb: "Hadamard — puts a basis state into equal superposition." },
-  X: { label: "X", arity: 1, param: false, blurb: "Pauli-X — the quantum NOT; flips |0⟩↔|1⟩." },
-  Y: { label: "Y", arity: 1, param: false, blurb: "Pauli-Y — a flip with a phase twist." },
-  Z: { label: "Z", arity: 1, param: false, blurb: "Pauli-Z — a phase flip on |1⟩; invisible to probabilities, decisive for interference." },
-  S: { label: "S", arity: 1, param: false, blurb: "Phase gate — a quarter-turn (√Z)." },
-  T: { label: "T", arity: 1, param: false, blurb: "π/8 gate — the non-Clifford ingredient universality needs." },
+  H: { label: "H", arity: 1, param: false, blurb: "Hadamard, puts a basis state into equal superposition." },
+  X: { label: "X", arity: 1, param: false, blurb: "Pauli-X, the quantum NOT; flips |0⟩↔|1⟩." },
+  Y: { label: "Y", arity: 1, param: false, blurb: "Pauli-Y, a flip with a phase twist." },
+  Z: { label: "Z", arity: 1, param: false, blurb: "Pauli-Z, a phase flip on |1⟩; invisible to probabilities, decisive for interference." },
+  S: { label: "S", arity: 1, param: false, blurb: "Phase gate, a quarter-turn (√Z)." },
+  T: { label: "T", arity: 1, param: false, blurb: "π/8 gate, the non-Clifford ingredient universality needs." },
   RX: { label: "RX", arity: 1, param: true, blurb: "Rotation about X by θ." },
-  RY: { label: "RY", arity: 1, param: true, blurb: "Rotation about Y by θ — the VQE ansatz gate." },
-  RZ: { label: "RZ", arity: 1, param: true, blurb: "Rotation about Z by θ — a pure phase." },
-  CNOT: { label: "CNOT", arity: 2, param: false, blurb: "Controlled-NOT — the entangler." },
-  CZ: { label: "CZ", arity: 2, param: false, blurb: "Controlled-Z — symmetric entangler; equals H·CNOT·H on the target." },
-  SWAP: { label: "SWAP", arity: 2, param: false, blurb: "Exchange two qubits — three CNOTs in disguise." },
+  RY: { label: "RY", arity: 1, param: true, blurb: "Rotation about Y by θ, the VQE ansatz gate." },
+  RZ: { label: "RZ", arity: 1, param: true, blurb: "Rotation about Z by θ, a pure phase." },
+  CNOT: { label: "CNOT", arity: 2, param: false, blurb: "Controlled-NOT, the entangler." },
+  CZ: { label: "CZ", arity: 2, param: false, blurb: "Controlled-Z, symmetric entangler; equals H·CNOT·H on the target." },
+  SWAP: { label: "SWAP", arity: 2, param: false, blurb: "Exchange two qubits, three CNOTs in disguise." },
 };
 
 const S2 = Math.SQRT1_2;
@@ -203,7 +203,7 @@ export function sampleShots(probs: number[], shots: number, rand: () => number =
 }
 
 // ---------------------------------------------------------------------------
-// OpenQASM 2.0 export — feeds the site's own transpiler.
+// OpenQASM 2.0 export, feeds the site's own transpiler.
 // ---------------------------------------------------------------------------
 
 export function toOpenQASM(circuit: Circuit): string {
@@ -237,7 +237,7 @@ export function idealFidelityTo(circuit: Circuit, target: Statevector): number {
 /** Preset circuits with a stated purpose; all computed live when loaded. */
 export const PRESETS: { name: string; why: string; circuit: Circuit }[] = [
   { name: "Bell pair", why: "H then CNOT: the simplest entangled state.", circuit: { numQubits: 2, ops: [{ gate: "H", q: 0 }, { gate: "CNOT", q: 1, q2: 0 }] } },
-  { name: "GHZ (3 qubits)", why: "Entanglement across three qubits — all-or-nothing correlations.", circuit: { numQubits: 3, ops: [{ gate: "H", q: 0 }, { gate: "CNOT", q: 1, q2: 0 }, { gate: "CNOT", q: 2, q2: 1 }] } },
+  { name: "GHZ (3 qubits)", why: "Entanglement across three qubits, all-or-nothing correlations.", circuit: { numQubits: 3, ops: [{ gate: "H", q: 0 }, { gate: "CNOT", q: 1, q2: 0 }, { gate: "CNOT", q: 2, q2: 1 }] } },
   { name: "Interference (H·RZ·H)", why: "Phase is invisible until a second H turns it into probability.", circuit: { numQubits: 1, ops: [{ gate: "H", q: 0 }, { gate: "RZ", q: 0, theta: Math.PI / 2 }, { gate: "H", q: 0 }] } },
   { name: "Phase kickback", why: "CNOT onto |−⟩ kicks a phase back onto the control.", circuit: { numQubits: 2, ops: [{ gate: "H", q: 0 }, { gate: "X", q: 1 }, { gate: "H", q: 1 }, { gate: "CNOT", q: 1, q2: 0 }, { gate: "H", q: 0 }] } },
   { name: "SWAP test of identity", why: "Three CNOTs = one SWAP; probabilities don't change, labels do.", circuit: { numQubits: 2, ops: [{ gate: "X", q: 0 }, { gate: "SWAP", q: 0, q2: 1 }] } },

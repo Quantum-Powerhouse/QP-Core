@@ -34,7 +34,7 @@ export function useQuantumEvents<T extends QuantumEventType>(
   useEffect(() => bus.on(type, (event) => listenerRef.current(event)), [bus, type]);
 }
 
-/** Subscribes to every event type — for a single ambient consumer (e.g. the living field). */
+/** Subscribes to every event type, for a single ambient consumer (e.g. the living field). */
 export function useAnyQuantumEvent(listener: (event: QuantumEvent) => void): void {
   const bus = useQuantumEventBus();
   const listenerRef = useRef(listener);

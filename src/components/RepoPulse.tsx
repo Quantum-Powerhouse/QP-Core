@@ -14,7 +14,7 @@ function daysAgo(iso: string): string {
 }
 
 /**
- * Live repository activity from the public GitHub API — proof the work is
+ * Live repository activity from the public GitHub API, proof the work is
  * ongoing, fetched at view time rather than typed in.
  */
 export function RepoPulse() {
@@ -44,7 +44,7 @@ export function RepoPulse() {
 
   return (
     <section className="glass-panel rounded-xl p-5">
-      <h2 className="font-mono text-xs uppercase tracking-widest text-accent">Repository activity — live from GitHub</h2>
+      <h2 className="font-mono text-xs uppercase tracking-widest text-accent">Repository activity: live from GitHub</h2>
       <ul className="mt-3 flex flex-col gap-2">
         {(pulses ?? REPOS.map((repo): Pulse => ({ repo, lastCommit: null, commits30d: null }))).map((p) => (
           <li key={p.repo} className="flex flex-wrap items-baseline justify-between gap-2 text-sm">
@@ -52,7 +52,7 @@ export function RepoPulse() {
               {p.repo}
             </a>
             <span className="font-mono text-xs text-muted">
-              {pulses === null ? "loading…" : p.error ? `unavailable (${p.error})` : `${p.commits30d} commits in 30 days · last ${p.lastCommit ? daysAgo(p.lastCommit) : "—"}`}
+              {pulses === null ? "loading…" : p.error ? `unavailable (${p.error})` : `${p.commits30d} commits in 30 days · last ${p.lastCommit ? daysAgo(p.lastCommit) : "n/a"}`}
             </span>
           </li>
         ))}

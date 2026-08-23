@@ -6,7 +6,7 @@ export const contentType = "image/png";
 
 export default function Image() {
   return renderOgCard({
-    eyebrow: "h2-vqe-zne — zsh",
+    eyebrow: "h2-vqe-zne, zsh",
     title: "VQE Suite",
     subtitle: "Live H2 variational eigensolver, chemical-accuracy convergence, and ZNE error mitigation",
   });

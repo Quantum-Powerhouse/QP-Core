@@ -50,7 +50,7 @@ export default function HamiltonianAnsatzDocPage() {
       <DocTitle
         eyebrow="VQE Suite / Physics"
         title="Hamiltonian & Ansatz"
-        dek="The H2 Hamiltonian used by the live VQE Suite playground, and a from-scratch derivation of why its single-parameter ansatz circuit is exact — not just a convenient guess."
+        dek="The H2 Hamiltonian used by the live VQE Suite playground, and a from-scratch derivation of why its single-parameter ansatz circuit is exact, not just a convenient guess."
       />
 
       <H2>The H2 electronic Hamiltonian</H2>
@@ -70,8 +70,8 @@ export default function HamiltonianAnsatzDocPage() {
       </P>
       <P>
         For H<sub>2</sub> in a minimal (STO-3G) basis, applying Jordan-Wigner to the 4 spin-orbitals and then a
-        symmetry (parity) reduction — using that the ground state has fixed particle number and{" "}
-        <Katex expr="S_z" /> — collapses the problem onto 2 qubits. This site uses the reduced 2-qubit
+        symmetry (parity) reduction, using that the ground state has fixed particle number and{" "}
+        <Katex expr="S_z" />, collapses the problem onto 2 qubits. This site uses the reduced 2-qubit
         Hamiltonian exactly as published, rather than re-deriving the parity-tapering step:
       </P>
       <Katex
@@ -83,8 +83,8 @@ export default function HamiltonianAnsatzDocPage() {
         <SourceLink href="https://doi.org/10.1103/PhysRevX.6.031007">
           O&apos;Malley et al., &quot;Scalable Quantum Simulation of Molecular Energies,&quot; Phys. Rev. X 6,
           031007 (2016)
-        </SourceLink>
-        , cross-checked against an independent secondary source before use (see verification note below).
+        </SourceLink>,
+        cross-checked against an independent secondary source before use (see verification note below).
       </Note>
       <DocCode lang="typescript" code={HAMILTONIAN_SNIPPET} />
       <P>
@@ -94,7 +94,7 @@ export default function HamiltonianAnsatzDocPage() {
       <Katex display expr="E_{nn} = \frac{Z_1 Z_2}{R} = \frac{1}{R_{\text{Bohr}}}\ \text{Hartree}" />
       <P>
         with <Katex expr="R_{\text{Bohr}} = R / a_0" /> and <Katex expr="a_0 = 0.529177210903" /> Å (CODATA Bohr
-        radius). At <Katex expr="R = 0.75" /> Å this gives <Katex expr="E_{nn} \approx 0.70557" /> Hartree — see{" "}
+        radius). At <Katex expr="R = 0.75" /> Å this gives <Katex expr="E_{nn} \approx 0.70557" /> Hartree, see{" "}
         <code>nuclearRepulsion()</code> in <code>src/lib/physics/h2Hamiltonian.ts</code>.
       </P>
 
@@ -104,12 +104,12 @@ export default function HamiltonianAnsatzDocPage() {
         <Katex expr="Z_1" />, and <Katex expr="Z_0 Z_1" /> are all diagonal in this basis, so they never mix
         different computational-basis states. <Katex expr="Y_0 Y_1" /> and <Katex expr="X_0 X_1" /> each flip{" "}
         <em>both</em> qubits at once, so they only connect <Katex expr="|00\rangle \leftrightarrow |11\rangle" />{" "}
-        and <Katex expr="|01\rangle \leftrightarrow |10\rangle" /> — the Hamiltonian splits into two independent
+        and <Katex expr="|01\rangle \leftrightarrow |10\rangle" />, the Hamiltonian splits into two independent
         2×2 blocks and never mixes them.
       </P>
       <P>
         Evaluating both diagonals: <Katex expr="\langle 00|\hat H|00\rangle = g_0+g_1+g_2+g_3 = 0" /> and{" "}
-        <Katex expr="\langle 11|\hat H|11\rangle = g_0-g_1-g_2+g_3 \approx 0.1824" /> — both non-negative, so
+        <Katex expr="\langle 11|\hat H|11\rangle = g_0-g_1-g_2+g_3 \approx 0.1824" />, both non-negative, so
         that block cannot contain the ground state. The other block, in the{" "}
         <Katex expr="\{|01\rangle, |10\rangle\}" /> basis, is
       </P>
@@ -119,7 +119,7 @@ export default function HamiltonianAnsatzDocPage() {
       />
       <P>
         with closed-form eigenvalues (see <code>eigen2x2Symmetric()</code> in{" "}
-        <code>src/lib/physics/linalg.ts</code>, used directly — not a general iterative solver, since a 2×2
+        <code>src/lib/physics/linalg.ts</code>, used directly, not a general iterative solver, since a 2×2
         symmetric matrix has an exact quadratic-formula solution):
       </P>
       <Katex
@@ -128,8 +128,7 @@ export default function HamiltonianAnsatzDocPage() {
       />
       <P>
         which gives a minimum electronic eigenvalue <Katex expr="\lambda_- \approx -1.8512" /> Hartree. Adding
-        nuclear repulsion, <Katex expr="E_{\text{total}} = \lambda_- + E_{nn} \approx -1.1456" /> Hartree —
-        matching the well-known H<sub>2</sub>/STO-3G full-CI benchmark of{" "}
+        nuclear repulsion, <Katex expr="E_{\text{total}} = \lambda_- + E_{nn} \approx -1.1456" /> Hartree,         matching the well-known H<sub>2</sub>/STO-3G full-CI benchmark of{" "}
         <Katex expr="\approx -1.137" /> Hartree to within the expected residual from the R = 0.75 Å vs. 0.735 Å
         bond-length difference between the source data and the textbook value.
       </P>
@@ -137,7 +136,7 @@ export default function HamiltonianAnsatzDocPage() {
       <H2>The ansatz circuit</H2>
       <P>
         Since only the <Katex expr="\{|01\rangle, |10\rangle\}" /> subspace matters, a single real parameter is
-        enough to reach the exact ground state — no expressibility is wasted on states the Hamiltonian can never
+        enough to reach the exact ground state, no expressibility is wasted on states the Hamiltonian can never
         select. The ansatz is Hartree-Fock state preparation followed by a controlled rotation:
       </P>
       <DocCode lang="typescript" code={ANSATZ_SNIPPET} />
@@ -145,8 +144,8 @@ export default function HamiltonianAnsatzDocPage() {
         Tracing the circuit by hand: <Katex expr="X(q_0)" /> takes <Katex expr="|00\rangle" /> to{" "}
         <Katex expr="|q_0{=}1,q_1{=}0\rangle" />. The first <Katex expr="\text{CNOT}(q_1 \to q_0)" /> is a no-op
         (control qubit is <Katex expr="|0\rangle" />). <Katex expr="RY(\theta)" /> on <Katex expr="q_1" /> gives{" "}
-        <Katex expr="\cos\frac{\theta}{2}|q_0{=}1,q_1{=}0\rangle + \sin\frac{\theta}{2}|q_0{=}1,q_1{=}1\rangle" />
-        . The second CNOT now fires on the second term (control <Katex expr="q_1=1" />), flipping{" "}
+        <Katex expr="\cos\frac{\theta}{2}|q_0{=}1,q_1{=}0\rangle + \sin\frac{\theta}{2}|q_0{=}1,q_1{=}1\rangle" />.
+        The second CNOT now fires on the second term (control <Katex expr="q_1=1" />), flipping{" "}
         <Katex expr="q_0" /> there and landing exactly on the coupled subspace:
       </P>
       <Katex
@@ -160,7 +159,7 @@ export default function HamiltonianAnsatzDocPage() {
       <Katex display expr="\frac{\partial E}{\partial \theta} = \frac{E(\theta+\pi/2) - E(\theta-\pi/2)}{2}" />
       <P>
         Running this in the browser (<code>runVqe()</code> in <code>src/lib/physics/vqe.ts</code>) converges to{" "}
-        <Katex expr="\theta^\ast \approx -0.2297" />, <Katex expr="E \approx -1.145630" /> Hartree — matching
+        <Katex expr="\theta^\ast \approx -0.2297" />, <Katex expr="E \approx -1.145630" /> Hartree, matching
         the exact diagonalization above to machine precision, confirmed against{" "}
         <code>exactGroundStateEnergy()</code> at build-verification time. See it run live on{" "}
         <SourceLink href="/playground/vqe-suite">the VQE Suite playground</SourceLink>.

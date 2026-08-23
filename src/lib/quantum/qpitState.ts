@@ -1,11 +1,11 @@
 /**
- * QPIT's emotional state machine — pure logic, no DOM, no React.
+ * QPIT's emotional state machine, pure logic, no DOM, no React.
  *
  * Emotions are derived from *real interaction facts* (cursor speed, idle time,
  * cursor winding around QPIT, dock/roam mode) and drive the physics layer:
  * spring stiffness/damping, stochastic jitter, swing gain, breathing, glow.
- * Special events (superposition, tunneling) are visual metaphors — creative
- * interpretations of quantum concepts, not physics claims — and are gated by
+ * Special events (superposition, tunneling) are visual metaphors, creative
+ * interpretations of quantum concepts, not physics claims, and are gated by
  * cooldowns + controlled randomness so they stay rare.
  *
  * Tested by tests/qpit-state.test.mjs.
@@ -43,7 +43,7 @@ export type QpitParams = {
   stiffness: number;
   /** damping coefficient (1/s scale) */
   damping: number;
-  /** stochastic position jitter amplitude, px — "quantum noise" */
+  /** stochastic position jitter amplitude, px, "quantum noise" */
   noise: number;
   /** multiplier on the pendulum swing response */
   swingGain: number;
@@ -124,7 +124,7 @@ export function advanceEmotion(state: QpitEmotionState, inputs: QpitInputs): Qpi
 }
 
 // ---------------------------------------------------------------------------
-// Special events — rare, cooldown-gated, controlled randomness.
+// Special events, rare, cooldown-gated, controlled randomness.
 // ---------------------------------------------------------------------------
 
 export type QpitSpecial = "SUPERPOSITION" | "TUNNEL" | "BLACKHOLE" | "ENTANGLE" | "WORMHOLE";
@@ -206,7 +206,7 @@ export function maybeAmbientBlackHole(
 
 /**
  * Ambient special: while calm and roaming, QPIT may entangle with a distant
- * on-page element — a twin particle appears there and pulses in sync.
+ * on-page element, a twin particle appears there and pulses in sync.
  */
 export function maybeEntangle(
   state: QpitEmotionState,
@@ -223,8 +223,7 @@ export function maybeEntangle(
 }
 
 /**
- * Ambient special: while moving with some momentum, a wormhole pair may open —
- * QPIT dives into the near portal and exits from the far one.
+ * Ambient special: while moving with some momentum, a wormhole pair may open,  * QPIT dives into the near portal and exits from the far one.
  */
 export function maybeWormhole(
   petSpeed: number,
@@ -243,7 +242,7 @@ export function maybeWormhole(
 }
 
 // ---------------------------------------------------------------------------
-// Dialogue governor — QPIT should know when NOT to talk.
+// Dialogue governor. QPIT should know when NOT to talk.
 // ---------------------------------------------------------------------------
 
 /**
@@ -256,7 +255,7 @@ export function chattiness(opts: {
   sessionPokes: number;
   ignoredHovers: number;
 }): number {
-  if (opts.msSinceScroll < 2000) return 0; // the user is reading — stay quiet
+  if (opts.msSinceScroll < 2000) return 0; // the user is reading, stay quiet
   const playful = Math.min(0.4, opts.sessionPokes * 0.08);
   const shy = Math.min(0.5, opts.ignoredHovers * 0.05);
   return Math.min(1.4, Math.max(0.3, 1 + playful - shy));

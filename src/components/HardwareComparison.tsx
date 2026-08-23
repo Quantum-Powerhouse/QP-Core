@@ -12,7 +12,7 @@ type Run = {
 /**
  * Simulation vs. a real device's noise model vs. real hardware, for the CHSH
  * Bell test. The data file is produced by scripts/hardware/ibm_noise_model.py;
- * whatever hasn't been run says so — no placeholder numbers, ever.
+ * whatever hasn't been run says so, no placeholder numbers, ever.
  */
 export function HardwareComparison() {
   const data = hardware as { experiment: string; generated_at: string; classical_bound: number; tsirelson_bound: number; runs: Run[] };

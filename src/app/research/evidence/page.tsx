@@ -22,7 +22,7 @@ const GROUPS: { status: ClaimStatus; heading: string; intro: string }[] = [
   {
     status: "partial",
     heading: "Partially verified findings",
-    intro: "A primary source was opened, but the original claim was only partly confirmable — commonly because no specific reference was supplied to check against, or because the finding cuts both for and against the original framing.",
+    intro: "A primary source was opened, but the original claim was only partly confirmable, commonly because no specific reference was supplied to check against, or because the finding cuts both for and against the original framing.",
   },
   {
     status: "false",
@@ -49,11 +49,11 @@ export default function EvidencePage() {
         Each card carries the claim IDs it supports. The cards are generated from the same typed data that{" "}
         <SourceLink href={siteFileUrl("research/evidence.json")}>evidence.json</SourceLink> records, and CI runs{" "}
         <code>validate:research</code> on every push: if a claim, status, or citation here ever drifts from the
-        machine-readable record — or a source stops being a resolvable URL — the build fails rather than
+        machine-readable record, or a source stops being a resolvable URL, the build fails rather than
         publishing a quietly-wrong page. The fuller narrative record (search logs, per-paper notes, gap
         analysis) lives in{" "}
         <SourceLink href={researchFileUrl("research/evidence.json")}>{RESEARCH_REPO_LABEL}</SourceLink>. For a
-        clean list of every URL opened during this research — including sources that failed to load — see{" "}
+        clean list of every URL opened during this research, including sources that failed to load, see{" "}
         <SourceLink href="/research/sources">Sources</SourceLink>.
       </P>
 

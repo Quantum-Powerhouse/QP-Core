@@ -9,7 +9,7 @@ import { SITE_URL, buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "QP-Core: OpenQASM to Amazon Braket IR Transpiler Playground",
   description:
-    "Live QP-Core playground — paste an OpenQASM 2.0 or 3.0 circuit and transpile it to Amazon Braket IR in the browser, with generated Qiskit Python, optimized IR, and real circuit metrics.",
+    "Live QP-Core playground, paste an OpenQASM 2.0 or 3.0 circuit and transpile it to Amazon Braket IR in the browser, with generated Qiskit Python, optimized IR, and real circuit metrics.",
   path: "/playground/qp-core",
   keywords: [
     "OpenQASM to Amazon Braket transpiler",
@@ -32,7 +32,7 @@ export default function QpCorePlaygroundPage() {
           </h1>
           <p className="mt-4 max-w-2xl text-muted">
             QP-Core parses OpenQASM 2.0 and 3.0 circuits and compiles them
-            into Amazon Braket IR. Run it live below — paste a circuit,
+            into Amazon Braket IR. Run it live below, paste a circuit,
             transpile it, and inspect the generated Qiskit Python, optimized
             IR, and real circuit metrics computed from what you paste in.
           </p>

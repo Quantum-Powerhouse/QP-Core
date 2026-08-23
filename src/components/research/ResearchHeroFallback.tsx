@@ -1,4 +1,4 @@
-/** Static, non-WebGL, non-animated visual — shown when reduced motion is requested or WebGL is unavailable. */
+/** Static, non-WebGL, non-animated visual, shown when reduced motion is requested or WebGL is unavailable. */
 export function ResearchHeroFallback() {
   return (
     <div className="absolute inset-0" aria-hidden="true">

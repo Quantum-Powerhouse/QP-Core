@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 /**
  * Shared UI kit for the Quantum Arcade. Every game renders inside a GameCard
- * with an honesty tag stating exactly what computes it — same disclosure
+ * with a line stating exactly what computes it, same disclosure
  * convention as the rest of the site.
  */
 
@@ -17,7 +17,7 @@ export function GameCard({
   title: string;
   /** short category chip, e.g. "game", "lab", "demo" */
   tag: string;
-  /** honesty line: what actually computes the numbers shown */
+  /** what computes the numbers shown */
   computes: string;
   children: ReactNode;
 }) {
@@ -62,7 +62,7 @@ export function ProbBars({ probs, labels }: { probs: number[]; labels?: string[]
   );
 }
 
-/** A 2D Bloch dial: circle = the X–Z great circle, arrow = the state's (x, z). */
+/** A 2D Bloch dial: circle = the X. Z great circle, arrow = the state's (x, z). */
 export function BlochDial({ x, z, size = 96 }: { x: number; z: number; size?: number }) {
   const cx = size / 2;
   const r = size / 2 - 6;
