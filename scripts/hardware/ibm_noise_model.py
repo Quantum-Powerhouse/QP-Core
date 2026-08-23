@@ -1,14 +1,14 @@
-"""Simulation vs. a real device's noise model — and, when a token exists, the real device.
+"""Simulation vs. a real device's noise model, and, when a token exists, the real device.
 
 Runs the site's Bell/CHSH experiment three ways and writes src/data/hardware.json:
 
-  1. ideal        — noiseless statevector (what the browser engine computes)
-  2. noise_model  — Qiskit Aer with the noise model of a REAL IBM device, built from
+  1. ideal, noiseless statevector (what the browser engine computes)
+  2. noise_model. Qiskit Aer with the noise model of a REAL IBM device, built from
                     that device's published calibration snapshot (FakeBrisbane:
                     ibm_brisbane, 127 qubits). No account needed. This is a real
-                    device's error rates, applied in simulation — labeled as such.
-  3. device       — the real ibm_brisbane, IF QISKIT_IBM_TOKEN is set. Otherwise the
-                    record says "not run" — the site shows that honestly.
+                    device's error rates, applied in simulation, labeled as such.
+  3. device, the real ibm_brisbane, IF QISKIT_IBM_TOKEN is set. Otherwise the
+                    record says "not run", the site shows that honestly.
 
 Usage (from QuantumSite):
   ../Projects/quantumflow-api/venv/Scripts/python.exe scripts/hardware/ibm_noise_model.py

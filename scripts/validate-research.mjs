@@ -2,8 +2,8 @@
  * Research artifact validator.
  *
  * The research record lives in two representations that must never drift apart:
- *   - research/evidence.json  — the structured, portable evidence record
- *   - src/lib/research/*.ts   — the typed data the website renders
+ *   - research/evidence.json, the structured, portable evidence record
+ *   - src/lib/research/*.ts, the typed data the website renders
  *
  * This script parses both, checks each for internal integrity, and then
  * cross-checks them against each other. It runs in CI on every push and PR.
@@ -69,7 +69,7 @@ function parseClaimIds(claim, index) {
 }
 
 // ---------------------------------------------------------------------------
-// 1. research/evidence.json — structural integrity
+// 1. research/evidence.json, structural integrity
 // ---------------------------------------------------------------------------
 
 const REQUIRED_FIELDS = [
@@ -87,7 +87,7 @@ let evidenceJson;
 try {
   evidenceJson = JSON.parse(readFileSync(resolve(ROOT, "research/evidence.json"), "utf8"));
 } catch (error) {
-  console.error(`FATAL: could not read/parse research/evidence.json — ${error.message}`);
+  console.error(`FATAL: could not read/parse research/evidence.json, ${error.message}`);
   process.exit(1);
 }
 
@@ -127,14 +127,14 @@ evidenceJson.forEach((record, index) => {
     if (urls.length === 0) {
       fail(`evidence.json[${index}]: source_url contains no URLs`);
     }
-    // An absence result has no page to link to — its "source" is the search that
+    // An absence result has no page to link to, its "source" is the search that
     // came back empty. Those may describe the method in prose instead of a URL;
     // every other status must cite something a reader can actually open.
     const absenceResult = record.status === "NOT_FOUND";
     for (const url of urls) {
       if (isHttpUrl(url)) continue;
       if (absenceResult) {
-        warn(`evidence.json[${index}] (NOT_FOUND): source is a described search, not a link — "${url}"`);
+        warn(`evidence.json[${index}] (NOT_FOUND): source is a described search, not a link, "${url}"`);
       } else {
         fail(`evidence.json[${index}]: "${url}" is not a valid http(s) URL`);
       }
@@ -151,7 +151,7 @@ evidenceJson.forEach((record, index) => {
 });
 
 // ---------------------------------------------------------------------------
-// 2. Site data — structural integrity
+// 2. Site data, structural integrity
 // ---------------------------------------------------------------------------
 
 const { CLAIMS } = await import("../src/lib/research/claims.ts");
