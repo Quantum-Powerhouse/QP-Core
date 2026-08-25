@@ -9,7 +9,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "Evidence",
-  description: "The structured evidence record behind the quantum CI/CD regression-testing research, grouped by verification status as expandable detail cards.",
+  description: "The structured evidence record behind the quantum CI/CD regression testing research, grouped by verification status as expandable detail cards.",
   path: "/research/evidence",
 });
 
@@ -32,7 +32,7 @@ const GROUPS: { status: ClaimStatus; heading: string; intro: string }[] = [
   {
     status: "not_found",
     heading: "Not found after search",
-    intro: "A reasonably broad search turned up nothing. Treated as absence of evidence, not proof of non-existence.",
+    intro: "A reasonably broad search turned up nothing. Treated as absence of evidence, not proof of nonexistence.",
   },
 ];
 
@@ -42,15 +42,15 @@ export default function EvidencePage() {
       <DocTitle
         eyebrow="Research / Evidence"
         title="Evidence"
-        dek="Every structured evidence record, grouped by verification status so verified, partial, false, and not-found findings are never mixed together. Expand a card for the full evidence, source, and notes."
+        dek="Every structured evidence record, grouped by verification status so verified, partial, false, and not found findings are never mixed together. Expand a card for the full evidence, source, and notes."
       />
 
       <P>
         Each card carries the claim IDs it supports. The cards are generated from the same typed data that{" "}
         <SourceLink href={siteFileUrl("research/evidence.json")}>evidence.json</SourceLink> records, and CI runs{" "}
         <code>validate:research</code> on every push: if a claim, status, or citation here ever drifts from the
-        machine-readable record, or a source stops being a resolvable URL, the build fails rather than
-        publishing a quietly-wrong page. The fuller narrative record (search logs, per-paper notes, gap
+        machine readable record, or a source stops being a resolvable URL, the build fails rather than
+        publishing a quietly wrong page. The fuller narrative record (search logs, per paper notes, gap
         analysis) lives in{" "}
         <SourceLink href={researchFileUrl("research/evidence.json")}>{RESEARCH_REPO_LABEL}</SourceLink>. For a
         clean list of every URL opened during this research, including sources that failed to load, see{" "}
@@ -97,7 +97,7 @@ export default function EvidencePage() {
         );
       })}
 
-      <Cite>Machine-readable source: research/evidence.json in {RESEARCH_REPO_LABEL}</Cite>
+      <Cite>Machine readable source: research/evidence.json in {RESEARCH_REPO_LABEL}</Cite>
     </>
   );
 }

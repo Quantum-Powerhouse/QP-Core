@@ -14,6 +14,7 @@ import {
   SURPRISE_CURSOR_SPEED,
   EXCITED_CURSOR_SPEED,
   SURPRISED_DURATION_MS,
+  ANGRY_DURATION_MS,
   ORBIT_WINDING_RAD,
   BORED_AFTER_MS,
   SLEEP_AFTER_MS,
@@ -165,4 +166,16 @@ test("wormhole: needs momentum, roaming, an awake QPIT, cooldown, and luck", () 
   assert.equal(maybeWormhole(spd, idle, base({ now: 600_000, mode: "docked" }), 0, 0, () => 0), false);
   assert.equal(maybeWormhole(spd, idle, inputs, inputs.now - SPECIAL_COOLDOWN_MS + 1, 0, () => 0), false);
   assert.equal(maybeWormhole(spd, idle, inputs, 0, 0, () => 0.99), false);
+});
+
+test("pestering makes QPIT angry, and it cools off on its own", () => {
+  const calm = { emotion: "IDLE", since: 100_000 };
+  const angry = advanceEmotion(calm, base({ annoyance: 1.1 }));
+  assert.equal(angry.emotion, "ANGRY");
+  const still = advanceEmotion(angry, base({ now: 103_000, annoyance: 0.7 }));
+  assert.equal(still.emotion, "ANGRY");
+  const cooling = advanceEmotion(angry, base({ now: 103_000, annoyance: 0 }));
+  assert.equal(cooling.emotion, "ANGRY");
+  const done = advanceEmotion(angry, base({ now: 100_000 + ANGRY_DURATION_MS + 1, annoyance: 0 }));
+  assert.equal(done.emotion, "IDLE");
 });

@@ -15,7 +15,7 @@ export function Reveal({ children, delayMs = 0, className = "" }: { children: Re
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (window.matchMedia("(prefers reduced motion: reduce)").matches) {
       const id = requestAnimationFrame(() => setShown(true));
       return () => cancelAnimationFrame(id);
     }

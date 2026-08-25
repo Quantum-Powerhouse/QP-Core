@@ -16,7 +16,7 @@ type TabId = "convergence" | "step-through" | "statevector" | "qsphere" | "zne";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "convergence", label: "Convergence" },
-  { id: "step-through", label: "Step-by-Step" },
+  { id: "step-through", label: "Step by Step" },
   { id: "statevector", label: "Statevector" },
   { id: "qsphere", label: "QSphere" },
   { id: "zne", label: "Error Mitigation (ZNE)" },
@@ -52,7 +52,7 @@ function Slider({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="accent-[#06b6d4]"
+        className="accent-[#d9a441]"
       />
     </label>
   );
@@ -98,8 +98,8 @@ export function VqeSuiteStudio() {
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">VQE Suite</h2>
           <p className="mt-3 max-w-2xl text-muted">
             A real variational quantum eigensolver for H<sub>2</sub>, simulated in the browser:
-            an exact statevector simulator, the parameter-shift optimizer, and a
-            density-matrix error-mitigation pipeline, no backend required.
+            an exact statevector simulator, the parameter shift optimizer, and a
+            density matrix error mitigation pipeline, no backend required.
           </p>
         </div>
       </div>
@@ -146,7 +146,7 @@ export function VqeSuiteStudio() {
                 </p>
                 <button
                   onClick={handleRunVqe}
-                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#04121a] transition-opacity hover:opacity-90"
+                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#211603] transition-opacity hover:opacity-90"
                 >
                   Run ▸ VQE
                 </button>
@@ -174,12 +174,12 @@ export function VqeSuiteStudio() {
             <div className="flex flex-col gap-4">
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div className="flex flex-wrap gap-6">
-                  <Slider label="Single-qubit gate error" value={singleQubitRate} onChange={setSingleQubitRate} min={0} max={0.02} step={0.0005} />
-                  <Slider label="Two-qubit (CNOT) gate error" value={twoQubitRate} onChange={setTwoQubitRate} min={0} max={0.08} step={0.002} />
+                  <Slider label="Single qubit gate error" value={singleQubitRate} onChange={setSingleQubitRate} min={0} max={0.02} step={0.0005} />
+                  <Slider label="Two qubit (CNOT) gate error" value={twoQubitRate} onChange={setTwoQubitRate} min={0} max={0.08} step={0.002} />
                 </div>
                 <button
                   onClick={handleRunZne}
-                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#04121a] transition-opacity hover:opacity-90"
+                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#211603] transition-opacity hover:opacity-90"
                 >
                   Run ▸ ZNE
                 </button>
@@ -197,7 +197,7 @@ export function VqeSuiteStudio() {
                 </>
               ) : (
                 <p className="px-1 py-8 text-center font-mono text-sm text-muted">
-                  {"// run ZNE to fold the ansatz circuit and Richardson-extrapolate to the zero-noise limit"}
+                  {"// run ZNE to fold the ansatz circuit and Richardson extrapolate to the zero noise limit"}
                 </p>
               )}
             </div>

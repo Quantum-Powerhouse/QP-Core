@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Learn Quantum Computing by Playing: a Guided Path",
   description:
-    "A four-level path through the Quantum Arcade: from one qubit and the Born rule, through entanglement and Bell tests, to algorithms, noise and error correction, every step a real simulation you operate.",
+    "A four level path through the Quantum Arcade: from one qubit and the Born rule, through entanglement and Bell tests, to algorithms, noise and error correction, every step a real simulation you operate.",
   path: "/learn",
   keywords: ["learn quantum computing", "quantum computing course interactive", "qubit tutorial", "entanglement explained", "Grover algorithm tutorial"],
   ogTitle: "Learn by Playing",
@@ -45,7 +45,7 @@ const LEVELS: { level: string; title: string; goal: string; steps: { game: strin
       { game: "Entangled Dice", slug: "entangled-dice", learn: "Random each, identical together." },
       { game: "CHSH. Beat the Classical Bound", slug: "chsh-beat-the-classical-bound", learn: "Violate a Bell inequality with your own sampled rounds." },
       { game: "Teleportation Walkthrough", slug: "teleportation-walkthrough", learn: "Move a state without moving matter, and why it can't beat light." },
-      { game: "Superdense Coding", slug: "superdense-coding", learn: "Two bits on one qubit, with a pre-shared pair." },
+      { game: "Superdense Coding", slug: "superdense-coding", learn: "Two bits on one qubit, with a pre shared pair." },
       { game: "The Cloning Button", slug: "the-cloning-button", learn: "Why copying is forbidden, the theorem that secures QKD." },
     ],
   },
@@ -54,12 +54,12 @@ const LEVELS: { level: string; title: string; goal: string; steps: { game: strin
     title: "Algorithms, noise and error correction",
     goal: "Run the famous algorithms, then see what noise does to them and how error correction answers.",
     steps: [
-      { game: "Deutsch's One-Question Oracle", slug: "deutsch-s-one-question-oracle", learn: "The first quantum speedup, never wrong in one query." },
-      { game: "Grover Searchlight", slug: "grover-searchlight", learn: "Amplitude amplification, and what happens when you over-search." },
+      { game: "Deutsch's One Question Oracle", slug: "deutsch-s-one-question-oracle", learn: "The first quantum speedup, never wrong in one query." },
+      { game: "Grover Searchlight", slug: "grover-searchlight", learn: "Amplitude amplification, and what happens when you over search." },
       { game: "Decoherence Dial", slug: "decoherence-dial", learn: "Coherence bleeding into the environment, on a real density matrix." },
       { game: "Repetition Rescue", slug: "repetition-rescue", learn: "Error correction pays for itself, the road to logical qubits." },
       { game: "BB84. Catch Eve", slug: "bb84-catch-eve", learn: "Physics as security: the eavesdropper leaves fingerprints." },
-      { game: "Born-Rule Randomness", slug: "born-rule-randomness", learn: "What a quantum random-number generator actually is." },
+      { game: "Born Rule Randomness", slug: "born-rule-randomness", learn: "What a quantum random number generator actually is." },
     ],
   },
 ];

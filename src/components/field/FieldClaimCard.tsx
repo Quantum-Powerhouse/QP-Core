@@ -2,12 +2,12 @@ import { FIELD_CHECKED_ON, FIELD_STATUS_LABEL, type FieldClaim, type FieldStatus
 
 const STATUS_TONE: Record<FieldStatus, string> = {
   verified: "border-accent/60 text-accent",
-  "vendor-reported": "border-[#2dd4bf]/60 text-[#2dd4bf]",
+  "vendor-reported": "border-[#e6c47a]/60 text-[#e6c47a]",
   projection: "border-[#f59e0b]/60 text-[#f59e0b]",
   opinion: "border-[var(--accent-2)]/70 text-[var(--accent-2)]",
   estimate: "border-muted/70 text-muted",
   contested: "border-[#ff6b6b]/60 text-[#ff6b6b]",
-  preprint: "border-[#c084fc]/60 text-[#c084fc]",
+  preprint: "border-[#d98a75]/60 text-[#d98a75]",
 };
 
 import { Reveal } from "@/components/Reveal";

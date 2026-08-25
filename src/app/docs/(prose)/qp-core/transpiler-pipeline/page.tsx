@@ -68,10 +68,10 @@ export default function TranspilerPipelineDocPage() {
 
       <H2>1. Parsing</H2>
       <P>
-        Parsing is Qiskit&apos;s own, not a QP-Core-authored AST parser.{" "}
+        Parsing is Qiskit&apos;s own, not a QP Core authored AST parser.{" "}
         <code>qasm3.loads()</code> is tried first (OpenQASM 3); if that raises, the code falls back to{" "}
         <code>QuantumCircuit.from_qasm_str()</code> (OpenQASM 2). Both return a Qiskit <code>QuantumCircuit</code>,
-        Qiskit&apos;s own in-memory circuit representation. QP-Core doesn&apos;t define or walk its own AST.
+        Qiskit&apos;s own in memory circuit representation. QP-Core doesn&apos;t define or walk its own AST.
       </P>
       <DocCode lang="python" code={PARSE_SNIPPET} />
 
@@ -85,9 +85,9 @@ export default function TranspilerPipelineDocPage() {
       </Note>
       <P>
         For reference, once wired up this stage would run Qiskit&apos;s own preset pass managers, which include
-        commutation-based gate cancellation (cancelling or merging adjacent gates that commute past each other,
+        commutation based gate cancellation (cancelling or merging adjacent gates that commute past each other,
         not just adjacent identical ones) and, for hardware targets with limited connectivity, layout selection
-        and SWAP-based routing to satisfy the device&apos;s coupling map. Those are real, well-documented Qiskit
+        and SWAP based routing to satisfy the device&apos;s coupling map. Those are real, well documented Qiskit
         internals, see Qiskit&apos;s{" "}
         <SourceLink href="https://quantum.cloud.ibm.com/docs/en/api/qiskit/transpiler">
           transpiler passes reference
@@ -97,11 +97,11 @@ export default function TranspilerPipelineDocPage() {
       <P>
         The{" "}
         <SourceLink href="/playground/qp-core">live playground on this site</SourceLink> shows a small, labeled
-        preview of the same <em>class</em> of optimization: its client-side analyzer (
-        <code>src/lib/qasmAnalyzer.ts</code>) cancels adjacent self-inverse single-qubit gate pairs on the
-        circuit you paste in and reports the resulting gate-count reduction. It&apos;s a simplified, illustrative
+        preview of the same <em>class</em> of optimization: its client side analyzer (
+        <code>src/lib/qasmAnalyzer.ts</code>) cancels adjacent self inverse single qubit gate pairs on the
+        circuit you paste in and reports the resulting gate count reduction. It&apos;s a simplified, illustrative
         version of one thing a real commutation pass does, not the production QP-Core pipeline, and not a
-        general commutation analysis (it only catches immediately-adjacent identical gates, not gates separated
+        general commutation analysis (it only catches immediately adjacent identical gates, not gates separated
         by something they commute past).
       </P>
 
@@ -120,8 +120,8 @@ export default function TranspilerPipelineDocPage() {
         <SourceLink href="https://github.com/sadeqisaidmohaddes-star/quantumflow-api/blob/main/tests/test_transpiler.py">
           tests/test_transpiler.py
         </SourceLink>
-        ) covers correctness, a health check and a Bell-state transpile that asserts the reported qubit count,         not performance. There is no Rust or native extension anywhere in this service; it is pure Python
-        (FastAPI + Qiskit + qiskit-braket-provider). A performance-benchmark section will be added here once
+        ) covers correctness, a health check and a Bell state transpile that asserts the reported qubit count,         not performance. There is no Rust or native extension anywhere in this service; it is pure Python
+        (FastAPI + Qiskit + qiskit-braket-provider). A performance benchmark section will be added here once
         real measurements exist, rather than before.
       </P>
 

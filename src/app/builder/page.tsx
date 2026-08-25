@@ -10,7 +10,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "The Builder: Said Mohaddes Sadeqi",
   description:
-    "Who built Quantum Powerhouse and how: a quantum engine written from scratch, a research study checked against primary sources, and an open-source pytest plugin.",
+    "Who built Quantum Powerhouse and how: a quantum engine written from scratch, a research study checked against primary sources, and an open source pytest plugin.",
   path: "/builder",
   keywords: ["Said Mohaddes Sadeqi", "quantum software engineer", "portfolio", "quantum computing portfolio"],
   ogTitle: "The Builder",
@@ -39,7 +39,7 @@ export default function BuilderPage() {
           <a href="https://github.com/sadeqisaidmohaddes-star/quantum-cicd-research" className="rounded-full border border-border px-4 py-2 font-mono text-foreground hover:border-accent/60" target="_blank" rel="noopener noreferrer">
             research repository
           </a>
-          <a href="https://sadeqi.me" className="rounded-full bg-accent px-4 py-2 font-mono font-semibold text-[#041014]" target="_blank" rel="noopener noreferrer">
+          <a href="https://sadeqi.me" className="rounded-full bg-accent px-4 py-2 font-mono font-semibold text-[#211603]" target="_blank" rel="noopener noreferrer">
             CV &amp; contact → sadeqi.me
           </a>
         </div>
@@ -48,7 +48,7 @@ export default function BuilderPage() {
           <div className="glass-panel rounded-xl p-5">
             <h2 className="font-mono text-xs uppercase tracking-widest text-accent">What I decided</h2>
             <ul className="mt-3 flex flex-col gap-2 text-sm leading-relaxed text-muted">
-              <li>I wrote the physics myself: a statevector and density-matrix engine in TypeScript, a parameter-shift VQE and Richardson-extrapolated zero-noise extrapolation. The browser does the computing, so nothing on the site is a recording.</li>
+              <li>I wrote the physics myself: a statevector and density matrix engine in TypeScript, a parameter shift VQE and Richardson extrapolated zero noise extrapolation. The browser does the computing, so nothing on the site is a recording.</li>
               <li>I made the checks part of the build. CI fails if a research claim on the site drifts from the evidence record, every arcade card says what computes its numbers, and the pet cannot state a number the engine did not produce.</li>
               <li>I let the research correct me. I set out to show a gap, found QUTest and Benchpress, narrowed the claim in public, and then built the tool the remaining gap called for.</li>
             </ul>
@@ -56,10 +56,10 @@ export default function BuilderPage() {
           <div className="glass-panel rounded-xl p-5">
             <h2 className="font-mono text-xs uppercase tracking-widest text-accent">How I work</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              Rules first, then code: nothing fake, every claim sourced, tests before merge. Unit and end-to-end suites
-              run on every push, the research record is cross-checked in CI, and I only cite sources I opened. The
-              physics and the research judgment are mine. Ask me why the parameter-shift rule gives an exact gradient,
-              or why the pet uses a semi-implicit Euler integrator.
+              Rules first, then code: nothing fake, every claim sourced, tests before merge. Unit and end to end suites
+              run on every push, the research record is cross checked in CI, and I only cite sources I opened. The
+              physics and the research judgment are mine. Ask me why the parameter shift rule gives an exact gradient,
+              or why the pet uses a semi implicit Euler integrator.
             </p>
           </div>
         </section>
@@ -70,7 +70,7 @@ export default function BuilderPage() {
             {[
               { v: String(ARCADE_GAME_COUNT), l: "interactive quantum games & labs" },
               { v: String(stats.totalClaims), l: "research claims with verdicts" },
-              { v: String(stats.priorArtSystems), l: "prior-art systems inspected" },
+              { v: String(stats.priorArtSystems), l: "prior art systems inspected" },
               { v: "3", l: "SDKs bridged by pytest-qequiv" },
             ].map((s) => (
               <div key={s.l} className="flex flex-col">

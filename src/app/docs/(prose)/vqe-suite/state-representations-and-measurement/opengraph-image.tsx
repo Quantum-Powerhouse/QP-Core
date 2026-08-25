@@ -6,8 +6,8 @@ export const contentType = "image/png";
 
 export default function Image() {
   return renderOgCard({
-    eyebrow: "docs / vqe-suite",
+    eyebrow: "docs / vqe suite",
     title: "State Representations & Measurement",
-    subtitle: "Amplitudes, reduced density matrix, purity, and a real inverse-CDF measurement sample",
+    subtitle: "Amplitudes, reduced density matrix, purity, and a real inverse CDF measurement sample",
   });
 }

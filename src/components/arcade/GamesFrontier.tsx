@@ -24,7 +24,7 @@ export function QaoaMaxCut() {
         <Stat label="P(optimal cut)" value={`${(r.bestProb * 100).toFixed(1)}%`} accent={r.bestProb > 0.5} />
       </div>
       <p className="font-mono text-[11px] text-muted">edges: {MAXCUT_EDGES.map(([a, b]) => `${a}, ${b}`).join(", ")} · random guess averages 2.0</p>
-      {ratio > 0.95 && <p className="font-mono text-xs text-accent">near-optimal, this is what a QAOA optimizer hunts for</p>}
+      {ratio > 0.95 && <p className="font-mono text-xs text-accent">near optimal, this is what a QAOA optimizer hunts for</p>}
     </GameCard>
   );
 }
@@ -42,7 +42,7 @@ export function WalkRace() {
   const path = (p: number[]) =>
     p.map((v, i) => `${(i / (p.length - 1)) * w},${h - (v / max) * (h - 4)}`).join(" ");
   return (
-    <GameCard title="Walk Race" tag="lab" computes="direct amplitude evolution of the Hadamard-coined quantum walk vs the exact binomial distribution of a classical random walk">
+    <GameCard title="Walk Race" tag="lab" computes="direct amplitude evolution of the Hadamard coined quantum walk vs the exact binomial distribution of a classical random walk">
       <p className="text-muted">
         Same coin, same line. The classical walker wanders ~√t from home. The quantum walker interferes with itself and
         races out ~t, with two peaks and almost nothing in the middle. This ballistic spread is the engine behind

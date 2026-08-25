@@ -71,7 +71,7 @@ export function StateMatch() {
   const gb = blochOf(goal);
   const yb = blochOf(yours);
   return (
-    <GameCard title="State Match" tag="game" computes="|⟨target|yours⟩|² between two real single-qubit states">
+    <GameCard title="State Match" tag="game" computes="|⟨target|yours⟩|² between two real single qubit states">
       <p className="text-muted">A hidden state is drawn. Steer yours (cyan) onto the ghost (dim), fidelity ≥ 99% wins.</p>
       <div className="flex items-center gap-4">
         <div className="relative">
@@ -120,7 +120,7 @@ export function BornCasino() {
     });
   };
   return (
-    <GameCard title="Born Casino" tag="game" computes="a fresh statevector each round; the collapse is an inverse-CDF sample of |amplitude|²">
+    <GameCard title="Born Casino" tag="game" computes="a fresh statevector each round; the collapse is an inverse CDF sample of |amplitude|²">
       <p className="text-muted">Set the odds with θ, then call the collapse. Long streaks get exponentially unlikely, that is the Born rule doing its job.</p>
       <Slider label="θ (sets P(|1⟩) = sin²(θ/2))" value={theta} min={0} max={Math.PI} step={0.01} onChange={setTheta} />
       <ProbBars probs={probs} labels={["|0⟩", "|1⟩"]} />
@@ -205,7 +205,7 @@ export function MeasurementDuel() {
   return (
     <GameCard title="Measurement Duel" tag="lab" computes="20 real sampled shots per press on the same |+⟩ state, only the measurement basis differs">
       <p className="text-muted">
-        One fixed state, two questions. Ask in Z: pure coin-flip. Ask in X: dead certain. The state didn&apos;t change, your question did.
+        One fixed state, two questions. Ask in Z: pure coin flip. Ask in X: dead certain. The state didn&apos;t change, your question did.
       </p>
       <div className="flex gap-2">
         <ArcadeButton primary onClick={() => shoot("z", 20)}>

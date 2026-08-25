@@ -108,7 +108,7 @@ export function HardwareLane() {
         )}
         {!enabled && (
           <p className="mt-4 font-mono text-[11px] leading-relaxed text-muted">
-            What activates it: deploy the FastAPI service (one-click Render blueprint in the backend repo) and set{" "}
+            What activates it: deploy the FastAPI service (one click Render blueprint in the backend repo) and set{" "}
             <code>QISKIT_IBM_TOKEN</code> there, then <code>NEXT_PUBLIC_TRANSPILER_API_URL</code> here. The guardrails (size caps, a monthly shot ledger, one job at a time) are enforced on the server and covered by
             the backend&apos;s tests.
           </p>

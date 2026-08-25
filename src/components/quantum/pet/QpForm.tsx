@@ -35,7 +35,7 @@ export type PetVisualState = {
 };
 
 export function createPetVisualState(): PetVisualState {
-  return { color: new THREE.Color("#06b6d4"), intensity: 0, spin: 0, mood: 1, gazeX: 0, gazeY: 0, petX: 0, petY: 0 };
+  return { color: new THREE.Color("#d9a441"), intensity: 0, spin: 0, mood: 1, gazeX: 0, gazeY: 0, petX: 0, petY: 0 };
 }
 
 export function QpForm({
@@ -147,11 +147,11 @@ export function QpForm({
       <group ref={eyesRef} position={[0, 0, 0.8]}>
         <mesh ref={eyeLRef} position={[-0.16, 0.1, 0]}>
           <sphereGeometry args={[0.055, 12, 12]} />
-          <meshBasicMaterial color="#e6ecff" toneMapped={false} />
+          <meshBasicMaterial color="#ece4d4" toneMapped={false} />
         </mesh>
         <mesh ref={eyeRRef} position={[0.16, 0.1, 0]}>
           <sphereGeometry args={[0.055, 12, 12]} />
-          <meshBasicMaterial color="#e6ecff" toneMapped={false} />
+          <meshBasicMaterial color="#ece4d4" toneMapped={false} />
         </mesh>
       </group>
 

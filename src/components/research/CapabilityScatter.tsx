@@ -46,7 +46,7 @@ export function CapabilityScatter() {
 
   return (
     <div className="rounded-xl border border-border bg-surface/60 p-4">
-      <svg viewBox={`0 0 ${width} ${height}`} className="w-full" role="img" aria-label="Capability scatter plot of prior-art systems">
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full" role="img" aria-label="Capability scatter plot of prior art systems">
         <line x1={pad} y1={height - pad} x2={width - pad} y2={height - pad} stroke="var(--border)" strokeWidth={1} />
         <line x1={pad} y1={pad} x2={pad} y2={height - pad} stroke="var(--border)" strokeWidth={1} />
         <text x={width / 2} y={height - 10} textAnchor="middle" className="fill-muted font-mono text-[10px]">

@@ -41,7 +41,7 @@ export type GateErrorRates = {
 };
 
 /**
- * Runs the folded, noisy ansatz circuit (global folding: U -> U (U-dagger U)^k,
+ * Runs the folded, noisy ansatz circuit (global folding: U -> U (U dagger U)^k,
  * giving noise scale factor lambda = 2k+1) and returns the noisy energy estimate.
  */
 export function noisyEnergyAtScale(theta: number, foldK: number, errorRates: GateErrorRates): number {

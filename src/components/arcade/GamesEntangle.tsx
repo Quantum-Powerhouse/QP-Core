@@ -79,7 +79,7 @@ export function ChshGame() {
     <GameCard title="CHSH. Beat the Classical Bound" tag="game" computes="every round rotates a real Bell state's measurement bases and samples the joint outcome; S is estimated from those samples only">
       <p className="text-muted">
         Classical physics caps |S| at 2. A Bell pair reaches 2√2 ≈ 2.83. Collect rounds and watch your sampled S
-        climb past what any local hidden-variable story allows.
+        climb past what any local hidden variable story allows.
       </p>
       <div className="flex gap-2">
         <ArcadeButton primary onClick={() => run(25)}>
@@ -213,7 +213,7 @@ export function PhaseKickback() {
   const shown = kicked ? after : before;
   const controlP0 = shown[0] + shown[2];
   return (
-    <GameCard title="Phase Kickback" tag="demo" computes="a real CNOT on |+⟩⊗|−⟩; the control's X-basis probabilities are read from the actual state">
+    <GameCard title="Phase Kickback" tag="demo" computes="a real CNOT on |+⟩⊗|−⟩; the control's X basis probabilities are read from the actual state">
       <p className="text-muted">
         CNOT is supposed to change the <em>target</em>. Put the target in |−⟩ and fire: the target shrugs, the{" "}
         <em>control</em> flips from |+⟩ to |−⟩. This backwards kick powers Deutsch, Grover, and phase estimation.

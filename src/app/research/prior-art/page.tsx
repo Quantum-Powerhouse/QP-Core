@@ -7,8 +7,8 @@ import { researchFileUrl } from "@/lib/research/links";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Prior-Art Matrix",
-  description: "21 quantum software testing, debugging, and CI/CD systems compared across regression testing, equivalence checking, pytest, GitHub Actions, cross-version and cross-SDK support.",
+  title: "Prior Art Matrix",
+  description: "21 quantum software testing, debugging, and CI/CD systems compared across regression testing, equivalence checking, pytest, GitHub Actions, cross version and cross SDK support.",
   path: "/research/prior-art",
 });
 
@@ -34,11 +34,11 @@ const COLUMNS: { key: CellColumnKey; label: string }[] = [
   { key: "pytest", label: "pytest" },
   { key: "githubActions", label: "GitHub Actions" },
   { key: "cicd", label: "CI/CD" },
-  { key: "crossVersion", label: "Cross-Version" },
-  { key: "crossSDK", label: "Cross-SDK" },
+  { key: "crossVersion", label: "Cross Version" },
+  { key: "crossSDK", label: "Cross SDK" },
   { key: "bugCorpus", label: "Bug Corpus" },
   { key: "automatedFaultDetection", label: "Auto Fault Detection" },
-  { key: "stateAwareAutonomous", label: "State-Aware / Autonomous" },
+  { key: "stateAwareAutonomous", label: "State Aware / Autonomous" },
 ];
 
 export default function PriorArtPage() {
@@ -46,28 +46,28 @@ export default function PriorArtPage() {
     <>
       <DocTitle
         eyebrow="Research / Prior Art"
-        title="Prior-art comparison matrix"
-        dek="21 systems, libraries, papers, benchmarks, CI templates, and pilots, compared across every dimension relevant to the proposed CI/CD regression-testing idea. Cells use YES / NO / PARTIAL / UNKNOWN only; nothing here was assumed."
+        title="Prior art comparison matrix"
+        dek="21 systems, libraries, papers, benchmarks, CI templates, and pilots, compared across every dimension relevant to the proposed CI/CD regression testing idea. Cells use YES / NO / PARTIAL / UNKNOWN only; nothing here was assumed."
       />
 
       <P>
-        This is a condensed version (13 of the ~21 columns in the source table) chosen for on-screen
+        This is a condensed version (13 of the ~21 columns in the source table) chosen for on screen
         readability. The complete matrix, including Academic?, Tracing, and Overlap notes for every system, is
         in <SourceLink href={researchFileUrl("research/prior_art.md")}>prior_art.md</SourceLink>.
       </P>
 
       <Note>
-        Reading the matrix: no row is YES across pytest + Cross-Version + Cross-SDK + Auto Fault Detection
+        Reading the matrix: no row is YES across pytest + Cross Version + Cross SDK + Auto Fault Detection
         simultaneously. <strong className="text-foreground">QUTest</strong> comes closest (YES on CI/CD,
-        Cross-Version, Regression Testing) but is explicitly NO on pytest and Cross-SDK.{" "}
+        Cross Version, Regression Testing) but is explicitly NO on pytest and Cross SDK.{" "}
         <strong className="text-foreground">pytest-quantum</strong> is YES on pytest but only reaches
-        framework-level equivalence, and is NO on Cross-Version.
+        framework level equivalence, and is NO on Cross Version.
       </Note>
 
       <H2>Capability coverage</H2>
       <P>
         Each system&apos;s two axis scores are counted directly from the matrix cells below. CI/orchestration
-        from pytest + GitHub Actions + CI/CD + Cross-Version + Cross-SDK, testing depth from Regression Testing
+        from pytest + GitHub Actions + CI/CD + Cross Version + Cross SDK, testing depth from Regression Testing
         + Equivalence Checking + Auto Fault Detection + Bug Corpus. Dot size scales with total capability
         count. No relationship between systems is implied beyond this, the research found none to visualize.
       </P>
@@ -114,7 +114,7 @@ export default function PriorArtPage() {
         </table>
       </div>
 
-      <Cite>Full 21-column matrix and per-system narrative: research/prior_art.md in the GitHub repository</Cite>
+      <Cite>Full 21-column matrix and per system narrative: research/prior_art.md in the GitHub repository</Cite>
     </>
   );
 }

@@ -7,7 +7,7 @@ const RESEARCH_NAV: { href: string; label: string }[] = [
   { href: "/research", label: "Overview" },
   { href: "/research/methodology", label: "Methodology" },
   { href: "/research/claims", label: "Claims table" },
-  { href: "/research/prior-art", label: "Prior-art matrix" },
+  { href: "/research/prior-art", label: "Prior art matrix" },
   { href: "/research/evidence", label: "Evidence" },
   { href: "/research/sources", label: "Sources" },
   { href: "/research/gap-analysis", label: "Gap analysis" },

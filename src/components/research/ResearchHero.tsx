@@ -51,14 +51,14 @@ export function ResearchHero({ stats }: { stats: ResearchStats }) {
           Is there a real gap in quantum CI/CD regression testing?
         </h1>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted sm:text-base">
-          A primary-source-verified investigation, every finding traced back to an official repository, an
-          arXiv paper, or an independently-resolved citation.
+          A primary source verified investigation, every finding traced back to an official repository, an
+          arXiv paper, or an independently resolved citation.
         </p>
 
         <div className="mt-10 grid w-full max-w-2xl grid-cols-2 gap-4 sm:grid-cols-4">
           <Stat label="Claims verified" value={stats.totalClaims} />
           <Stat label="Confirmed / partial" value={stats.confirmedOrPartial} />
-          <Stat label="Prior-art systems" value={stats.priorArtSystems} />
+          <Stat label="Prior art systems" value={stats.priorArtSystems} />
           <Stat label="Sources linked" value={stats.uniqueSourcesLinked} />
         </div>
       </motion.div>

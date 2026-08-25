@@ -38,12 +38,12 @@ export type FieldClaim = {
 
 export const FIELD_STATUS_LABEL: Record<FieldStatus, string> = {
   verified: "Verified, published result",
-  "vendor-reported": "Vendor-reported result",
+  "vendor-reported": "Vendor reported result",
   projection: "Projection, roadmap target",
   opinion: "Opinion, named, dated",
   estimate: "Estimate, with caveats",
   contested: "Contested, disputed in the record",
-  preprint: "Preprint, not yet peer-reviewed",
+  preprint: "Preprint, not yet peer reviewed",
 };
 
 export const FIELD_CHECKED_ON = "2026-08-21";

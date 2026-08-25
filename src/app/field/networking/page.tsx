@@ -44,7 +44,7 @@ export default function NetworkingPage() {
       <section className="glass-panel mt-12 rounded-xl p-5">
         <h2 className="font-mono text-xs uppercase tracking-widest text-accent">See also</h2>
         <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
-          <li><Link href="/field/pqc" className="text-accent underline-offset-2 hover:underline">Post-quantum cryptography, why QKD matters</Link></li>
+          <li><Link href="/field/pqc" className="text-accent underline-offset-2 hover:underline">Post quantum cryptography, why QKD matters</Link></li>
           <li><Link href="/playground/arcade#entangled-dice" className="text-accent underline-offset-2 hover:underline">Entangled Dice, correlation without communication</Link></li>
           <li><Link href="/field/strategies" className="text-accent underline-offset-2 hover:underline">The UK&apos;s £125m for networking</Link></li>
         </ul>

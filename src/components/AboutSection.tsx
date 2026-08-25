@@ -11,7 +11,7 @@ export function AboutSection() {
   const rail = [
     { value: String(ARCADE_GAME_COUNT), label: "playable quantum games" },
     { value: String(stats.totalClaims), label: "research claims, each with a verdict" },
-    { value: String(stats.priorArtSystems), label: "prior-art systems inspected" },
+    { value: String(stats.priorArtSystems), label: "prior art systems inspected" },
     { value: String(stats.uniqueSourcesLinked), label: "primary sources linked" },
   ];
 
@@ -40,8 +40,8 @@ export function AboutSection() {
           <div className="glass-panel rounded-xl p-5">
             <h3 className="font-mono text-xs uppercase tracking-widest text-accent">The machines</h3>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              A TypeScript physics engine written from scratch: statevector and density-matrix simulators, a variational
-              eigensolver and zero-noise extrapolation. It runs the transpiler terminal, the VQE suite and every game
+              A TypeScript physics engine written from scratch: statevector and density matrix simulators, a variational
+              eigensolver and zero noise extrapolation. It runs the transpiler terminal, the VQE suite and every game
               in the arcade, with no backend.
             </p>
           </div>
@@ -57,7 +57,7 @@ export function AboutSection() {
             <p className="mt-2 text-sm leading-relaxed text-muted">
               QPet, the tamed quantum creature in the corner, follows your cursor on an elastic tether, gets bored,
               sleeps, panics mildly, and occasionally tunnels. Its emotions are a real state machine; its collapses are
-              Born-rule samples. Poke it.
+              Born rule samples. Poke it.
             </p>
           </div>
         </div>

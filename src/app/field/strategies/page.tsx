@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "National Quantum Strategies: Money, Dates, and the Referee",
   description:
-    "Where public quantum money is going and on what terms: the US National Quantum Initiative reauthorization in progress, the UK's £2.5bn strategy and £2bn 2026 package, the EU Quantum Act planned for 2026, and DARPA's Quantum Benchmarking Initiative with 11 companies in Stage B toward a 2033 utility-scale verdict.",
+    "Where public quantum money is going and on what terms: the US National Quantum Initiative reauthorization in progress, the UK's £2.5bn strategy and £2bn 2026 package, the EU Quantum Act planned for 2026, and DARPA's Quantum Benchmarking Initiative with 11 companies in Stage B toward a 2033 utility scale verdict.",
   path: "/field/strategies",
   keywords: ["National Quantum Initiative Reauthorization", "DARPA Quantum Benchmarking Initiative", "EU Quantum Act", "UK National Quantum Strategy", "quantum funding 2026"],
   ogTitle: "National Quantum Strategies",

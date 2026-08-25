@@ -39,7 +39,7 @@ import { SITE_URL, buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Quantum Arcade: 23 Real Interactive Quantum Games & Labs",
   description:
-    "Twenty-plus playable quantum games, labs, and demos. Grover search, Bell/CHSH violation, teleportation, BB84 key exchange, decoherence, error correction, every one computed live by a real statevector or density-matrix simulator in your browser.",
+    "Twenty plus playable quantum games, labs, and demos. Grover search, Bell/CHSH violation, teleportation, BB84 key exchange, decoherence, error correction, every one computed live by a real statevector or density matrix simulator in your browser.",
   path: "/playground/arcade",
   keywords: [
     "interactive quantum computing games",
@@ -84,8 +84,8 @@ export default function ArcadePage() {
           <p className="mb-2 font-mono text-sm text-accent">Playground</p>
           <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Quantum Arcade</h1>
           <p className="mt-3 max-w-2xl text-muted">
-            Twenty-three games, labs, and demos. Nothing here is a canned animation: every bar, dial, and verdict is
-            computed live by the same from-scratch statevector and density-matrix engine that powers the VQE suite.
+            Twenty three games, labs, and demos. Nothing here is a canned animation: every bar, dial, and verdict is
+            computed live by the same from scratch statevector and density matrix engine that powers the VQE suite.
             One card runs an analytic textbook formula instead of a simulation, it says so on the card.
           </p>
         </div>
@@ -119,7 +119,7 @@ export default function ArcadePage() {
         data={softwareApplicationSchema({
           name: "Quantum Arcade",
           description:
-            "Twenty-plus interactive quantum computing games and labs computed live by an in-browser statevector and density-matrix simulator.",
+            "Twenty plus interactive quantum computing games and labs computed live by an in browser statevector and density matrix simulator.",
           applicationCategory: "EducationalApplication",
           url: `${SITE_URL}/playground/arcade`,
           keywords: ["quantum games", "Grover search", "Bell inequality", "BB84", "quantum error correction"],

@@ -55,7 +55,7 @@ export function ryMatrix(theta: number): ComplexMatrix {
   ];
 }
 
-/** rho -> U rho U-dagger */
+/** rho -> U rho U dagger */
 export function applyUnitary(rho: ComplexMatrix, u: ComplexMatrix): ComplexMatrix {
   return matMul(matMul(u, rho), dagger(u));
 }

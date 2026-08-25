@@ -10,7 +10,7 @@ import { SITE_URL, buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Circuit Lab: Build Quantum Circuits and Watch the Exact State",
   description:
-    "A real quantum circuit sandbox: place gates on up to 5 qubits, see the exact statevector (amplitudes, phases, per-qubit Bloch vectors), dial in depolarizing noise on an exact density matrix, sample shots, and export OpenQASM to the site's transpiler.",
+    "A real quantum circuit sandbox: place gates on up to 5 qubits, see the exact statevector (amplitudes, phases, per qubit Bloch vectors), dial in depolarizing noise on an exact density matrix, sample shots, and export OpenQASM to the site's transpiler.",
   path: "/lab",
   keywords: ["quantum circuit simulator browser", "build quantum circuit online", "statevector visualizer", "quantum noise simulator", "OpenQASM export"],
   ogTitle: "Circuit Lab",
@@ -26,7 +26,7 @@ export default function LabPage() {
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
           The games teach one idea each. This is the open bench. Build any circuit on up to five qubits and watch the
           exact state answer every change, amplitudes with phases, each qubit&apos;s Bloch vector, the density matrix
-          under noise, and real sampled measurements. Nothing here is pre-rendered: the engine runs on every click.
+          under noise, and real sampled measurements. Nothing here is pre rendered: the engine runs on every click.
         </p>
         <p className="mt-3 max-w-2xl text-sm text-muted">
           Intuition to form: put a gate in, watch the bars. Add a CNOT and see a qubit&apos;s Bloch arrow shrink to
@@ -44,7 +44,7 @@ export default function LabPage() {
       <JsonLd
         data={softwareApplicationSchema({
           name: "Circuit Lab",
-          description: "An exact in-browser quantum circuit sandbox with statevector, noise (density matrix), sampling and OpenQASM export.",
+          description: "An exact in browser quantum circuit sandbox with statevector, noise (density matrix), sampling and OpenQASM export.",
           applicationCategory: "EducationalApplication",
           url: `${SITE_URL}/lab`,
           keywords: ["quantum circuit", "statevector", "density matrix", "OpenQASM"],

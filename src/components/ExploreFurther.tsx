@@ -6,7 +6,7 @@ const LINKS = [
   },
   {
     title: "VQE Suite Playground",
-    description: "Run the real H2 optimizer and the Zero-Noise Extrapolation error-mitigation panel.",
+    description: "Run the real H2 optimizer and the Zero Noise Extrapolation error mitigation panel.",
     href: "/playground/vqe-suite",
   },
   {
@@ -16,7 +16,7 @@ const LINKS = [
   },
   {
     title: "Research",
-    description: "A primary-source-verified investigation into the quantum CI/CD regression-testing gap, claims checked, not assumed.",
+    description: "A primary source verified investigation into the quantum CI/CD regression testing gap, claims checked, not assumed.",
     href: "/research",
   },
 ];

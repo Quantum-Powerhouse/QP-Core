@@ -68,7 +68,7 @@ export function StatevectorExplorer({ theta }: { theta: number }) {
       </div>
 
       <p className="font-mono text-xs text-muted">
-        Reduced-state purity Tr(ρ₀²) = <span className="text-foreground">{reducedPurity.toFixed(4)}</span>, 1.0000
+        Reduced state purity Tr(ρ₀²) = <span className="text-foreground">{reducedPurity.toFixed(4)}</span>, 1.0000
         means qubit 0 is unentangled from qubit 1 (a product state); lower values mean more entanglement between
         them. This ansatz&apos;s amplitudes are always real, so phase here only ever reads 0° or 180°.
       </p>
@@ -76,7 +76,7 @@ export function StatevectorExplorer({ theta }: { theta: number }) {
       <div className="flex flex-wrap items-center gap-2">
         <button
           onClick={handleMeasure}
-          className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#04121a] transition-opacity hover:opacity-90"
+          className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#211603] transition-opacity hover:opacity-90"
         >
           Measure ▸
         </button>

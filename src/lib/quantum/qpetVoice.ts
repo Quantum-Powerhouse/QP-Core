@@ -17,6 +17,7 @@ const PROSODY: Record<QpitEmotion, { rate: number; pitch: number }> = {
   CURIOUS: { rate: 1.08, pitch: 1.25 },
   EXCITED: { rate: 1.28, pitch: 1.45 },
   SURPRISED: { rate: 1.35, pitch: 1.6 },
+  ANGRY: { rate: 1.02, pitch: 0.72 },
   ORBITING: { rate: 1.1, pitch: 1.3 },
   BORED: { rate: 0.88, pitch: 0.95 },
   SLEEPING: { rate: 0.72, pitch: 0.8 },

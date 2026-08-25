@@ -5,7 +5,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "Research Methodology",
-  description: "How the quantum CI/CD regression-testing prior-art research was conducted, verified, and rated for confidence.",
+  description: "How the quantum CI/CD regression testing prior art research was conducted, verified, and rated for confidence.",
   path: "/research/methodology",
 });
 
@@ -15,15 +15,15 @@ export default function MethodologyPage() {
       <DocTitle
         eyebrow="Research / Methodology"
         title="How this research was conducted"
-        dek="Four independent, parallel research passes, each required to open primary sources directly rather than trust search-result snippets."
+        dek="Four independent, parallel research passes, each required to open primary sources directly rather than trust search result snippets."
       />
 
-      <H2>The primary-source rule</H2>
+      <H2>The primary source rule</H2>
       <P>
-        No claim in this research is based on a search-result snippet alone. Every entry in the claims table
+        No claim in this research is based on a search result snippet alone. Every entry in the claims table
         and evidence record traces to a source that was actually opened and read: an official GitHub
         repository (README, CI workflow YAML, release history), an arXiv paper (abstract and, where needed,
-        full text), or an independently-resolved DOI record (e.g. a Zenodo software deposit). Where a source
+        full text), or an independently resolved DOI record (e.g. a Zenodo software deposit). Where a source
         could not be opened or a claim could not be confirmed, it is marked{" "}
         <strong className="text-foreground">UNVERIFIED</strong> or{" "}
         <strong className="text-foreground">NOT FOUND AFTER SEARCH</strong>, explicitly distinguished from a
@@ -34,9 +34,9 @@ export default function MethodologyPage() {
       <P>The twelve original claims were grouped into four independent verification passes:</P>
       <ol className="mb-4 flex list-decimal flex-col gap-2 pl-6 text-muted">
         <li>MQT QCEC and MQT Debugger, official repositories, CI configuration, and associated papers.</li>
-        <li>The 31% practitioner statistic and the two originally-alleged arXiv papers.</li>
-        <li>Q-Trace / other quantum debugging systems, bug/fault corpora, and state-aware or autonomous testing tooling.</li>
-        <li>GitHub and PyPI search for pytest plugins, GitHub Actions products, and cross-SDK/version regression tooling.</li>
+        <li>The 31% practitioner statistic and the two originally alleged arXiv papers.</li>
+        <li>Q-Trace / other quantum debugging systems, bug/fault corpora, and state aware or autonomous testing tooling.</li>
+        <li>GitHub and PyPI search for pytest plugins, GitHub Actions products, and cross SDK/version regression tooling.</li>
       </ol>
       <P>
         Each thread logged every search query it ran and what it returned, the full log is preserved in{" "}
@@ -51,17 +51,17 @@ export default function MethodologyPage() {
         <li><strong className="text-foreground">Partially confirmed</strong>, a primary source was verified, but either the original claim referenced something not independently confirmable (e.g. unsupplied arXiv IDs), or the finding only partially supports/contradicts the original framing.</li>
         <li><strong className="text-foreground">Unverified</strong>, a claim that could not be checked against any primary source.</li>
         <li><strong className="text-foreground">False / contradicted</strong>, actively checked and found not to hold as originally stated.</li>
-        <li><strong className="text-foreground">Not found after search</strong>, a reasonably broad search turned up nothing, but this is explicitly treated as absence of evidence, not proof of non-existence.</li>
+        <li><strong className="text-foreground">Not found after search</strong>, a reasonably broad search turned up nothing, but this is explicitly treated as absence of evidence, not proof of nonexistence.</li>
       </ul>
 
       <H2>Confidence ratings</H2>
       <P>
         <strong className="text-foreground">High confidence</strong> means a primary source was opened and
-        directly inspected (repo code/CI YAML, full paper text/abstract, or an independently-resolved DOI
+        directly inspected (repo code/CI YAML, full paper text/abstract, or an independently resolved DOI
         record) with no material ambiguity in interpretation.{" "}
         <strong className="text-foreground">Medium confidence</strong> means a primary source was opened, but
-        either the claim required reconstructing candidates without a pre-given reference to confirm or deny
-        against, or the finding is an absence result that a differently-worded search might overturn.
+        either the claim required reconstructing candidates without a pre given reference to confirm or deny
+        against, or the finding is an absence result that a differently worded search might overturn.
       </P>
 
       <Note>
@@ -73,8 +73,8 @@ export default function MethodologyPage() {
 
       <H2>Known limitations</H2>
       <P>
-        This was an English-language search across arXiv, GitHub, and PyPI. It did not include a systematic
-        non-English literature search, direct outreach to authors, or an empirical prototype comparison. These
+        This was an English language search across arXiv, GitHub, and PyPI. It did not include a systematic
+        non English literature search, direct outreach to authors, or an empirical prototype comparison. These
         and other open items are listed in full in Section 14 of the{" "}
         <SourceLink href="/research/gap-analysis">gap analysis</SourceLink>.
       </P>

@@ -17,7 +17,7 @@ export const NETWORKING: FieldClaim[] = [
   {
     id: "net-harvard-aws-2024",
     title: "Quantum memory nodes entangled over 35 km of Boston fiber",
-    body: "Knaut et al. (Harvard/AWS) entangled silicon-vacancy centers in nanophotonic diamond cavities, nodes with electron and long-lived nuclear spin qubits, across a 35 km fiber loop deployed in the Boston urban environment, plus 40 km spools. Memory nodes, not just photons, are what a repeater network needs.",
+    body: "Knaut et al. (Harvard/AWS) entangled silicon vacancy centers in nanophotonic diamond cavities, nodes with electron and long lived nuclear spin qubits, across a 35 km fiber loop deployed in the Boston urban environment, plus 40 km spools. Memory nodes, not just photons, are what a repeater network needs.",
     status: "verified",
     date: "2024-05",
     source: { label: "Knaut et al., Nature 629, 573 (2024), arXiv 2310.01316", url: "https://arxiv.org/abs/2310.01316" },
@@ -25,7 +25,7 @@ export const NETWORKING: FieldClaim[] = [
   {
     id: "net-telekom-berlin-2025",
     title: "Entanglement on a live telecom network, alongside classical traffic",
-    body: "Sena et al. ran polarization-entangled photons through Deutsche Telekom's Berlin metropolitan fibers over selectable paths from 10 m to 60 km (extended to ~100 km), at 1324 nm coexisting with bidirectional C-band classical traffic on the same fibers. Bell-state fidelities of 85-99%, CHSH S between 2.36 and 2.74, and under 1.5% downtime across multi-day runs, the same Bell test the arcade lets you run.",
+    body: "Sena et al. ran polarization entangled photons through Deutsche Telekom's Berlin metropolitan fibers over selectable paths from 10 m to 60 km (extended to ~100 km), at 1324 nm coexisting with bidirectional C-band classical traffic on the same fibers. Bell state fidelities of 85-99%, CHSH S between 2.36 and 2.74, and under 1.5% downtime across multi day runs, the same Bell test the arcade lets you run.",
     status: "verified",
     date: "2025-11",
     source: { label: "Sena et al., J. Opt. Commun. Netw. 17(12), 1072 (2025), arXiv 2504.08927", url: "https://arxiv.org/abs/2504.08927" },
@@ -41,5 +41,5 @@ export const NETWORKING: FieldClaim[] = [
 ];
 
 export const NETWORKING_CONTEXT = {
-  notYet: "No quantum-repeater network, entanglement distributed over long distance by chaining memory nodes, without trusted intermediate sites, has been deployed at scale as of the check date. The entries above are the components: space links, memory nodes, live-fiber coexistence, and multimode storage.",
+  notYet: "No quantum repeater network, entanglement distributed over long distance by chaining memory nodes, without trusted intermediate sites, has been deployed at scale as of the check date. The entries above are the components: space links, memory nodes, live fiber coexistence, and multimode storage.",
 };

@@ -5,7 +5,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Documentation",
   description:
-    "Technical documentation for Quantum Powerhouse: how QP-Core compiles OpenQASM to Amazon Braket IR, and the physics behind the VQE Suite's Hamiltonian, ansatz, and Zero-Noise Extrapolation.",
+    "Technical documentation for Quantum Powerhouse: how QP-Core compiles OpenQASM to Amazon Braket IR, and the physics behind the VQE Suite's Hamiltonian, ansatz, and Zero Noise Extrapolation.",
   path: "/docs",
 });
 
@@ -20,17 +20,17 @@ const DOCS = [
     href: "/docs/vqe-suite/hamiltonian-and-ansatz",
     title: "VQE Suite: Hamiltonian & Ansatz",
     description:
-      "The H2 second-quantized Hamiltonian, its Jordan-Wigner-reduced 2-qubit form, and why the minimal ansatz circuit is exact for this problem.",
+      "The H2 second quantized Hamiltonian, its Jordan-Wigner reduced 2-qubit form, and why the minimal ansatz circuit is exact for this problem.",
   },
   {
     href: "/docs/vqe-suite/state-representations-and-measurement",
     title: "VQE Suite: State Representations & Measurement",
     description:
-      "How the ansatz statevector's amplitudes become measurement probabilities, why its reduced single-qubit state is mixed, and how a real projective measurement is sampled.",
+      "How the ansatz statevector's amplitudes become measurement probabilities, why its reduced single qubit state is mixed, and how a real projective measurement is sampled.",
   },
   {
     href: "/docs/vqe-suite/zero-noise-extrapolation",
-    title: "VQE Suite: Zero-Noise Extrapolation",
+    title: "VQE Suite: Zero Noise Extrapolation",
     description:
       "Depolarizing noise, digital gate folding, and Richardson extrapolation, with real numbers from the shipped implementation.",
   },

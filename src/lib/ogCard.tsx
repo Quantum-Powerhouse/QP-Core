@@ -21,9 +21,9 @@ export function renderOgCard({
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px",
-          backgroundColor: "#020617",
+          backgroundColor: "#171310",
           backgroundImage:
-            "radial-gradient(circle at 15% 15%, rgba(6,182,212,0.18), transparent 45%), radial-gradient(circle at 85% 85%, rgba(124,58,237,0.18), transparent 45%)",
+            "radial-gradient(circle at 15% 15%, rgba(217,164,65,0.18), transparent 45%), radial-gradient(circle at 85% 85%, rgba(194,94,76,0.18), transparent 45%)",
           fontFamily: "monospace",
         }}
       >
@@ -32,7 +32,7 @@ export function renderOgCard({
             display: "flex",
             alignItems: "center",
             gap: 10,
-            color: "#06b6d4",
+            color: "#d9a441",
             fontSize: 28,
             letterSpacing: 2,
             textTransform: "uppercase",
@@ -51,7 +51,7 @@ export function renderOgCard({
             marginTop: 36,
             fontSize: 68,
             fontWeight: 700,
-            color: "#e6ecff",
+            color: "#ece4d4",
             lineHeight: 1.1,
           }}
         >
@@ -62,7 +62,7 @@ export function renderOgCard({
             display: "flex",
             marginTop: 28,
             fontSize: 30,
-            color: "#8b97b8",
+            color: "#a89a80",
           }}
         >
           {subtitle}

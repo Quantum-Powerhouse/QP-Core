@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Open Problems in Quantum Computing: What Remains Unproven",
   description:
-    "The unresolved questions that decide what the hardware is for: BQP versus NP and the polynomial hierarchy, the quantum PCP conjecture, dequantization of claimed speedups, the threshold theorem's noise assumptions, and whether NISQ-era devices deliver useful advantage, each with the paper that framed it.",
+    "The unresolved questions that decide what the hardware is for: BQP versus NP and the polynomial hierarchy, the quantum PCP conjecture, dequantization of claimed speedups, the threshold theorem's noise assumptions, and whether NISQ era devices deliver useful advantage, each with the paper that framed it.",
   path: "/field/open-problems",
   keywords: ["BQP vs NP", "quantum PCP conjecture", "dequantization Tang", "threshold theorem", "NISQ advantage open problem"],
   ogTitle: "Open Problems",

@@ -322,7 +322,7 @@ export function teleportationStages(theta: number, phi: number): TeleportStage[]
   stages.push({ label: "Entangle q1, q2 (Bell pair)", state: [...s] });
   s = applyCNOT(s, 0, 1);
   s = applySingleQubitGate(s, GATE_H, 0);
-  stages.push({ label: "Bell-basis rotate message", state: [...s] });
+  stages.push({ label: "Bell basis rotate message", state: [...s] });
   return stages;
 }
 

@@ -24,7 +24,7 @@ export default function ApiReferenceDocPage() {
       <DocTitle
         eyebrow="API"
         title="API Reference"
-        dek="The real OpenAPI schema for QP-Core's FastAPI backend, 3 operations, generated directly from the service's Pydantic models, not hand-written."
+        dek="The real OpenAPI schema for QP-Core's FastAPI backend, 3 operations, generated directly from the service's Pydantic models, not hand written."
       />
 
       {isLive ? (

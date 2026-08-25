@@ -19,7 +19,7 @@ export default function FirstSolvedPage() {
       <p className="mb-2 font-mono text-sm text-accent">The field · applications</p>
       <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">What gets solved first</h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-        The expert answer is narrower and more technical than the popular one: simulating quantum systems,         molecules and materials, through hybrid quantum-classical workflows, because nature is the problem class
+        The expert answer is narrower and more technical than the popular one: simulating quantum systems,         molecules and materials, through hybrid quantum classical workflows, because nature is the problem class
         where the speedup is exponential and the input is small. The rest is sorted below by the strength of its
         evidence. The longer, sourced map is on the{" "}
         <Link href="/applications" className="text-accent">applications page</Link>.

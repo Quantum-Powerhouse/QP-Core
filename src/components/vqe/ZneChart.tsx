@@ -10,9 +10,9 @@ const MARGIN = { top: 20, right: 24, bottom: 40, left: 76 };
 const PLOT_W = WIDTH - MARGIN.left - MARGIN.right;
 const PLOT_H = HEIGHT - MARGIN.top - MARGIN.bottom;
 
-const RAW_COLOR = "#7c3aed";
+const RAW_COLOR = "#c25e4c";
 const FIT_COLOR = "#0891b2";
-const REFERENCE_COLOR = "#8b97b8";
+const REFERENCE_COLOR = "#a89a80";
 
 export function ZneChart({ result }: { result: ZneResult }) {
   const [hover, setHover] = useState<{ label: string; lambda: number; energy: number } | null>(null);
@@ -69,8 +69,8 @@ export function ZneChart({ result }: { result: ZneResult }) {
         <g transform={`translate(${MARGIN.left}, ${MARGIN.top})`}>
           {yTicks.map((tick) => (
             <g key={tick}>
-              <line x1={0} y1={yScale(tick)} x2={PLOT_W} y2={yScale(tick)} stroke="#1e293b" strokeWidth={1} />
-              <text x={-10} y={yScale(tick) + 4} textAnchor="end" fontSize={11} fontFamily="var(--font-jetbrains-mono), monospace" fill="#8b97b8">
+              <line x1={0} y1={yScale(tick)} x2={PLOT_W} y2={yScale(tick)} stroke="#3a3226" strokeWidth={1} />
+              <text x={-10} y={yScale(tick) + 4} textAnchor="end" fontSize={11} fontFamily="var(--font-jetbrains-mono), monospace" fill="#a89a80">
                 {tick.toFixed(3)}
               </text>
             </g>
@@ -94,7 +94,7 @@ export function ZneChart({ result }: { result: ZneResult }) {
               onMouseEnter={() => setHover({ label: `λ = ${p.lambda} (noisy)`, lambda: p.lambda, energy: p.energyHartree })}
               onMouseLeave={() => setHover((cur) => (cur?.lambda === p.lambda ? null : cur))}
             >
-              <circle cx={xScale(p.lambda)} cy={yScale(p.energyHartree)} r={7} fill="#020617" />
+              <circle cx={xScale(p.lambda)} cy={yScale(p.energyHartree)} r={7} fill="#171310" />
               <circle cx={xScale(p.lambda)} cy={yScale(p.energyHartree)} r={5.5} fill={RAW_COLOR} />
             </g>
           ))}
@@ -105,14 +105,14 @@ export function ZneChart({ result }: { result: ZneResult }) {
             }
             onMouseLeave={() => setHover((cur) => (cur?.lambda === 0 ? null : cur))}
           >
-            <circle cx={xScale(0)} cy={yScale(result.quadraticExtrapolationHartree)} r={8} fill="#020617" />
+            <circle cx={xScale(0)} cy={yScale(result.quadraticExtrapolationHartree)} r={8} fill="#171310" />
             <path
               d={`M ${xScale(0) - 6} ${yScale(result.quadraticExtrapolationHartree)} L ${xScale(0)} ${yScale(result.quadraticExtrapolationHartree) - 6} L ${xScale(0) + 6} ${yScale(result.quadraticExtrapolationHartree)} L ${xScale(0)} ${yScale(result.quadraticExtrapolationHartree) + 6} Z`}
               fill={FIT_COLOR}
             />
           </g>
 
-          <text x={PLOT_W / 2} y={PLOT_H + 32} textAnchor="middle" fontSize={12} fontFamily="var(--font-jetbrains-mono), monospace" fill="#8b97b8">
+          <text x={PLOT_W / 2} y={PLOT_H + 32} textAnchor="middle" fontSize={12} fontFamily="var(--font-jetbrains-mono), monospace" fill="#a89a80">
             noise scale factor (λ)
           </text>
         </g>

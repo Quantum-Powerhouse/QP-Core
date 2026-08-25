@@ -15,6 +15,8 @@ import {
   type QpitEmotion,
   type QpitEmotionState,
   type QpitSpecial,
+  ANGER_POKES,
+  ANGER_WINDOW_MS,
 } from "@/lib/quantum/qpitState";
 
 /**
@@ -44,6 +46,7 @@ const TRAIL_LEN = 3;
 const TRAIL_MIN_SPEED = 1100;
 
 const EMOTION_TETHER: Record<QpitEmotion, { stroke: string; opacity: number }> = {
+  ANGRY: { stroke: "#c25e4c", opacity: 0.55 },
   IDLE: { stroke: "var(--accent)", opacity: 0.35 },
   CURIOUS: { stroke: "var(--accent)", opacity: 0.45 },
   EXCITED: { stroke: "var(--accent-2)", opacity: 0.6 },
@@ -193,9 +196,12 @@ export function QpitPhysics({
 
   // Poke → a small upward hop with recoil.
   const pokeSeen = useRef(pokeSignal);
+  const pokeTimesRef = useRef<number[]>([]);
+  const flingHeatRef = useRef(0);
   useEffect(() => {
     if (pokeSignal === pokeSeen.current) return;
     pokeSeen.current = pokeSignal;
+    pokeTimesRef.current.push(performance.now());
     velRef.current.y -= 420;
     thetaRef.current.v += (randRef.current() < 0.5 ? -1 : 1) * 260;
   }, [pokeSignal]);
@@ -313,6 +319,9 @@ export function QpitPhysics({
         velRef.current.x = Math.max(-cap, Math.min(cap, ux));
         velRef.current.y = Math.max(-cap, Math.min(cap, uy));
         flungRef.current = true;
+        if (Math.hypot(velRef.current.x, velRef.current.y) > 1400) {
+          flingHeatRef.current = Math.min(1, flingHeatRef.current + 0.45);
+        }
         lastMoveAtRef.current = performance.now();
         setModeSafe("roaming");
       },
@@ -487,19 +496,22 @@ export function QpitPhysics({
     // Emotion tick (throttled) + ambient specials.
     if (now - lastEmotionTickRef.current > EMOTION_TICK_MS) {
       lastEmotionTickRef.current = now;
+      pokeTimesRef.current = pokeTimesRef.current.filter((t) => now - t < ANGER_WINDOW_MS);
+      flingHeatRef.current *= 0.93;
       const inputs = {
         now,
         mode: modeRef.current,
         cursorSpeed: cursorSpeedRef.current,
         msSinceMove: now - lastMoveAtRef.current,
         winding: windingRef.current,
+        annoyance: pokeTimesRef.current.length / ANGER_POKES + flingHeatRef.current,
       };
       const next = advanceEmotion(emotionRef.current, inputs);
       if (next !== emotionRef.current) {
         const prev = emotionRef.current.emotion;
         emotionRef.current = next;
         // Surprise recoil: dart away from the cursor, then recover.
-        if (next.emotion === "SURPRISED" && !reduceMotion) {
+        if ((next.emotion === "SURPRISED" || next.emotion === "ANGRY") && !reduceMotion) {
           const dx = pos.x - cursorRef.current.x;
           const dy = pos.y - cursorRef.current.y;
           const d = Math.hypot(dx, dy) || 1;
@@ -877,11 +889,11 @@ export function QpitPhysics({
               border: "3px solid transparent",
               background:
                 "linear-gradient(90deg, color-mix(in srgb, #f59e0b 70%, transparent), color-mix(in srgb, var(--accent-2) 80%, transparent), color-mix(in srgb, #f59e0b 70%, transparent)) border-box",
-              WebkitMask: "linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)",
+              WebkitMask: "linear-gradient(#fff 0 0) padding box, linear-gradient(#fff 0 0)",
               WebkitMaskComposite: "xor",
               maskComposite: "exclude",
               filter: "blur(1px)",
-              animation: "qpit-spin 2.6s linear infinite",
+              animation: "qpit spin 2.6s linear infinite",
             }}
           />
           {/* photon ring: thin, bright, hugging the shadow */}
@@ -948,7 +960,7 @@ export function QpitPhysics({
               style={{
                 border: `1.5px solid color-mix(in srgb, ${portal.color} 75%, transparent)`,
                 boxShadow: `0 0 14px color-mix(in srgb, ${portal.color} 40%, transparent), inset 0 0 10px color-mix(in srgb, ${portal.color} 30%, transparent)`,
-                animation: "qpit-spin 1.6s linear infinite",
+                animation: "qpit spin 1.6s linear infinite",
                 borderStyle: "dashed",
               }}
             />

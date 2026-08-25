@@ -13,7 +13,7 @@ import {
   sectionForPath,
 } from "../src/lib/quantum/qpitContext.ts";
 
-const SECTIONS = ["home", "research", "claims", "evidence", "sources", "gap-analysis", "prior-art", "methodology", "docs", "playground", "unknown"];
+const SECTIONS = ["home", "research", "claims", "evidence", "sources", "gap-analysis", "prior art", "methodology", "docs", "playground", "unknown"];
 
 test("every section has a looking-at description and a next step", () => {
   for (const s of SECTIONS) {

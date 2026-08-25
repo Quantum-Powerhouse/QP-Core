@@ -65,7 +65,7 @@ function GridRings() {
                 if (m) materialsRef.current.push(m);
               }}
               attach="material"
-              color="#06b6d4"
+              color="#d9a441"
               transparent
               opacity={0.25}
             />
@@ -83,7 +83,7 @@ function GridRings() {
                 if (m) materialsRef.current.push(m);
               }}
               attach="material"
-              color="#7c3aed"
+              color="#c25e4c"
               transparent
               opacity={0.25}
             />
@@ -124,7 +124,7 @@ function StateVector({ theta, phi }: { theta: number; phi: number }) {
         <cylinderGeometry args={[0.018, 0.018, RADIUS * 0.84, 12]} />
         <meshStandardMaterial
           color="#67e8f9"
-          emissive="#06b6d4"
+          emissive="#d9a441"
           emissiveIntensity={1.6}
           toneMapped={false}
         />
@@ -133,12 +133,12 @@ function StateVector({ theta, phi }: { theta: number; phi: number }) {
         <coneGeometry args={[0.09, 0.22, 16]} />
         <meshStandardMaterial
           color="#a5f3fc"
-          emissive="#06b6d4"
+          emissive="#d9a441"
           emissiveIntensity={2.2}
           toneMapped={false}
         />
       </mesh>
-      <pointLight position={[0, RADIUS * 0.86, 0]} color="#06b6d4" intensity={4} distance={2.5} />
+      <pointLight position={[0, RADIUS * 0.86, 0]} color="#d9a441" intensity={4} distance={2.5} />
     </group>
   );
 }
@@ -160,7 +160,7 @@ function Scene({
       <mesh>
         <sphereGeometry args={[RADIUS, 48, 48]} />
         <meshStandardMaterial
-          color="#22d3ee"
+          color="#e6c47a"
           wireframe
           transparent
           opacity={0.18}
@@ -170,10 +170,10 @@ function Scene({
       <GridRings />
       <StateVector theta={theta} phi={phi} />
 
-      <Text position={[0, RADIUS + 0.32, 0]} fontSize={0.22} color="#e6ecff">
+      <Text position={[0, RADIUS + 0.32, 0]} fontSize={0.22} color="#ece4d4">
         |0⟩
       </Text>
-      <Text position={[0, -RADIUS - 0.32, 0]} fontSize={0.22} color="#e6ecff">
+      <Text position={[0, -RADIUS - 0.32, 0]} fontSize={0.22} color="#ece4d4">
         |1⟩
       </Text>
 
@@ -209,7 +209,7 @@ export function BlochSphere() {
   const betaMag = Math.sin(thetaRad / 2);
 
   // Pauli expectation values: the Bloch vector (x, y, z) IS (<X>, <Y>, <Z>)
-  // for a single-qubit pure state, this is the expectation-value
+  // for a single qubit pure state, this is the expectation value
   // representation of the same state shown as amplitudes above.
   const expX = Math.sin(thetaRad) * Math.cos(phiRad);
   const expY = Math.sin(thetaRad) * Math.sin(phiRad);
@@ -219,7 +219,7 @@ export function BlochSphere() {
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_260px]">
       <div className="lg:col-span-2">
         <RepresentsTag>
-          single-qubit expectation values ⟨X⟩, ⟨Y⟩, ⟨Z⟩ for a user-set state, a visual metaphor and a real
+          single qubit expectation values ⟨X⟩, ⟨Y⟩, ⟨Z⟩ for a user set state, a visual metaphor and a real
           calculation, not a running simulation
         </RepresentsTag>
       </div>
@@ -244,7 +244,7 @@ export function BlochSphere() {
             max={180}
             value={theta}
             onChange={(e) => setTheta(Number(e.target.value))}
-            className="w-full accent-cyan-400"
+            className="w-full accent-[#d9a441]"
           />
         </div>
 
@@ -259,7 +259,7 @@ export function BlochSphere() {
             max={360}
             value={phi}
             onChange={(e) => setPhi(Number(e.target.value))}
-            className="w-full accent-violet-400"
+            className="w-full accent-[#c25e4c]"
           />
         </div>
 
@@ -271,7 +271,7 @@ export function BlochSphere() {
               : "border-border text-muted hover:text-foreground"
           }`}
         >
-          {autoRotate ? "⏸ Pause orbit" : "▶ Auto-rotate"}
+          {autoRotate ? "⏸ Pause orbit" : "▶ Auto rotate"}
         </button>
 
         <div className="mt-auto space-y-1 border-t border-border pt-4 font-mono text-[11px] leading-relaxed text-muted">

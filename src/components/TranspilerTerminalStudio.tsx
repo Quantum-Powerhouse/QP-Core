@@ -280,7 +280,7 @@ export function TranspilerTerminalStudio() {
                   onClick={() => handleVersionChange(v)}
                   className={`rounded-full px-3 py-1 transition-colors ${
                     version === v
-                      ? "bg-accent text-[#04121a]"
+                      ? "bg-accent text-[#211603]"
                       : "text-muted hover:text-foreground"
                   }`}
                 >
@@ -315,7 +315,7 @@ export function TranspilerTerminalStudio() {
                 <button
                   onClick={handleTranspile}
                   disabled={loading}
-                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#04121a] transition-opacity disabled:opacity-50"
+                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#211603] transition-opacity disabled:opacity-50"
                 >
                   {loading ? "Transpiling…" : "Run ▸ Transpile"}
                 </button>
@@ -332,8 +332,8 @@ export function TranspilerTerminalStudio() {
           {tab === "instructions" && (
             <div className="flex h-full flex-col overflow-auto px-4 py-3">
               <RepresentsTag docsHref="/docs/qp-core/transpiler-pipeline">
-                a flat instruction list from a simplified client-side line parser, not a full OpenQASM AST
-                (no grammar tree, no scoping, no expressions), and not what the production Qiskit-based
+                a flat instruction list from a simplified client side line parser, not a full OpenQASM AST
+                (no grammar tree, no scoping, no expressions), and not what the production Qiskit based
                 backend does internally
               </RepresentsTag>
               <p className="mb-3 font-mono text-[11px] text-muted">
@@ -441,20 +441,20 @@ export function TranspilerTerminalStudio() {
                     label="Gate Count Reduction"
                     value={result.metrics.reduction_pct}
                     suffix="%"
-                    color="#06b6d4"
+                    color="#d9a441"
                   />
                   <MetricCard
                     label="Circuit Depth"
                     value={result.metrics.depth}
                     suffix=" layers"
-                    color="#7c3aed"
+                    color="#c25e4c"
                   />
                   <MetricCard
                     label="Execution Latency"
                     value={result.latencyMs}
                     suffix="ms"
                     decimals={1}
-                    color="#2dd4bf"
+                    color="#e6c47a"
                   />
                 </div>
               ) : (

@@ -95,7 +95,7 @@ export function VqeStepThrough() {
   return (
     <div className="flex flex-col gap-4">
       <RepresentsTag docsHref="/docs/vqe-suite/hamiltonian-and-ansatz">
-        one real parameter-shift-rule gradient step per click, every number below comes from the same
+        one real parameter shift rule gradient step per click, every number below comes from the same
         statevector simulator used by the Convergence tab, evaluated fresh, not replayed from a precomputed run
       </RepresentsTag>
 
@@ -105,7 +105,7 @@ export function VqeStepThrough() {
         <button
           onClick={handleStep}
           disabled={converged}
-          className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#04121a] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#211603] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Step ▸
         </button>
@@ -131,7 +131,7 @@ export function VqeStepThrough() {
         </div>
       ) : (
         <p className="px-1 py-4 text-center font-mono text-sm text-muted">
-          {"// click Step to run one parameter-shift gradient evaluation from θ = 0"}
+          {"// click Step to run one parameter shift gradient evaluation from θ = 0"}
         </p>
       )}
 

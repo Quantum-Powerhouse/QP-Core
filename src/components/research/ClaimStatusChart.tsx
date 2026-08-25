@@ -25,8 +25,8 @@ const BAR_COLOR: Record<ClaimStatus, string> = {
   confirmed: "bg-emerald-500/70",
   partial: "bg-amber-500/70",
   false: "bg-red-500/70",
-  not_found: "bg-sky-500/70",
-  unverified: "bg-slate-500/70",
+  not_found: "bg-[#d9a441]/70",
+  unverified: "bg-[#7a6f5c]/70",
 };
 
 export function ClaimStatusChart({ counts, total }: { counts: Record<ClaimStatus, number>; total: number }) {

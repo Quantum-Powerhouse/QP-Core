@@ -46,7 +46,7 @@ export function softwareApplicationSchema({
     description,
     url,
     applicationCategory,
-    operatingSystem: "Any (web-based)",
+    operatingSystem: "Any (web based)",
     keywords: keywords?.join(", "),
     author: {
       "@type": "Person",

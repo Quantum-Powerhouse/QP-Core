@@ -21,10 +21,10 @@ type Gate = {
 };
 
 const GATES: Gate[] = [
-  { type: "H", col: 0, wire: 0, color: "#06b6d4" },
-  { type: "CNOT", col: 1, wire: 0, target: 1, color: "#7c3aed" },
-  { type: "P", col: 2, wire: 1, color: "#2dd4bf" },
-  { type: "H", col: 3, wire: 2, color: "#06b6d4" },
+  { type: "H", col: 0, wire: 0, color: "#d9a441" },
+  { type: "CNOT", col: 1, wire: 0, target: 1, color: "#c25e4c" },
+  { type: "P", col: 2, wire: 1, color: "#e6c47a" },
+  { type: "H", col: 3, wire: 2, color: "#d9a441" },
   { type: "MEASURE", col: 4, wire: 0, color: "#f59e0b" },
   { type: "MEASURE", col: 4, wire: 1, color: "#f59e0b" },
   { type: "MEASURE", col: 4, wire: 2, color: "#f59e0b" },
@@ -39,7 +39,7 @@ function GateBox({ x, y, label, color }: { x: number; y: number; label: string; 
         width={40}
         height={40}
         rx={8}
-        fill="#0b1120"
+        fill="#1f1a14"
         stroke={color}
         strokeWidth={1.5}
         filter="url(#glow)"
@@ -67,7 +67,7 @@ function MeasureBox({ x, y, color }: { x: number; y: number; color: string }) {
         width={40}
         height={40}
         rx={8}
-        fill="#0b1120"
+        fill="#1f1a14"
         stroke={color}
         strokeWidth={1.5}
         filter="url(#glow)"
@@ -104,7 +104,7 @@ export function CircuitVisualizer() {
               y1={wire.y}
               x2={WIRE_END_X}
               y2={wire.y}
-              stroke="#1e293b"
+              stroke="#3a3226"
               strokeWidth={1.5}
             />
             <text
@@ -113,13 +113,13 @@ export function CircuitVisualizer() {
               textAnchor="end"
               fontSize={12}
               fontFamily="var(--font-jetbrains-mono), monospace"
-              fill="#8b97b8"
+              fill="#a89a80"
             >
               {wire.label}
             </text>
             <motion.circle
               r={4}
-              fill="#06b6d4"
+              fill="#d9a441"
               filter="url(#glow)"
               initial={{ cx: WIRE_START_X, opacity: 0 }}
               animate={{

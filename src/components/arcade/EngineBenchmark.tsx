@@ -50,10 +50,10 @@ export function EngineBenchmark() {
 
   const maxMs = Math.max(1, ...rows.map((r) => Math.max(r.ms ?? 0, r.fastMs)));
   return (
-    <GameCard title="Engine Scaling Benchmark" tag="bench" computes="wall-clock time on your device for 2^n amplitudes (one H layer + a CNOT chain): the readable object-per-amplitude engine vs the Float64Array kernel">
+    <GameCard title="Engine Scaling Benchmark" tag="bench" computes="wall clock time on your device for 2^n amplitudes (one H layer + a CNOT chain): the readable object per amplitude engine vs the Float64Array kernel">
       <p className="text-muted">
         The 2ⁿ wall, measured live: every extra qubit doubles the amplitudes. Grey is the readable teaching engine
-        behind the games; cyan is the typed-array kernel, same physics, flat memory, in-place gates, which is how
+        behind the games; cyan is the typed array kernel, same physics, flat memory, in place gates, which is how
         the browser reaches 20+ qubits.
       </p>
       <div className="flex items-center gap-2">

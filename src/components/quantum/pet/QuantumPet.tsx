@@ -18,6 +18,8 @@ import {
   parseVoiceCommand,
   pickLine,
   POKE_LINES,
+  ANGRY_LINES,
+  CALMED_LINE,
   QUANTUM_FACTS,
   sectionForPath,
   SUPERPOSED_ANSWERS,
@@ -48,16 +50,16 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       break;
     }
     case "TRANSPILATION_STARTED":
-      state.color.set("#06b6d4");
+      state.color.set("#d9a441");
       state.intensity = 1;
       state.spin = 0.6;
       break;
     case "TRANSPILATION_FINISHED":
-      state.color.set(event.detail.mock ? "#f59e0b" : "#06b6d4");
+      state.color.set(event.detail.mock ? "#f59e0b" : "#d9a441");
       state.intensity = 1;
       break;
     case "VQE_STARTED":
-      state.color.set("#7c3aed");
+      state.color.set("#c25e4c");
       state.intensity = 0.8;
       state.spin = 0.8;
       break;
@@ -66,7 +68,7 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       state.spin = Math.max(state.spin, 0.5);
       break;
     case "VQE_CONVERGED":
-      state.color.set("#2dd4bf");
+      state.color.set("#e6c47a");
       state.intensity = 1;
       state.spin = 0;
       break;
@@ -77,7 +79,7 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       break;
     }
     case "MEASUREMENT":
-      state.color.set("#e6ecff");
+      state.color.set("#ece4d4");
       state.intensity = 1;
       state.spin = 0;
       break;
@@ -90,7 +92,7 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       state.intensity = Math.max(state.intensity, 0.2);
       break;
     case "ARCADE_RESULT":
-      state.color.set("#06b6d4");
+      state.color.set("#d9a441");
       state.intensity = Math.max(state.intensity, 0.6);
       break;
   }
@@ -108,7 +110,7 @@ function narrate(event: QuantumEvent, basis: Basis): { line: string; force: bool
       const line =
         basis === "rigorous"
           ? `VQE converged: ${e.toFixed(5)} Ha, ${errMilli.toFixed(2)} mHa from exact.`
-          : `Ground state found: ${e.toFixed(4)} Ha. ${errMilli < 1.6 ? "Chemical accuracy. Show-off." : "Close. Nudge the angle."}`;
+          : `Ground state found: ${e.toFixed(4)} Ha. ${errMilli < 1.6 ? "Chemical accuracy. Show off." : "Close. Nudge the angle."}`;
       return { line, force: true };
     }
     case "VQE_ITERATION": {
@@ -307,6 +309,14 @@ export function QuantumPet() {
     (next: QpitEmotion, prev: QpitEmotion) => {
       emotionRef.current = next;
       stateRef.current.mood = QPIT_PARAMS[next].glow;
+      if (next === "ANGRY") {
+        stateRef.current.color.set("#c25e4c");
+        stateRef.current.intensity = 1;
+        speak(pickLine(ANGRY_LINES), { force: true });
+      } else if (prev === "ANGRY") {
+        stateRef.current.color.set("#d9a441");
+        if (chatOk()) speak(CALMED_LINE);
+      }
       if (prev === "SLEEPING" && next === "SURPRISED") speak(momentLine("WAKE_SURPRISED"), { force: true });
       else if (next === "BORED" && chatOk()) speak(momentLine("BORED_ENTER"));
       else if (next === "ORBITING") speak(momentLine("ORBITING_ENTER"));
@@ -393,7 +403,7 @@ export function QuantumPet() {
         }
         return;
       }
-      const anchor = target?.closest?.("a[href], [data-qpit]");
+      const anchor = target?.closest?.("a[href], [data qpit]");
       if (!anchor) return;
       const section = hoverSectionFor(anchor.getAttribute("href"), anchor.getAttribute("data-qpit"));
       if (!section || section === sectionForPath(pathname)) return;
@@ -644,7 +654,7 @@ export function QuantumPet() {
                   <div className="h-1.5 overflow-hidden rounded-sm bg-surface-2">
                     <div className="h-full bg-accent" style={{ width: `${pending.pA * 100}%` }} />
                   </div>
-                  <button type="button" onClick={measure} className="mt-1 self-start rounded-md bg-accent px-2 py-1 font-mono text-[11px] font-semibold text-[#041014]">
+                  <button type="button" onClick={measure} className="mt-1 self-start rounded-md bg-accent px-2 py-1 font-mono text-[11px] font-semibold text-[#211603]">
                     measure → collapse
                   </button>
                 </div>
@@ -725,11 +735,11 @@ export function QuantumPet() {
           </div>
         )}
 
-        <div aria-hidden className="pointer-events-none absolute bottom-0 left-1/2 z-0 h-[128px] w-[128px] -translate-x-1/2 sm:h-[148px] sm:w-[148px]" style={{ animation: "qpit-spin 9s linear infinite" }}>
+        <div aria-hidden className="pointer-events-none absolute bottom-0 left-1/2 z-0 h-[128px] w-[128px] -translate-x-1/2 sm:h-[148px] sm:w-[148px]" style={{ animation: "qpit spin 9s linear infinite" }}>
           <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-accent opacity-70" />
           <span className="absolute bottom-[12%] right-0 h-1 w-1 rounded-full opacity-60" style={{ background: "var(--accent-2)" }} />
         </div>
-        <div aria-hidden className="pointer-events-none absolute bottom-[10px] left-1/2 z-0 h-[108px] w-[108px] -translate-x-1/2" style={{ animation: "qpit-spin 5.5s linear infinite reverse" }}>
+        <div aria-hidden className="pointer-events-none absolute bottom-[10px] left-1/2 z-0 h-[108px] w-[108px] -translate-x-1/2" style={{ animation: "qpit spin 5.5s linear infinite reverse" }}>
           <span className="absolute left-0 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-accent opacity-50" />
         </div>
 

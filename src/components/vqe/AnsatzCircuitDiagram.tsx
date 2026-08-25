@@ -8,7 +8,7 @@ const FIRST_COL_X = 170;
 function GateBox({ x, y, label, color }: { x: number; y: number; label: string; color: string }) {
   return (
     <g>
-      <rect x={x - 26} y={y - 20} width={52} height={40} rx={8} fill="#0b1120" stroke={color} strokeWidth={1.5} filter="url(#ansatz-glow)" />
+      <rect x={x - 26} y={y - 20} width={52} height={40} rx={8} fill="#1f1a14" stroke={color} strokeWidth={1.5} filter="url(#ansatz-glow)" />
       <text x={x} y={y + 5} textAnchor="middle" fontSize={12} fontFamily="var(--font-jetbrains-mono), monospace" fill={color}>
         {label}
       </text>
@@ -35,8 +35,8 @@ export function AnsatzCircuitDiagram() {
 
         {WIRE_Y.map((y, qubit) => (
           <g key={qubit}>
-            <line x1={WIRE_START_X} y1={y} x2={wireEndX} y2={y} stroke="#1e293b" strokeWidth={1.5} />
-            <text x={WIRE_START_X - 16} y={y + 4} textAnchor="end" fontSize={12} fontFamily="var(--font-jetbrains-mono), monospace" fill="#8b97b8">
+            <line x1={WIRE_START_X} y1={y} x2={wireEndX} y2={y} stroke="#3a3226" strokeWidth={1.5} />
+            <text x={WIRE_START_X - 16} y={y + 4} textAnchor="end" fontSize={12} fontFamily="var(--font-jetbrains-mono), monospace" fill="#a89a80">
               q{qubit}
             </text>
           </g>
@@ -48,22 +48,22 @@ export function AnsatzCircuitDiagram() {
         {gates.map((gate, i) => {
           const x = FIRST_COL_X + i * COL_SPACING;
           if (gate.kind === "X") {
-            return <GateBox key={i} x={x} y={WIRE_Y[gate.qubit]} label="X" color="#06b6d4" />;
+            return <GateBox key={i} x={x} y={WIRE_Y[gate.qubit]} label="X" color="#d9a441" />;
           }
           if (gate.kind === "CNOT") {
             const y1 = WIRE_Y[gate.control];
             const y2 = WIRE_Y[gate.target];
             return (
               <g key={i}>
-                <line x1={x} y1={y1} x2={x} y2={y2} stroke="#7c3aed" strokeWidth={1.5} />
-                <circle cx={x} cy={y1} r={6} fill="#7c3aed" filter="url(#ansatz-glow)" />
-                <circle cx={x} cy={y2} r={12} fill="none" stroke="#7c3aed" strokeWidth={1.5} filter="url(#ansatz-glow)" />
-                <line x1={x - 8} y1={y2} x2={x + 8} y2={y2} stroke="#7c3aed" strokeWidth={1.5} />
-                <line x1={x} y1={y2 - 8} x2={x} y2={y2 + 8} stroke="#7c3aed" strokeWidth={1.5} />
+                <line x1={x} y1={y1} x2={x} y2={y2} stroke="#c25e4c" strokeWidth={1.5} />
+                <circle cx={x} cy={y1} r={6} fill="#c25e4c" filter="url(#ansatz-glow)" />
+                <circle cx={x} cy={y2} r={12} fill="none" stroke="#c25e4c" strokeWidth={1.5} filter="url(#ansatz-glow)" />
+                <line x1={x - 8} y1={y2} x2={x + 8} y2={y2} stroke="#c25e4c" strokeWidth={1.5} />
+                <line x1={x} y1={y2 - 8} x2={x} y2={y2 + 8} stroke="#c25e4c" strokeWidth={1.5} />
               </g>
             );
           }
-          return <GateBox key={i} x={x} y={WIRE_Y[gate.qubit]} label="RY(θ)" color="#2dd4bf" />;
+          return <GateBox key={i} x={x} y={WIRE_Y[gate.qubit]} label="RY(θ)" color="#e6c47a" />;
         })}
       </svg>
     </div>

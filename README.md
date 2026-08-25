@@ -1,6 +1,6 @@
 # QP-Core
 
-The Quantum Powerhouse portfolio site, a dark-themed Next.js app introducing
+The Quantum Powerhouse portfolio site, a dark themed Next.js app introducing
 the organization, with quantum mechanics / Qiskit projects, and hosting
 a live **Quantum Transpiler Terminal** that converts OpenQASM 2.0/3.0 circuits
 to Amazon Braket IR via a FastAPI backend.
@@ -62,12 +62,12 @@ the FastAPI backend enables CORS for the site's origin.
 - `src/app/opengraph-image.tsx` (and per-route equivalents), dynamic OG/Twitter card images via `next/og`
 - `src/app/playground/vqe-suite/`, dedicated route for the VQE Suite playground
 - `src/lib/physics/fastStatevector.ts`, a Float64Array kernel (in-place gates, flat memory) that
-  reaches 20+ qubits in the browser; cross-checked against the readable engine in tests and
+  reaches 20+ qubits in the browser; cross checked against the readable engine in tests and
   raced against it live in the arcade's Engine Scaling Benchmark
 - `src/lib/physics/`, a real, self-contained quantum chemistry + circuit simulation stack (no backend
   dependency): linear algebra, Pauli operators, the H2 Hamiltonian (O'Malley et al. 2016), a statevector
-  simulator, a density-matrix/Kraus-channel simulator, the H2 ansatz circuit, a parameter-shift VQE optimizer,
-  and Zero-Noise Extrapolation with Richardson extrapolation
+  simulator, a density matrix/Kraus channel simulator, the H2 ansatz circuit, a parameter shift VQE optimizer,
+  and Zero Noise Extrapolation with Richardson extrapolation
 - `src/components/vqe/`, the VQE Suite UI: convergence chart, ZNE chart, ansatz circuit diagram, and the
   tabbed studio component
 - `src/app/docs/`, technical documentation: `qp-core/transpiler-pipeline`, `vqe-suite/hamiltonian-and-ansatz`,
@@ -86,13 +86,13 @@ the FastAPI backend enables CORS for the site's origin.
 
 `/field` holds primary-source-verified content written to the research section's
 standard: hardware scoreboard (logical qubits, fidelity, code distance, results vs
-roadmaps), post-quantum cryptography (NIST standards, the 2030/2035 timeline, Mosca's
+roadmaps), post quantum cryptography (NIST standards, the 2030/2035 timeline, Mosca's
 inequality, RSA-2048 qubit estimates), what gets solved first, the timeline debate,
 and careers. Content is typed data in `src/lib/field/*.ts`; every claim carries a
-status (verified / vendor-reported / projection / opinion / estimate / contested),
+status (verified / vendor reported / projection / opinion / estimate / contested),
 a YYYY-MM date and an http source, enforced by `tests/field.test.mjs`, which also
 rejects hype phrasing. `FIELD_CHECKED_ON` in `src/lib/field/types.ts` is the last
-verification date; update it when re-checking sources.
+verification date; update it when re checking sources.
 
 ## QPet: the site's quantum companion
 
@@ -106,8 +106,8 @@ bottom-right corner). Architecture, all under `src/components/quantum/`:
 - `pet/QpitPhysics.tsx`, the motion layer: on fine-pointer devices QPet follows the
   cursor on a spring tether, hangs ~150px below it, swings like a pendulum from
   horizontal velocity, and docks back to the corner after ~3.5s of stillness. The
-  position is integrated by hand (semi-implicit Euler) inside one rAF loop with
-  direct style writes, zero React re-renders per frame, so every spring parameter
+  position is integrated by hand (semi implicit Euler) inside one rAF loop with
+  direct style writes, zero React re renders per frame, so every spring parameter
   can change live with emotion. Touch devices and `prefers-reduced-motion` users get
   a calm, permanently docked QPet.
 - `src/lib/quantum/qpitState.ts`, the emotional state machine (pure, unit-tested):
@@ -115,7 +115,7 @@ bottom-right corner). Architecture, all under `src/components/quantum/`:
   cursor speed, idle time, and cursor winding. Each emotion carries physics + visual
   params (`QPet_PARAMS`): spring stiffness/damping, quantum jitter, swing gain,
   breathing, glow. Special moments, superposition ghosts and tunneling home, are
-  cooldown-gated controlled randomness (visual metaphors, not physics claims), and a
+  cooldown gated controlled randomness (visual metaphors, not physics claims), and a
   chattiness governor keeps QPet quiet while the user reads. To add a behavior: add
   an emotion or moment there, give it params/lines, and the physics and dialogue
   layers pick it up.
@@ -124,45 +124,45 @@ bottom-right corner). Architecture, all under `src/components/quantum/`:
 - `pet/petLines.ts`, event-reaction lines; `src/lib/quantum/qpitContext.ts`,   route/hover personality (pure logic, unit-tested by `tests/qpit-context.test.mjs`
   via `npm test`, which runs on `node --test` with native type stripping).
 
-Hover context is delegated and scalable: one document-level listener maps any
+Hover context is delegated and scalable: one document level listener maps any
 internal link's `href` through the same route logic, new pages work automatically.
 `data-qpit="<section>"` on any element overrides the href-derived context.
 `data-qpit-moment="<MOMENT_KEY>"` (optionally with `data-qpit-line="custom text"`)
-lets any element stage a scripted QPet line on hover, the API for docs-page beats.
+lets any element stage a scripted QPet line on hover, the API for docs page beats.
 
-Shake the cursor (3+ fast reversals) to summon the black-hole anomaly, photon
-ring, true-black shadow, accretion disk stretched to both sides. Hover it and
+Shake the cursor (3+ fast reversals) to summon the black hole anomaly, photon
+ring, true black shadow, accretion disk stretched to both sides. Hover it and
 QPet explains what it is (a visual metaphor). Its own 25s cooldown
 makes it the one special a visitor can reliably reproduce.
 
 QPet also *works*. Click the docked orb to open the **QPet Console**: a transcript
 of what it has said, grounded questions ("what am I looking at?" / "what next?", answered from the real route, with a "take me there" link), quantum facts, and
 superposition answers that show two candidate lines until you press **measure**,
-which collapses them with a Born-rule sample. It **narrates the physics**:
+which collapses them with a Born rule sample. It **narrates the physics**:
 every VQE convergence, transpile, measurement and arcade result (`ARCADE_RESULT`
 events) becomes one computed sentence, numbers read from the event payload, never
 invented. A *basis* toggle switches playful ↔ rigorous phrasing.
 
 **Grab it**: press and drag the docked orb, let go. QPet flies with your momentum,
-rubber-bands off the viewport edges, and springs home. **Moments log** (in the console)
+rubber bands off the viewport edges, and springs home. **Moments log** (in the console)
 tracks which of the five rare moments you've discovered, with a hint for each.
 **`window.QPet`** in the browser console: `QPet.trigger('BLACKHOLE')`, `QPet.say('hi')`,
 `QPet.moments()`, for demos and the curious. **Voice commands** (🎤 chip, Web Speech
-recognition, opt-in per press): "take me to the Bell test", "what am I looking at",
+recognition, opt in per press): "take me to the Bell test", "what am I looking at",
 "measure", "make a black hole", a deterministic intent parser, no LLM.
 
 **Voice** is opt-in (console toggle, localStorage `qpet.voice`): Web Speech synthesis,
 no keys, no network, pitch and rate follow QPet's emotion (`src/lib/quantum/qpetVoice.ts`).
 
-Sound effects are **opt-in** too: a small toggle next to the docked orb enables tiny synthesized
+Sound effects are **opt in** too: a small toggle next to the docked orb enables tiny synthesized
 WebAudio cues (`src/lib/quantum/qpitAudio.ts`, poke pop, wormhole warp, black-hole
 hum, superposition shimmer). Off by default, preference in localStorage, silent
-experience remains first-class.
+experience remains first class.
 
 E2E: `npm run test:e2e` runs Playwright pointer-physics tests (`e2e/qpit.spec.ts`), mounting, cursor-follow, dock return, real-mouse and keyboard poke, and proof that
 QPet never blocks page clicks. Runs in CI as its own job.
 
-QPet never blocks interaction (pointer-events disabled while roaming), is keyboard
+QPet never blocks interaction (pointer events disabled while roaming), is keyboard
 accessible (the docked orb is a button), and never fabricates state, speech lines
 describe real events, real routes, and real sections only.
 
@@ -171,7 +171,7 @@ describe real events, real routes, and real sections only.
 - **Hardware lane** (`/hardware` → `src/app/api/hardware/[...path]/route.ts` → the FastAPI
   service's `/api/v1/hardware/*`): submit an OpenQASM 2.0 circuit (≤5 qubits, ≤50 gates) to a
   real IBM Quantum device via Qiskit Runtime and see the measured counts beside the exact
-  Born-rule prediction. Guardrails are server-side and tested without a token: size caps, a
+  Born rule prediction. Guardrails are server side and tested without a token: size caps, a
   monthly shot ledger, one job at a time, and a 503 instead of a fabricated result when
   `QISKIT_IBM_TOKEN` is absent. Activation = deploy the backend (Render blueprint) with the
   token, then set `NEXT_PUBLIC_TRANSPILER_API_URL` here. The page states its own status.
@@ -188,14 +188,14 @@ describe real events, real routes, and real sections only.
 ## The Field, the Lab, and the phone menu
 
 - **The Field** (`src/lib/field/*.ts` → `/field/*`): ten sourced sections, hardware scoreboard,
-  post-quantum cryptography, what gets solved first, the timeline debate, careers, quantum
-  networking, quantum sensing, national strategies, open-source tooling, open problems. Every
+  post quantum cryptography, what gets solved first, the timeline debate, careers, quantum
+  networking, quantum sensing, national strategies, open source tooling, open problems. Every
   entry is a typed `FieldClaim` with a status (verified / vendor-reported / projection / opinion /
   estimate / contested / preprint), a YYYY-MM date, and an http source; `tests/field.test.mjs`
   fails the build on missing sources, invalid statuses, hype phrasing, roadmaps not tagged as
   projections, preprints not tagged as preprints, and open problems without their framing paper.
 - **Circuit Lab** (`src/lib/lab/circuit.ts` → `/lab`): build circuits on up to five qubits;
-  exact statevector (amplitudes, phases, per-qubit Bloch vectors), depolarizing noise on an exact
+  exact statevector (amplitudes, phases, per qubit Bloch vectors), depolarizing noise on an exact
   density matrix, 1024 sampled shots, OpenQASM 2.0 export into the transpiler. Engine is pure and
   unit-tested (`tests/lab.test.mjs`).
 - **Phone navigation** (`src/components/MobileNav.tsx`): the header used to hide every link below

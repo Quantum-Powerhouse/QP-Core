@@ -16,22 +16,22 @@ const CLAIMS: { claim: string; verdict: "yes" | "no" | "partly"; why: string }[]
   {
     claim: "They can generate video or images faster than GPUs.",
     verdict: "no",
-    why: "Quantum generative models exist only as research on tiny, low-resolution images (MNIST-scale), and basic research on quantum video processing is just beginning. Loading large datasets into qubits is itself the bottleneck.",
+    why: "Quantum generative models exist only as research on tiny, low resolution images (MNIST scale), and basic research on quantum video processing is just beginning. Loading large datasets into qubits is itself the bottleneck.",
   },
   {
     claim: "They will simulate molecules and materials that classical computers can't.",
     verdict: "yes",
-    why: "This is the application with the strongest physics behind it, nature is quantum, so simulating strongly-correlated electrons is natively efficient. In May 2026 Q-CTRL reported a ~3,000× speedup over optimized classical software on a commercially relevant materials problem on IBM hardware.",
+    why: "This is the application with the strongest physics behind it, nature is quantum, so simulating strongly correlated electrons is natively efficient. In May 2026 Q-CTRL reported a ~3,000× speedup over optimized classical software on a commercially relevant materials problem on IBM hardware.",
   },
   {
     claim: "They will break today's internet encryption (RSA, elliptic curves).",
     verdict: "yes",
-    why: "Shor's algorithm does this in principle; the missing ingredient is a large fault-tolerant machine. That is why NIST finalized post-quantum standards (ML-KEM, ML-DSA, SLH-DSA) in 2024 and migration has already started, the threat is real enough to act on now.",
+    why: "Shor's algorithm does this in principle; the missing ingredient is a large fault tolerant machine. That is why NIST finalized post quantum standards (ML-KEM, ML-DSA, SLH-DSA) in 2024 and migration has already started, the threat is real enough to act on now.",
   },
   {
     claim: "They give finance an exponential edge in pricing and risk.",
     verdict: "partly",
-    why: "Quantum amplitude estimation offers a quadratic (square-root) speedup for Monte Carlo, real but fragile: estimates need ~4,700 logical qubits and clock rates ~1,000× today's to merely match classical Monte Carlo, while GPUs keep improving.",
+    why: "Quantum amplitude estimation offers a quadratic (square root) speedup for Monte Carlo, real but fragile: estimates need ~4,700 logical qubits and clock rates ~1,000× today's to merely match classical Monte Carlo, while GPUs keep improving.",
   },
   {
     claim: "They will solve every optimization problem, logistics, scheduling, design.",
@@ -41,12 +41,12 @@ const CLAIMS: { claim: string; verdict: "yes" | "no" | "partly"; why: string }[]
   {
     claim: "They'll make AI models smarter, faster.",
     verdict: "partly",
-    why: "Quantum machine learning is mostly ahead of the evidence: data loading is inefficient, most results are on small or simulated datasets, and even Microsoft places AI-workload advantage 5-10 years out. The reverse is already true, classical ML is accelerating quantum simulation.",
+    why: "Quantum machine learning is mostly ahead of the evidence: data loading is inefficient, most results are on small or simulated datasets, and even Microsoft places AI workload advantage 5-10 years out. The reverse is already true, classical ML is accelerating quantum simulation.",
   },
   {
     claim: "They'll run the robots that build buildings automatically.",
     verdict: "no",
-    why: "Robots are classical control + classical AI. Quantum's only plausible role is behind the scenes on specific optimization sub-problems (path planning, structural design search), and the seismic-optimization claims circulating are preprints, not peer-reviewed results.",
+    why: "Robots are classical control + classical AI. Quantum's only plausible role is behind the scenes on specific optimization sub problems (path planning, structural design search), and the seismic optimization claims circulating are preprints, not peer reviewed results.",
   },
 ];
 

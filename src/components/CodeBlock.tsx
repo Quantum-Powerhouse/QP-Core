@@ -23,7 +23,7 @@ export function CodeBlock({
           <tbody>
             {lines.map((tokens, i) => (
               <tr key={i}>
-                <td className="select-none pr-4 pl-4 text-right align-top text-slate-600">
+                <td className="select-none pr-4 pl-4 text-right align-top text-[#5c5344]">
                   {i + 1}
                 </td>
                 <td className="w-full whitespace-pre align-top text-foreground">

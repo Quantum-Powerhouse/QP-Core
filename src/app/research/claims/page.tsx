@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: "Claims Table",
-  description: "All 13 claims verified in the quantum CI/CD regression-testing research, with status, evidence, source, and confidence.",
+  description: "All 13 claims verified in the quantum CI/CD regression testing research, with status, evidence, source, and confidence.",
   path: "/research/claims",
 });
 
@@ -41,7 +41,7 @@ export default function ClaimsPage() {
         ))}
       </div>
 
-      <Cite>Raw table with full per-claim source links: research/claims.md in the GitHub repository</Cite>
+      <Cite>Raw table with full per claim source links: research/claims.md in the GitHub repository</Cite>
     </>
   );
 }

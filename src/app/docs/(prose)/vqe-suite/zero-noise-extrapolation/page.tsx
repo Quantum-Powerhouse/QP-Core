@@ -8,17 +8,17 @@ import { SITE_URL, buildMetadata } from "@/lib/seo";
 const DATE_PUBLISHED = "2026-08-17";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Zero-Noise Extrapolation: Gate Folding & Richardson Extrapolation",
+  title: "Zero Noise Extrapolation: Gate Folding & Richardson Extrapolation",
   description:
-    "The math behind the VQE Suite's ZNE panel: depolarizing-channel Kraus operators, digital gate folding, and Richardson extrapolation via Lagrange interpolation, with real measured numbers.",
+    "The math behind the VQE Suite's ZNE panel: depolarizing channel Kraus operators, digital gate folding, and Richardson extrapolation via Lagrange interpolation, with real measured numbers.",
   path: "/docs/vqe-suite/zero-noise-extrapolation",
   keywords: ["Quantum Zero Noise Extrapolation toolkit", "Richardson extrapolation quantum", "NISQ error mitigation"],
-  ogTitle: "VQE Suite: Zero-Noise Extrapolation",
+  ogTitle: "VQE Suite: Zero Noise Extrapolation",
 });
 
 const FOLD_SNIPPET = `applySequence(ansatzPhysicalGates(theta, false));      // U
 for (let k = 0; k < foldK; k++) {
-  applySequence(ansatzPhysicalGates(theta, true));      // U-dagger
+  applySequence(ansatzPhysicalGates(theta, true));      // U dagger
   applySequence(ansatzPhysicalGates(theta, false));     // U
 }
 // lambda = 2*foldK + 1`;
@@ -43,7 +43,7 @@ export default function ZneDocPage() {
     <>
       <DocTitle
         eyebrow="VQE Suite / Physics"
-        title="Zero-Noise Extrapolation"
+        title="Zero Noise Extrapolation"
         dek="How the ZNE panel turns a noisy energy estimate back toward the noiseless answer: depolarizing noise, digital gate folding, and Richardson extrapolation, with real numbers from the shipped simulator."
       />
 
@@ -54,7 +54,7 @@ export default function ZneDocPage() {
       </P>
       <Katex display expr="\rho \to (1-p)\rho + \frac{p}{3}\left(X\rho X + Y\rho Y + Z\rho Z\right)" />
       <P>
-        and for the two-qubit CNOT gate, the channel spreads over all 15 non-identity two-qubit Pauli strings:
+        and for the two qubit CNOT gate, the channel spreads over all 15 non identity two qubit Pauli strings:
       </P>
       <Katex
         display
@@ -62,21 +62,21 @@ export default function ZneDocPage() {
       />
       <P>
         implemented directly on a 4×4 density matrix in <code>src/lib/physics/densityMatrix.ts</code>, the
-        playground&apos;s two sliders set the single-qubit gate error rate and the two-qubit (CNOT) gate error
-        rate independently, since real hardware&apos;s two-qubit gates are consistently noisier.
+        playground&apos;s two sliders set the single qubit gate error rate and the two qubit (CNOT) gate error
+        rate independently, since real hardware&apos;s two qubit gates are consistently noisier.
       </P>
 
       <H2>Digital gate folding</H2>
       <P>
-        Zero-noise extrapolation needs the <em>same circuit</em> run at several different noise levels. Rather
-        than changing hardware noise directly, digital ZNE scales it by re-running extra, otherwise-redundant
+        Zero noise extrapolation needs the <em>same circuit</em> run at several different noise levels. Rather
+        than changing hardware noise directly, digital ZNE scales it by rerunning extra, otherwise redundant
         gates: global folding replaces the ansatz unitary <Katex expr="U" /> with
       </P>
       <Katex display expr="U_\lambda = U\,(U^\dagger U)^{k}, \qquad \lambda = 2k+1" />
       <P>
         Ideally <Katex expr="U^\dagger U = I" />, so <Katex expr="U_\lambda" /> computes the same thing as{" "}
-        <Katex expr="U" />, but each extra <Katex expr="U^\dagger U" /> pair re-executes every physical gate,
-        which re-exposes the state to the depolarizing channels above. More folds, same ideal answer, more
+        <Katex expr="U" />, but each extra <Katex expr="U^\dagger U" /> pair re executes every physical gate,
+        which re exposes the state to the depolarizing channels above. More folds, same ideal answer, more
         accumulated noise:
       </P>
       <DocCode lang="typescript" code={FOLD_SNIPPET} />
@@ -90,7 +90,7 @@ export default function ZneDocPage() {
         <Katex expr="n" /> known noise scales, Richardson extrapolation fits the unique degree-<Katex expr="(n-1)" />{" "}
         polynomial through those points and evaluates it at <Katex expr="\lambda = 0" />. Since these are exact
         deterministic simulation outputs (not statistically noisy samples), plain Lagrange interpolation is the
-        right tool, no least-squares regression needed:
+        right tool, no least squares regression needed:
       </P>
       <Katex
         display
@@ -105,8 +105,8 @@ export default function ZneDocPage() {
       <H2>Worked example (real measured output)</H2>
       <Note>
         These numbers are a real run of the shipped code (<code>runZne()</code> in{" "}
-        <code>src/lib/physics/zne.ts</code>) at the VQE-optimized <Katex expr="\theta \approx -0.2297" />, with
-        error rates <Katex expr="p_1 = 0.2\%" /> per single-qubit gate and <Katex expr="p_2 = 2\%" /> per CNOT,         not illustrative/rounded figures.
+        <code>src/lib/physics/zne.ts</code>) at the VQE optimized <Katex expr="\theta \approx -0.2297" />, with
+        error rates <Katex expr="p_1 = 0.2\%" /> per single qubit gate and <Katex expr="p_2 = 2\%" /> per CNOT,         not illustrative/rounded figures.
       </Note>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse font-mono text-xs">
@@ -152,14 +152,14 @@ export default function ZneDocPage() {
         or with your own error rates, on{" "}
         <SourceLink href="/playground/vqe-suite">the VQE Suite playground</SourceLink>, see also{" "}
         <SourceLink href="/docs/vqe-suite/hamiltonian-and-ansatz">Hamiltonian &amp; Ansatz</SourceLink> for the
-        parameter-shift optimizer that produces <Katex expr="\theta" />.
+        parameter shift optimizer that produces <Katex expr="\theta" />.
       </P>
 
       <JsonLd
         data={techArticleSchema({
-          headline: "Zero-Noise Extrapolation: Gate Folding & Richardson Extrapolation",
+          headline: "Zero Noise Extrapolation: Gate Folding & Richardson Extrapolation",
           description:
-            "Depolarizing-channel Kraus operators, digital gate folding, and Richardson extrapolation via Lagrange interpolation, with real measured numbers.",
+            "Depolarizing channel Kraus operators, digital gate folding, and Richardson extrapolation via Lagrange interpolation, with real measured numbers.",
           url,
           datePublished: DATE_PUBLISHED,
         })}

@@ -8,7 +8,7 @@ const DOC_NAV: { group: string; items: { href: string; label: string }[] }[] = [
     items: [
       { href: "/docs/vqe-suite/hamiltonian-and-ansatz", label: "Hamiltonian & ansatz" },
       { href: "/docs/vqe-suite/state-representations-and-measurement", label: "State representations & measurement" },
-      { href: "/docs/vqe-suite/zero-noise-extrapolation", label: "Zero-noise extrapolation" },
+      { href: "/docs/vqe-suite/zero-noise-extrapolation", label: "Zero noise extrapolation" },
     ],
   },
   {

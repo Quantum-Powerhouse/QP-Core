@@ -10,7 +10,7 @@ export const projects: Project[] = [
   {
     title: "Quantum Arcade",
     description:
-      "Twenty-three playable quantum games and labs. Grover search, CHSH Bell violation, teleportation, BB84, decoherence, error correction, every result computed live by the in-browser simulator.",
+      "Twenty three playable quantum games and labs. Grover search, CHSH Bell violation, teleportation, BB84, decoherence, error correction, every result computed live by the in browser simulator.",
     tags: ["Games", "Statevector Simulation", "Quantum Education"],
     href: "/playground/arcade",
   },
@@ -25,15 +25,15 @@ export const projects: Project[] = [
   {
     title: "Variational Quantum Eigensolver Suite",
     description:
-      "A from-scratch TypeScript VQE for the H2 molecule, running entirely client-side: a statevector simulator, the exact parameter-shift optimizer, and direct diagonalization for a ground-truth check, no Qiskit, no backend.",
+      "A from scratch TypeScript VQE for the H2 molecule, running entirely client side: a statevector simulator, the exact parameter shift optimizer, and direct diagonalization for a ground truth check, no Qiskit, no backend.",
     tags: ["VQE", "Quantum Chemistry", "Statevector Simulation"],
     href: "/playground/vqe-suite",
     docsHref: "/docs/vqe-suite/hamiltonian-and-ansatz",
   },
   {
-    title: "Zero-Noise Extrapolation",
+    title: "Zero Noise Extrapolation",
     description:
-      "Digital gate folding over a real depolarizing-noise density-matrix simulation, then Richardson extrapolation back to the zero-noise limit, implemented and demonstrated, not just described.",
+      "Digital gate folding over a real depolarizing noise density matrix simulation, then Richardson extrapolation back to the zero noise limit, implemented and demonstrated, not just described.",
     tags: ["Error Mitigation", "NISQ", "Density Matrix"],
     href: "/playground/vqe-suite",
     docsHref: "/docs/vqe-suite/zero-noise-extrapolation",

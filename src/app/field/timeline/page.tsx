@@ -20,7 +20,7 @@ export default function TimelinePage() {
       <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">The timeline debate</h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
         Real people, real dates. Two things to hold at once: the <em>results</em> on the{" "}
-        <Link href="/field/hardware" className="text-accent">hardware scoreboard</Link>, below-threshold error
+        <Link href="/field/hardware" className="text-accent">hardware scoreboard</Link>, below threshold error
         correction, logical qubits beating physical, are verified and no longer seriously disputed; and every
         statement on this page about <em>when</em> useful machines arrive is a prediction or an opinion. The two
         columns are not the same length because the evidence is not symmetric: after 2024-2026, principled
@@ -71,7 +71,7 @@ export default function TimelinePage() {
         <h2 className="font-mono text-xs uppercase tracking-widest text-accent">See also</h2>
         <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
           <li><Link href="/field/hardware" className="text-accent underline-offset-2 hover:underline">Hardware scoreboard, the verified results</Link></li>
-          <li><Link href="/field/strategies" className="text-accent underline-offset-2 hover:underline">DARPA QBI: utility-scale by 2033?</Link></li>
+          <li><Link href="/field/strategies" className="text-accent underline-offset-2 hover:underline">DARPA QBI: utility scale by 2033?</Link></li>
           <li><Link href="/field/open-problems" className="text-accent underline-offset-2 hover:underline">NISQ advantage, still an open question</Link></li>
         </ul>
       </section>

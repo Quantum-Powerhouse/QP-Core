@@ -6,7 +6,7 @@ export const contentType = "image/png";
 
 export default function Image() {
   return renderOgCard({
-    eyebrow: "docs / qp-core",
+    eyebrow: "docs / qp core",
     title: "Transpiler Pipeline",
     subtitle: "Parsing, optimization, and Amazon Braket IR emission, documented against the real source",
   });

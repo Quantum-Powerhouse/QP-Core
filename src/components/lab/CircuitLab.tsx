@@ -113,7 +113,7 @@ export function CircuitLab() {
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="text-base font-semibold text-foreground">Build</h2>
-            <p className="mt-1 text-sm text-muted">Pick a gate, then click a wire. Two-qubit gates: click control, then target.</p>
+            <p className="mt-1 text-sm text-muted">Pick a gate, then click a wire. Two qubit gates: click control, then target.</p>
           </div>
           <div className="flex items-center gap-2">
             <span className="font-mono text-xs text-muted">qubits</span>

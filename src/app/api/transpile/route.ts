@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     braket_ir: {
       mock: true,
       note:
-        "This is a placeholder response from the site's built-in mock endpoint. " +
+        "This is a placeholder response from the site's built in mock endpoint. " +
         "Set NEXT_PUBLIC_TRANSPILER_API_URL to your real FastAPI backend on Render " +
         "to get actual OpenQASM → Braket IR transpilation.",
       braketSchemaHeader: {

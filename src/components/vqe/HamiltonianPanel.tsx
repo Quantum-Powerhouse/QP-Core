@@ -40,7 +40,7 @@ export function HamiltonianPanel() {
 
       <p className="font-mono text-xs text-muted">
         Nuclear repulsion (R = {H2_BOND_LENGTH_ANGSTROM} Å):{" "}
-        <span className="text-foreground">{nuclearRepulsion.toFixed(6)} Ha</span> · H₂ (STO-3G, parity-reduced
+        <span className="text-foreground">{nuclearRepulsion.toFixed(6)} Ha</span> · H₂ (STO-3G, parity reduced
         to 2 qubits) · O&apos;Malley et al., Phys. Rev. X 6, 031007 (2016)
       </p>
     </div>

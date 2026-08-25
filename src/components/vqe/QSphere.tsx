@@ -39,7 +39,7 @@ function Scene({ theta, autoRotate }: { theta: number; autoRotate: boolean }) {
 
       <mesh>
         <sphereGeometry args={[RADIUS, 48, 48]} />
-        <meshStandardMaterial color="#22d3ee" wireframe transparent opacity={0.14} />
+        <meshStandardMaterial color="#e6c47a" wireframe transparent opacity={0.14} />
       </mesh>
 
       {BASIS_STATES.map(({ index, label, weight, longitudeDeg }) => {
@@ -48,7 +48,7 @@ function Scene({ theta, autoRotate }: { theta: number; autoRotate: boolean }) {
         const amp = state[index];
         const isNegative = amp.re < 0;
         const pointRadius = 0.06 + Math.sqrt(probability) * 0.32;
-        const color = isNegative ? "#7c3aed" : "#06b6d4";
+        const color = isNegative ? "#c25e4c" : "#d9a441";
 
         return (
           <group key={index}>
@@ -59,7 +59,7 @@ function Scene({ theta, autoRotate }: { theta: number; autoRotate: boolean }) {
             <Text
               position={[position[0] * 1.28, position[1] * 1.28, position[2] * 1.28]}
               fontSize={0.16}
-              color="#e6ecff"
+              color="#ece4d4"
               anchorX="center"
               anchorY="middle"
             >

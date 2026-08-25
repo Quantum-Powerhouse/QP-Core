@@ -5,24 +5,24 @@ import { PQC_STANDARDS, PQC_THREAT, RSA_ESTIMATES } from "@/lib/field/pqc";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Post-Quantum Cryptography: Standards, Deadlines, and the Real Threat Model",
+  title: "Post Quantum Cryptography: Standards, Deadlines, and the Real Threat Model",
   description:
-    "NIST's finalized ML-KEM, ML-DSA and SLH-DSA standards, the 2030/2035 deprecation timeline for RSA and ECC, Mosca's inequality and harvest-now-decrypt-later explained, the falling qubit estimates for breaking RSA-2048, and why AES and hashes are not the problem.",
+    "NIST's finalized ML-KEM, ML-DSA and SLH-DSA standards, the 2030/2035 deprecation timeline for RSA and ECC, Mosca's inequality and harvest now decrypt later explained, the falling qubit estimates for breaking RSA-2048, and why AES and hashes are not the problem.",
   path: "/field/pqc",
-  keywords: ["post-quantum cryptography", "FIPS 203 ML-KEM", "NIST IR 8547 2035", "harvest now decrypt later", "Mosca inequality", "RSA-2048 qubits Gidney 2025"],
-  ogTitle: "Post-Quantum Cryptography",
+  keywords: ["post quantum cryptography", "FIPS 203 ML-KEM", "NIST IR 8547 2035", "harvest now decrypt later", "Mosca inequality", "RSA-2048 qubits Gidney 2025"],
+  ogTitle: "Post Quantum Cryptography",
 });
 
 export default function PqcPage() {
   return (
     <>
       <p className="mb-2 font-mono text-sm text-accent">The field · cryptography</p>
-      <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Post-quantum cryptography</h1>
+      <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Post quantum cryptography</h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
         The first place quantum computing has a deadline attached, and the one section here you can act on this
         quarter. Pair it with the arcade&apos;s{" "}
         <Link href="/playground/arcade#bb84-catch-eve" className="text-accent">BB84 game</Link>, which shows why
-        no-cloning makes key exchange detectably secure, and with{" "}
+        no cloning makes key exchange detectably secure, and with{" "}
         <a href="https://github.com/sadeqisaidmohaddes-star/pqc-scan" className="text-accent" target="_blank" rel="noopener noreferrer">
           pqc-scan
         </a>,
@@ -84,8 +84,8 @@ export default function PqcPage() {
         <h2 className="font-mono text-xs uppercase tracking-widest text-accent">What to do, in order</h2>
         <ol className="mt-3 flex list-decimal flex-col gap-1.5 pl-5 text-sm text-muted">
           <li>Inventory every use of RSA, ECDSA, ECDH and DH in your systems (a crypto bill of materials).</li>
-          <li>Migrate key exchange first, that is where harvest-now-decrypt-later bites, to ML-KEM, hybrid with classical during transition.</li>
-          <li>Then signatures (ML-DSA; SLH-DSA where hash-based conservatism is wanted).</li>
+          <li>Migrate key exchange first, that is where harvest now decrypt later bites, to ML-KEM, hybrid with classical during transition.</li>
+          <li>Then signatures (ML-DSA; SLH-DSA where hash based conservatism is wanted).</li>
           <li>Leave AES-128/256 and SHA-2/SHA-3 alone; they are not the problem.</li>
           <li>Plan against NIST&apos;s dates: nothing new on 112-bit RSA/ECC after 2030; nothing at all after 2035.</li>
         </ol>

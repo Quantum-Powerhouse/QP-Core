@@ -18,7 +18,7 @@ export type QpitSection =
   | "evidence"
   | "sources"
   | "gap-analysis"
-  | "prior-art"
+  | "prior art"
   | "methodology"
   | "docs"
   | "playground"
@@ -36,7 +36,7 @@ const SECTION_PREFIXES: [string, QpitSection][] = [
   ["/research/evidence", "evidence"],
   ["/research/sources", "sources"],
   ["/research/gap-analysis", "gap-analysis"],
-  ["/research/prior-art", "prior-art"],
+  ["/research/prior-art", "prior art"],
   ["/research/methodology", "methodology"],
   ["/research", "research"],
   ["/docs", "docs"],
@@ -66,12 +66,12 @@ const GREETINGS: Record<QpitSection, string[]> = {
   evidence: ["Receipts. I like receipts.", "Primary sources only."],
   sources: ["Every one of these was actually opened.", "The reading list. All of it real."],
   "gap-analysis": ["This is where the hypothesis got humbled.", "Honest conclusions live here."],
-  "prior-art": ["Know what came before.", "Twenty-plus systems, all inspected."],
+  "prior art": ["Know what came before.", "Twenty plus systems, all inspected."],
   methodology: ["How the checking got done.", "Rules first, conclusions second."],
   docs: ["Real math ahead.", "The equations match the source code."],
   playground: ["Careful. Things get weird around here.", "Go on, run something.", "You clicked that like you knew what it would do."],
   learn: ["Class is in session. I'm the lab rat.", "Four levels. No slides. You'll be fine."],
-  lab: ["The open bench. Try not to entangle me.", "Every click re-runs the engine. No mercy."],
+  lab: ["The open bench. Try not to entangle me.", "Every click reruns the engine. No mercy."],
   hardware: ["This is where circuits leave the browser.", "Real noise lives here. Respect it."],
   engineering: ["The tradeoffs. Nobody hides these.", "Where the hard parts get admitted."],
   applications: ["The applications map. Some of it will disappoint you.", "Hype goes to die here."],
@@ -87,7 +87,7 @@ const HOVER_LINES: Record<QpitSection, string[]> = {
   evidence: ["Receipts. I like receipts."],
   sources: ["The reading list. Every link was opened."],
   "gap-analysis": ["The humbling. Worth a look."],
-  "prior-art": ["Now we're getting interesting."],
+  "prior art": ["Now we're getting interesting."],
   methodology: ["Rules of the game."],
   docs: ["Okay, this one gets weird. In a good way."],
   playground: ["I think you should explore that.", "Real simulation in there. Not slides."],
@@ -156,21 +156,21 @@ export function momentLine(moment: keyof typeof MOMENT_LINES | string, rand: Ran
  */
 export const LOOKING_AT: Record<QpitSection, string> = {
   home: "The front door: a live Bloch sphere, the transpiler terminal, and the project grid. Everything on it computes for real.",
-  research: "The research wing, a primary-source-verified study of the quantum CI/CD testing gap. Claims carry verdicts, not vibes.",
+  research: "The research wing, a primary source verified study of the quantum CI/CD testing gap. Claims carry verdicts, not vibes.",
   claims: "The claims table: every hypothesis this research started with, and what checking it actually found.",
   evidence: "The evidence cards: each claim's primary source, what it says, and how confident we are.",
   sources: "Every URL this research opened. Including the ones that failed to load, those are listed too.",
-  "gap-analysis": "The synthesis: what's novel, what isn't, and the one gap that survived, cross-SDK regression testing.",
-  "prior-art": "The prior-art matrix: two dozen systems, each checked for what it really does and doesn't do.",
+  "gap-analysis": "The synthesis: what's novel, what isn't, and the one gap that survived, cross SDK regression testing.",
+  "prior art": "The prior art matrix: two dozen systems, each checked for what it really does and doesn't do.",
   methodology: "How the checking worked: open the primary source, or don't cite it.",
-  docs: "Technical docs with server-rendered math, written against the actual source code.",
+  docs: "Technical docs with server rendered math, written against the actual source code.",
   playground: `A playground. The arcade has ${ARCADE_GAME_COUNT} games and labs; the VQE suite runs a real eigensolver; the transpiler compiles OpenQASM.`,
-  learn: "A four-level path through the arcade games, in the order that builds intuition.",
+  learn: "A four level path through the arcade games, in the order that builds intuition.",
   lab: "The Circuit Lab: build any circuit on up to five qubits and watch the exact state, noise, and sampled shots respond.",
   hardware: "The hardware lane: a circuit runs on a real IBM device and comes back beside the exact prediction, or the page says why it can't yet.",
   engineering: "The engineering decisions page: each tradeoff with its problem, the call, the cost, and a link to check it.",
   applications: "The sourced map of what quantum computing is actually good for, and what it isn't.",
-  field: "The state of the industry with receipts: hardware scoreboard, post-quantum crypto deadlines, the timeline debate, careers.",
+  field: "The state of the industry with receipts: hardware scoreboard, post quantum crypto deadlines, the timeline debate, careers.",
   unknown: "Honestly? Somewhere I don't have a map for.",
 };
 
@@ -181,10 +181,10 @@ export const NEXT_STEP: Record<QpitSection, { line: string; href: string }> = {
   evidence: { line: "Now the synthesis of all of it.", href: "/research/gap-analysis" },
   sources: { line: "Back to what those sources decided.", href: "/research/claims" },
   "gap-analysis": { line: "Enough reading. Run something real, the VQE suite.", href: "/playground/vqe-suite" },
-  "prior-art": { line: "The gap analysis explains what all those systems leave open.", href: "/research/gap-analysis" },
+  "prior art": { line: "The gap analysis explains what all those systems leave open.", href: "/research/gap-analysis" },
   methodology: { line: "See the method applied: the claims table.", href: "/research/claims" },
   docs: { line: "Watch the math you just read actually run.", href: "/playground/vqe-suite" },
-  playground: { line: "Try the arcade's Grover Searchlight, then over-search it on purpose.", href: "/playground/arcade" },
+  playground: { line: "Try the arcade's Grover Searchlight, then over search it on purpose.", href: "/playground/arcade" },
   learn: { line: "Start Level 1. Gate Mixer. Press H twice.", href: "/playground/arcade#gate-mixer" },
   lab: { line: "Load the Bell preset, then add noise and watch purity fall.", href: "/playground/arcade#decoherence-dial" },
   hardware: { line: "See what the devices have actually achieved.", href: "/field/hardware" },
@@ -200,7 +200,7 @@ export const QUANTUM_FACTS: string[] = [
   "Measuring in a different basis asks a different question of the same state. Same qubit, different answers.",
   "Grover's search finds one item among N in about the square root of N steps. Keep going and it overshoots.",
   "A Bell pair scores up to 2.83 on the CHSH test. Any classical explanation caps at 2.",
-  "Decoherence is the real enemy: the off-diagonal terms of a density matrix leaking away into the environment.",
+  "Decoherence is the real enemy: the off diagonal terms of a density matrix leaking away into the environment.",
   "Teleportation moves a state, not matter, and it needs two classical bits, so it can't beat light.",
   "The H2 molecule, in the smallest basis, needs just two qubits. This site's VQE solves it in your browser.",
 ];
@@ -289,3 +289,13 @@ export function parseVoiceCommand(raw: string): VoiceIntent {
   }
   return { intent: "unknown" };
 }
+
+/** Spam pokes or hard flings and QPIT snaps, cutely. Decays on its own. */
+export const ANGRY_LINES: string[] = [
+  "Hey. Stop that.",
+  "Every poke decoheres me a little.",
+  "One more and I phase flip.",
+  "I bite. In a unitary way.",
+  "Grr. I am a superposition of mad and madder.",
+];
+export const CALMED_LINE = "Fine. We are good again.";

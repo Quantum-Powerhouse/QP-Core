@@ -16,6 +16,7 @@ export type QpitEmotion =
   | "CURIOUS"
   | "EXCITED"
   | "SURPRISED"
+  | "ANGRY"
   | "ORBITING"
   | "BORED"
   | "SLEEPING";
@@ -35,6 +36,8 @@ export type QpitInputs = {
   msSinceMove: number;
   /** accumulated signed winding (radians) of the cursor around QPIT, decayed by caller */
   winding: number;
+  /** 0..1+, recent pokes and hard flings, decayed by the caller */
+  annoyance: number;
 };
 
 /** Physics/visual parameters each emotion feeds into the integrator. */
@@ -60,6 +63,7 @@ export const QPIT_PARAMS: Record<QpitEmotion, QpitParams> = {
   CURIOUS:   { stiffness: 85,  damping: 12, noise: 0.6, swingGain: 1.1, breatheAmp: 0.02,  breatheHz: 0.3,  glow: 1.15 },
   EXCITED:   { stiffness: 190, damping: 10, noise: 1.2, swingGain: 1.45, breatheAmp: 0.03, breatheHz: 0.6,  glow: 1.5 },
   SURPRISED: { stiffness: 240, damping: 8,  noise: 2.0, swingGain: 1.7, breatheAmp: 0.0,   breatheHz: 0.0,  glow: 1.6 },
+  ANGRY:     { stiffness: 150, damping: 9,  noise: 2.4, swingGain: 0.45, breatheAmp: 0.05,  breatheHz: 0.9,  glow: 1.5 },
   ORBITING:  { stiffness: 110, damping: 9,  noise: 0.5, swingGain: 1.2, breatheAmp: 0.02,  breatheHz: 0.4,  glow: 1.3 },
   BORED:     { stiffness: 55,  damping: 14, noise: 0.2, swingGain: 0.6, breatheAmp: 0.03,  breatheHz: 0.12, glow: 0.7 },
   SLEEPING:  { stiffness: 40,  damping: 16, noise: 0.0, swingGain: 0.3, breatheAmp: 0.045, breatheHz: 0.08, glow: 0.45 },
@@ -70,6 +74,10 @@ export const SURPRISE_CURSOR_SPEED = 2300; // px/s
 export const EXCITED_CURSOR_SPEED = 950;
 export const CURIOUS_CURSOR_SPEED = 130;
 export const SURPRISED_DURATION_MS = 900;
+export const ANGER_POKES = 4; // pokes within the window that tip it over
+export const ANGER_WINDOW_MS = 7_000; // how long a poke stays "recent"
+export const ANGER_SUSTAIN = 0.55; // pestering above this keeps it angry
+export const ANGRY_DURATION_MS = 6_000;
 export const ORBIT_WINDING_RAD = 2.2 * Math.PI * 2; // ~2.2 full circles
 export const ORBIT_EXIT_WINDING_RAD = Math.PI;
 export const BORED_AFTER_MS = 45_000;
@@ -81,10 +89,19 @@ export const MIN_DWELL_MS = 700; // hysteresis: no thrashing between emotions
  * emotion is unchanged, so callers can cheaply detect transitions.
  */
 export function advanceEmotion(state: QpitEmotionState, inputs: QpitInputs): QpitEmotionState {
-  const { now, mode, cursorSpeed, msSinceMove, winding } = inputs;
+  const { now, mode, cursorSpeed, msSinceMove, winding, annoyance } = inputs;
   const held = now - state.since;
   const enter = (emotion: QpitEmotion): QpitEmotionState =>
     state.emotion === emotion ? state : { emotion, since: now };
+
+  // ANGRY: being pestered (pokes, hard flings) tips QPIT over. It stays angry
+  // while the pestering continues, then cools off on its own.
+  if (state.emotion === "ANGRY") {
+    if (annoyance >= ANGER_SUSTAIN) return state;
+    if (held < ANGRY_DURATION_MS) return state;
+    return enter("IDLE");
+  }
+  if (annoyance >= 1) return enter("ANGRY");
 
   // SURPRISED is sticky for its duration, then decays to CURIOUS.
   if (state.emotion === "SURPRISED") {

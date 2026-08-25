@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, JetBrains_Mono } from "next/font/google";
+import { Geist, JetBrains_Mono, STIX_Two_Text } from "next/font/google";
 import { JsonLd } from "@/components/JsonLd";
 import { BlackHole } from "@/components/three/BlackHole";
 import { ParticleField } from "@/components/three/ParticleField";
@@ -19,6 +19,11 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+const stixSerif = STIX_Two_Text({
+  variable: "--font-stix",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   ...buildMetadata({ title: "Quantum Powerhouse", path: "/" }),
@@ -32,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
+      className={`${geistSans.variable} ${jetbrainsMono.variable} ${stixSerif.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <QuantumEventProvider>

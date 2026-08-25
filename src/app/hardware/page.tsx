@@ -9,7 +9,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Real hardware: run a circuit on an IBM Quantum device",
   description:
-    "Submit a small OpenQASM circuit to real IBM Quantum hardware and see the measured counts beside the exact Born-rule prediction, with the device's real noise. Guardrailed: size caps, a monthly shot budget, one job at a time, and a clear inactive state when no token is configured.",
+    "Submit a small OpenQASM circuit to real IBM Quantum hardware and see the measured counts beside the exact Born rule prediction, with the device's real noise. Guardrailed: size caps, a monthly shot budget, one job at a time, and a clear inactive state when no token is configured.",
   path: "/hardware",
   keywords: ["run quantum circuit real hardware", "IBM Quantum free tier", "Qiskit Runtime sampler", "real vs simulated quantum", "quantum noise real device"],
   ogTitle: "Real Hardware",

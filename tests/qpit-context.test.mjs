@@ -22,7 +22,7 @@ test("sectionForPath maps routes to sections", () => {
   assert.equal(sectionForPath("/research/evidence"), "evidence");
   assert.equal(sectionForPath("/research/claims"), "claims");
   assert.equal(sectionForPath("/research/gap-analysis"), "gap-analysis");
-  assert.equal(sectionForPath("/research/prior-art"), "prior-art");
+  assert.equal(sectionForPath("/research/prior-art"), "prior art");
   assert.equal(sectionForPath("/docs"), "docs");
   assert.equal(sectionForPath("/docs/vqe-suite/hamiltonian-and-ansatz"), "docs");
   assert.equal(sectionForPath("/playground/qp-core"), "playground");

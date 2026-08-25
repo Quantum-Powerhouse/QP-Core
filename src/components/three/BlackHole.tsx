@@ -57,9 +57,9 @@ function AccretionDisk() {
     const g = new THREE.RingGeometry(1.15, 2.9, 128, 24);
     const pos = g.attributes.position as THREE.BufferAttribute;
     const colors = new Float32Array(pos.count * 3);
-    const inner = new THREE.Color("#e6ecff");
-    const mid = new THREE.Color("#06b6d4");
-    const outer = new THREE.Color("#7c3aed");
+    const inner = new THREE.Color("#ece4d4");
+    const mid = new THREE.Color("#d9a441");
+    const outer = new THREE.Color("#c25e4c");
     for (let i = 0; i < pos.count; i++) {
       const vx = pos.getX(i);
       const vy = pos.getY(i);
@@ -92,7 +92,7 @@ function EventHorizon(props: ThreeElements["group"]) {
         depthWrite: false,
         blending: THREE.AdditiveBlending,
         uniforms: {
-          color: { value: new THREE.Color("#06b6d4") },
+          color: { value: new THREE.Color("#d9a441") },
         },
         vertexShader: `
           varying vec3 vNormal;
@@ -145,8 +145,8 @@ function Scene({ particleScale }: { particleScale: number }) {
     <group ref={groupRef}>
       <EventHorizon />
       <AccretionDisk />
-      <DustField count={Math.round(900 * particleScale)} innerRadius={3.2} outerRadius={7.5} color="#7c3aed" size={0.03} speed={0.02} />
-      <DustField count={Math.round(600 * particleScale)} innerRadius={5} outerRadius={9} color="#06b6d4" size={0.024} speed={-0.014} />
+      <DustField count={Math.round(900 * particleScale)} innerRadius={3.2} outerRadius={7.5} color="#c25e4c" size={0.03} speed={0.02} />
+      <DustField count={Math.round(600 * particleScale)} innerRadius={5} outerRadius={9} color="#d9a441" size={0.024} speed={-0.014} />
     </group>
   );
 }

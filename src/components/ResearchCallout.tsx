@@ -10,7 +10,7 @@ export function ResearchCallout() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="glass-panel rounded-2xl p-6 sm:p-8">
-        <p className="font-mono text-xs uppercase tracking-widest text-accent">Research · primary-source-verified</p>
+        <p className="font-mono text-xs uppercase tracking-widest text-accent">Research · primary source verified</p>
         <h2 className="mt-2 max-w-3xl text-2xl font-semibold leading-snug tracking-tight text-foreground sm:text-3xl">
           Is there a genuine gap in CI/CD regression testing for quantum software?
         </h2>
@@ -18,9 +18,9 @@ export function ResearchCallout() {
           <div className="text-sm leading-relaxed text-muted">
             <p>
               The finding was narrower than the hypothesis. Cross-<em>version</em> regression testing already exists
-              (QUTest, 2026, Qiskit only). Pytest-native cross-SDK harnesses exist for <em>benchmarking</em> (IBM&apos;s
+              (QUTest, 2026, Qiskit only). Pytest native cross SDK harnesses exist for <em>benchmarking</em> (IBM&apos;s
               Benchpress, eight SDKs) but detect nothing. Pytest plugins that assert equivalence exist but are immature
-              and not cross-version. No tool combined pytest-native, cross-SDK, automated equivalence or regression
+              and not cross version. No tool combined pytest native, cross SDK, automated equivalence or regression
               detection, and reusable CI packaging.
             </p>
             <p className="mt-3">
@@ -28,12 +28,12 @@ export function ResearchCallout() {
               <a href="https://github.com/sadeqisaidmohaddes-star/pytest-qequiv" className="text-accent" target="_blank" rel="noopener noreferrer">
                 pytest-qequiv
               </a>,
-              cross-SDK unitary equivalence assertions for Qiskit, Cirq and Braket with endianness normalization.
+              cross SDK unitary equivalence assertions for Qiskit, Cirq and Braket with endianness normalization.
               The study also corrected two of its own starting assumptions in public (a bug corpus does exist; the
               31% adoption statistic is N = 26).
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link href="/research/gap-analysis" className="rounded-full bg-accent px-4 py-2 font-mono text-xs font-semibold text-[#041014]">
+              <Link href="/research/gap-analysis" className="rounded-full bg-accent px-4 py-2 font-mono text-xs font-semibold text-[#211603]">
                 read the gap analysis
               </Link>
               <Link href="/research/paper" className="rounded-full border border-border px-4 py-2 font-mono text-xs text-foreground hover:border-accent/60">
@@ -47,7 +47,7 @@ export function ResearchCallout() {
           <dl className="grid grid-cols-2 gap-4 self-start">
             {[
               { v: String(stats.totalClaims), l: "claims, each with a verdict" },
-              { v: String(stats.priorArtSystems), l: "prior-art systems inspected" },
+              { v: String(stats.priorArtSystems), l: "prior art systems inspected" },
               { v: String(stats.uniqueSourcesLinked), l: "primary sources linked" },
               { v: String(stats.claimsByStatus.false), l: "starting assumptions found false" },
             ].map((s) => (
