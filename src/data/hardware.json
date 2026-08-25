@@ -28,7 +28,7 @@
       "device": null,
       "shots": null,
       "S": null,
-      "note": "Not run yet. Set QISKIT_IBM_TOKEN and re-run this script to execute on an IBM Quantum device."
+      "note": "Not run yet. Set QISKIT_IBM_TOKEN and rerun this script to execute on an IBM Quantum device."
     }
   ]
 }
