@@ -6,7 +6,7 @@ const STATUS_STYLES: Record<ClaimStatus, string> = {
   partial: "border-amber-500/30 bg-amber-500/10 text-[#7a5608]",
   unverified: "border-[#7a6f5c]/30 bg-[#7a6f5c]/10 text-[#5f574a]",
   false: "border-red-500/30 bg-red-500/10 text-[#9c2b1e]",
-  not_found: "border-[#a06b1f]/30 bg-[#a06b1f]/10 text-[#8a5c14]",
+  not_found: "border-[#20507c]/30 bg-[#20507c]/10 text-[#2c5170]",
 };
 
 const STATUS_TEXT: Record<ClaimStatus, string> = {
@@ -54,8 +54,8 @@ export function MatrixCell({ value }: { value: Cell }) {
 
 export function SynthesisNote({ children }: { children: React.ReactNode }) {
   return (
-    <div className="my-6 rounded-lg border border-[#8f2d23]/30 bg-[#8f2d23]/5 px-4 py-3 text-sm leading-relaxed text-[#7c2f24]/90">
-      <p className="mb-1 font-mono text-[11px] font-medium uppercase tracking-wide text-[#93392b]">
+    <div className="my-6 rounded-lg border border-[#20507c]/30 bg-[#20507c]/5 px-4 py-3 text-sm leading-relaxed text-[#27496b]/90">
+      <p className="mb-1 font-mono text-[11px] font-medium uppercase tracking-wide text-[#2f5578]">
         Our synthesis, not an independently verified source
       </p>
       {children}

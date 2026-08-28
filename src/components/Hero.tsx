@@ -27,7 +27,7 @@ export function Hero() {
       <div className="mt-10 flex flex-wrap gap-4">
         <a
           href="#transpiler"
-          className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-[#faf8f3] transition-colors hover:bg-[#7a251c]"
+          className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-[#faf8f3] transition-colors hover:bg-[#183e61]"
         >
           Try the Transpiler
         </a>

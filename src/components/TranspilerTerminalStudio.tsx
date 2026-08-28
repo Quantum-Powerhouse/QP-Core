@@ -441,20 +441,20 @@ export function TranspilerTerminalStudio() {
                     label="Gate Count Reduction"
                     value={result.metrics.reduction_pct}
                     suffix="%"
-                    color="#a06b1f"
+                    color="#20507c"
                   />
                   <MetricCard
                     label="Circuit Depth"
                     value={result.metrics.depth}
                     suffix=" layers"
-                    color="#8f2d23"
+                    color="#20507c"
                   />
                   <MetricCard
                     label="Execution Latency"
                     value={result.latencyMs}
                     suffix="ms"
                     decimals={1}
-                    color="#a06b1f"
+                    color="#20507c"
                   />
                 </div>
               ) : (

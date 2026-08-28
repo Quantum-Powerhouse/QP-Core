@@ -51,7 +51,7 @@ const CLAIMS: { claim: string; verdict: "yes" | "no" | "partly"; why: string }[]
 ];
 
 const LABEL = { yes: "Yes, real", no: "No, hype", partly: "Partly, promising, unproven" } as const;
-const COLOR = { yes: "text-accent border-accent/60", no: "text-[#b3372a] border-[#b3372a]/60", partly: "text-[#996c0a] border-[#996c0a]/60" } as const;
+const COLOR = { yes: "text-accent border-accent/60", no: "text-[#b3372a] border-[#b3372a]/60", partly: "text-[#78660f] border-[#78660f]/60" } as const;
 
 export function MythQuiz() {
   const [i, setI] = useState(0);

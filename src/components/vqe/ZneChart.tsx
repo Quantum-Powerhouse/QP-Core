@@ -10,7 +10,7 @@ const MARGIN = { top: 20, right: 24, bottom: 40, left: 76 };
 const PLOT_W = WIDTH - MARGIN.left - MARGIN.right;
 const PLOT_H = HEIGHT - MARGIN.top - MARGIN.bottom;
 
-const RAW_COLOR = "#8f2d23";
+const RAW_COLOR = "#20507c";
 const FIT_COLOR = "#0891b2";
 const REFERENCE_COLOR = "#a89a80";
 

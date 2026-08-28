@@ -48,22 +48,22 @@ export function AnsatzCircuitDiagram() {
         {gates.map((gate, i) => {
           const x = FIRST_COL_X + i * COL_SPACING;
           if (gate.kind === "X") {
-            return <GateBox key={i} x={x} y={WIRE_Y[gate.qubit]} label="X" color="#a06b1f" />;
+            return <GateBox key={i} x={x} y={WIRE_Y[gate.qubit]} label="X" color="#20507c" />;
           }
           if (gate.kind === "CNOT") {
             const y1 = WIRE_Y[gate.control];
             const y2 = WIRE_Y[gate.target];
             return (
               <g key={i}>
-                <line x1={x} y1={y1} x2={x} y2={y2} stroke="#8f2d23" strokeWidth={1.5} />
-                <circle cx={x} cy={y1} r={6} fill="#8f2d23" filter="url(#ansatz-glow)" />
-                <circle cx={x} cy={y2} r={12} fill="none" stroke="#8f2d23" strokeWidth={1.5} filter="url(#ansatz-glow)" />
-                <line x1={x - 8} y1={y2} x2={x + 8} y2={y2} stroke="#8f2d23" strokeWidth={1.5} />
-                <line x1={x} y1={y2 - 8} x2={x} y2={y2 + 8} stroke="#8f2d23" strokeWidth={1.5} />
+                <line x1={x} y1={y1} x2={x} y2={y2} stroke="#20507c" strokeWidth={1.5} />
+                <circle cx={x} cy={y1} r={6} fill="#20507c" filter="url(#ansatz-glow)" />
+                <circle cx={x} cy={y2} r={12} fill="none" stroke="#20507c" strokeWidth={1.5} filter="url(#ansatz-glow)" />
+                <line x1={x - 8} y1={y2} x2={x + 8} y2={y2} stroke="#20507c" strokeWidth={1.5} />
+                <line x1={x} y1={y2 - 8} x2={x} y2={y2 + 8} stroke="#20507c" strokeWidth={1.5} />
               </g>
             );
           }
-          return <GateBox key={i} x={x} y={WIRE_Y[gate.qubit]} label="RY(θ)" color="#a06b1f" />;
+          return <GateBox key={i} x={x} y={WIRE_Y[gate.qubit]} label="RY(θ)" color="#20507c" />;
         })}
       </svg>
     </div>

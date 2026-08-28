@@ -45,7 +45,7 @@ export default function FieldOverviewPage() {
         <ul className="mt-3 flex flex-col gap-2">
           {HARDWARE_STATE.map((s) => (
             <li key={s.label} className="flex gap-3 text-sm">
-              <span className={`font-mono ${s.achieved ? "text-accent" : "text-[#996c0a]"}`}>{s.achieved ? "✓ achieved" : "✗ not yet"}</span>
+              <span className={`font-mono ${s.achieved ? "text-accent" : "text-[#78660f]"}`}>{s.achieved ? "✓ achieved" : "✗ not yet"}</span>
               <span className="text-foreground">{s.label}</span>
               <span className="text-muted">, {s.note}</span>
             </li>

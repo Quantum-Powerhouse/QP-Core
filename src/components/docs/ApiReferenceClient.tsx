@@ -13,7 +13,7 @@ const CUSTOM_CSS = `
     --scalar-color-1: #1c1917;
     --scalar-color-2: #a89a80;
     --scalar-color-3: #64748b;
-    --scalar-color-accent: #a06b1f;
+    --scalar-color-accent: #20507c;
     --scalar-background-1: #faf8f3;
     --scalar-background-2: #f3efe4;
     --scalar-background-3: #ebe5d6;

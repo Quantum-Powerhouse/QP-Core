@@ -23,7 +23,7 @@ export function renderOgCard({
           padding: "80px",
           backgroundColor: "#faf8f3",
           backgroundImage:
-            "radial-gradient(circle at 15% 15%, rgba(160,107,31,0.18), transparent 45%), radial-gradient(circle at 85% 85%, rgba(143,45,35,0.18), transparent 45%)",
+            "radial-gradient(circle at 15% 15%, rgba(62,92,128,0.18), transparent 45%), radial-gradient(circle at 85% 85%, rgba(62,92,128,0.18), transparent 45%)",
           fontFamily: "monospace",
         }}
       >
@@ -32,7 +32,7 @@ export function renderOgCard({
             display: "flex",
             alignItems: "center",
             gap: 10,
-            color: "#a06b1f",
+            color: "#20507c",
             fontSize: 28,
             letterSpacing: 2,
             textTransform: "uppercase",

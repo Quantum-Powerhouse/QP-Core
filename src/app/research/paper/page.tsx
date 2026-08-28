@@ -78,8 +78,8 @@ export default function PaperPage() {
           <h2 className="font-mono text-xs uppercase tracking-widest text-accent">Archival status</h2>
           <ul className="mt-3 flex flex-col gap-2 text-sm text-muted">
             <li><span className="text-accent">✓</span> Versioned GitHub release with the PDF attached and <code>CITATION.cff</code> + <code>.zenodo.json</code> in the tree.</li>
-            <li><span className="text-[#996c0a]">○</span> Zenodo DOI: the repository is prepared for Zenodo&apos;s GitHub archival; the DOI is minted when the owner enables the integration and re publishes the release. Until then this page shows no DOI rather than a placeholder.</li>
-            <li><span className="text-[#996c0a]">○</span> arXiv: not submitted at the check date. The paper states its limitations (English language search, no empirical prototype comparison) that a reviewer would ask about first.</li>
+            <li><span className="text-[#78660f]">○</span> Zenodo DOI: the repository is prepared for Zenodo&apos;s GitHub archival; the DOI is minted when the owner enables the integration and re publishes the release. Until then this page shows no DOI rather than a placeholder.</li>
+            <li><span className="text-[#78660f]">○</span> arXiv: not submitted at the check date. The paper states its limitations (English language search, no empirical prototype comparison) that a reviewer would ask about first.</li>
           </ul>
         </section>
       </div>

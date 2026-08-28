@@ -21,13 +21,13 @@ type Gate = {
 };
 
 const GATES: Gate[] = [
-  { type: "H", col: 0, wire: 0, color: "#a06b1f" },
-  { type: "CNOT", col: 1, wire: 0, target: 1, color: "#8f2d23" },
-  { type: "P", col: 2, wire: 1, color: "#a06b1f" },
-  { type: "H", col: 3, wire: 2, color: "#a06b1f" },
-  { type: "MEASURE", col: 4, wire: 0, color: "#996c0a" },
-  { type: "MEASURE", col: 4, wire: 1, color: "#996c0a" },
-  { type: "MEASURE", col: 4, wire: 2, color: "#996c0a" },
+  { type: "H", col: 0, wire: 0, color: "#20507c" },
+  { type: "CNOT", col: 1, wire: 0, target: 1, color: "#20507c" },
+  { type: "P", col: 2, wire: 1, color: "#20507c" },
+  { type: "H", col: 3, wire: 2, color: "#20507c" },
+  { type: "MEASURE", col: 4, wire: 0, color: "#78660f" },
+  { type: "MEASURE", col: 4, wire: 1, color: "#78660f" },
+  { type: "MEASURE", col: 4, wire: 2, color: "#78660f" },
 ];
 
 function GateBox({ x, y, label, color }: { x: number; y: number; label: string; color: string }) {
@@ -119,7 +119,7 @@ export function CircuitVisualizer() {
             </text>
             <motion.circle
               r={4}
-              fill="#a06b1f"
+              fill="#20507c"
               filter="url(#glow)"
               initial={{ cx: WIRE_START_X, opacity: 0 }}
               animate={{

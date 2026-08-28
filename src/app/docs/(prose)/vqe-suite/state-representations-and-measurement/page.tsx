@@ -39,7 +39,7 @@ export default function StateRepresentationsDocPage() {
         <code>src/lib/physics/statevector.ts</code>), the same convention the Statevector table&apos;s{" "}
         <code>BASIS_LABELS</code> and the QSphere&apos;s point layout both use. Both amplitudes are always real
         for this ansatz, so the Statevector table&apos;s Phase column only ever reads 0° or 180°, and the
-        QSphere colors points by the sign of the real amplitude (brass positive, crimson negative) rather than a
+        QSphere colors points by the sign of the real amplitude (green positive, blue negative) rather than a
         general complex phase.
       </P>
       <P>

@@ -35,7 +35,7 @@ export type PetVisualState = {
 };
 
 export function createPetVisualState(): PetVisualState {
-  return { color: new THREE.Color("#a06b1f"), intensity: 0, spin: 0, mood: 1, gazeX: 0, gazeY: 0, petX: 0, petY: 0 };
+  return { color: new THREE.Color("#20507c"), intensity: 0, spin: 0, mood: 1, gazeX: 0, gazeY: 0, petX: 0, petY: 0 };
 }
 
 export function QpForm({

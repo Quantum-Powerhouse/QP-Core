@@ -50,16 +50,16 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       break;
     }
     case "TRANSPILATION_STARTED":
-      state.color.set("#a06b1f");
+      state.color.set("#20507c");
       state.intensity = 1;
       state.spin = 0.6;
       break;
     case "TRANSPILATION_FINISHED":
-      state.color.set(event.detail.mock ? "#996c0a" : "#a06b1f");
+      state.color.set(event.detail.mock ? "#78660f" : "#20507c");
       state.intensity = 1;
       break;
     case "VQE_STARTED":
-      state.color.set("#8f2d23");
+      state.color.set("#a33327");
       state.intensity = 0.8;
       state.spin = 0.8;
       break;
@@ -68,13 +68,13 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       state.spin = Math.max(state.spin, 0.5);
       break;
     case "VQE_CONVERGED":
-      state.color.set("#a06b1f");
+      state.color.set("#20507c");
       state.intensity = 1;
       state.spin = 0;
       break;
     case "NOISE_APPLIED": {
       const noise = Math.min(1, event.detail.lambda / 5);
-      state.color.set("#996c0a");
+      state.color.set("#78660f");
       state.intensity = Math.max(state.intensity, 0.3 + noise * 0.5);
       break;
     }
@@ -92,7 +92,7 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       state.intensity = Math.max(state.intensity, 0.2);
       break;
     case "ARCADE_RESULT":
-      state.color.set("#a06b1f");
+      state.color.set("#20507c");
       state.intensity = Math.max(state.intensity, 0.6);
       break;
   }
@@ -310,11 +310,11 @@ export function QuantumPet() {
       emotionRef.current = next;
       stateRef.current.mood = QPIT_PARAMS[next].glow;
       if (next === "ANGRY") {
-        stateRef.current.color.set("#8f2d23");
+        stateRef.current.color.set("#a33327");
         stateRef.current.intensity = 1;
         speak(pickLine(ANGRY_LINES), { force: true });
       } else if (prev === "ANGRY") {
-        stateRef.current.color.set("#a06b1f");
+        stateRef.current.color.set("#20507c");
         if (chatOk()) speak(CALMED_LINE);
       }
       if (prev === "SLEEPING" && next === "SURPRISED") speak(momentLine("WAKE_SURPRISED"), { force: true });

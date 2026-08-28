@@ -36,7 +36,7 @@ export function Note({ children, tone = "info" }: { children: React.ReactNode; t
     <div
       className={`my-6 rounded-lg border px-4 py-3 text-sm leading-relaxed ${
         tone === "warning"
-          ? "border-[#996c0a]/40 bg-[#996c0a]/10 text-[#6d4d06]"
+          ? "border-[#78660f]/40 bg-[#78660f]/10 text-[#6d4d06]"
           : "border-accent/30 bg-accent/5 text-foreground/90"
       }`}
     >

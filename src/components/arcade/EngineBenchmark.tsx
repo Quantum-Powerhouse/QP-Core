@@ -53,7 +53,7 @@ export function EngineBenchmark() {
     <GameCard title="Engine Scaling Benchmark" tag="bench" computes="wall clock time on your device for 2^n amplitudes (one H layer + a CNOT chain): the readable object per amplitude engine vs the Float64Array kernel">
       <p className="text-muted">
         The 2ⁿ wall, measured live: every extra qubit doubles the amplitudes. Grey is the readable teaching engine
-        behind the games; crimson is the typed array kernel, same physics, flat memory, in place gates, which is how
+        behind the games; blue is the typed array kernel, same physics, flat memory, in place gates, which is how
         the browser reaches 20+ qubits.
       </p>
       <div className="flex items-center gap-2">

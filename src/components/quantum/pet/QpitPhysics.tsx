@@ -46,11 +46,11 @@ const TRAIL_LEN = 3;
 const TRAIL_MIN_SPEED = 1100;
 
 const EMOTION_TETHER: Record<QpitEmotion, { stroke: string; opacity: number }> = {
-  ANGRY: { stroke: "#8f2d23", opacity: 0.55 },
+  ANGRY: { stroke: "#a33327", opacity: 0.55 },
   IDLE: { stroke: "var(--accent)", opacity: 0.35 },
   CURIOUS: { stroke: "var(--accent)", opacity: 0.45 },
   EXCITED: { stroke: "var(--accent-2)", opacity: 0.6 },
-  SURPRISED: { stroke: "#996c0a", opacity: 0.7 },
+  SURPRISED: { stroke: "#78660f", opacity: 0.7 },
   ORBITING: { stroke: "var(--accent-2)", opacity: 0.5 },
   BORED: { stroke: "var(--accent)", opacity: 0.22 },
   SLEEPING: { stroke: "var(--accent)", opacity: 0.12 },
@@ -888,7 +888,7 @@ export function QpitPhysics({
               transform: "translate(-50%, -50%) scaleY(0.28)",
               border: "3px solid transparent",
               background:
-                "linear-gradient(90deg, color-mix(in srgb, #996c0a 70%, transparent), color-mix(in srgb, var(--accent-2) 80%, transparent), color-mix(in srgb, #996c0a 70%, transparent)) border-box",
+                "linear-gradient(90deg, color-mix(in srgb, #78660f 70%, transparent), color-mix(in srgb, var(--accent-2) 80%, transparent), color-mix(in srgb, #78660f 70%, transparent)) border-box",
               WebkitMask: "linear-gradient(#fff 0 0) padding box, linear-gradient(#fff 0 0)",
               WebkitMaskComposite: "xor",
               maskComposite: "exclude",
@@ -900,9 +900,9 @@ export function QpitPhysics({
           <div
             className="h-[150px] w-[150px] rounded-full"
             style={{
-              border: "2px solid color-mix(in srgb, #996c0a 85%, white)",
+              border: "2px solid color-mix(in srgb, #78660f 85%, white)",
               boxShadow:
-                "0 0 22px color-mix(in srgb, #996c0a 55%, transparent), 0 0 44px color-mix(in srgb, var(--accent-2) 35%, transparent), inset 0 0 16px color-mix(in srgb, #996c0a 40%, transparent)",
+                "0 0 22px color-mix(in srgb, #78660f 55%, transparent), 0 0 44px color-mix(in srgb, var(--accent-2) 35%, transparent), inset 0 0 16px color-mix(in srgb, #78660f 40%, transparent)",
             }}
           />
           {/* the shadow: fully black */}
@@ -940,7 +940,7 @@ export function QpitPhysics({
         </motion.div>
       )}
 
-      {/* wormhole portals, entry (brass) and exit (crimson) rings */}
+      {/* wormhole portals, entry (blue) and exit (green) rings */}
       {portals &&
         [
           { p: portals.a, color: "var(--accent)" },

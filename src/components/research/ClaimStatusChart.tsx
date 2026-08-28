@@ -25,7 +25,7 @@ const BAR_COLOR: Record<ClaimStatus, string> = {
   confirmed: "bg-emerald-500/70",
   partial: "bg-amber-500/70",
   false: "bg-red-500/70",
-  not_found: "bg-[#a06b1f]/70",
+  not_found: "bg-[#20507c]/70",
   unverified: "bg-[#7a6f5c]/70",
 };
 

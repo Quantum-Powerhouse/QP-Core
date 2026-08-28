@@ -71,7 +71,7 @@ export function GroverSearchlight() {
         <Stat label="iterations" value={`${iters} / ${optimal} optimal`} accent={iters === optimal} />
       </div>
       <ProbBars probs={probs} />
-      {iters > optimal && <p className="font-mono text-xs text-[#996c0a]">over rotated, the searchlight swung past the prize</p>}
+      {iters > optimal && <p className="font-mono text-xs text-[#78660f]">over rotated, the searchlight swung past the prize</p>}
     </GameCard>
   );
 }
@@ -175,7 +175,7 @@ export function DecoherenceDial() {
       <div className="h-3 overflow-hidden rounded-sm bg-surface-2">
         <div className="h-full bg-accent transition-[width] duration-150 ease-out" style={{ width: `${coherence * 100}%` }} />
       </div>
-      {coherence < 0.05 && <p className="font-mono text-xs text-[#996c0a]">fully decohered, just a classical mixture now</p>}
+      {coherence < 0.05 && <p className="font-mono text-xs text-[#78660f]">fully decohered, just a classical mixture now</p>}
     </GameCard>
   );
 }

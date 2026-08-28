@@ -272,7 +272,7 @@ export function CircuitLab() {
                 <div key={i} className="flex items-center gap-2 font-mono text-xs">
                   <span className="w-16 shrink-0 text-muted">|{i.toString(2).padStart(n, "0")}⟩</span>
                   <div className="h-2.5 flex-1 overflow-hidden rounded-sm bg-surface-2">
-                    <div className="h-full bg-[#996c0a] transition-[width] duration-200 ease-out" style={{ width: `${p * 100}%` }} />
+                    <div className="h-full bg-[#78660f] transition-[width] duration-200 ease-out" style={{ width: `${p * 100}%` }} />
                   </div>
                   <span className="w-12 text-right text-foreground">{(p * 100).toFixed(1)}%</span>
                 </div>

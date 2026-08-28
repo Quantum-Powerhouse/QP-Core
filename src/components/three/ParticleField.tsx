@@ -111,9 +111,9 @@ export function ParticleField() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 70% 50% at 20% 0%, rgba(160,107,31,0.07), transparent 60%), " +
-            "radial-gradient(ellipse 60% 45% at 85% 20%, rgba(143,45,35,0.06), transparent 60%), " +
-            "radial-gradient(ellipse 50% 40% at 50% 100%, rgba(160,107,31,0.04), transparent 60%)",
+            "radial-gradient(ellipse 70% 50% at 20% 0%, rgba(62,92,128,0.07), transparent 60%), " +
+            "radial-gradient(ellipse 60% 45% at 85% 20%, rgba(62,92,128,0.06), transparent 60%), " +
+            "radial-gradient(ellipse 50% 40% at 50% 100%, rgba(62,92,128,0.04), transparent 60%)",
         }}
       />
       <Canvas
@@ -125,7 +125,7 @@ export function ParticleField() {
         <WavefunctionCloud
           count={1400}
           radius={6}
-          color="#a06b1f"
+          color="#20507c"
           size={0.028}
           speed={0.03}
           excitationRef={excitationRef}
@@ -133,7 +133,7 @@ export function ParticleField() {
         <WavefunctionCloud
           count={900}
           radius={4.5}
-          color="#8f2d23"
+          color="#20507c"
           size={0.024}
           speed={-0.045}
           excitationRef={excitationRef}

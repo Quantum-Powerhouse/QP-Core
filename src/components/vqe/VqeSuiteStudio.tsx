@@ -52,7 +52,7 @@ function Slider({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="accent-[#a06b1f]"
+        className="accent-[#20507c]"
       />
     </label>
   );

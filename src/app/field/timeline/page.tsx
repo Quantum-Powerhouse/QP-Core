@@ -41,7 +41,7 @@ export default function TimelinePage() {
           </div>
         </section>
         <section>
-          <h2 className="font-mono text-xs uppercase tracking-widest text-[#996c0a]">Later, or never</h2>
+          <h2 className="font-mono text-xs uppercase tracking-widest text-[#78660f]">Later, or never</h2>
           <div className="mt-3 flex flex-col gap-4">
             {TIMELINE_SKEPTICS.map((c) => (
               <FieldClaimCard key={c.id} claim={c} />
@@ -57,10 +57,10 @@ export default function TimelinePage() {
             <span className="font-mono text-accent">settled ·</span> Error correction works below threshold on at least two platforms; encoded qubits can outperform physical ones. (Verified results, 2024-2026.)
           </li>
           <li>
-            <span className="font-mono text-[#996c0a]">open ·</span> Whether the 2027-2030 roadmaps land on time, they require scaling by one to two orders of magnitude while holding fidelities.
+            <span className="font-mono text-[#78660f]">open ·</span> Whether the 2027-2030 roadmaps land on time, they require scaling by one to two orders of magnitude while holding fidelities.
           </li>
           <li>
-            <span className="font-mono text-[#996c0a]">open ·</span> Which application first shows a reproduced, independently benchmarked advantage (see <Link href="/field/first-solved" className="text-accent">what gets solved first</Link>).
+            <span className="font-mono text-[#78660f]">open ·</span> Which application first shows a reproduced, independently benchmarked advantage (see <Link href="/field/first-solved" className="text-accent">what gets solved first</Link>).
           </li>
           <li>
             <span className="font-mono text-[#b3372a]">minority ·</span> That correlated noise forbids scaling in principle (Kalai). Not refuted by theorem; increasingly constrained by experiment.
