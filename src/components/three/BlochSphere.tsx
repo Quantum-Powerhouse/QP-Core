@@ -65,7 +65,7 @@ function GridRings() {
                 if (m) materialsRef.current.push(m);
               }}
               attach="material"
-              color="#d9a441"
+              color="#a06b1f"
               transparent
               opacity={0.25}
             />
@@ -83,7 +83,7 @@ function GridRings() {
                 if (m) materialsRef.current.push(m);
               }}
               attach="material"
-              color="#c25e4c"
+              color="#8f2d23"
               transparent
               opacity={0.25}
             />
@@ -124,7 +124,7 @@ function StateVector({ theta, phi }: { theta: number; phi: number }) {
         <cylinderGeometry args={[0.018, 0.018, RADIUS * 0.84, 12]} />
         <meshStandardMaterial
           color="#67e8f9"
-          emissive="#d9a441"
+          emissive="#a06b1f"
           emissiveIntensity={1.6}
           toneMapped={false}
         />
@@ -133,12 +133,12 @@ function StateVector({ theta, phi }: { theta: number; phi: number }) {
         <coneGeometry args={[0.09, 0.22, 16]} />
         <meshStandardMaterial
           color="#a5f3fc"
-          emissive="#d9a441"
+          emissive="#a06b1f"
           emissiveIntensity={2.2}
           toneMapped={false}
         />
       </mesh>
-      <pointLight position={[0, RADIUS * 0.86, 0]} color="#d9a441" intensity={4} distance={2.5} />
+      <pointLight position={[0, RADIUS * 0.86, 0]} color="#a06b1f" intensity={4} distance={2.5} />
     </group>
   );
 }
@@ -160,7 +160,7 @@ function Scene({
       <mesh>
         <sphereGeometry args={[RADIUS, 48, 48]} />
         <meshStandardMaterial
-          color="#e6c47a"
+          color="#a06b1f"
           wireframe
           transparent
           opacity={0.18}
@@ -244,7 +244,7 @@ export function BlochSphere() {
             max={180}
             value={theta}
             onChange={(e) => setTheta(Number(e.target.value))}
-            className="w-full accent-[#d9a441]"
+            className="w-full accent-[#a06b1f]"
           />
         </div>
 
@@ -259,7 +259,7 @@ export function BlochSphere() {
             max={360}
             value={phi}
             onChange={(e) => setPhi(Number(e.target.value))}
-            className="w-full accent-[#c25e4c]"
+            className="w-full accent-[#8f2d23]"
           />
         </div>
 

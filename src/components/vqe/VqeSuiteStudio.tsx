@@ -52,7 +52,7 @@ function Slider({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="accent-[#d9a441]"
+        className="accent-[#a06b1f]"
       />
     </label>
   );
@@ -146,7 +146,7 @@ export function VqeSuiteStudio() {
                 </p>
                 <button
                   onClick={handleRunVqe}
-                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#211603] transition-opacity hover:opacity-90"
+                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#faf8f3] transition-opacity hover:opacity-90"
                 >
                   Run ▸ VQE
                 </button>
@@ -179,7 +179,7 @@ export function VqeSuiteStudio() {
                 </div>
                 <button
                   onClick={handleRunZne}
-                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#211603] transition-opacity hover:opacity-90"
+                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#faf8f3] transition-opacity hover:opacity-90"
                 >
                   Run ▸ ZNE
                 </button>

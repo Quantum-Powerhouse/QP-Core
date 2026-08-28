@@ -10,14 +10,14 @@ const ApiReferenceReact = dynamic(
 
 const CUSTOM_CSS = `
   :root, .light-mode, .dark-mode {
-    --scalar-color-1: #ece4d4;
+    --scalar-color-1: #1c1917;
     --scalar-color-2: #a89a80;
     --scalar-color-3: #64748b;
-    --scalar-color-accent: #d9a441;
-    --scalar-background-1: #171310;
-    --scalar-background-2: #1f1a14;
-    --scalar-background-3: #272117;
-    --scalar-border-color: #3a3226;
+    --scalar-color-accent: #a06b1f;
+    --scalar-background-1: #faf8f3;
+    --scalar-background-2: #f3efe4;
+    --scalar-background-3: #ebe5d6;
+    --scalar-border-color: #d9d1bf;
     --scalar-radius: 0.5rem;
     --scalar-radius-lg: 0.75rem;
     --scalar-font: var(--font-geist-sans), sans-serif;

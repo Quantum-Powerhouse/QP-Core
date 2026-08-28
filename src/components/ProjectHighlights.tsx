@@ -18,7 +18,7 @@ export function ProjectHighlights() {
         {projects.map((project) => (
           <div
             key={project.title}
-            className="group rounded-xl border border-border/80 bg-surface/60 p-6 backdrop-blur-xl transition-all hover:border-[#d9a441]/50"
+            className="group rounded-xl border border-border/80 bg-surface/60 p-6 backdrop-blur-xl transition-all hover:border-[#a06b1f]/50"
           >
             <h3 className="text-lg font-semibold text-foreground">
               {project.title}

@@ -39,7 +39,7 @@ function Scene({ theta, autoRotate }: { theta: number; autoRotate: boolean }) {
 
       <mesh>
         <sphereGeometry args={[RADIUS, 48, 48]} />
-        <meshStandardMaterial color="#e6c47a" wireframe transparent opacity={0.14} />
+        <meshStandardMaterial color="#a06b1f" wireframe transparent opacity={0.14} />
       </mesh>
 
       {BASIS_STATES.map(({ index, label, weight, longitudeDeg }) => {
@@ -48,7 +48,7 @@ function Scene({ theta, autoRotate }: { theta: number; autoRotate: boolean }) {
         const amp = state[index];
         const isNegative = amp.re < 0;
         const pointRadius = 0.06 + Math.sqrt(probability) * 0.32;
-        const color = isNegative ? "#c25e4c" : "#d9a441";
+        const color = isNegative ? "#8f2d23" : "#a06b1f";
 
         return (
           <group key={index}>
@@ -59,7 +59,7 @@ function Scene({ theta, autoRotate }: { theta: number; autoRotate: boolean }) {
             <Text
               position={[position[0] * 1.28, position[1] * 1.28, position[2] * 1.28]}
               fontSize={0.16}
-              color="#ece4d4"
+              color="#8a7f6a"
               anchorX="center"
               anchorY="middle"
             >
@@ -88,7 +88,7 @@ export function QSphere({ theta }: { theta: number }) {
     <div className="flex flex-col gap-3">
       <RepresentsTag docsHref="/docs/vqe-suite/state-representations-and-measurement">
         how probability (point size) and phase sign (color) are distributed across the 4 computational basis
-        states of the same VQE statevector, cyan = positive real amplitude, violet = negative
+        states of the same VQE statevector, brass = positive real amplitude, crimson = negative
       </RepresentsTag>
       <div className="h-[360px] overflow-hidden rounded-xl border border-border bg-surface/60 backdrop-blur-xl sm:h-[420px]">
         <Canvas camera={{ position: [3.2, 2, 3.2], fov: 45 }} dpr={[1, 1.5]}>

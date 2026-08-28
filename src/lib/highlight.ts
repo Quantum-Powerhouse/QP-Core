@@ -9,11 +9,11 @@ const RULES: Record<Lang, TokenRule[]> = {
     { regex: /"[^"]*"/, className: "text-emerald-300" },
     {
       regex: /\b(OPENQASM|include|qreg|creg|qubit|bit|gate|barrier|reset)\b/,
-      className: "text-[#d98a75]",
+      className: "text-[#a24435]",
     },
     {
       regex: /\b(h|x|y|z|s|t|cx|cnot|measure|rx|ry|rz|u)\b/i,
-      className: "text-[#e6c47a]",
+      className: "text-[#8a5c14]",
     },
     { regex: /\b\d+(\.\d+)?\b/, className: "text-amber-300" },
   ],
@@ -22,18 +22,18 @@ const RULES: Record<Lang, TokenRule[]> = {
     { regex: /'[^']*'|"[^"]*"/, className: "text-emerald-300" },
     {
       regex: /\b(from|import|def|return|for|in|if|else)\b/,
-      className: "text-[#d98a75]",
+      className: "text-[#a24435]",
     },
     {
       regex: /\b(QuantumCircuit|qc|h|x|y|z|cx|measure_all)\b/,
-      className: "text-[#e6c47a]",
+      className: "text-[#8a5c14]",
     },
     { regex: /\b\d+(\.\d+)?\b/, className: "text-amber-300" },
   ],
   json: [
-    { regex: /"[^"]+"(?=\s*:)/, className: "text-[#e6c47a]" },
+    { regex: /"[^"]+"(?=\s*:)/, className: "text-[#8a5c14]" },
     { regex: /"[^"]*"/, className: "text-emerald-300" },
-    { regex: /\b(true|false|null)\b/, className: "text-[#d98a75]" },
+    { regex: /\b(true|false|null)\b/, className: "text-[#a24435]" },
     { regex: /-?\b\d+(\.\d+)?\b/, className: "text-amber-300" },
   ],
   typescript: [
@@ -41,11 +41,11 @@ const RULES: Record<Lang, TokenRule[]> = {
     { regex: /`[^`]*`|'[^']*'|"[^"]*"/, className: "text-emerald-300" },
     {
       regex: /\b(import|export|from|const|let|function|return|for|of|in|if|else|type|interface|new)\b/,
-      className: "text-[#d98a75]",
+      className: "text-[#a24435]",
     },
     {
       regex: /\b(theta|lambda|rho|psi|hMatrix|state|gate|qubit)\b/,
-      className: "text-[#e6c47a]",
+      className: "text-[#8a5c14]",
     },
     { regex: /\b\d+(\.\d+)?\b/, className: "text-amber-300" },
   ],

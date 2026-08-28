@@ -38,7 +38,7 @@ export default function PaperPage() {
       <p className="mt-2 font-mono text-sm text-muted">A primary source verified prior art study · Said Mohaddes Sadeqi · v1.1.1, August 2026</p>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <a href={PDF} className="rounded-full bg-accent px-4 py-2 font-mono text-xs font-semibold text-[#211603]" target="_blank" rel="noopener noreferrer">
+        <a href={PDF} className="rounded-full bg-accent px-4 py-2 font-mono text-xs font-semibold text-[#faf8f3]" target="_blank" rel="noopener noreferrer">
           PDF (GitHub release v1.1.1) ↗
         </a>
         <a href={RELEASE} className="rounded-full border border-border px-4 py-2 font-mono text-xs text-foreground hover:border-accent/60" target="_blank" rel="noopener noreferrer">
@@ -78,8 +78,8 @@ export default function PaperPage() {
           <h2 className="font-mono text-xs uppercase tracking-widest text-accent">Archival status</h2>
           <ul className="mt-3 flex flex-col gap-2 text-sm text-muted">
             <li><span className="text-accent">✓</span> Versioned GitHub release with the PDF attached and <code>CITATION.cff</code> + <code>.zenodo.json</code> in the tree.</li>
-            <li><span className="text-[#f59e0b]">○</span> Zenodo DOI: the repository is prepared for Zenodo&apos;s GitHub archival; the DOI is minted when the owner enables the integration and re publishes the release. Until then this page shows no DOI rather than a placeholder.</li>
-            <li><span className="text-[#f59e0b]">○</span> arXiv: not submitted at the check date. The paper states its limitations (English language search, no empirical prototype comparison) that a reviewer would ask about first.</li>
+            <li><span className="text-[#996c0a]">○</span> Zenodo DOI: the repository is prepared for Zenodo&apos;s GitHub archival; the DOI is minted when the owner enables the integration and re publishes the release. Until then this page shows no DOI rather than a placeholder.</li>
+            <li><span className="text-[#996c0a]">○</span> arXiv: not submitted at the check date. The paper states its limitations (English language search, no empirical prototype comparison) that a reviewer would ask about first.</li>
           </ul>
         </section>
       </div>

@@ -2,11 +2,11 @@ import type { ClaimStatus } from "@/lib/research/claims";
 import type { Cell } from "@/lib/research/priorArt";
 
 const STATUS_STYLES: Record<ClaimStatus, string> = {
-  confirmed: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
-  partial: "border-amber-500/30 bg-amber-500/10 text-amber-300",
-  unverified: "border-[#7a6f5c]/30 bg-[#7a6f5c]/10 text-[#c9bda6]",
-  false: "border-red-500/30 bg-red-500/10 text-red-300",
-  not_found: "border-[#d9a441]/30 bg-[#d9a441]/10 text-[#e6c47a]",
+  confirmed: "border-emerald-500/30 bg-emerald-500/10 text-[#256b3d]",
+  partial: "border-amber-500/30 bg-amber-500/10 text-[#7a5608]",
+  unverified: "border-[#7a6f5c]/30 bg-[#7a6f5c]/10 text-[#5f574a]",
+  false: "border-red-500/30 bg-red-500/10 text-[#9c2b1e]",
+  not_found: "border-[#a06b1f]/30 bg-[#a06b1f]/10 text-[#8a5c14]",
 };
 
 const STATUS_TEXT: Record<ClaimStatus, string> = {
@@ -41,9 +41,9 @@ export function StatusBadge({ status }: { status: ClaimStatus }) {
 }
 
 const CELL_STYLES: Record<Cell, string> = {
-  YES: "text-emerald-300",
+  YES: "text-[#256b3d]",
   NO: "text-muted/60",
-  PARTIAL: "text-amber-300",
+  PARTIAL: "text-[#7a5608]",
   UNKNOWN: "text-muted/40 italic",
   "N/A": "text-muted/30",
 };
@@ -54,8 +54,8 @@ export function MatrixCell({ value }: { value: Cell }) {
 
 export function SynthesisNote({ children }: { children: React.ReactNode }) {
   return (
-    <div className="my-6 rounded-lg border border-[#c25e4c]/30 bg-[#c25e4c]/5 px-4 py-3 text-sm leading-relaxed text-[#f3ded6]/90">
-      <p className="mb-1 font-mono text-[11px] font-medium uppercase tracking-wide text-[#dfa08c]">
+    <div className="my-6 rounded-lg border border-[#8f2d23]/30 bg-[#8f2d23]/5 px-4 py-3 text-sm leading-relaxed text-[#7c2f24]/90">
+      <p className="mb-1 font-mono text-[11px] font-medium uppercase tracking-wide text-[#93392b]">
         Our synthesis, not an independently verified source
       </p>
       {children}

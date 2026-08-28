@@ -31,7 +31,7 @@ export default function HardwarePage() {
         <ul className="mt-3 flex flex-col gap-2 text-sm">
           {HARDWARE_STATE.map((s) => (
             <li key={s.label} className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
-              <span className={`shrink-0 font-mono ${s.achieved ? "text-accent" : "text-[#f59e0b]"}`}>{s.achieved ? "✓ achieved" : "✗ not yet"}</span>
+              <span className={`shrink-0 font-mono ${s.achieved ? "text-accent" : "text-[#996c0a]"}`}>{s.achieved ? "✓ achieved" : "✗ not yet"}</span>
               <span>
                 <span className="text-foreground">{s.label}</span> <span className="text-muted">, {s.note}</span>
               </span>

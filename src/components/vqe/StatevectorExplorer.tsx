@@ -76,7 +76,7 @@ export function StatevectorExplorer({ theta }: { theta: number }) {
       <div className="flex flex-wrap items-center gap-2">
         <button
           onClick={handleMeasure}
-          className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#211603] transition-opacity hover:opacity-90"
+          className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#faf8f3] transition-opacity hover:opacity-90"
         >
           Measure ▸
         </button>

@@ -39,7 +39,7 @@ export default function BuilderPage() {
           <a href="https://github.com/sadeqisaidmohaddes-star/quantum-cicd-research" className="rounded-full border border-border px-4 py-2 font-mono text-foreground hover:border-accent/60" target="_blank" rel="noopener noreferrer">
             research repository
           </a>
-          <a href="https://sadeqi.me" className="rounded-full bg-accent px-4 py-2 font-mono font-semibold text-[#211603]" target="_blank" rel="noopener noreferrer">
+          <a href="https://sadeqi.me" className="rounded-full bg-accent px-4 py-2 font-mono font-semibold text-[#faf8f3]" target="_blank" rel="noopener noreferrer">
             CV &amp; contact → sadeqi.me
           </a>
         </div>

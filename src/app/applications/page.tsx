@@ -46,7 +46,7 @@ const TIERS: Tier[] = [
   },
   {
     heading: "Promising: unproven at scale",
-    tone: "text-[#f59e0b]",
+    tone: "text-[#996c0a]",
     items: [
       {
         title: "Finance: Monte Carlo via amplitude estimation",
@@ -67,7 +67,7 @@ const TIERS: Tier[] = [
   },
   {
     heading: "Not this: and why",
-    tone: "text-[#ff6b6b]",
+    tone: "text-[#b3372a]",
     items: [
       {
         title: "General purpose speed",

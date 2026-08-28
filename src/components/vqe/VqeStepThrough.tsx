@@ -105,7 +105,7 @@ export function VqeStepThrough() {
         <button
           onClick={handleStep}
           disabled={converged}
-          className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#211603] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#faf8f3] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Step ▸
         </button>

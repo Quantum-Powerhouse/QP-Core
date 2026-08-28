@@ -33,7 +33,7 @@ export function ResearchCallout() {
               31% adoption statistic is N = 26).
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link href="/research/gap-analysis" className="rounded-full bg-accent px-4 py-2 font-mono text-xs font-semibold text-[#211603]">
+              <Link href="/research/gap-analysis" className="rounded-full bg-accent px-4 py-2 font-mono text-xs font-semibold text-[#faf8f3]">
                 read the gap analysis
               </Link>
               <Link href="/research/paper" className="rounded-full border border-border px-4 py-2 font-mono text-xs text-foreground hover:border-accent/60">

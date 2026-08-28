@@ -121,7 +121,7 @@ export function ArcadeButton({
       disabled={disabled}
       className={
         primary
-          ? "rounded-lg bg-accent px-3 py-1.5 font-mono text-xs font-semibold text-[#211603] transition-transform duration-100 ease-out enabled:active:scale-[0.97] disabled:opacity-40"
+          ? "rounded-lg bg-accent px-3 py-1.5 font-mono text-xs font-semibold text-[#faf8f3] transition-transform duration-100 ease-out enabled:active:scale-[0.97] disabled:opacity-40"
           : "rounded-lg border border-border bg-surface/60 px-3 py-1.5 font-mono text-xs text-foreground transition-colors duration-150 ease-out hover:border-accent/60 enabled:active:scale-[0.97] disabled:opacity-40"
       }
     >

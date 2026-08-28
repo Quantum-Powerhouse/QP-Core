@@ -50,16 +50,16 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       break;
     }
     case "TRANSPILATION_STARTED":
-      state.color.set("#d9a441");
+      state.color.set("#a06b1f");
       state.intensity = 1;
       state.spin = 0.6;
       break;
     case "TRANSPILATION_FINISHED":
-      state.color.set(event.detail.mock ? "#f59e0b" : "#d9a441");
+      state.color.set(event.detail.mock ? "#996c0a" : "#a06b1f");
       state.intensity = 1;
       break;
     case "VQE_STARTED":
-      state.color.set("#c25e4c");
+      state.color.set("#8f2d23");
       state.intensity = 0.8;
       state.spin = 0.8;
       break;
@@ -68,13 +68,13 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       state.spin = Math.max(state.spin, 0.5);
       break;
     case "VQE_CONVERGED":
-      state.color.set("#e6c47a");
+      state.color.set("#a06b1f");
       state.intensity = 1;
       state.spin = 0;
       break;
     case "NOISE_APPLIED": {
       const noise = Math.min(1, event.detail.lambda / 5);
-      state.color.set("#f59e0b");
+      state.color.set("#996c0a");
       state.intensity = Math.max(state.intensity, 0.3 + noise * 0.5);
       break;
     }
@@ -84,7 +84,7 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       state.spin = 0;
       break;
     case "ERROR":
-      state.color.set("#ff6b6b");
+      state.color.set("#b3372a");
       state.intensity = 1;
       state.spin = 0;
       break;
@@ -92,7 +92,7 @@ function applyEvent(state: PetVisualState, event: QuantumEvent): void {
       state.intensity = Math.max(state.intensity, 0.2);
       break;
     case "ARCADE_RESULT":
-      state.color.set("#d9a441");
+      state.color.set("#a06b1f");
       state.intensity = Math.max(state.intensity, 0.6);
       break;
   }
@@ -310,11 +310,11 @@ export function QuantumPet() {
       emotionRef.current = next;
       stateRef.current.mood = QPIT_PARAMS[next].glow;
       if (next === "ANGRY") {
-        stateRef.current.color.set("#c25e4c");
+        stateRef.current.color.set("#8f2d23");
         stateRef.current.intensity = 1;
         speak(pickLine(ANGRY_LINES), { force: true });
       } else if (prev === "ANGRY") {
-        stateRef.current.color.set("#d9a441");
+        stateRef.current.color.set("#a06b1f");
         if (chatOk()) speak(CALMED_LINE);
       }
       if (prev === "SLEEPING" && next === "SURPRISED") speak(momentLine("WAKE_SURPRISED"), { force: true });
@@ -654,7 +654,7 @@ export function QuantumPet() {
                   <div className="h-1.5 overflow-hidden rounded-sm bg-surface-2">
                     <div className="h-full bg-accent" style={{ width: `${pending.pA * 100}%` }} />
                   </div>
-                  <button type="button" onClick={measure} className="mt-1 self-start rounded-md bg-accent px-2 py-1 font-mono text-[11px] font-semibold text-[#211603]">
+                  <button type="button" onClick={measure} className="mt-1 self-start rounded-md bg-accent px-2 py-1 font-mono text-[11px] font-semibold text-[#faf8f3]">
                     measure → collapse
                   </button>
                 </div>

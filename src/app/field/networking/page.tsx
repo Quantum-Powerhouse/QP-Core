@@ -37,7 +37,7 @@ export default function NetworkingPage() {
       </div>
 
       <section className="glass-panel mt-10 rounded-xl p-5">
-        <h2 className="font-mono text-xs uppercase tracking-widest text-[#f59e0b]">What is not yet built</h2>
+        <h2 className="font-mono text-xs uppercase tracking-widest text-[#996c0a]">What is not yet built</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted">{NETWORKING_CONTEXT.notYet}</p>
       </section>
 

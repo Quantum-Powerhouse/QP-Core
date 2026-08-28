@@ -60,7 +60,7 @@ export function ConvergenceChart({
         <g transform={`translate(${MARGIN.left}, ${MARGIN.top})`}>
           {yTicks.map((tick) => (
             <g key={tick}>
-              <line x1={0} y1={yScale(tick)} x2={PLOT_W} y2={yScale(tick)} stroke="#3a3226" strokeWidth={1} />
+              <line x1={0} y1={yScale(tick)} x2={PLOT_W} y2={yScale(tick)} stroke="#d9d1bf" strokeWidth={1} />
               <text
                 x={-10}
                 y={yScale(tick) + 4}
@@ -79,7 +79,7 @@ export function ConvergenceChart({
             y={bandTop}
             width={PLOT_W}
             height={Math.max(bandBottom - bandTop, 1)}
-            fill="#d9a441"
+            fill="#a06b1f"
             opacity={0.12}
           />
           <line
@@ -102,12 +102,12 @@ export function ConvergenceChart({
             exact (FCI): {exactEnergyHartree.toFixed(4)} Ha
           </text>
 
-          <path d={linePath} fill="none" stroke="#d9a441" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+          <path d={linePath} fill="none" stroke="#a06b1f" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
 
           {last && (
             <>
-              <circle cx={xScale(last.iteration)} cy={yScale(last.energyHartree)} r={6} fill="#171310" stroke="#171310" strokeWidth={3} />
-              <circle cx={xScale(last.iteration)} cy={yScale(last.energyHartree)} r={5} fill="#d9a441" filter="url(#convergence-glow)" />
+              <circle cx={xScale(last.iteration)} cy={yScale(last.energyHartree)} r={6} fill="#faf8f3" stroke="#faf8f3" strokeWidth={3} />
+              <circle cx={xScale(last.iteration)} cy={yScale(last.energyHartree)} r={5} fill="#a06b1f" filter="url(#convergence-glow)" />
             </>
           )}
 
@@ -127,7 +127,7 @@ export function ConvergenceChart({
           {hovered && (
             <g>
               <line x1={xScale(hovered.iteration)} y1={0} x2={xScale(hovered.iteration)} y2={PLOT_H} stroke="#a89a80" strokeWidth={1} strokeDasharray="2 3" />
-              <circle cx={xScale(hovered.iteration)} cy={yScale(hovered.energyHartree)} r={5} fill="#ece4d4" stroke="#d9a441" strokeWidth={2} />
+              <circle cx={xScale(hovered.iteration)} cy={yScale(hovered.energyHartree)} r={5} fill="#1c1917" stroke="#a06b1f" strokeWidth={2} />
             </g>
           )}
 

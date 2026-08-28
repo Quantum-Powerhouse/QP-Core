@@ -37,7 +37,7 @@ export default function FirstSolvedPage() {
       <div className="mt-12 grid gap-5 md:grid-cols-3">
         {FIRST_SOLVED_TIERS.map((t, i) => (
           <section key={t.tier} className="glass-panel rounded-xl p-5">
-            <h2 className={`font-mono text-xs uppercase tracking-widest ${i === 0 ? "text-accent" : i === 1 ? "text-[#f59e0b]" : "text-[#ff6b6b]"}`}>{t.tier}</h2>
+            <h2 className={`font-mono text-xs uppercase tracking-widest ${i === 0 ? "text-accent" : i === 1 ? "text-[#996c0a]" : "text-[#b3372a]"}`}>{t.tier}</h2>
             <ul className="mt-3 flex flex-col gap-2 text-sm text-muted">
               {t.items.map((item) => (
                 <li key={item}>· {item}</li>

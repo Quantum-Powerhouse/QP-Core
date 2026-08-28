@@ -32,7 +32,7 @@ export function HardwareComparison() {
               </div>
               <div className="relative h-2.5 overflow-hidden rounded-sm bg-surface-2">
                 <div className="absolute inset-y-0 left-0 bg-accent transition-[width] duration-500 ease-out" style={{ width: `${pct}%` }} />
-                <div className="absolute inset-y-0 w-px bg-[#f59e0b]" style={{ left: `${(data.classical_bound / data.tsirelson_bound) * 100}%` }} title="classical bound" />
+                <div className="absolute inset-y-0 w-px bg-[#996c0a]" style={{ left: `${(data.classical_bound / data.tsirelson_bound) * 100}%` }} title="classical bound" />
               </div>
               {run.note && <p className="font-mono text-[11px] text-muted">{run.note}</p>}
             </div>

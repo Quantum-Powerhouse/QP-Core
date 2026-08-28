@@ -72,7 +72,7 @@ export function StateMatch() {
   const yb = blochOf(yours);
   return (
     <GameCard title="State Match" tag="game" computes="|⟨target|yours⟩|² between two real single qubit states">
-      <p className="text-muted">A hidden state is drawn. Steer yours (cyan) onto the ghost (dim), fidelity ≥ 99% wins.</p>
+      <p className="text-muted">A hidden state is drawn. Steer yours (crimson) onto the ghost (dim), fidelity ≥ 99% wins.</p>
       <div className="flex items-center gap-4">
         <div className="relative">
           <div className="opacity-35">

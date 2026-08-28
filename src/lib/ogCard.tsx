@@ -21,9 +21,9 @@ export function renderOgCard({
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px",
-          backgroundColor: "#171310",
+          backgroundColor: "#faf8f3",
           backgroundImage:
-            "radial-gradient(circle at 15% 15%, rgba(217,164,65,0.18), transparent 45%), radial-gradient(circle at 85% 85%, rgba(194,94,76,0.18), transparent 45%)",
+            "radial-gradient(circle at 15% 15%, rgba(160,107,31,0.18), transparent 45%), radial-gradient(circle at 85% 85%, rgba(143,45,35,0.18), transparent 45%)",
           fontFamily: "monospace",
         }}
       >
@@ -32,7 +32,7 @@ export function renderOgCard({
             display: "flex",
             alignItems: "center",
             gap: 10,
-            color: "#d9a441",
+            color: "#a06b1f",
             fontSize: 28,
             letterSpacing: 2,
             textTransform: "uppercase",
@@ -51,7 +51,7 @@ export function renderOgCard({
             marginTop: 36,
             fontSize: 68,
             fontWeight: 700,
-            color: "#ece4d4",
+            color: "#1c1917",
             lineHeight: 1.1,
           }}
         >

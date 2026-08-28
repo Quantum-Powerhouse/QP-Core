@@ -21,13 +21,13 @@ type Gate = {
 };
 
 const GATES: Gate[] = [
-  { type: "H", col: 0, wire: 0, color: "#d9a441" },
-  { type: "CNOT", col: 1, wire: 0, target: 1, color: "#c25e4c" },
-  { type: "P", col: 2, wire: 1, color: "#e6c47a" },
-  { type: "H", col: 3, wire: 2, color: "#d9a441" },
-  { type: "MEASURE", col: 4, wire: 0, color: "#f59e0b" },
-  { type: "MEASURE", col: 4, wire: 1, color: "#f59e0b" },
-  { type: "MEASURE", col: 4, wire: 2, color: "#f59e0b" },
+  { type: "H", col: 0, wire: 0, color: "#a06b1f" },
+  { type: "CNOT", col: 1, wire: 0, target: 1, color: "#8f2d23" },
+  { type: "P", col: 2, wire: 1, color: "#a06b1f" },
+  { type: "H", col: 3, wire: 2, color: "#a06b1f" },
+  { type: "MEASURE", col: 4, wire: 0, color: "#996c0a" },
+  { type: "MEASURE", col: 4, wire: 1, color: "#996c0a" },
+  { type: "MEASURE", col: 4, wire: 2, color: "#996c0a" },
 ];
 
 function GateBox({ x, y, label, color }: { x: number; y: number; label: string; color: string }) {
@@ -39,7 +39,7 @@ function GateBox({ x, y, label, color }: { x: number; y: number; label: string; 
         width={40}
         height={40}
         rx={8}
-        fill="#1f1a14"
+        fill="#f3efe4"
         stroke={color}
         strokeWidth={1.5}
         filter="url(#glow)"
@@ -67,7 +67,7 @@ function MeasureBox({ x, y, color }: { x: number; y: number; color: string }) {
         width={40}
         height={40}
         rx={8}
-        fill="#1f1a14"
+        fill="#f3efe4"
         stroke={color}
         strokeWidth={1.5}
         filter="url(#glow)"
@@ -104,7 +104,7 @@ export function CircuitVisualizer() {
               y1={wire.y}
               x2={WIRE_END_X}
               y2={wire.y}
-              stroke="#3a3226"
+              stroke="#d9d1bf"
               strokeWidth={1.5}
             />
             <text
@@ -119,7 +119,7 @@ export function CircuitVisualizer() {
             </text>
             <motion.circle
               r={4}
-              fill="#d9a441"
+              fill="#a06b1f"
               filter="url(#glow)"
               initial={{ cx: WIRE_START_X, opacity: 0 }}
               animate={{

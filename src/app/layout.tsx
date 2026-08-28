@@ -37,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${jetbrainsMono.variable} ${stixSerif.variable} dark h-full antialiased`}
+      className={`${geistSans.variable} ${jetbrainsMono.variable} ${stixSerif.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <QuantumEventProvider>

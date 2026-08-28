@@ -14,7 +14,7 @@ export default function NotFound() {
           universe. Both happen.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/" className="rounded-full bg-accent px-5 py-2.5 font-mono text-sm font-semibold text-[#211603]">
+          <Link href="/" className="rounded-full bg-accent px-5 py-2.5 font-mono text-sm font-semibold text-[#faf8f3]">
             measure → home
           </Link>
           <Link href="/playground/arcade" className="rounded-full border border-border px-5 py-2.5 font-mono text-sm text-foreground hover:border-accent/60">

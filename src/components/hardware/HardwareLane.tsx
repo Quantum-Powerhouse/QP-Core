@@ -92,7 +92,7 @@ export function HardwareLane() {
           </div>
           <span
             className={`rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
-              enabled ? "border-accent/60 text-accent" : "border-[#f59e0b]/60 text-[#f59e0b]"
+              enabled ? "border-accent/60 text-accent" : "border-[#996c0a]/60 text-[#996c0a]"
             }`}
           >
             {status === null ? "checking" : enabled ? "live" : status.backendConfigured ? "backend up · no token" : "backend not deployed"}
@@ -141,7 +141,7 @@ export function HardwareLane() {
             {running ? "running on hardware…" : enabled ? "run on real hardware" : "run on real hardware (inactive)"}
           </ArcadeButton>
           {!enabled && status && <span className="font-mono text-[11px] text-muted">disabled until the lane is live; no simulation stands in for it</span>}
-          {error && <span className="font-mono text-[11px] text-[#ff6b6b]">{error}</span>}
+          {error && <span className="font-mono text-[11px] text-[#b3372a]">{error}</span>}
         </div>
       </section>
 
@@ -151,7 +151,7 @@ export function HardwareLane() {
             Real device vs. exact prediction, <span className="font-mono text-accent">{result.backend}</span>
           </h2>
           <p className="mt-1 font-mono text-[11px] text-muted">
-            job {result.job_id} · {result.shots} shots · {result.num_qubits} qubits. Grey = exact Born-rule prediction; cyan = what the device measured. The difference is device noise.
+            job {result.job_id} · {result.shots} shots · {result.num_qubits} qubits. Grey = exact Born-rule prediction; crimson = what the device measured. The difference is device noise.
           </p>
           <div className="mt-4 flex flex-col gap-1.5">
             {keys.map((k) => (

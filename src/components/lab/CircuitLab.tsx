@@ -174,7 +174,7 @@ export function CircuitLab() {
                           type="button"
                           title="remove"
                           onClick={() => setOps(circuit.ops.filter((_, j) => j !== i))}
-                          className={`inline-flex h-7 w-9 shrink-0 items-center justify-center rounded border font-mono text-[10px] transition-colors duration-150 ease-out hover:border-[#ff6b6b] ${
+                          className={`inline-flex h-7 w-9 shrink-0 items-center justify-center rounded border font-mono text-[10px] transition-colors duration-150 ease-out hover:border-[#b3372a] ${
                             isControl ? "border-accent-2 text-accent-2" : "border-accent bg-background/80 text-accent"
                           }`}
                         >
@@ -272,7 +272,7 @@ export function CircuitLab() {
                 <div key={i} className="flex items-center gap-2 font-mono text-xs">
                   <span className="w-16 shrink-0 text-muted">|{i.toString(2).padStart(n, "0")}⟩</span>
                   <div className="h-2.5 flex-1 overflow-hidden rounded-sm bg-surface-2">
-                    <div className="h-full bg-[#f59e0b] transition-[width] duration-200 ease-out" style={{ width: `${p * 100}%` }} />
+                    <div className="h-full bg-[#996c0a] transition-[width] duration-200 ease-out" style={{ width: `${p * 100}%` }} />
                   </div>
                   <span className="w-12 text-right text-foreground">{(p * 100).toFixed(1)}%</span>
                 </div>

@@ -43,7 +43,7 @@ export function ResearchHero({ stats }: { stats: ResearchStats }) {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
 
       <motion.div
-        className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center"
+        className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center [background:radial-gradient(ellipse_60%_55%_at_50%_50%,var(--background)_35%,color-mix(in_srgb,var(--background)_75%,transparent)_60%,transparent_80%)]"
         style={reduceMotion ? undefined : { y: contentY }}
       >
         <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-accent">Quantum Powerhouse Research</p>

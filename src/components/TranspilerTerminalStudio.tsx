@@ -280,7 +280,7 @@ export function TranspilerTerminalStudio() {
                   onClick={() => handleVersionChange(v)}
                   className={`rounded-full px-3 py-1 transition-colors ${
                     version === v
-                      ? "bg-accent text-[#211603]"
+                      ? "bg-accent text-[#faf8f3]"
                       : "text-muted hover:text-foreground"
                   }`}
                 >
@@ -315,7 +315,7 @@ export function TranspilerTerminalStudio() {
                 <button
                   onClick={handleTranspile}
                   disabled={loading}
-                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#211603] transition-opacity disabled:opacity-50"
+                  className="rounded-md bg-accent px-3 py-1.5 font-mono text-xs font-medium text-[#faf8f3] transition-opacity disabled:opacity-50"
                 >
                   {loading ? "Transpiling…" : "Run ▸ Transpile"}
                 </button>
@@ -370,7 +370,7 @@ export function TranspilerTerminalStudio() {
                             {ins.kept ? (
                               <span className="text-accent">kept</span>
                             ) : (
-                              <span className="text-[#ff6b6b]">
+                              <span className="text-[#b3372a]">
                                 cancelled{ins.pairedWithIndex !== null ? ` → paired with #${ins.pairedWithIndex}` : ""}
                               </span>
                             )}
@@ -441,20 +441,20 @@ export function TranspilerTerminalStudio() {
                     label="Gate Count Reduction"
                     value={result.metrics.reduction_pct}
                     suffix="%"
-                    color="#d9a441"
+                    color="#a06b1f"
                   />
                   <MetricCard
                     label="Circuit Depth"
                     value={result.metrics.depth}
                     suffix=" layers"
-                    color="#c25e4c"
+                    color="#8f2d23"
                   />
                   <MetricCard
                     label="Execution Latency"
                     value={result.latencyMs}
                     suffix="ms"
                     decimals={1}
-                    color="#e6c47a"
+                    color="#a06b1f"
                   />
                 </div>
               ) : (
@@ -491,7 +491,7 @@ export function TranspilerTerminalStudio() {
 function EmptyState({ error, loading }: { error: string | null; loading: boolean }) {
   if (error) {
     return (
-      <pre className="whitespace-pre-wrap px-4 py-4 font-mono text-sm text-[#ff6b6b]">
+      <pre className="whitespace-pre-wrap px-4 py-4 font-mono text-sm text-[#b3372a]">
         {error}
       </pre>
     );
