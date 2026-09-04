@@ -1,0 +1,34 @@
+# Quantum Powerhouse
+
+Quantum computing you can operate: a statevector and density matrix engine
+running in the browser, 26 interactive instruments, a primary source verified
+research study, and reference sections where every claim names the paper it
+was read from. Nothing renders that was not computed.
+
+Site: https://quantum.sadeqi.me
+Author: Said Mohaddes Sadeqi (https://quantum.sadeqi.me/builder)
+Source: https://github.com/Quantum-Powerhouse/QP-Core
+
+## Machine readable data
+
+- https://quantum.sadeqi.me/glossary.json (terms with the instrument that computes each)
+- https://quantum.sadeqi.me/field/claims.json (every field claim: status, date, source URL)
+- https://quantum.sadeqi.me/playground/arcade/games.json (the instrument registry)
+- https://raw.githubusercontent.com/sadeqisaidmohaddes-star/quantum-cicd-research/master/research/evidence.json (the research evidence record)
+
+## Key pages
+
+- /research: the CI/CD gap study (claims, evidence, prior art, gap analysis, paper, replication)
+- /field: sourced reference sections (hardware, algorithms, PQC, timeline, networking, sensing, and more)
+- /playground/arcade: 26 games and labs computed by the in browser engine
+- /lab: a five qubit circuit sandbox with exact state, noise, and OpenQASM export
+- /learn: a guided path through the instruments
+- /glossary: definitions linked to the instrument that computes each term
+- /engineering: the tradeoffs behind the build, including a false claim found and removed
+
+## Statements about accuracy
+
+Claims marked verified were checked against their primary source, opened
+directly. Vendor figures stay labeled vendor reported; preprints stay labeled
+preprint. Sampled statistics carry standard errors. Anything the site cannot
+do yet says so in place of pretending.

@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: If you use this software or its research record, cite it as below.
+title: Quantum Powerhouse (QP-Core)
+type: software
+authors:
+  - family-names: Sadeqi
+    given-names: Said Mohaddes
+url: https://quantum.sadeqi.me
+repository-code: https://github.com/Quantum-Powerhouse/QP-Core
+abstract: >-
+  A browser based quantum computing site: a from scratch statevector and
+  density matrix engine, 26 interactive instruments, a circuit sandbox, a
+  variational eigensolver, and a primary source verified research study of
+  regression testing for quantum software.
+keywords:
+  - quantum computing
+  - statevector simulation
+  - quantum education
+  - regression testing
+license: MIT

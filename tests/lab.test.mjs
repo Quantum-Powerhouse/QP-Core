@@ -83,3 +83,31 @@ test("fidelity readout: a circuit equals its own target state", () => {
   const empty = { numQubits: 2, ops: [] };
   approx(idealFidelityTo(empty, runIdeal(bell)), 0.5, 1e-12, "|00⟩ overlaps Bell with 1/2");
 });
+
+// --- circuit permalinks: a shared link must recompute identically ---
+import { encodeCircuit, decodeCircuit, circuitFromHash } from "../src/lib/lab/permalink.ts";
+
+test("permalink roundtrips every preset exactly", async () => {
+  const { PRESETS } = await import("../src/lib/lab/circuit.ts");
+  for (const p of PRESETS) {
+    const decoded = decodeCircuit(encodeCircuit(p.circuit));
+    assert.ok(decoded, p.name);
+    assert.equal(decoded.numQubits, p.circuit.numQubits, p.name);
+    assert.equal(decoded.ops.length, p.circuit.ops.length, p.name);
+    for (let i = 0; i < decoded.ops.length; i++) {
+      const a = decoded.ops[i];
+      const b = p.circuit.ops[i];
+      assert.equal(a.gate, b.gate, p.name);
+      assert.equal(a.q, b.q, p.name);
+      assert.equal(a.q2, b.q2, p.name);
+      if (b.theta !== undefined) assert.ok(Math.abs(a.theta - b.theta) < 1e-3, `${p.name}: theta ${a.theta} vs ${b.theta}`);
+    }
+  }
+});
+
+test("permalink rejects malformed and out of bounds input", () => {
+  for (const bad of ["", "9:h0", "2:hx", "2:h5", "2:cx1", "2:cx1.1", "2:rz0", "2:h0@1.5", "1:h0,junk"]) {
+    assert.equal(decodeCircuit(bad), null, bad);
+  }
+  assert.deepEqual(circuitFromHash("#c=2:h0,cx1.0"), { numQubits: 2, ops: [{ gate: "H", q: 0 }, { gate: "CNOT", q: 1, q2: 0 }] });
+});
