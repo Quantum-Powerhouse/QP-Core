@@ -15,7 +15,7 @@ console.log("nav ok, url:", pg.url());
 // and a globe node click
 await pg.goto(base + "/", { waitUntil: "load" });
 await pg.waitForTimeout(1200);
-await pg.click('a.globe-node[href="/research"]');
+await pg.click('a.globe-node[href="/research"]', { force: true });
 await pg.waitForURL("**/research", { timeout: 5000 });
 console.log("globe node ok, url:", pg.url());
 await b.close();

@@ -32,7 +32,7 @@ const ORBITS: { rx: number; ry: number; nodes: { label: string; href: string; an
 export function SiteGlobe() {
   return (
     <section className="mx-auto max-w-6xl px-6 pb-4 pt-2" aria-label="Site map as an orbital diagram">
-      <div className="relative mx-auto hidden h-[340px] max-w-[620px] sm:block">
+      <div className="globe-map relative mx-auto hidden h-[340px] max-w-[620px] sm:block">
         {/* orbit lines */}
         <svg viewBox="0 0 620 340" className="absolute inset-0 h-full w-full" aria-hidden>
           {ORBITS.map((o) => (

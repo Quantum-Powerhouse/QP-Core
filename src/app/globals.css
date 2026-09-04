@@ -183,3 +183,22 @@ h2 {
     animation: none;
   }
 }
+
+/* The orbit wrappers must not shadow each other's links. */
+.globe-spin,
+.globe-spin-reverse {
+  pointer-events: none;
+}
+.globe-node {
+  pointer-events: auto;
+}
+
+/* Aiming into the map pauses every orbit, moving targets are rude. */
+@media (hover: hover) and (pointer: fine) {
+  .globe-map:hover .globe-spin,
+  .globe-map:hover .globe-spin-reverse,
+  .globe-map:hover .globe-counter,
+  .globe-map:hover .globe-counter-reverse {
+    animation-play-state: paused;
+  }
+}
