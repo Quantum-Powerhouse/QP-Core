@@ -4,8 +4,8 @@ import { chromium } from "@playwright/test";
 const [base = "http://localhost:3100", out = "."] = process.argv.slice(2);
 const b = await chromium.launch();
 const jobs = [
-  ["g-home", "/", 1280, 900],
-  ["g-mobile", "/", 390, 844],
+  ["f-home", "/", 1280, 900],
+  ["f-mobile", "/", 390, 844],
 ];
 for (const [name, path, w, h] of jobs) {
   const pg = await b.newPage({ viewport: { width: w, height: h } });

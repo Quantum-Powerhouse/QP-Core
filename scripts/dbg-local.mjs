@@ -1,0 +1,12 @@
+import { chromium } from "@playwright/test";
+const b = await chromium.launch();
+const pg = await b.newPage({ viewport: { width: 1280, height: 900 } });
+await pg.goto("http://localhost:3110/", { waitUntil: "load", timeout: 60000 });
+await pg.waitForTimeout(1800);
+await pg.click('header a[href="/lab"]', { noWaitAfter: true });
+await pg.waitForTimeout(650);
+console.log("state:", await pg.evaluate(() => document.querySelector(".zoomnav-state")?.textContent));
+await pg.screenshot({ path: process.argv[2] });
+await pg.waitForURL("**/lab", { timeout: 6000 });
+console.log("landed ok");
+await b.close();

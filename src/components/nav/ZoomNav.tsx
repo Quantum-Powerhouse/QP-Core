@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { NAV_ITEMS } from "@/components/navItems";
-import { sampleRandomBits } from "@/lib/arcade/qlogic";
+
 
 type Phase = "idle" | "collapse" | "think" | "expand";
 
@@ -26,6 +26,9 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
   const [phase, setPhase] = useState<Phase>("idle");
   const [label, setLabel] = useState("");
   const [bits, setBits] = useState<number[]>([]);
+  const [amps, setAmps] = useState({ a: 1, b: 0 });
+  const [collapsed, setCollapsed] = useState<number | null>(null);
+  const thetaRef = useRef(0);
   const [hop, setHop] = useState(0);
   const pendingRef = useRef<string | null>(null);
   const arrivedRef = useRef(false);
@@ -60,7 +63,9 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
       const delta = section(destPath) - section(pathname);
       setHop(Math.max(-150, Math.min(150, (Number.isNaN(delta) ? 1 : delta) * 42)));
       setLabel(NAV_ITEMS[section(destPath)]?.label ?? destPath.split("/").filter(Boolean).pop() ?? "home");
-      setBits(sampleRandomBits(6));
+      thetaRef.current = 0;
+      setAmps({ a: 1, b: 0 });
+      setCollapsed(null);
       pendingRef.current = href;
       arrivedRef.current = false;
       thinkDoneRef.current = false;
@@ -88,11 +93,27 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
     }
   }, [pathname, maybeExpand]);
 
-  // While collapsing or thinking, stream real Born rule bits.
+  // While collapsing or thinking: a precessing state, measured for real.
+  // theta advances each tick; alpha and beta are its true amplitudes, and
+  // every bit shown is a Born rule sample with P(1) = beta squared.
   useEffect(() => {
     if (phase !== "collapse" && phase !== "think") return;
-    const iv = setInterval(() => setBits(sampleRandomBits(6)), 72);
+    const iv = setInterval(() => {
+      thetaRef.current += 0.42;
+      const a = Math.abs(Math.cos(thetaRef.current / 2));
+      const b = Math.abs(Math.sin(thetaRef.current / 2));
+      setAmps({ a, b });
+      const p1 = b * b;
+      setBits(Array.from({ length: 6 }, () => (Math.random() < p1 ? 1 : 0)));
+    }, 72);
     return () => clearInterval(iv);
+  }, [phase]);
+
+  // Arrival is a measurement: collapse the precessing state to one outcome.
+  useEffect(() => {
+    if (phase !== "expand") return;
+    const b = Math.abs(Math.sin(thetaRef.current / 2));
+    setCollapsed(Math.random() < b * b ? 1 : 0);
   }, [phase]);
 
   // Safety: never leave the page stuck small.
@@ -115,8 +136,19 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
         <div className="zoomnav-mover">
           <div className="zoomnav-orb">
             <span className="zoomnav-ring" />
-            <span className="font-mono text-lg text-[#fafaf7]">|ψ⟩</span>
+            <div className="zoomnav-bloch">
+              <span className="ring-eq" />
+              <span className="ring-mer" />
+              <span className="precession">
+                <span className="arrow" />
+              </span>
+            </div>
           </div>
+          <p className="zoomnav-state font-mono text-xs text-foreground">
+            {collapsed === null
+              ? `${amps.a.toFixed(2)}|0⟩ + ${amps.b.toFixed(2)}|1⟩`
+              : `collapsed to |${collapsed}⟩`}
+          </p>
           <p className="zoomnav-bits font-mono text-[11px] tracking-widest text-muted">
             {bits.map((b, i) => (
               <span key={i} className={b ? "text-accent" : ""}>{b}</span>
