@@ -1,0 +1,10 @@
+import { chromium } from "@playwright/test";
+const b = await chromium.launch();
+const pg = await b.newPage({ viewport: { width: 1280, height: 900 } });
+await pg.goto("https://quantum.sadeqi.me/", { waitUntil: "load", timeout: 60000 });
+await pg.waitForTimeout(2500);
+console.log("chip text:", await pg.evaluate(() => document.body.innerText.match(/live service|labeled mock[^\n]*/)?.[0] ?? "MISSING"));
+await pg.goto("https://quantum.sadeqi.me/playground/arcade", { waitUntil: "load", timeout: 60000 });
+await pg.waitForTimeout(1500);
+console.log("arcade count line:", await pg.evaluate(() => document.body.innerText.match(/\d+ games, labs, and demos/)?.[0] ?? "MISSING"));
+await b.close();
