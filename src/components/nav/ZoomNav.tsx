@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { NAV_ITEMS } from "@/components/navItems";
 import { sampleRandomBits } from "@/lib/arcade/qlogic";
 
@@ -37,14 +37,12 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
     timersRef.current = [];
   };
 
-  const maybeExpand = () => {
+  const maybeExpand = useCallback(() => {
     if (arrivedRef.current && thinkDoneRef.current) {
       setPhase("expand");
       timersRef.current.push(setTimeout(() => setPhase("idle"), EXPAND_MS + 40));
     }
-  };
-  const maybeExpandRef = useRef(maybeExpand);
-  maybeExpandRef.current = maybeExpand;
+  }, []);
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -62,6 +60,7 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
       const delta = section(destPath) - section(pathname);
       setHop(Math.max(-150, Math.min(150, (Number.isNaN(delta) ? 1 : delta) * 42)));
       setLabel(NAV_ITEMS[section(destPath)]?.label ?? destPath.split("/").filter(Boolean).pop() ?? "home");
+      setBits(sampleRandomBits(6));
       pendingRef.current = href;
       arrivedRef.current = false;
       thinkDoneRef.current = false;
@@ -72,27 +71,26 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
       timersRef.current.push(
         setTimeout(() => {
           thinkDoneRef.current = true;
-          maybeExpandRef.current();
+          maybeExpand();
         }, COLLAPSE_MS + THINK_MS)
       );
     };
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
-  }, [pathname, router]);
+  }, [pathname, router, maybeExpand]);
 
   // The route arrived; expand only after the qubit has finished thinking.
   useEffect(() => {
     if (pendingRef.current && pendingRef.current.split("#")[0] === pathname) {
       pendingRef.current = null;
       arrivedRef.current = true;
-      maybeExpandRef.current();
+      maybeExpand();
     }
-  }, [pathname]);
+  }, [pathname, maybeExpand]);
 
   // While collapsing or thinking, stream real Born rule bits.
   useEffect(() => {
     if (phase !== "collapse" && phase !== "think") return;
-    setBits(sampleRandomBits(6));
     const iv = setInterval(() => setBits(sampleRandomBits(6)), 72);
     return () => clearInterval(iv);
   }, [phase]);
