@@ -18,7 +18,7 @@ import {
 } from "@/lib/arcade/qlogic";
 import { zeroDensityMatrix, applyUnitary, applyDepolarizing1Q, embedSingleQubitOperator } from "@/lib/physics/densityMatrix";
 import { GATE_H } from "@/lib/arcade/qlogic";
-import { ArcadeButton, GameCard, ProbBars, Slider, Stat } from "@/components/arcade/kit";
+import { ArcadeButton, GameCard, ProbBars, Slider, Stat , Prediction } from "@/components/arcade/kit";
 import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 
 /* 15 ─ Grover Searchlight: amplitude amplification you can overdo. */
@@ -41,6 +41,14 @@ export function GroverSearchlight() {
         Eight drawers, one prize. Classically you open ~4. Grover finds it in {optimal} iterations, and if you keep
         going past the sweet spot, the amplitude rotates <em>away</em> again. Try over searching.
       </p>
+      <Prediction
+        storageKey="grover-searchlight"
+        question="Before you search: one press past the sweet spot, P(prize) will"
+        options={["keep rising", "fall"]}
+        correct={1}
+        revealed={iters === optimal + 1}
+        computed={`P(prize) = ${(probs[marked] * 100).toFixed(1)}% after ${iters} presses (optimal ${optimal})`}
+      />
       <div className="flex flex-wrap items-center gap-2">
         <span className="font-mono text-xs text-muted">prize in drawer:</span>
         {Array.from({ length: 8 }, (_, i) => (

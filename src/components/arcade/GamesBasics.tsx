@@ -16,7 +16,7 @@ import {
   NAMED_GATES,
   stateFromAngles,
 } from "@/lib/arcade/qlogic";
-import { ArcadeButton, BlochDial, GameCard, ProbBars, Slider, Stat } from "@/components/arcade/kit";
+import { ArcadeButton, BlochDial, GameCard, ProbBars, Slider, Stat , Prediction } from "@/components/arcade/kit";
 
 /* 1 ─ Gate Mixer: press gates, watch a real statevector move. */
 export function GateMixer() {
@@ -170,6 +170,14 @@ export function InterferenceLab() {
       <p className="text-muted">
         Split one qubit onto two paths (H), twist the phase between them, recombine (H). The output probability swings from certain to impossible, with nothing removed, only phase.
       </p>
+      <Prediction
+        storageKey="interference-lab"
+        question="Before you slide: at φ = 180°, P(|0⟩) will be"
+        options={["1", "0", "½"]}
+        correct={1}
+        revealed={Math.abs(phi - Math.PI) < 0.06}
+        computed={`P(|0⟩) = ${probs[0].toFixed(2)} at φ = ${((phi / Math.PI) * 180).toFixed(0)}°`}
+      />
       <Slider label="path phase φ" value={phi} min={0} max={2 * Math.PI} step={0.01} onChange={setPhi} format={(v) => `${((v / Math.PI) * 180).toFixed(0)}°`} />
       <ProbBars probs={probs} labels={["|0⟩", "|1⟩"]} />
       <svg viewBox="0 0 200 44" className="w-full" aria-hidden>

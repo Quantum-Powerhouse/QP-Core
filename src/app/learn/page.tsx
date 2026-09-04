@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { buildMetadata } from "@/lib/seo";
+import { PredictBadge } from "@/components/PredictBadge";
 
 export const metadata: Metadata = buildMetadata({
   title: "Learn Quantum Computing by Playing: a Guided Path",
@@ -95,6 +96,7 @@ export default function LearnPage() {
                         {s.game}
                       </Link>
                       <span className="text-muted">, {s.learn}</span>
+                      {["interference-lab", "chsh-beat-the-classical-bound", "grover-searchlight"].includes(s.slug) && <PredictBadge slug={s.slug} />}
                     </div>
                   </li>
                 ))}

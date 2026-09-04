@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, JetBrains_Mono, STIX_Two_Text } from "next/font/google";
 import { JsonLd } from "@/components/JsonLd";
-import { BlackHole } from "@/components/three/BlackHole";
-import { ParticleField } from "@/components/three/ParticleField";
+import { AmbientFx } from "@/components/three/AmbientFx";
 import { QuantumEventProvider } from "@/components/quantum/QuantumEventProvider";
-import { QuantumPet } from "@/components/quantum/pet/QuantumPet";
 import { ZoomNav } from "@/components/nav/ZoomNav";
 import { personSchema, websiteSchema } from "@/lib/jsonld";
 import { SITE_URL, buildMetadata } from "@/lib/seo";
@@ -43,16 +41,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <a href="#main-content" className="skip-link">Skip to content</a>
         <QuantumEventProvider>
-          <ParticleField />
-          {/* The resident singularity: huge, translucent, behind everything. */}
-          <div
-            aria-hidden
-            className="pointer-events-none fixed inset-0 -z-10 opacity-40 [transform:translate(18%,-12%)_scale(1.75)] motion-reduce:opacity-25"
-          >
-            <BlackHole />
-          </div>
+          <AmbientFx />
           <ZoomNav><div id="main-content" className="contents">{children}</div></ZoomNav>
-          <QuantumPet />
         </QuantumEventProvider>
         <JsonLd data={personSchema()} />
         <JsonLd data={websiteSchema()} />

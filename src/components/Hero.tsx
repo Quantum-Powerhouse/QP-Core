@@ -1,4 +1,4 @@
-import { BlochSphere } from "@/components/three/BlochSphere";
+import { BlochSphereLazy } from "@/components/three/BlochSphereLazy";
 import { SiteGlobe } from "@/components/SiteGlobe";
 import { TranspilerStatusChip } from "@/components/TranspilerStatusChip";
 import { ARCADE_GAME_COUNT } from "@/components/arcade/manifest";
@@ -55,7 +55,7 @@ export function Hero() {
         <p className="mb-4 font-mono text-xs uppercase tracking-widest text-muted">
           Interactive Bloch Sphere, |Ψ⟩ = α|0⟩ + β|1⟩
         </p>
-        <BlochSphere />
+        <BlochSphereLazy />
       </div>
     </section>
   );

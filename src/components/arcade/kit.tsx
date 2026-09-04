@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Shared UI kit for the Quantum Arcade. Every game renders inside a GameCard
@@ -166,5 +167,57 @@ export function Slider({
         className="accent-[var(--accent)]"
       />
     </label>
+  );
+}
+
+
+/**
+ * Predict then run: the learner commits to an answer before the engine
+ * speaks. The verdict compares their pick with the computed result; a
+ * localStorage flag lets the learn path show a check. Nothing is graded
+ * by anything but the computation itself.
+ */
+export function Prediction({
+  storageKey,
+  question,
+  options,
+  correct,
+  revealed,
+  computed,
+}: {
+  storageKey: string;
+  question: string;
+  options: string[];
+  correct: number;
+  revealed: boolean;
+  computed: string;
+}) {
+  const [choice, setChoice] = useState<number | null>(null);
+  useEffect(() => {
+    if (revealed && choice !== null) {
+      try {
+        localStorage.setItem(`predict-${storageKey}`, "1");
+      } catch {}
+    }
+  }, [revealed, choice, storageKey]);
+  return (
+    <div className="rounded-lg border border-border bg-surface-2/60 p-3">
+      <p className="font-mono text-xs text-muted">{question}</p>
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        {options.map((o, i) => (
+          <ArcadeButton key={o} primary={choice === i} onClick={() => setChoice(i)}>
+            {o}
+          </ArcadeButton>
+        ))}
+      </div>
+      {revealed && choice !== null && (
+        <p className="mt-2 font-mono text-xs" role="status">
+          <span className={choice === correct ? "text-accent-2" : "text-[#a33327]"}>
+            {choice === correct ? "your prediction held" : "the engine disagrees with you"}
+          </span>{" "}
+          <span className="text-muted">· {computed}</span>
+        </p>
+      )}
+    </div>
   );
 }

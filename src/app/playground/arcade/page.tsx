@@ -34,7 +34,7 @@ import { BernsteinVazirani, GhzGame, QftPeriodFinder } from "@/components/arcade
 import { EngineBenchmark } from "@/components/arcade/EngineBenchmark";
 import { HardwareComparison } from "@/components/HardwareComparison";
 import { Reveal } from "@/components/Reveal";
-import { ARCADE_GAME_COUNT } from "@/components/arcade/manifest";
+import { ARCADE_GAME_COUNT, ARCADE_INDEX } from "@/components/arcade/manifest";
 import { softwareApplicationSchema } from "@/lib/jsonld";
 import { SITE_URL, buildMetadata } from "@/lib/seo";
 
@@ -96,6 +96,20 @@ export default function ArcadePage() {
             One card runs an analytic textbook formula instead of a simulation, it says so on the card.
           </p>
         </div>
+        <nav className="mx-auto max-w-6xl px-6 pt-6" aria-label="Game index">
+          <div className="flex flex-col gap-2" id="arcade-index">
+            {ARCADE_INDEX.map((g) => (
+              <p key={g.section} className="flex flex-wrap items-baseline gap-x-2 gap-y-1 font-mono text-xs text-muted">
+                <span className="text-foreground">{g.section}:</span>
+                {g.titles.map((title) => (
+                  <a key={title} href={`#${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}`} className="text-accent underline-offset-2 hover:underline">
+                    {title}
+                  </a>
+                ))}
+              </p>
+            ))}
+          </div>
+        </nav>
         {SECTIONS.map((section) => (
           <section key={section.heading} className="mx-auto max-w-6xl px-6 py-10">
             <h2 className="text-xl font-semibold text-foreground">{section.heading}</h2>

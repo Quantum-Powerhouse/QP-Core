@@ -193,3 +193,23 @@ test("the manifest count matches the exported game components", () => {
     .flatMap((t) => t.match(/^export function [A-Z]/gm) ?? []).length;
   assert.equal(games, ARCADE_GAME_COUNT, `manifest ${ARCADE_GAME_COUNT} vs components ${games}`);
 });
+
+test("the generated index matches the GameCard titles in each file", async () => {
+  const { ARCADE_INDEX } = await import("../src/components/arcade/manifest.ts");
+  const fileFor = {
+    "One qubit, no mercy": "GamesBasics",
+    "Entanglement & protocols": "GamesEntangle",
+    "Algorithms, noise & spies": "GamesAdvanced",
+    "The frontier": "GamesFrontier",
+    "The algorithm wing": "GamesAlgorithms",
+  };
+  let total = 0;
+  for (const group of ARCADE_INDEX) {
+    const src = readFileSync(join("src/components/arcade", `${fileFor[group.section]}.tsx`), "utf-8");
+    for (const title of group.titles) {
+      assert.ok(src.includes(`title="${title}"`), `${group.section}: title ${title} missing from source`);
+      total++;
+    }
+  }
+  assert.equal(total, ARCADE_GAME_COUNT, `index lists ${total}, manifest says ${ARCADE_GAME_COUNT}`);
+});

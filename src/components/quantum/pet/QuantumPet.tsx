@@ -1,5 +1,6 @@
 "use client";
 
+import { qpetHiddenSnapshot, qpetServerSnapshot, subscribeQpetHidden } from "@/lib/quantum/qpetVisibility";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Canvas } from "@react-three/fiber";
@@ -216,6 +217,7 @@ function writeSessionInt(key: string, value: number): void {
 }
 
 export function QuantumPet() {
+  const petHidden = useSyncExternalStore(subscribeQpetHidden, qpetHiddenSnapshot, qpetServerSnapshot);
   const stateRef = useRef<PetVisualState>(createPetVisualState());
   const emotionRef = useRef<QpitEmotion>("IDLE");
   const lastSpokenAtRef = useRef(0);
@@ -602,6 +604,8 @@ export function QuantumPet() {
 
   const interactive = finePointer && !reduceMotion;
   const nextStep = NEXT_STEP[sectionForPath(pathname)];
+
+  if (petHidden) return null;
 
   return (
     <QpitPhysics

@@ -18,7 +18,7 @@ import {
   GATE_Z,
   teleportationStages,
 } from "@/lib/arcade/qlogic";
-import { ArcadeButton, GameCard, ProbBars, Slider, Stat } from "@/components/arcade/kit";
+import { ArcadeButton, GameCard, ProbBars, Slider, Stat , Prediction } from "@/components/arcade/kit";
 import { useQuantumEventBus } from "@/components/quantum/QuantumEventProvider";
 
 /* 8 ─ Entanglement Dial: slide from product state to Bell pair. */
@@ -86,6 +86,14 @@ export function ChshGame() {
         Classical physics caps |S| at 2. A Bell pair reaches 2√2 ≈ 2.83. Collect rounds and watch your sampled S
         climb past what any local hidden variable story allows.
       </p>
+      <Prediction
+        storageKey="chsh-beat-the-classical-bound"
+        question="Before you run: after 100+ rounds, S will land"
+        options={["under 2", "between 2 and 2.83", "above 2.83"]}
+        correct={1}
+        revealed={stats.n >= 100}
+        computed={`S = ${S.toFixed(2)} ± ${sErr.toFixed(2)} after ${stats.n} rounds`}
+      />
       <div className="flex gap-2">
         <ArcadeButton primary onClick={() => run(25)}>
           run 25 rounds

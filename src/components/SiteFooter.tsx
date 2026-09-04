@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PetToggle } from "@/components/PetToggle";
 
 export function SiteFooter() {
   return (
@@ -13,6 +14,8 @@ export function SiteFooter() {
           <Link href="/engineering" className="hover:text-accent">engineering decisions</Link>
           {" · "}
           <Link href="/glossary" className="hover:text-accent">glossary</Link>
+          {" · "}
+          <PetToggle />
         </p>
         <a
           href="https://github.com/Quantum-Powerhouse/QP-Core"
