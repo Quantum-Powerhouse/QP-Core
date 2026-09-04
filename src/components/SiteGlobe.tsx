@@ -1,12 +1,12 @@
 import Link from "next/link";
 
-const W = 720;
-const H = 400;
+const W = 900;
+const H = 500;
 
 const ORBITS: { rx: number; ry: number; nodes: { label: string; href: string; angle: number }[] }[] = [
   {
-    rx: 300,
-    ry: 162,
+    rx: 386,
+    ry: 204,
     nodes: [
       { label: "Arcade", href: "/playground/arcade", angle: -18 },
       { label: "Research", href: "/research", angle: 62 },
@@ -15,8 +15,8 @@ const ORBITS: { rx: number; ry: number; nodes: { label: string; href: string; an
     ],
   },
   {
-    rx: 204,
-    ry: 106,
+    rx: 258,
+    ry: 132,
     nodes: [
       { label: "Lab", href: "/lab", angle: 28 },
       { label: "Hardware", href: "/hardware", angle: 128 },
@@ -54,8 +54,8 @@ export function SiteGlobe() {
             ))}
           </svg>
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div className="globe-core flex h-20 w-20 items-center justify-center rounded-full">
-              <span className="font-mono text-base text-[#fafaf7]">|ψ⟩</span>
+            <div className="globe-core flex h-24 w-24 items-center justify-center rounded-full">
+              <span className="font-mono text-lg text-[#fafaf7]">|ψ⟩</span>
             </div>
           </div>
           {ORBITS.map((o, oi) => (

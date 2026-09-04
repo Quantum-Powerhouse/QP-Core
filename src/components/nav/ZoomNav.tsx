@@ -63,7 +63,7 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
       e.preventDefault();
       const section = (p: string) => NAV_ITEMS.findIndex((n) => p === n.href || p.startsWith(`${n.href}/`));
       const delta = section(destPath) - section(pathname);
-      setHop(Math.max(-150, Math.min(150, (Number.isNaN(delta) ? 1 : delta) * 42)));
+      setHop(Math.max(-240, Math.min(240, (Number.isNaN(delta) ? 1 : delta) * 64)));
       setLabel(NAV_ITEMS[section(destPath)]?.label ?? destPath.split("/").filter(Boolean).pop() ?? "home");
       thetaRef.current = 0;
       setAmps({ a: 1, b: 0 });
@@ -184,17 +184,17 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
               </span>
             </div>
           </div>
-          <p className="zoomnav-state font-mono text-xs text-foreground">
+          <p className="zoomnav-state font-mono text-sm text-foreground">
             {collapsed === null
               ? `${amps.a.toFixed(2)}|0⟩ + ${amps.b.toFixed(2)}|1⟩`
               : `collapsed to |${collapsed}⟩`}
           </p>
-          <p className="zoomnav-bits font-mono text-xs tracking-widest text-muted">
+          <p className="zoomnav-bits font-mono text-sm tracking-widest text-muted">
             {bits.map((b, i) => (
               <span key={i} className={b ? "text-accent" : ""}>{b}</span>
             ))}
           </p>
-          <p className="font-mono text-xs text-foreground">{label}</p>
+          <p className="font-mono text-base text-foreground">{label}</p>
         </div>
       </div>
     </>

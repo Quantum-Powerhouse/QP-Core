@@ -900,21 +900,21 @@ export function QpitPhysics({
               transform: "translate(-50%, -50%) scaleY(0.28)",
               border: "3px solid transparent",
               background:
-                "linear-gradient(90deg, color-mix(in srgb, #78660f 70%, transparent), color-mix(in srgb, var(--accent-2) 80%, transparent), color-mix(in srgb, #78660f 70%, transparent)) border-box",
+                "linear-gradient(90deg, color-mix(in srgb, #46617c 75%, transparent), color-mix(in srgb, #9fb4cc 90%, transparent), color-mix(in srgb, #46617c 75%, transparent)) border-box",
               WebkitMask: "linear-gradient(#fff 0 0) padding box, linear-gradient(#fff 0 0)",
               WebkitMaskComposite: "xor",
               maskComposite: "exclude",
               filter: "blur(1px)",
-              animation: "qpit spin 2.6s linear infinite",
+              animation: "qpit-spin 2.6s linear infinite",
             }}
           />
           {/* photon ring: thin, bright, hugging the shadow */}
           <div
             className="h-[150px] w-[150px] rounded-full"
             style={{
-              border: "2px solid color-mix(in srgb, #78660f 85%, white)",
+              border: "1.5px solid #9fb4cc",
               boxShadow:
-                "0 0 22px color-mix(in srgb, #78660f 55%, transparent), 0 0 44px color-mix(in srgb, var(--accent-2) 35%, transparent), inset 0 0 16px color-mix(in srgb, #78660f 40%, transparent)",
+                "0 0 14px rgba(70, 97, 124, 0.35), inset 0 0 10px rgba(70, 97, 124, 0.25)",
             }}
           />
           {/* the shadow: fully black */}
@@ -972,7 +972,7 @@ export function QpitPhysics({
               style={{
                 border: `1.5px solid color-mix(in srgb, ${portal.color} 75%, transparent)`,
                 boxShadow: `0 0 14px color-mix(in srgb, ${portal.color} 40%, transparent), inset 0 0 10px color-mix(in srgb, ${portal.color} 30%, transparent)`,
-                animation: "qpit spin 1.6s linear infinite",
+                animation: "qpit-spin 1.6s linear infinite",
                 borderStyle: "dashed",
               }}
             />

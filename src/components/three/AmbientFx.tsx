@@ -15,7 +15,7 @@ export function AmbientFx() {
       {/* The resident singularity: huge, translucent, behind everything. */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10 opacity-40 [transform:translate(18%,-12%)_scale(1.75)] motion-reduce:opacity-25"
+        className="pointer-events-none fixed inset-0 -z-10 opacity-75 [transform:translate(22%,-10%)_scale(1.15)] motion-reduce:opacity-50"
       >
         <BlackHole />
       </div>
