@@ -5,6 +5,7 @@ import { BlackHole } from "@/components/three/BlackHole";
 import { ParticleField } from "@/components/three/ParticleField";
 import { QuantumEventProvider } from "@/components/quantum/QuantumEventProvider";
 import { QuantumPet } from "@/components/quantum/pet/QuantumPet";
+import { ZoomNav } from "@/components/nav/ZoomNav";
 import { personSchema, websiteSchema } from "@/lib/jsonld";
 import { SITE_URL, buildMetadata } from "@/lib/seo";
 import "./globals.css";
@@ -49,7 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           >
             <BlackHole />
           </div>
-          {children}
+          <ZoomNav>{children}</ZoomNav>
           <QuantumPet />
         </QuantumEventProvider>
         <JsonLd data={personSchema()} />

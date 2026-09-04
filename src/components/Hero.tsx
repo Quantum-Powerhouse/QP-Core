@@ -1,4 +1,5 @@
 import { BlochSphere } from "@/components/three/BlochSphere";
+import { SiteGlobe } from "@/components/SiteGlobe";
 import { ARCADE_GAME_COUNT } from "@/components/arcade/manifest";
 
 export function Hero() {
@@ -39,7 +40,11 @@ export function Hero() {
         </a>
       </div>
 
-      <div className="mt-16">
+      <div className="mt-12">
+        <SiteGlobe />
+      </div>
+
+      <div className="mt-10">
         <p className="mb-4 font-mono text-xs uppercase tracking-widest text-muted">
           Interactive Bloch Sphere, |Ψ⟩ = α|0⟩ + β|1⟩
         </p>
