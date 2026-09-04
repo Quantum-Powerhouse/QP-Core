@@ -291,6 +291,11 @@ export function TranspilerTerminalStudio() {
           )}
         </div>
 
+        {result?.mock && (
+          <p className="border-b border-border px-4 py-1.5 font-mono text-xs text-[#7a5608]">
+            demo mode · the service is offline, so every tab below shows the labeled mock
+          </p>
+        )}
         <div className="flex flex-wrap gap-1 border-b border-border px-4 pt-2">
           {TABS.map((t) => (
             <button

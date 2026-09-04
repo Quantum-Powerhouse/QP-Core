@@ -34,7 +34,7 @@ export default function ApiReferenceDocPage() {
       ) : (
         <>
           <Note tone="warning">
-            Snapshot mode: <code>NEXT_PUBLIC_TRANSPILER_API_URL</code> isn&apos;t set, so this is a static
+            Snapshot mode: the live service is not connected on this deployment, so this is a static
             snapshot (<code>public/openapi/quantumflow-api.json</code>) rather than a live spec, the backend
             has no deployed URL configured for this build. Regenerate it from the real service with:
           </Note>

@@ -12,7 +12,7 @@ export function AboutSection() {
     { value: String(ARCADE_GAME_COUNT), label: "playable quantum games" },
     { value: String(stats.totalClaims), label: "research claims, each with a verdict" },
     { value: String(stats.priorArtSystems), label: "prior art systems inspected" },
-    { value: String(stats.uniqueSourcesLinked), label: "primary sources linked" },
+    { value: String(stats.uniqueSourcesLinked), label: "unique sources in the claims record" },
   ];
 
   return (

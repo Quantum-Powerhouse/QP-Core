@@ -59,8 +59,8 @@ export const SOURCE_GROUPS: SourceGroup[] = [
     heading: "Sources attempted but inaccessible",
     note: "Documented rather than silently dropped, these were not used as evidence for any claim.",
     items: [
-      { label: "PyPI mqt.qcec project page, failed to load via WebFetch" },
-      { label: "arXiv 2506.17306 PDF (compressed stream), unreadable via WebFetch; worked around via direct file read" },
+      { label: "PyPI mqt.qcec project page, page failed to load during the verification pass" },
+      { label: "arXiv 2506.17306 PDF (compressed stream), compressed stream was unreadable in the fetch pipeline; worked around by downloading the file directly" },
       { label: "arXiv 2506.17306 HTML version, 404, not published" },
       { label: "ScienceDirect full text for the QCEC and Bugs4Q DOIs, blocked by a JS rendered redirect wall" },
     ],

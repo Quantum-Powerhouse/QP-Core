@@ -20,6 +20,11 @@ export default function SourcesPage() {
       />
 
       <P>
+        Two denominators, stated so nobody has to reconcile them: the claims record links its own set of unique
+        sources (the count shown on the homepage), while this page catalogs every source opened during the study,
+        including failures and unverified leads. This list is the superset.
+      </P>
+      <P>
         The full annotated version, with per claim cross references, is{" "}
         <a href={researchFileUrl("research/sources.md")} className="font-mono text-xs text-accent hover:text-foreground">
           sources.md

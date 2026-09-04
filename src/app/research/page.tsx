@@ -71,7 +71,7 @@ export default function ResearchOverviewPage() {
       <ResearchHero stats={stats} />
 
       <Note tone="warning">
-        <strong>Status: architecture and implementation are blocked pending human review.</strong> Nothing here
+        <strong>Status: the study is released as v1.1.1 with its companion tool, pytest-qequiv.</strong> Zenodo DOI archival waits on the owner&apos;s toggle. Nothing here
         is a product proposal. This section documents a sustained research effort, last updated{" "}
         <span className="whitespace-nowrap">2026-08-21</span>.
       </Note>
@@ -127,7 +127,7 @@ export default function ResearchOverviewPage() {
             <p className="font-semibold text-foreground">The single most important find: QUTest already exists</p>
           </div>
           <p className="text-sm leading-relaxed text-muted">
-            arXiv:2605.19736 (May 2026) already implements cross Qiskit version regression testing with
+            arXiv:2605.19736 (May 2026) ships, in its own phrasing, an environment aware mode for running the same tests across selected runtime versions, Qiskit only, with
             GitHub Actions compatible output. This materially narrows any novelty claim, it does not
             eliminate the gap, but it removes a large piece of it.
           </p>

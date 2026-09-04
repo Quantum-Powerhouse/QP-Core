@@ -23,9 +23,9 @@ export default function HardwarePage() {
         <p className="mb-2 font-mono text-sm text-accent">Hardware</p>
         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Real quantum hardware</h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-          Everything else on this site is exact simulation. On this page a circuit leaves the browser, runs on a
-          physical processor and comes back with the noise that simulation does not have. The lane never shows a
-          device result that did not come from a device.
+          Everything else on this site is exact simulation. This lane is built, tested, and waiting for its first
+          device run: once a token is configured, a submitted circuit runs on a physical processor and comes back
+          with the noise simulation does not have. It never shows a device result that did not come from a device.
         </p>
         <p className="mt-3 max-w-2xl text-sm text-muted">
           Two things work today: the exact prediction, and the comparison below against a real device&apos;s

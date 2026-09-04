@@ -1,9 +1,13 @@
 # QP-Core
 
-The Quantum Powerhouse portfolio site, a dark themed Next.js app introducing
-the organization, with quantum mechanics / Qiskit projects, and hosting
-a live **Quantum Transpiler Terminal** that converts OpenQASM 2.0/3.0 circuits
-to Amazon Braket IR via a FastAPI backend.
+[![CI](https://github.com/Quantum-Powerhouse/QP-Core/actions/workflows/ci.yml/badge.svg)](https://github.com/Quantum-Powerhouse/QP-Core/actions/workflows/ci.yml)
+
+Quantum software that runs: a statevector and density matrix engine computed
+in the browser, 26 interactive instruments, a five qubit circuit sandbox, a
+variational eigensolver, a primary source verified research study with its
+companion pytest plugin, and a transpiler terminal that converts OpenQASM
+2.0/3.0 circuits to Amazon Braket IR via a FastAPI service. Paper and ink
+design; every rendered number is computed. Live at https://quantum.sadeqi.me
 
 ## Stack
 

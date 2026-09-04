@@ -48,7 +48,7 @@ export function ResearchCallout() {
             {[
               { v: String(stats.totalClaims), l: "claims, each with a verdict" },
               { v: String(stats.priorArtSystems), l: "prior art systems inspected" },
-              { v: String(stats.uniqueSourcesLinked), l: "primary sources linked" },
+              { v: String(stats.uniqueSourcesLinked), l: "unique sources in the claims record" },
               { v: String(stats.claimsByStatus.false), l: "starting assumptions found false" },
             ].map((s) => (
               <div key={s.l} className="flex flex-col">

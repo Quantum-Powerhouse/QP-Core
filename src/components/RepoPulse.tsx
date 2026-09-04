@@ -26,7 +26,7 @@ export function RepoPulse() {
     Promise.all(
       REPOS.map(async (repo): Promise<Pulse> => {
         try {
-          const r = await fetch(`https://api.github.com/repos/${repo}/commits?since=${since}&per_page=100`, { headers: { accept: "application/vnd.github+json" } });
+          const r = await fetch(`/api/github-pulse?repo=${encodeURIComponent(repo)}`);
           if (!r.ok) return { repo, lastCommit: null, commits30d: null, error: `HTTP ${r.status}` };
           const commits = (await r.json()) as { commit: { author: { date: string } } }[];
           return { repo, lastCommit: commits[0]?.commit.author.date ?? null, commits30d: commits.length };

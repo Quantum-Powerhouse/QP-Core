@@ -26,7 +26,7 @@ export default function BuilderPage() {
         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Said Mohaddes Sadeqi</h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
           I build quantum software. The numbers on this site come out of calculations that run in your browser, the
-          research claims link to the primary sources I read, and the tools are things another engineer can install.
+          research claims link to the primary sources I read, and the tools are things another engineer can install from source.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3 text-sm">

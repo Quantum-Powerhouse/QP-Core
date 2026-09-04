@@ -17,14 +17,18 @@ export function Hero() {
       </div>
 
       <p className="mb-4 font-mono text-sm text-accent">Quantum Powerhouse</p>
+      <p className="mb-4 text-sm text-muted">
+        Built and maintained by <a href="/builder" className="text-foreground underline-offset-2 hover:underline">Said Mohaddes Sadeqi</a>;{" "}
+        <a href="/engineering" className="text-accent">the engineering decisions</a> say how.
+      </p>
       <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">
         Quantum software that <span className="text-accent">runs</span>.
       </h1>
       <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-        An OpenQASM to Amazon Braket IR transpiler, a variational quantum
-        eigensolver built from scratch, and a zero noise extrapolation engine,
-        all computed live in your browser. Rotate the Bloch sphere below, or
-        go straight to the transpiler terminal.
+        A variational quantum eigensolver and a zero noise extrapolation
+        engine built from scratch and computed live in your browser, plus an
+        OpenQASM to Amazon Braket IR transpiler that runs as a small service.
+        Rotate the Bloch sphere below, or go straight to the terminal.
       </p>
       <p className="mt-3 max-w-2xl text-sm text-muted">
         Latest: a primary source verified study of the quantum CI/CD testing gap, released as{" "}

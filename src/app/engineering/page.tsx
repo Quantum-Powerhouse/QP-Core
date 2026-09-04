@@ -68,7 +68,7 @@ const DECISIONS: { title: string; problem: string; call: string; cost: string; p
     problem: "Two real defects shipped past local testing: while roaming, the pet's body ignored pointer events so a real mouse click could never poke it (programmatic clicks had masked this); and the phone menu's close on route change effect fired on mount, racing a fast tap on slow devices.",
     call: "A headed Playwright job in CI on every push, real pointer events, real hydration timing, phone viewports at 375/390/428 px.",
     cost: "Roughly three extra minutes per CI run and one flaky timing lesson (never run e2e concurrently with next build, they share .next). Both bugs were found by the job, not by me.",
-    proof: { label: "e2e/ on GitHub", href: "https://github.com/Quantum-Powerhouse/QP-Core/tree/main/e2e" },
+    proof: { label: "the CI runs, green on every push", href: "https://github.com/Quantum-Powerhouse/QP-Core/actions/workflows/ci.yml" },
   },
   {
     title: "Deployment: the known wart",
