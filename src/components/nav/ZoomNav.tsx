@@ -114,7 +114,8 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
       <div className="zoomnav-overlay" data-zoom-phase={phase} style={{ ["--hop" as string]: `${hop}px` }} aria-hidden>
         <div className="zoomnav-mover">
           <div className="zoomnav-orb">
-            <span className="font-mono text-sm text-[#fafaf7]">|ψ⟩</span>
+            <span className="zoomnav-ring" />
+            <span className="font-mono text-lg text-[#fafaf7]">|ψ⟩</span>
           </div>
           <p className="zoomnav-bits font-mono text-[11px] tracking-widest text-muted">
             {bits.map((b, i) => (

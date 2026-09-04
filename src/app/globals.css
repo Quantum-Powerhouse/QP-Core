@@ -137,11 +137,12 @@ h2 {
   transform: translateX(var(--hop, 90px));
 }
 .zoomnav-orb {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 82px;
-  height: 82px;
+  width: 120px;
+  height: 120px;
   border-radius: 100%;
   background: radial-gradient(circle at 34% 28%, #6d8fb5, #20507c 62%, #12314e);
   box-shadow: 0 4px 18px rgba(18, 49, 78, 0.35);
@@ -153,7 +154,30 @@ h2 {
 }
 @keyframes zoomnav-breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.055); }
+  50% { transform: scale(1.045); }
+}
+
+/* The decision ring: fills linearly over the real 1.14 s the qubit takes. */
+@property --zoom-arc {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@keyframes zoomnav-arc {
+  from { --zoom-arc: 0; }
+  to { --zoom-arc: 1; }
+}
+.zoomnav-ring {
+  position: absolute;
+  inset: -12px;
+  border-radius: 100%;
+  background: conic-gradient(var(--accent) calc(var(--zoom-arc) * 1turn), transparent 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  opacity: 0.85;
+}
+.zoomnav-overlay:is([data-zoom-phase="collapse"], [data-zoom-phase="think"]) .zoomnav-ring {
+  animation: zoomnav-arc 1.14s linear forwards;
 }
 .zoomnav-overlay[data-zoom-phase="think"] .zoomnav-orb {
   animation: zoomnav-breathe 0.9s var(--ease-in-out-strong) infinite;
@@ -215,4 +239,42 @@ h2 {
   .globe-map:hover .globe-counter-reverse {
     animation-play-state: paused;
   }
+}
+
+/* ── QPet crawl legs: six ink strokes, tripod gait, only while scuttling. ── */
+.qpit-legs {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  width: 46px;
+  height: 20px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.qpit-legs span {
+  position: absolute;
+  top: 0;
+  left: calc(4px + var(--leg) * 7px);
+  width: 1.5px;
+  height: 15px;
+  background: var(--foreground);
+  opacity: 0.75;
+  border-radius: 1px;
+  transform-origin: top center;
+  animation: qpit-scuttle 0.22s ease-in-out infinite alternate;
+}
+.qpit-legs span:nth-child(even) {
+  animation-delay: -0.11s;
+}
+@keyframes qpit-scuttle {
+  from { transform: rotate(-16deg); }
+  to { transform: rotate(16deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qpit-legs { opacity: 0 !important; }
+}
+
+.globe-node:active {
+  transform: scale(0.97);
 }

@@ -24,6 +24,7 @@ export const ROUTES: RouteEntry[] = [
   { path: "/field/open-problems", changeFrequency: "monthly", priority: 0.8 },
   { path: "/field/algorithms", changeFrequency: "monthly", priority: 0.8 },
   { path: "/glossary", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/research/replication", changeFrequency: "monthly", priority: 0.8 },
   { path: "/lab", changeFrequency: "monthly", priority: 0.9 },
   { path: "/hardware", changeFrequency: "monthly", priority: 0.9 },
   { path: "/engineering", changeFrequency: "monthly", priority: 0.7 },

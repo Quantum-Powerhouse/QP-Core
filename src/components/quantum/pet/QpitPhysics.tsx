@@ -130,6 +130,7 @@ export function QpitPhysics({
 
   // --- refs: everything the rAF loop touches ------------------------------
   const bodyRef = useRef<HTMLDivElement>(null);
+  const legsRef = useRef<HTMLDivElement>(null);
   const tetherRef = useRef<SVGPathElement>(null);
   const tetherSvgRef = useRef<SVGSVGElement>(null);
   const trailRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -755,6 +756,17 @@ export function QpitPhysics({
     }
 
     body.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) rotate(${theta.a}deg) scale(${sx}, ${sy})`;
+    // Crawl mode: fast, mostly horizontal scooting low on the page grows six ink legs.
+    if (legsRef.current) {
+      const crawling =
+        !reduceMotion &&
+        modeRef.current === "roaming" &&
+        speed > 240 &&
+        Math.abs(vel.x) > Math.abs(vel.y) * 1.3 &&
+        pos.y > window.innerHeight * 0.55;
+      legsRef.current.style.opacity = crawling ? "1" : "0";
+      legsRef.current.style.transform = `translateX(-50%) scaleX(${vel.x < 0 ? -1 : 1})`;
+    }
     body.style.opacity = String(opacity);
 
     // --- tether ---
@@ -984,6 +996,12 @@ export function QpitPhysics({
         >
           <div className="-translate-x-1/2 -translate-y-1/2">{children}</div>
         </motion.div>
+        {/* six ink legs; the loop shows them only while scuttling low across the page */}
+        <div ref={legsRef} className="qpit-legs" aria-hidden>
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <span key={i} style={{ ["--leg" as string]: i }} />
+          ))}
+        </div>
       </div>
     </>
   );
