@@ -11,6 +11,8 @@ export function SiteFooter() {
           <a href="https://sadeqi.me" className="hover:text-accent" target="_blank" rel="noopener noreferrer">sadeqi.me</a>
           {" · "}
           <Link href="/engineering" className="hover:text-accent">engineering decisions</Link>
+          {" · "}
+          <Link href="/glossary" className="hover:text-accent">glossary</Link>
         </p>
         <a
           href="https://github.com/Quantum-Powerhouse/QP-Core"

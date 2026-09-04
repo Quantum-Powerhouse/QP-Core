@@ -30,6 +30,7 @@ import {
   TunnelingCurve,
 } from "@/components/arcade/GamesAdvanced";
 import { QaoaMaxCut, WalkRace } from "@/components/arcade/GamesFrontier";
+import { BernsteinVazirani, GhzGame, QftPeriodFinder } from "@/components/arcade/GamesAlgorithms";
 import { EngineBenchmark } from "@/components/arcade/EngineBenchmark";
 import { HardwareComparison } from "@/components/HardwareComparison";
 import { Reveal } from "@/components/Reveal";
@@ -37,7 +38,7 @@ import { softwareApplicationSchema } from "@/lib/jsonld";
 import { SITE_URL, buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Quantum Arcade: 23 Real Interactive Quantum Games & Labs",
+  title: "Quantum Arcade: 26 Real Interactive Quantum Games & Labs",
   description:
     "Twenty plus playable quantum games, labs, and demos. Grover search, Bell/CHSH violation, teleportation, BB84 key exchange, decoherence, error correction, every one computed live by a real statevector or density matrix simulator in your browser.",
   path: "/playground/arcade",
@@ -73,6 +74,11 @@ const SECTIONS: { heading: string; blurb: string; games: React.ComponentType[] }
     blurb: "Where today's research lives, variational optimization and ballistic quantum walks.",
     games: [QaoaMaxCut, WalkRace],
   },
+  {
+    heading: "The algorithm wing",
+    blurb: "Three results from the algorithm ledger, run as real amplitudes: one query secrets, the GHZ certainty, and the spectrum Shor reads.",
+    games: [BernsteinVazirani, GhzGame, QftPeriodFinder],
+  },
 ];
 
 export default function ArcadePage() {
@@ -84,7 +90,7 @@ export default function ArcadePage() {
           <p className="mb-2 font-mono text-sm text-accent">Playground</p>
           <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Quantum Arcade</h1>
           <p className="mt-3 max-w-2xl text-muted">
-            Twenty three games, labs, and demos. Nothing here is a canned animation: every bar, dial, and verdict is
+            Twenty six games, labs, and demos. Nothing here is a canned animation: every bar, dial, and verdict is
             computed live by the same from scratch statevector and density matrix engine that powers the VQE suite.
             One card runs an analytic textbook formula instead of a simulation, it says so on the card.
           </p>

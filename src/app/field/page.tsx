@@ -24,6 +24,7 @@ const SECTIONS = [
   { href: "/field/sensing", title: "Quantum sensing", blurb: "Clocks at 8 × 10⁻¹⁹ and two minute coherence: the quantum technology that ships today." },
   { href: "/field/strategies", title: "National strategies", blurb: "US reauthorization in progress, the UK's £2bn, the EU Quantum Act, and DARPA's referee program." },
   { href: "/field/tooling", title: "Open source tooling", blurb: "Qiskit 2.0, OpenQASM 3.1, CUDA-Q, Stim, what an engineer actually installs, with licenses and dates." },
+  { href: "/field/algorithms", title: "The algorithm ledger", blurb: "Shor, Grover and its optimality bound, HHL with the fine print, dequantization, VQE and QAOA, what is proven, three of them running on this site." },
   { href: "/field/open-problems", title: "Open problems", blurb: "BQP vs NP, quantum PCP, dequantization, the threshold theorem's assumptions, NISQ advantage, what remains unproven." },
 ];
 

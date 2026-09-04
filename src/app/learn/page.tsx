@@ -47,6 +47,7 @@ const LEVELS: { level: string; title: string; goal: string; steps: { game: strin
       { game: "Teleportation Walkthrough", slug: "teleportation-walkthrough", learn: "Move a state without moving matter, and why it can't beat light." },
       { game: "Superdense Coding", slug: "superdense-coding", learn: "Two bits on one qubit, with a pre shared pair." },
       { game: "The Cloning Button", slug: "the-cloning-button", learn: "Why copying is forbidden, the theorem that secures QKD." },
+      { game: "The GHZ Game", slug: "the-ghz-game", learn: "Beat a provable 75% classical ceiling every single round." },
     ],
   },
   {
@@ -60,6 +61,8 @@ const LEVELS: { level: string; title: string; goal: string; steps: { game: strin
       { game: "Repetition Rescue", slug: "repetition-rescue", learn: "Error correction pays for itself, the road to logical qubits." },
       { game: "BB84. Catch Eve", slug: "bb84-catch-eve", learn: "Physics as security: the eavesdropper leaves fingerprints." },
       { game: "Born Rule Randomness", slug: "born-rule-randomness", learn: "What a quantum random number generator actually is." },
+      { game: "Bernstein-Vazirani", slug: "bernstein-vazirani", learn: "A whole secret in one oracle query, certainty from interference." },
+      { game: "QFT Period Finder", slug: "qft-period-finder", learn: "The Fourier peaks Shor reads factors from." },
     ],
   },
 ];
@@ -72,7 +75,7 @@ export default function LearnPage() {
         <p className="mb-2 font-mono text-sm text-accent">Learn</p>
         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Learn quantum computing by playing it</h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-          Four levels, twenty games, zero slides. Each step links to a live simulation in the arcade; the text tells you
+          Four levels, twenty three steps, zero slides. Each step links to a live simulation in the arcade; the text tells you
           what to notice. When you can predict the next game before pressing the button, you&apos;ve learned the thing.
         </p>
         <div className="mt-10 flex flex-col gap-8">

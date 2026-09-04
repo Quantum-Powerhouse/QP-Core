@@ -17,6 +17,7 @@ import { SENSING } from "../src/lib/field/sensing.ts";
 import { STRATEGIES } from "../src/lib/field/strategies.ts";
 import { TOOLING } from "../src/lib/field/tooling.ts";
 import { OPEN_PROBLEMS } from "../src/lib/field/openProblems.ts";
+import { ALGORITHMS } from "../src/lib/field/algorithms.ts";
 
 const ALL = [
   ...HARDWARE_MILESTONES,
@@ -33,6 +34,7 @@ const ALL = [
   ...STRATEGIES,
   ...TOOLING,
   ...OPEN_PROBLEMS,
+  ...ALGORITHMS,
 ];
 
 const HYPE = [/revolutioni[sz]e/i, /change the world/i, /take over/i, /game[- ]changer/i, /limitless/i, /unprecedented power/i];
