@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
+        run: npm audit --omit=dev --audit-level=high || (echo audit endpoint hiccup, retrying in 60s && sleep 60 && npm audit --omit=dev --audit-level=high)
 
       - name: Lint
         run: npm run lint
