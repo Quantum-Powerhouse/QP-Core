@@ -403,7 +403,7 @@ export function QuantumPet() {
         }
         return;
       }
-      const anchor = target?.closest?.("a[href], [data qpit]");
+      const anchor = target?.closest?.("a[href], [data-qpit]");
       if (!anchor) return;
       const section = hoverSectionFor(anchor.getAttribute("href"), anchor.getAttribute("data-qpit"));
       if (!section || section === sectionForPath(pathname)) return;

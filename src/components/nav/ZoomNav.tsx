@@ -3,24 +3,48 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { NAV_ITEMS } from "@/components/navItems";
+import { sampleRandomBits } from "@/lib/arcade/qlogic";
 
-type Phase = "idle" | "collapse" | "travel" | "expand";
+type Phase = "idle" | "collapse" | "think" | "expand";
+
+const COLLAPSE_MS = 340;
+const THINK_MS = 800; // the deliberate pause: the qubit "decides" the path
+const PUSH_AT_MS = 400; // route loads while it thinks
+const EXPAND_MS = 360;
 
 /**
- * Zoom navigation: on a desktop pointer, an internal navigation collapses the
- * current page into a qubit sphere, hops toward the destination's place in the
- * nav order, and the new page expands back out of the sphere. Content is
- * untouched; this is presentation only. Phones, reduced motion, hash links,
- * modified clicks and external links all navigate instantly as before.
+ * Zoom navigation. On a desktop pointer an internal navigation folds the page
+ * into a qubit sphere; for most of a second the sphere breathes and streams
+ * real Born rule bits (inverse CDF samples of H|0⟩, the same sampler the
+ * arcade's RNG uses) as if weighing the path, then the destination expands
+ * out of it. About 1.5 s end to end, by design. Phones, reduced motion, hash
+ * links and modified clicks navigate instantly.
  */
 export function ZoomNav({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("idle");
   const [label, setLabel] = useState("");
+  const [bits, setBits] = useState<number[]>([]);
   const [hop, setHop] = useState(0);
   const pendingRef = useRef<string | null>(null);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const arrivedRef = useRef(false);
+  const thinkDoneRef = useRef(false);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearTimers = () => {
+    for (const t of timersRef.current) clearTimeout(t);
+    timersRef.current = [];
+  };
+
+  const maybeExpand = () => {
+    if (arrivedRef.current && thinkDoneRef.current) {
+      setPhase("expand");
+      timersRef.current.push(setTimeout(() => setPhase("idle"), EXPAND_MS + 40));
+    }
+  };
+  const maybeExpandRef = useRef(maybeExpand);
+  maybeExpandRef.current = maybeExpand;
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -35,40 +59,52 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
 
       e.preventDefault();
       const section = (p: string) => NAV_ITEMS.findIndex((n) => p === n.href || p.startsWith(`${n.href}/`));
-      const from = section(pathname);
-      const to = section(destPath);
-      const delta = from >= 0 && to >= 0 ? to - from : 1;
-      setHop(Math.max(-140, Math.min(140, delta * 46)));
-      setLabel(NAV_ITEMS[to]?.label ?? destPath.split("/").filter(Boolean)[0] ?? "home");
+      const delta = section(destPath) - section(pathname);
+      setHop(Math.max(-150, Math.min(150, (Number.isNaN(delta) ? 1 : delta) * 42)));
+      setLabel(NAV_ITEMS[section(destPath)]?.label ?? destPath.split("/").filter(Boolean).pop() ?? "home");
       pendingRef.current = href;
+      arrivedRef.current = false;
+      thinkDoneRef.current = false;
+      clearTimers();
       setPhase("collapse");
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        setPhase("travel");
-        router.push(href);
-      }, 240);
+      timersRef.current.push(setTimeout(() => setPhase("think"), COLLAPSE_MS));
+      timersRef.current.push(setTimeout(() => router.push(href), COLLAPSE_MS + PUSH_AT_MS));
+      timersRef.current.push(
+        setTimeout(() => {
+          thinkDoneRef.current = true;
+          maybeExpandRef.current();
+        }, COLLAPSE_MS + THINK_MS)
+      );
     };
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
   }, [pathname, router]);
 
-  // The route arrived: expand the new page out of the sphere.
+  // The route arrived; expand only after the qubit has finished thinking.
   useEffect(() => {
     if (pendingRef.current && pendingRef.current.split("#")[0] === pathname) {
       pendingRef.current = null;
-      setPhase("expand");
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => setPhase("idle"), 320);
+      arrivedRef.current = true;
+      maybeExpandRef.current();
     }
   }, [pathname]);
+
+  // While collapsing or thinking, stream real Born rule bits.
+  useEffect(() => {
+    if (phase !== "collapse" && phase !== "think") return;
+    setBits(sampleRandomBits(6));
+    const iv = setInterval(() => setBits(sampleRandomBits(6)), 72);
+    return () => clearInterval(iv);
+  }, [phase]);
 
   // Safety: never leave the page stuck small.
   useEffect(() => {
     if (phase === "idle") return;
     const guard = setTimeout(() => {
       pendingRef.current = null;
+      clearTimers();
       setPhase("idle");
-    }, 2000);
+    }, 3500);
     return () => clearTimeout(guard);
   }, [phase]);
 
@@ -78,10 +114,17 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
         {children}
       </div>
       <div className="zoomnav-overlay" data-zoom-phase={phase} style={{ ["--hop" as string]: `${hop}px` }} aria-hidden>
-        <div className="zoomnav-orb">
-          <span className="font-mono text-sm text-[#fafaf7]">|ψ⟩</span>
+        <div className="zoomnav-mover">
+          <div className="zoomnav-orb">
+            <span className="font-mono text-sm text-[#fafaf7]">|ψ⟩</span>
+          </div>
+          <p className="zoomnav-bits font-mono text-[11px] tracking-widest text-muted">
+            {bits.map((b, i) => (
+              <span key={i} className={b ? "text-accent" : ""}>{b}</span>
+            ))}
+          </p>
+          <p className="font-mono text-xs text-foreground">{label}</p>
         </div>
-        <p className="zoomnav-label font-mono text-xs text-muted">{label}</p>
       </div>
     </>
   );

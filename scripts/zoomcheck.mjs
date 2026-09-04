@@ -6,7 +6,7 @@ const pg = await b.newPage({ viewport: { width: 1280, height: 900 } });
 await pg.goto(base + "/", { waitUntil: "load", timeout: 60000 });
 await pg.waitForTimeout(1500);
 await pg.click('header a[href="/lab"]');
-await pg.waitForTimeout(220);
+await pg.waitForTimeout(700);
 await pg.screenshot({ path: `${out}/midflight.png` });
 await pg.waitForURL("**/lab", { timeout: 5000 });
 await pg.waitForTimeout(600);

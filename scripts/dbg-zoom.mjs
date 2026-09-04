@@ -1,0 +1,18 @@
+import { chromium } from "@playwright/test";
+const b = await chromium.launch();
+const pg = await b.newPage({ viewport: { width: 1280, height: 900 } });
+const errors = [];
+pg.on("console", (m) => { if (m.type() === "error") errors.push(m.text().slice(0, 200)); });
+pg.on("pageerror", (e) => errors.push("PAGEERROR " + String(e).slice(0, 200)));
+await pg.goto("http://localhost:3109/", { waitUntil: "load", timeout: 60000 });
+await pg.waitForTimeout(1800);
+console.log("matchMedia:", await pg.evaluate(() => window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)").matches));
+await pg.click('header a[href="/lab"]', { noWaitAfter: true });
+await pg.waitForTimeout(120);
+console.log("phase@120ms:", await pg.evaluate(() => document.querySelector(".zoomnav-root")?.getAttribute("data-zoom-phase")));
+console.log("url@120ms:", pg.url());
+await pg.waitForTimeout(700);
+console.log("phase@820ms:", await pg.evaluate(() => document.querySelector(".zoomnav-root")?.getAttribute("data-zoom-phase")));
+console.log("url@820ms:", pg.url());
+console.log("errors:", errors.slice(0, 4));
+await b.close();

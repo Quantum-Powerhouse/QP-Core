@@ -83,26 +83,27 @@ h2 {
   }
 }
 
-/* ── Zoom navigation: the page collapses into a qubit and expands back out. ── */
+/* ── Zoom navigation: the page folds into a qubit that thinks, then travels. ── */
 :root {
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.2, 0.64, 1);
 }
 
 .zoomnav-root {
   transform-origin: 50% 38%;
 }
 .zoomnav-root[data-zoom-phase="collapse"],
-.zoomnav-root[data-zoom-phase="travel"] {
+.zoomnav-root[data-zoom-phase="think"] {
   transform: scale(0.04);
   opacity: 0;
-  transition: transform 0.24s var(--ease-in-out-strong), opacity 0.22s var(--ease-in-out-strong);
+  transition: transform 0.34s var(--ease-in-out-strong), opacity 0.3s var(--ease-in-out-strong);
   pointer-events: none;
 }
 .zoomnav-root[data-zoom-phase="expand"] {
   transform: scale(1);
   opacity: 1;
-  transition: transform 0.3s var(--ease-out-strong), opacity 0.26s var(--ease-out-strong);
+  transition: transform 0.36s var(--ease-out-back), opacity 0.3s var(--ease-out-strong);
 }
 
 .zoomnav-overlay {
@@ -110,44 +111,57 @@ h2 {
   inset: 0;
   z-index: 60;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.18s var(--ease-out-strong);
+  transition: opacity 0.2s var(--ease-out-strong);
 }
 .zoomnav-overlay[data-zoom-phase="collapse"],
-.zoomnav-overlay[data-zoom-phase="travel"] {
+.zoomnav-overlay[data-zoom-phase="think"] {
   opacity: 1;
 }
 .zoomnav-overlay[data-zoom-phase="expand"] {
   opacity: 0;
+  transition: opacity 0.26s var(--ease-out-strong);
+}
+.zoomnav-mover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.8s var(--ease-in-out-strong);
+}
+.zoomnav-overlay[data-zoom-phase="think"] .zoomnav-mover,
+.zoomnav-overlay[data-zoom-phase="expand"] .zoomnav-mover {
+  transform: translateX(var(--hop, 90px));
 }
 .zoomnav-orb {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 76px;
-  height: 76px;
+  width: 82px;
+  height: 82px;
   border-radius: 100%;
   background: radial-gradient(circle at 34% 28%, #6d8fb5, #20507c 62%, #12314e);
   box-shadow: 0 4px 18px rgba(18, 49, 78, 0.35);
   transform: scale(0.7);
-  transition: transform 0.24s var(--ease-in-out-strong);
+  transition: transform 0.34s var(--ease-in-out-strong);
 }
 .zoomnav-overlay[data-zoom-phase="collapse"] .zoomnav-orb {
   transform: scale(1);
 }
-.zoomnav-overlay[data-zoom-phase="travel"] .zoomnav-orb {
-  transform: translateX(var(--hop, 90px)) scale(0.85);
+@keyframes zoomnav-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.055); }
 }
-.zoomnav-label {
-  transition: transform 0.24s var(--ease-in-out-strong);
+.zoomnav-overlay[data-zoom-phase="think"] .zoomnav-orb {
+  animation: zoomnav-breathe 0.9s var(--ease-in-out-strong) infinite;
 }
-.zoomnav-overlay[data-zoom-phase="travel"] .zoomnav-label {
-  transform: translateX(var(--hop, 90px));
+.zoomnav-bits {
+  min-height: 1em;
+  display: flex;
+  gap: 6px;
 }
 
 /* ── The homepage orbital map. Constant motion, so linear. ── */

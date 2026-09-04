@@ -16,6 +16,17 @@ async function wrapperX(page: Page): Promise<number> {
   }, QPIT);
 }
 
+test("no page errors while clicking around the pet", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(String(e)));
+  await page.goto("/");
+  await expect(page.locator(QPIT)).toBeVisible({ timeout: 15_000 });
+  await page.mouse.click(400, 400);
+  await page.mouse.click(640, 300);
+  await page.waitForTimeout(400);
+  expect(errors).toEqual([]);
+});
+
 test("QPIT mounts with its WebGL form and entrance completes", async ({ page }) => {
   await page.goto("/");
   const orb = page.locator(QPIT);
