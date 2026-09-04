@@ -55,7 +55,7 @@ export function BernsteinVazirani() {
         <Stat label="P(correct)" value={`${(probs[secret] * 100).toFixed(1)}%`} accent />
         <Stat label="queries" value="1 vs 5 classical" />
       </div>
-      <p className="font-mono text-[11px] text-muted">every run reads the secret perfectly; that certainty is interference, not luck</p>
+      <p className="font-mono text-xs text-muted">every run reads the secret perfectly; that certainty is interference, not luck</p>
     </GameCard>
   );
 }
@@ -114,7 +114,7 @@ export function QftPeriodFinder() {
         <Stat label="peak spacing" value={`${(64 / period).toFixed(1)}`} />
         <Stat label="period read from spectrum" value={String(read)} accent={read === period} />
       </div>
-      <p className="font-mono text-[11px] text-muted">
+      <p className="font-mono text-xs text-muted">
         when r divides 64 the peaks are exact; other r values smear, which is why Shor finishes with continued
         fractions
       </p>

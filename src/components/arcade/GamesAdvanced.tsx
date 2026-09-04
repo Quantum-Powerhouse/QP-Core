@@ -143,7 +143,7 @@ export function QuantumRng() {
       {bits.length > 0 && (
         <>
           <ProbBars probs={[(bits.length - ones) / bits.length, ones / bits.length]} labels={["0s", "1s"]} />
-          <p className="break-all font-mono text-[10px] leading-relaxed text-muted">{bits.slice(-256).join("")}</p>
+          <p className="break-all font-mono text-xs leading-relaxed text-muted">{bits.slice(-256).join("")}</p>
         </>
       )}
     </GameCard>

@@ -67,6 +67,8 @@ const LEVELS: { level: string; title: string; goal: string; steps: { game: strin
   },
 ];
 
+const STEP_COUNT = LEVELS.reduce((n, l) => n + l.steps.length, 0);
+
 export default function LearnPage() {
   return (
     <div className="flex flex-1 flex-col">
@@ -75,7 +77,7 @@ export default function LearnPage() {
         <p className="mb-2 font-mono text-sm text-accent">Learn</p>
         <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Learn quantum computing by playing it</h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-          Four levels, twenty three steps, zero slides. Each step links to a live simulation in the arcade; the text tells you
+          Four levels, {STEP_COUNT} steps, zero slides. Each step links to a live simulation in the arcade; the text tells you
           what to notice. When you can predict the next game before pressing the button, you&apos;ve learned the thing.
         </p>
         <div className="mt-10 flex flex-col gap-8">

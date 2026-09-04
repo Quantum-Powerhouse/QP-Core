@@ -91,7 +91,7 @@ export function HardwareLane() {
             </p>
           </div>
           <span
-            className={`rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
+            className={`rounded-full border px-2 py-0.5 font-mono text-xs uppercase tracking-wider ${
               enabled ? "border-accent/60 text-accent" : "border-[#78660f]/60 text-[#78660f]"
             }`}
           >
@@ -107,7 +107,7 @@ export function HardwareLane() {
           </div>
         )}
         {!enabled && (
-          <p className="mt-4 font-mono text-[11px] leading-relaxed text-muted">
+          <p className="mt-4 font-mono text-xs leading-relaxed text-muted">
             What activates it: deploy the FastAPI service (one click Render blueprint in the backend repo) and set{" "}
             <code>QISKIT_IBM_TOKEN</code> there, then <code>NEXT_PUBLIC_TRANSPILER_API_URL</code> here. The guardrails (size caps, a monthly shot ledger, one job at a time) are enforced on the server and covered by
             the backend&apos;s tests.
@@ -140,8 +140,8 @@ export function HardwareLane() {
           <ArcadeButton primary onClick={submit} disabled={!enabled || running}>
             {running ? "running on hardware…" : enabled ? "run on real hardware" : "run on real hardware (inactive)"}
           </ArcadeButton>
-          {!enabled && status && <span className="font-mono text-[11px] text-muted">disabled until the lane is live; no simulation stands in for it</span>}
-          {error && <span className="font-mono text-[11px] text-[#b3372a]">{error}</span>}
+          {!enabled && status && <span className="font-mono text-xs text-muted">disabled until the lane is live; no simulation stands in for it</span>}
+          {error && <span className="font-mono text-xs text-[#b3372a]">{error}</span>}
         </div>
       </section>
 
@@ -150,7 +150,7 @@ export function HardwareLane() {
           <h2 className="text-base font-semibold text-foreground">
             Real device vs. exact prediction, <span className="font-mono text-accent">{result.backend}</span>
           </h2>
-          <p className="mt-1 font-mono text-[11px] text-muted">
+          <p className="mt-1 font-mono text-xs text-muted">
             job {result.job_id} · {result.shots} shots · {result.num_qubits} qubits. Grey = exact Born-rule prediction; blue = what the device measured. The difference is device noise.
           </p>
           <div className="mt-4 flex flex-col gap-1.5">

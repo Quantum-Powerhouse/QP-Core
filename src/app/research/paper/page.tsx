@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getResearchStats } from "@/lib/research/stats";
 import { buildMetadata } from "@/lib/seo";
+import { CopyButton } from "@/components/CopyButton";
 
 export const metadata: Metadata = buildMetadata({
   title: "The Paper: Is There a Gap in CI/CD Regression Testing for Quantum Software?",
@@ -14,6 +15,8 @@ export const metadata: Metadata = buildMetadata({
 
 const RELEASE = "https://github.com/sadeqisaidmohaddes-star/quantum-cicd-research/releases/tag/v1.1.1";
 const PDF = "https://github.com/sadeqisaidmohaddes-star/quantum-cicd-research/releases/download/v1.1.1/quantum-cicd-gap-study.pdf";
+
+const APA = "Sadeqi, S. M. (2026). Is there a genuine gap in CI/CD regression testing for quantum software? A primary source verified prior art study (v1.1.1). GitHub. " + RELEASE;
 
 const BIBTEX = `@misc{sadeqi2026quantumcicd,
   author       = {Sadeqi, Said Mohaddes},
@@ -69,9 +72,15 @@ export default function PaperPage() {
       <div className="mt-6 grid gap-5 md:grid-cols-2">
         <section className="glass-panel rounded-xl p-5">
           <h2 className="font-mono text-xs uppercase tracking-widest text-accent">How to cite</h2>
-          <pre className="mt-3 overflow-x-auto rounded-lg border border-border/60 bg-background/60 p-3 font-mono text-[10.5px] leading-relaxed text-foreground">{BIBTEX}</pre>
-          <p className="mt-2 font-mono text-[11px] text-muted">
+          <pre className="mt-3 overflow-x-auto rounded-lg border border-border/60 bg-background/60 p-3 font-mono text-xs leading-relaxed text-foreground">{BIBTEX}</pre>
+          <p className="mt-2 font-mono text-xs text-muted">
             A <code>CITATION.cff</code> in the repository lets GitHub generate APA/BibTeX directly.
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <CopyButton text={BIBTEX} label="copy BibTeX" />
+            <CopyButton text={APA} label="copy APA" />
+          </div>
+          <p className="mt-2 font-mono text-xs text-muted">
           </p>
         </section>
         <section className="glass-panel rounded-xl p-5">

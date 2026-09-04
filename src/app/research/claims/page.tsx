@@ -27,16 +27,16 @@ export default function ClaimsPage() {
 
       <div className="flex flex-col gap-5">
         {CLAIMS.map((c) => (
-          <div key={c.id} className="rounded-xl border border-border bg-surface/60 p-5">
+          <div key={c.id} id={c.id} className="scroll-mt-24 rounded-xl border border-border bg-surface/60 p-5">
             <div className="mb-3 flex flex-wrap items-center gap-3">
-              <span className="font-mono text-xs text-accent">{c.id}</span>
+              <a href={`#${c.id}`} className="font-mono text-xs text-accent underline-offset-2 hover:underline">{c.id}</a>
               <StatusBadge status={c.status} />
-              <span className="font-mono text-[11px] text-muted">Confidence: {c.confidence}</span>
+              <span className="font-mono text-xs text-muted">Confidence: {c.confidence}</span>
             </div>
             <h3 className="mb-1 text-base font-semibold text-foreground">{c.claim}</h3>
             <p className="mb-3 font-mono text-xs text-muted">{c.statusLabel}</p>
             <p className="mb-3 text-sm leading-relaxed text-muted">{c.evidence}</p>
-            <p className="font-mono text-[11px] text-muted/70">Source: {c.source}</p>
+            <p className="font-mono text-xs text-muted/70">Source: {c.source}</p>
           </div>
         ))}
       </div>

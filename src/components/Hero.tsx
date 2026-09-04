@@ -1,5 +1,6 @@
 import { BlochSphere } from "@/components/three/BlochSphere";
 import { SiteGlobe } from "@/components/SiteGlobe";
+import { TranspilerStatusChip } from "@/components/TranspilerStatusChip";
 import { ARCADE_GAME_COUNT } from "@/components/arcade/manifest";
 
 export function Hero() {
@@ -25,19 +26,25 @@ export function Hero() {
         all computed live in your browser. Rotate the Bloch sphere below, or
         go straight to the transpiler terminal.
       </p>
-      <div className="mt-10 flex flex-wrap gap-4">
+      <p className="mt-3 max-w-2xl text-sm text-muted">
+        Latest: a primary source verified study of the quantum CI/CD testing gap, released as{" "}
+        <a href="/research/paper" className="text-accent">a citable paper</a> with a companion pytest plugin,{" "}
+        <a href="https://github.com/sadeqisaidmohaddes-star/pytest-qequiv" className="text-accent" target="_blank" rel="noopener noreferrer">pytest-qequiv</a>.
+      </p>
+      <div className="mt-10 flex flex-wrap items-center gap-4">
+        <a
+          href="/research"
+          className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-[#faf8f3] transition-colors hover:bg-[#183e61]"
+        >
+          Read the research
+        </a>
         <a
           href="#transpiler"
-          className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-[#faf8f3] transition-colors hover:bg-[#183e61]"
+          className="rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent/60 hover:text-accent"
         >
           Try the Transpiler
         </a>
-        <a
-          href="#projects"
-          className="rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent/60 hover:text-accent"
-        >
-          View Projects
-        </a>
+        <TranspilerStatusChip />
       </div>
 
       <div className="mt-12">

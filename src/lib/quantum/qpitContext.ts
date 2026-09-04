@@ -66,7 +66,7 @@ const GREETINGS: Record<QpitSection, string[]> = {
   evidence: ["Receipts. I like receipts.", "Primary sources only."],
   sources: ["Every one of these was actually opened.", "The reading list. All of it real."],
   "gap-analysis": ["This is where the hypothesis got humbled.", "Honest conclusions live here."],
-  "prior art": ["Know what came before.", "Twenty plus systems, all inspected."],
+  "prior art": ["Know what came before.", "Every prior art system inspected, none assumed."],
   methodology: ["How the checking got done.", "Rules first, conclusions second."],
   docs: ["Real math ahead.", "The equations match the source code."],
   playground: ["Careful. Things get weird around here.", "Go on, run something.", "You clicked that like you knew what it would do."],

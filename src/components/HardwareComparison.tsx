@@ -34,12 +34,12 @@ export function HardwareComparison() {
                 <div className="absolute inset-y-0 left-0 bg-accent transition-[width] duration-500 ease-out" style={{ width: `${pct}%` }} />
                 <div className="absolute inset-y-0 w-px bg-[#78660f]" style={{ left: `${(data.classical_bound / data.tsirelson_bound) * 100}%` }} title="classical bound" />
               </div>
-              {run.note && <p className="font-mono text-[11px] text-muted">{run.note}</p>}
+              {run.note && <p className="font-mono text-xs text-muted">{run.note}</p>}
             </div>
           );
         })}
       </div>
-      <p className="mt-3 font-mono text-[11px] text-muted">
+      <p className="mt-3 font-mono text-xs text-muted">
         Amber tick = classical bound. Generated {new Date(data.generated_at).toISOString().slice(0, 10)} by{" "}
         <code>scripts/hardware/ibm_noise_model.py</code> (Qiskit Aer + IBM calibration snapshot).
       </p>

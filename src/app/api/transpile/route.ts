@@ -46,3 +46,19 @@ export async function POST(request: NextRequest) {
     },
   });
 }
+
+
+/** Health for the status chip: is a backend configured, and is it awake. */
+export async function GET() {
+  const base = process.env.NEXT_PUBLIC_TRANSPILER_API_URL;
+  if (!base) return Response.json({ configured: false, live: false });
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 2500);
+    const res = await fetch(`${base}/openapi.json`, { signal: controller.signal, cache: "no-store" });
+    clearTimeout(timer);
+    return Response.json({ configured: true, live: res.ok });
+  } catch {
+    return Response.json({ configured: true, live: false });
+  }
+}

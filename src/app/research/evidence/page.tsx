@@ -71,7 +71,7 @@ export default function EvidencePage() {
                   header={
                     <div className="mb-1 flex flex-wrap items-center gap-3">
                       <StatusBadge status={item.status} />
-                      <span className="font-mono text-[11px] tracking-wide text-muted/70">
+                      <span className="font-mono text-xs tracking-wide text-muted/70">
                         {item.claimIds.join(" · ")}
                       </span>
                       <h3 className="text-sm font-semibold text-foreground">{item.claim}</h3>
@@ -80,12 +80,12 @@ export default function EvidencePage() {
                   summary={item.evidence}
                 >
                   <p className="mb-3 text-sm leading-relaxed text-muted">{item.evidence}</p>
-                  <p className="mb-1 font-mono text-[11px] text-muted/70">{item.sourceTitle}</p>
+                  <p className="mb-1 font-mono text-xs text-muted/70">{item.sourceTitle}</p>
                   <a
                     href={item.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[11px] text-accent hover:text-foreground"
+                    className="font-mono text-xs text-accent hover:text-foreground"
                   >
                     {item.sourceUrl}
                   </a>

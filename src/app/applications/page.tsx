@@ -113,7 +113,7 @@ and leave most computation exactly where it is. This map sorts the claims by evi
                 <article key={item.title} className="glass-panel flex flex-col gap-3 rounded-xl p-5">
                   <h3 className="text-base font-semibold text-foreground">{item.title}</h3>
                   <p className="flex-1 text-sm leading-relaxed text-muted">{item.body}</p>
-                  <a href={item.source.href} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-accent underline-offset-2 hover:underline">
+                  <a href={item.source.href} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-accent underline-offset-2 hover:underline">
                     source: {item.source.label} ↗
                   </a>
                 </article>

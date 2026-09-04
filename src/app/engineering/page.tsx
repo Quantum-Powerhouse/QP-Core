@@ -93,7 +93,7 @@ export default function EngineeringPage() {
         <div className="mt-10 flex flex-col gap-6">
           {DECISIONS.map((d, i) => (
             <section key={d.title} className="glass-panel rounded-xl p-5">
-              <p className="font-mono text-[11px] uppercase tracking-widest text-muted">decision {String(i + 1).padStart(2, "0")}</p>
+              <p className="font-mono text-xs uppercase tracking-widest text-muted">decision {String(i + 1).padStart(2, "0")}</p>
               <h2 className="mt-1 text-lg font-semibold text-foreground">{d.title}</h2>
               <dl className="mt-3 grid gap-3 text-sm leading-relaxed sm:grid-cols-[5rem_1fr]">
                 <dt className="font-mono text-xs uppercase tracking-wider text-accent">problem</dt>

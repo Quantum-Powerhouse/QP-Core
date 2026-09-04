@@ -19,12 +19,12 @@ export function FieldClaimCard({ claim }: { claim: FieldClaim }) {
     <article id={claim.id} className="glass-panel flex scroll-mt-24 flex-col gap-3 rounded-xl p-5">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <h3 className="text-base font-semibold leading-snug text-foreground">{claim.title}</h3>
-        <span className={`shrink-0 rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${STATUS_TONE[claim.status]}`}>
+        <span className={`shrink-0 rounded-full border px-2 py-0.5 font-mono text-xs uppercase tracking-wider ${STATUS_TONE[claim.status]}`}>
           {FIELD_STATUS_LABEL[claim.status]}
         </span>
       </div>
       <p className="text-sm leading-relaxed text-muted">{claim.body}</p>
-      <footer className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-2 font-mono text-[11px] text-muted">
+      <footer className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-2 font-mono text-xs text-muted">
         <span>{claim.date}</span>
         <a href={claim.source.url} target="_blank" rel="noopener noreferrer" className="text-accent underline-offset-2 hover:underline">
           {claim.source.label} ↗
@@ -43,7 +43,7 @@ export function FieldClaimCard({ claim }: { claim: FieldClaim }) {
 
 export function StatusLegend() {
   return (
-    <ul className="flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-wider">
+    <ul className="flex flex-wrap gap-2 font-mono text-xs uppercase tracking-wider">
       {(Object.keys(FIELD_STATUS_LABEL) as FieldStatus[]).map((s) => (
         <li key={s} className={`rounded-full border px-2 py-0.5 ${STATUS_TONE[s]}`}>
           {FIELD_STATUS_LABEL[s]}

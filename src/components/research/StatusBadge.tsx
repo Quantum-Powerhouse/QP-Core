@@ -32,7 +32,7 @@ const STATUS_GLYPH: Record<ClaimStatus, string> = {
 export function StatusBadge({ status }: { status: ClaimStatus }) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-wide ${STATUS_STYLES[status]}`}
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs font-medium uppercase tracking-wide ${STATUS_STYLES[status]}`}
     >
       <span aria-hidden="true">{STATUS_GLYPH[status]}</span>
       {STATUS_TEXT[status]}
@@ -55,7 +55,7 @@ export function MatrixCell({ value }: { value: Cell }) {
 export function SynthesisNote({ children }: { children: React.ReactNode }) {
   return (
     <div className="my-6 rounded-lg border border-[#20507c]/30 bg-[#20507c]/5 px-4 py-3 text-sm leading-relaxed text-[#27496b]/90">
-      <p className="mb-1 font-mono text-[11px] font-medium uppercase tracking-wide text-[#2f5578]">
+      <p className="mb-1 font-mono text-xs font-medium uppercase tracking-wide text-[#2f5578]">
         Our synthesis, not an independently verified source
       </p>
       {children}

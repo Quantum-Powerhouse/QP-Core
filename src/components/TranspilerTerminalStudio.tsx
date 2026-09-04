@@ -155,7 +155,7 @@ function MetricCard({
   const animated = useAnimatedNumber(value);
   return (
     <div className="rounded-lg border border-border bg-background/40 p-4">
-      <p className="font-mono text-[11px] uppercase tracking-wide text-muted">{label}</p>
+      <p className="font-mono text-xs uppercase tracking-wide text-muted">{label}</p>
       <p className="mt-2 font-mono text-2xl font-semibold" style={{ color }}>
         {animated.toFixed(decimals)}
         <span className="text-base">{suffix}</span>
@@ -175,7 +175,7 @@ function CopyButton({ text, onCopied }: { text: string; onCopied: () => void }) 
           // clipboard unavailable, silently ignore
         }
       }}
-      className="rounded-md border border-border px-2.5 py-1 font-mono text-[11px] text-muted transition-colors hover:border-accent/50 hover:text-accent"
+      className="rounded-md border border-border px-2.5 py-1 font-mono text-xs text-muted transition-colors hover:border-accent/50 hover:text-accent"
     >
       Copy
     </button>
@@ -336,7 +336,7 @@ export function TranspilerTerminalStudio() {
                 (no grammar tree, no scoping, no expressions), and not what the production Qiskit based
                 backend does internally
               </RepresentsTag>
-              <p className="mb-3 font-mono text-[11px] text-muted">
+              <p className="mb-3 font-mono text-xs text-muted">
                 Updates live as you type, no network round-trip. {liveAnalysis.originalGateCount} gates parsed,{" "}
                 {liveAnalysis.cancelledCount} cancelled ({liveAnalysis.reductionPct}% reduction), same
                 computation as the Circuit Metrics tab.
@@ -411,7 +411,7 @@ export function TranspilerTerminalStudio() {
                 <span className="font-mono text-xs text-muted">
                   braket_ir.json
                   {result?.mock && (
-                    <span className="ml-2 rounded-full border border-accent-2/40 bg-accent-2/10 px-2 py-0.5 text-[10px] text-accent-2">
+                    <span className="ml-2 rounded-full border border-accent-2/40 bg-accent-2/10 px-2 py-0.5 text-xs text-accent-2">
                       demo mode
                     </span>
                   )}
@@ -461,7 +461,7 @@ export function TranspilerTerminalStudio() {
                 <EmptyState error={error} loading={loading} />
               )}
               {result?.metrics && (
-                <p className="font-mono text-[11px] text-muted">
+                <p className="font-mono text-xs text-muted">
                   {result.metrics.gate_count} gates in → {result.metrics.optimized_gate_count} after
                   cancelling adjacent self-inverse pairs · {result.metrics.qubit_count} qubits ·
                   latency measured client-side for this request.

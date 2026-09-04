@@ -41,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${jetbrainsMono.variable} ${stixSerif.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <QuantumEventProvider>
           <ParticleField />
           {/* The resident singularity: huge, translucent, behind everything. */}
@@ -50,7 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           >
             <BlackHole />
           </div>
-          <ZoomNav>{children}</ZoomNav>
+          <ZoomNav><div id="main-content" className="contents">{children}</div></ZoomNav>
           <QuantumPet />
         </QuantumEventProvider>
         <JsonLd data={personSchema()} />

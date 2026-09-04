@@ -49,7 +49,7 @@ export function CapabilityScatter() {
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full" role="img" aria-label="Capability scatter plot of prior art systems">
         <line x1={pad} y1={height - pad} x2={width - pad} y2={height - pad} stroke="var(--border)" strokeWidth={1} />
         <line x1={pad} y1={pad} x2={pad} y2={height - pad} stroke="var(--border)" strokeWidth={1} />
-        <text x={width / 2} y={height - 10} textAnchor="middle" className="fill-muted font-mono text-[10px]">
+        <text x={width / 2} y={height - 10} textAnchor="middle" className="fill-muted font-mono text-xs">
           CI / version / SDK orchestration →
         </text>
         <text
@@ -57,7 +57,7 @@ export function CapabilityScatter() {
           y={height / 2}
           textAnchor="middle"
           transform={`rotate(-90 14 ${height / 2})`}
-          className="fill-muted font-mono text-[10px]"
+          className="fill-muted font-mono text-xs"
         >
           Testing depth →
         </text>

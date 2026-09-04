@@ -139,7 +139,7 @@ export function CircuitLab() {
             </ArcadeButton>
           ))}
         </div>
-        <p className="mt-2 font-mono text-[11px] text-muted">{info.blurb}</p>
+        <p className="mt-2 font-mono text-xs text-muted">{info.blurb}</p>
         {info.param && (
           <div className="mt-2 max-w-sm">
             <Slider label="θ for the next rotation" value={theta} min={0} max={2 * Math.PI} step={0.01} onChange={setTheta} format={(v) => `${v.toFixed(2)} rad · ${((v / Math.PI) * 180).toFixed(0)}°`} />
@@ -174,7 +174,7 @@ export function CircuitLab() {
                           type="button"
                           title="remove"
                           onClick={() => setOps(circuit.ops.filter((_, j) => j !== i))}
-                          className={`inline-flex h-7 w-9 shrink-0 items-center justify-center rounded border font-mono text-[10px] transition-colors duration-150 ease-out hover:border-[#b3372a] ${
+                          className={`inline-flex h-7 w-9 shrink-0 items-center justify-center rounded border font-mono text-xs transition-colors duration-150 ease-out hover:border-[#b3372a] ${
                             isControl ? "border-accent-2 text-accent-2" : "border-accent bg-background/80 text-accent"
                           }`}
                         >
@@ -204,7 +204,7 @@ export function CircuitLab() {
             </ArcadeButton>
           ))}
           <ArcadeButton onClick={() => setOps([])}>clear</ArcadeButton>
-          <span className="ml-auto font-mono text-[11px] text-muted">
+          <span className="ml-auto font-mono text-xs text-muted">
             {circuit.ops.length}/{MAX_OPS} gates
           </span>
         </div>
@@ -243,7 +243,7 @@ export function CircuitLab() {
               return (
                 <div key={k} className="flex flex-col items-center gap-1">
                   <BlochDial x={b.x} z={b.z} size={84} />
-                  <span className="font-mono text-[10px] text-muted">
+                  <span className="font-mono text-xs text-muted">
                     q{k} · |r|={len.toFixed(2)} {len < 0.2 ? "· mixed" : ""}
                   </span>
                 </div>
@@ -318,7 +318,7 @@ export function CircuitLab() {
           </div>
           <ArcadeButton onClick={copyQasm}>{copied ? "copied ✓" : "copy"}</ArcadeButton>
         </div>
-        <pre className="mt-3 overflow-x-auto rounded-lg border border-border/60 bg-background/60 p-3 font-mono text-[11px] leading-relaxed text-foreground">{qasm}</pre>
+        <pre className="mt-3 overflow-x-auto rounded-lg border border-border/60 bg-background/60 p-3 font-mono text-xs leading-relaxed text-foreground">{qasm}</pre>
       </section>
     </div>
   );

@@ -164,3 +164,32 @@ test("quantum walk spreads ballistically, classical diffusively", () => {
   assert.ok(ratio > 2, `quantum/classical spread ratio ${ratio} should exceed 2 at t=${t}`);
   assert.ok(Math.abs(walkSpread(cl) - Math.sqrt(t)) < 0.5, "classical σ ≈ √t");
 });
+
+// --- copy integrity: counts must be computed, never hand typed ---
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join } from "node:path";
+import { ARCADE_GAME_COUNT } from "../src/components/arcade/manifest.ts";
+
+function walkSrc(dir, out = []) {
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    if (statSync(p).isDirectory()) walkSrc(p, out);
+    else if (/\.(ts|tsx)$/.test(name)) out.push(p);
+  }
+  return out;
+}
+
+test("no page copy contains a spelled out game or system count", () => {
+  const offenders = [];
+  for (const f of walkSrc("src")) {
+    if (/Twenty[ -](one|two|three|four|five|six|seven|plus)/i.test(readFileSync(f, "utf-8"))) offenders.push(f);
+  }
+  assert.deepEqual(offenders, [], `spelled out counts found in: ${offenders.join(", ")}`);
+});
+
+test("the manifest count matches the exported game components", () => {
+  const games = ["GamesBasics", "GamesEntangle", "GamesAdvanced", "GamesFrontier", "GamesAlgorithms"]
+    .map((n) => readFileSync(join("src/components/arcade", `${n}.tsx`), "utf-8"))
+    .flatMap((t) => t.match(/^export function [A-Z]/gm) ?? []).length;
+  assert.equal(games, ARCADE_GAME_COUNT, `manifest ${ARCADE_GAME_COUNT} vs components ${games}`);
+});

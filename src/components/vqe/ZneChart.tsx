@@ -50,7 +50,7 @@ export function ZneChart({ result }: { result: ZneResult }) {
 
   return (
     <div className="relative overflow-x-auto rounded-xl border border-border bg-surface/60 p-4 backdrop-blur-xl">
-      <div className="mb-3 flex flex-wrap items-center gap-4 font-mono text-[11px] text-muted">
+      <div className="mb-3 flex flex-wrap items-center gap-4 font-mono text-xs text-muted">
         <span className="flex items-center gap-1.5">
           <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: RAW_COLOR }} />
           noisy measurement

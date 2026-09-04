@@ -70,7 +70,7 @@ function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-xl border border-border/60 bg-background/40 px-3 py-4 backdrop-blur-sm">
       <AnimatedCounter value={value} className="block font-mono text-2xl font-semibold text-foreground sm:text-3xl" />
-      <p className="mt-1 text-[11px] uppercase tracking-wide text-muted">{label}</p>
+      <p className="mt-1 text-xs uppercase tracking-wide text-muted">{label}</p>
     </div>
   );
 }

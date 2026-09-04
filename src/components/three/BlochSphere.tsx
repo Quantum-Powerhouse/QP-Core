@@ -274,13 +274,13 @@ export function BlochSphere() {
           {autoRotate ? "⏸ Pause orbit" : "▶ Auto rotate"}
         </button>
 
-        <div className="mt-auto space-y-1 border-t border-border pt-4 font-mono text-[11px] leading-relaxed text-muted">
+        <div className="mt-auto space-y-1 border-t border-border pt-4 font-mono text-xs leading-relaxed text-muted">
           <p>α = cos(θ/2) = {alpha.toFixed(3)}</p>
           <p>|β| = sin(θ/2) = {betaMag.toFixed(3)}</p>
           <p>arg(β) = φ = {phi.toFixed(0)}°</p>
         </div>
 
-        <div className="space-y-1 border-t border-border pt-4 font-mono text-[11px] leading-relaxed text-muted">
+        <div className="space-y-1 border-t border-border pt-4 font-mono text-xs leading-relaxed text-muted">
           <p className="text-foreground">⟨X⟩ = sinθ·cosφ = {expX.toFixed(3)}</p>
           <p className="text-foreground">⟨Y⟩ = sinθ·sinφ = {expY.toFixed(3)}</p>
           <p className="text-foreground">⟨Z⟩ = cosθ = {expZ.toFixed(3)}</p>

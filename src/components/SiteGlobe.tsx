@@ -84,7 +84,7 @@ export function SiteGlobe() {
           ))}
         </div>
       </div>
-      <p className="mt-1 text-center font-mono text-[11px] text-muted">
+      <p className="mt-1 text-center font-mono text-xs text-muted">
         the site as a system · tap a node to travel · the page you leave collapses back into a qubit
       </p>
     </section>

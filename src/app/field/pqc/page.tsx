@@ -51,7 +51,7 @@ export default function PqcPage() {
       <div className="glass-panel overflow-x-auto rounded-xl p-2">
         <table className="w-full min-w-[560px] text-sm">
           <thead>
-            <tr className="text-left font-mono text-[10px] uppercase tracking-wider text-muted">
+            <tr className="text-left font-mono text-xs uppercase tracking-wider text-muted">
               <th className="px-3 py-2">estimate</th>
               <th className="px-3 py-2">physical qubits</th>
               <th className="px-3 py-2">runtime</th>
@@ -65,7 +65,7 @@ export default function PqcPage() {
                 <td className="px-3 py-2 font-mono text-accent">{r.qubits}</td>
                 <td className="px-3 py-2 font-mono text-foreground">{r.time}</td>
                 <td className="px-3 py-2">
-                  <a href={r.source.url} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-accent underline-offset-2 hover:underline">
+                  <a href={r.source.url} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-accent underline-offset-2 hover:underline">
                     {r.source.label} ↗
                   </a>
                 </td>

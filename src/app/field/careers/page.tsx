@@ -41,19 +41,19 @@ export default function CareersPage() {
             <h3 className="text-base font-semibold text-foreground">{r.role}</h3>
             <p className="text-sm text-muted">{r.does}</p>
             <p className="text-sm text-muted">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-accent">needs · </span>
+              <span className="font-mono text-xs uppercase tracking-wider text-accent">needs · </span>
               {r.needs}
             </p>
-            <p className="font-mono text-[11px] text-muted">degree: {r.typicalDegree}</p>
+            <p className="font-mono text-xs text-muted">degree: {r.typicalDegree}</p>
             <ul className="mt-1 flex flex-col gap-1 border-t border-border/60 pt-2">
               {r.proof.map((p) => (
                 <li key={p.href}>
                   {p.href.startsWith("http") ? (
-                    <a href={p.href} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-accent underline-offset-2 hover:underline">
+                    <a href={p.href} target="_blank" rel="noopener noreferrer" className="font-mono text-xs text-accent underline-offset-2 hover:underline">
                       proof: {p.label} ↗
                     </a>
                   ) : (
-                    <Link href={p.href} className="font-mono text-[11px] text-accent underline-offset-2 hover:underline">
+                    <Link href={p.href} className="font-mono text-xs text-accent underline-offset-2 hover:underline">
                       proof: {p.label} →
                     </Link>
                   )}
@@ -72,7 +72,7 @@ export default function CareersPage() {
             <a href={e.url} target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-accent">
               {e.name} ↗
             </a>
-            <span className="shrink-0 font-mono text-[10px] text-muted">{e.kind}</span>
+            <span className="shrink-0 font-mono text-xs text-muted">{e.kind}</span>
           </li>
         ))}
       </ul>

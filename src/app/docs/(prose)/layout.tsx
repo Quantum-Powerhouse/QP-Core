@@ -27,7 +27,7 @@ export default function ProseDocsLayout({ children }: { children: React.ReactNod
         <div className="mt-4 flex flex-col gap-6">
           {DOC_NAV.map((section) => (
             <div key={section.group}>
-              <p className="font-mono text-[11px] uppercase tracking-wide text-muted">{section.group}</p>
+              <p className="font-mono text-xs uppercase tracking-wide text-muted">{section.group}</p>
               <ul className="mt-2 flex flex-col gap-1.5">
                 {section.items.map((item) => (
                   <li key={item.href}>

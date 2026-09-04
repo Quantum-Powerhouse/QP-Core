@@ -53,6 +53,15 @@ export default function HamiltonianAnsatzDocPage() {
         dek="The H2 Hamiltonian used by the live VQE Suite playground, and a from scratch derivation of why its single parameter ansatz circuit is exact, not just a convenient guess."
       />
 
+      <H2>Provenance of the physics inputs</H2>
+      <P>
+        The Hamiltonian is the minimal basis (STO-3G) H<sub>2</sub> electronic Hamiltonian, parity reduced to two
+        qubits, with coefficients taken from O&apos;Malley et al., &quot;Scalable Quantum Simulation of Molecular
+        Energies&quot;, Physical Review X 6, 031007 (2016). The engine&apos;s copy lives in{" "}
+        <code>src/lib/physics/h2Hamiltonian.ts</code> with the source cited in its header, and the unit tests check
+        the converged VQE energy against exact diagonalization of that same operator, so a wrong coefficient cannot
+        pass continuous integration.
+      </P>
       <H2>The H2 electronic Hamiltonian</H2>
       <P>
         In second quantization, a molecule&apos;s electronic Hamiltonian in a finite orbital basis is

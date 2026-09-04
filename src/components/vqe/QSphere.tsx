@@ -95,7 +95,7 @@ export function QSphere({ theta }: { theta: number }) {
           <Scene theta={theta} autoRotate={!reduceMotion} />
         </Canvas>
       </div>
-      <p className="font-mono text-[11px] leading-relaxed text-muted">
+      <p className="font-mono text-xs leading-relaxed text-muted">
         Point size ∝ √probability (so area, not radius, encodes probability). Basis states are placed by
         Hamming weight, |00⟩ at the top pole, |11⟩ at the bottom pole, |01⟩/|10⟩ on the equator, the same
         convention Qiskit&apos;s own QSphere uses.

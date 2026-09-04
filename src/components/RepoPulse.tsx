@@ -57,7 +57,7 @@ export function RepoPulse() {
           </li>
         ))}
       </ul>
-      <p className="mt-2 font-mono text-[11px] text-muted">Counts are capped at 100 per repository by the API page size.</p>
+      <p className="mt-2 font-mono text-xs text-muted">Counts are capped at 100 per repository by the API page size.</p>
     </section>
   );
 }

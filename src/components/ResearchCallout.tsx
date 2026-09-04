@@ -58,7 +58,7 @@ export function ResearchCallout() {
             ))}
           </dl>
         </div>
-        <p className="mt-5 font-mono text-[11px] text-muted">
+        <p className="mt-5 font-mono text-xs text-muted">
           Continuous integration fails the build if a rendered claim ever drifts from the evidence record.
         </p>
       </div>

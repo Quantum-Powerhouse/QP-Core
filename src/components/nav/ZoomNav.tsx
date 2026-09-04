@@ -7,10 +7,9 @@ import { NAV_ITEMS } from "@/components/navItems";
 
 type Phase = "idle" | "collapse" | "think" | "expand";
 
-const COLLAPSE_MS = 340;
-const THINK_MS = 800; // the deliberate pause: the qubit "decides" the path
-const PUSH_AT_MS = 400; // route loads while it thinks
-const EXPAND_MS = 360;
+const FULL = { collapse: 340, think: 800, push: 400, expand: 360 };
+const FAST = { collapse: 200, think: 180, push: 120, expand: 240 };
+const SEEN_KEY = "zoomnav-seen";
 
 /**
  * Zoom navigation. On a desktop pointer an internal navigation folds the page
@@ -34,6 +33,9 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
   const arrivedRef = useRef(false);
   const thinkDoneRef = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const pushedRef = useRef(false);
+  const durRef = useRef(FULL);
+  const [speed, setSpeed] = useState<"full" | "fast">("full");
 
   const clearTimers = () => {
     for (const t of timersRef.current) clearTimeout(t);
@@ -43,7 +45,7 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
   const maybeExpand = useCallback(() => {
     if (arrivedRef.current && thinkDoneRef.current) {
       setPhase("expand");
-      timersRef.current.push(setTimeout(() => setPhase("idle"), EXPAND_MS + 40));
+      timersRef.current.push(setTimeout(() => setPhase("idle"), durRef.current.expand + 40));
     }
   }, []);
 
@@ -69,15 +71,29 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
       pendingRef.current = href;
       arrivedRef.current = false;
       thinkDoneRef.current = false;
+      pushedRef.current = false;
+      let seen = false;
+      try {
+        seen = sessionStorage.getItem(SEEN_KEY) === "1";
+        sessionStorage.setItem(SEEN_KEY, "1");
+      } catch {}
+      const d = seen ? FAST : FULL;
+      durRef.current = d;
+      setSpeed(seen ? "fast" : "full");
       clearTimers();
       setPhase("collapse");
-      timersRef.current.push(setTimeout(() => setPhase("think"), COLLAPSE_MS));
-      timersRef.current.push(setTimeout(() => router.push(href), COLLAPSE_MS + PUSH_AT_MS));
+      timersRef.current.push(setTimeout(() => setPhase("think"), d.collapse));
+      timersRef.current.push(
+        setTimeout(() => {
+          pushedRef.current = true;
+          router.push(href);
+        }, d.collapse + d.push)
+      );
       timersRef.current.push(
         setTimeout(() => {
           thinkDoneRef.current = true;
           maybeExpand();
-        }, COLLAPSE_MS + THINK_MS)
+        }, d.collapse + d.think)
       );
     };
     document.addEventListener("click", onClick, true);
@@ -116,6 +132,30 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
     setCollapsed(Math.random() < b * b ? 1 : 0);
   }, [phase]);
 
+  // Escape or any press skips the pause; the qubit was thinking, not stalling.
+  useEffect(() => {
+    if (phase !== "collapse" && phase !== "think") return;
+    const skip = () => {
+      clearTimers();
+      const href = pendingRef.current;
+      if (href && !pushedRef.current) {
+        pushedRef.current = true;
+        router.push(href);
+      }
+      thinkDoneRef.current = true;
+      maybeExpand();
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") skip();
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", skip);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", skip);
+    };
+  }, [phase, router, maybeExpand]);
+
   // Safety: never leave the page stuck small.
   useEffect(() => {
     if (phase === "idle") return;
@@ -129,10 +169,10 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div className="zoomnav-root flex min-h-full flex-1 flex-col" data-zoom-phase={phase}>
+      <div className="zoomnav-root flex min-h-full flex-1 flex-col" data-zoom-phase={phase} data-zoom-speed={speed}>
         {children}
       </div>
-      <div className="zoomnav-overlay" data-zoom-phase={phase} style={{ ["--hop" as string]: `${hop}px` }} aria-hidden>
+      <div className="zoomnav-overlay" data-zoom-phase={phase} data-zoom-speed={speed} style={{ ["--hop" as string]: `${hop}px` }} aria-hidden>
         <div className="zoomnav-mover">
           <div className="zoomnav-orb">
             <span className="zoomnav-ring" />
@@ -149,7 +189,7 @@ export function ZoomNav({ children }: { children: React.ReactNode }) {
               ? `${amps.a.toFixed(2)}|0⟩ + ${amps.b.toFixed(2)}|1⟩`
               : `collapsed to |${collapsed}⟩`}
           </p>
-          <p className="zoomnav-bits font-mono text-[11px] tracking-widest text-muted">
+          <p className="zoomnav-bits font-mono text-xs tracking-widest text-muted">
             {bits.map((b, i) => (
               <span key={i} className={b ? "text-accent" : ""}>{b}</span>
             ))}

@@ -23,7 +23,7 @@ export function QaoaMaxCut() {
         <Stat label="approximation ratio" value={ratio.toFixed(3)} />
         <Stat label="P(optimal cut)" value={`${(r.bestProb * 100).toFixed(1)}%`} accent={r.bestProb > 0.5} />
       </div>
-      <p className="font-mono text-[11px] text-muted">edges: {MAXCUT_EDGES.map(([a, b]) => `${a}, ${b}`).join(", ")} · random guess averages 2.0</p>
+      <p className="font-mono text-xs text-muted">edges: {MAXCUT_EDGES.map(([a, b]) => `${a}, ${b}`).join(", ")} · random guess averages 2.0</p>
       {ratio > 0.95 && <p className="font-mono text-xs text-accent">near optimal, this is what a QAOA optimizer hunts for</p>}
     </GameCard>
   );

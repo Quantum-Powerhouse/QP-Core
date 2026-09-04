@@ -631,13 +631,13 @@ export function QuantumPet() {
               aria-label="QPet console"
             >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-accent">QPet · console</span>
+                <span className="font-mono text-xs uppercase tracking-widest text-accent">QPet · console</span>
                 <button type="button" onClick={() => setConsoleOpen(false)} className="text-muted hover:text-foreground" aria-label="Close console">
                   ✕
                 </button>
               </div>
 
-              <ul className="flex max-h-28 flex-col gap-1 overflow-y-auto font-mono text-[11px] text-muted">
+              <ul className="flex max-h-28 flex-col gap-1 overflow-y-auto font-mono text-xs text-muted">
                 {transcript.length === 0 && <li className="italic">…nothing said yet. Ask me something.</li>}
                 {transcript.map((line, i) => (
                   <li key={i} className={i === transcript.length - 1 ? "text-foreground" : ""}>
@@ -648,23 +648,23 @@ export function QuantumPet() {
 
               {pending && (
                 <div className="flex flex-col gap-1 rounded-lg border border-accent/40 bg-surface/60 p-2">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-accent">in superposition</p>
+                  <p className="font-mono text-xs uppercase tracking-wider text-accent">in superposition</p>
                   <p className="text-foreground/70">{pending.a}</p>
                   <p className="text-foreground/70">{pending.b}</p>
                   <div className="h-1.5 overflow-hidden rounded-sm bg-surface-2">
                     <div className="h-full bg-accent" style={{ width: `${pending.pA * 100}%` }} />
                   </div>
-                  <button type="button" onClick={measure} className="mt-1 self-start rounded-md bg-accent px-2 py-1 font-mono text-[11px] font-semibold text-[#faf8f3]">
+                  <button type="button" onClick={measure} className="mt-1 self-start rounded-md bg-accent px-2 py-1 font-mono text-xs font-semibold text-[#faf8f3]">
                     measure → collapse
                   </button>
                 </div>
               )}
 
               <div className="flex flex-col gap-0.5 rounded-lg border border-border/60 bg-surface/40 p-2">
-                <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
+                <p className="font-mono text-xs uppercase tracking-wider text-muted">
                   moments discovered · {moments.length}/{MOMENT_KINDS.length}
                 </p>
-                <ul className="flex flex-wrap gap-x-2 gap-y-0.5 font-mono text-[10px]">
+                <ul className="flex flex-wrap gap-x-2 gap-y-0.5 font-mono text-xs">
                   {MOMENT_KINDS.map((k) => (
                     <li key={k} className={moments.includes(k) ? "text-accent" : "text-muted"}>
                       {moments.includes(k) ? "✓" : "·"} {k.toLowerCase()}
@@ -684,7 +684,7 @@ export function QuantumPet() {
               <button
                 type="button"
                 onClick={() => router.push(nextStep.href)}
-                className="self-start font-mono text-[11px] text-accent underline-offset-2 hover:underline"
+                className="self-start font-mono text-xs text-accent underline-offset-2 hover:underline"
               >
                 take me there → {nextStep.href}
               </button>
@@ -714,7 +714,7 @@ export function QuantumPet() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 6, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="max-w-[280px] rounded-lg border border-border bg-background/90 px-3 py-1.5 text-center font-mono text-xs text-foreground shadow-xl backdrop-blur"
+              className="max-w-[280px] rounded-lg border border-border bg-background px-3 py-1.5 text-center font-mono text-xs text-foreground shadow-xl"
               role="status"
               aria-live="polite"
             >
@@ -754,7 +754,7 @@ export function QuantumPet() {
           onPointerLeave={onOrbLeave}
           aria-label="Poke QPet, the site's quantum pet, opens its console"
           aria-expanded={consoleOpen}
-          className="h-[108px] w-[108px] cursor-pointer overflow-hidden rounded-full border border-border bg-surface/60 backdrop-blur-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:h-[128px] sm:w-[128px]"
+          className="h-[108px] w-[108px] cursor-pointer overflow-hidden rounded-full border border-border bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:h-[128px] sm:w-[128px]"
           style={{ pointerEvents: mode === "roaming" ? "none" : undefined }}
         >
           <Canvas camera={{ position: [0, 0, 2.4], fov: 40 }} dpr={[1, 1.5]}>
@@ -782,7 +782,7 @@ function ConsoleChip({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`rounded-full border px-2 py-0.5 font-mono text-[11px] transition-colors duration-150 ease-out disabled:opacity-40 ${
+      className={`rounded-full border px-2 py-0.5 font-mono text-xs transition-colors duration-150 ease-out disabled:opacity-40 ${
         active ? "border-accent bg-accent/15 text-accent" : "border-border text-muted hover:border-accent/60 hover:text-foreground"
       }`}
     >

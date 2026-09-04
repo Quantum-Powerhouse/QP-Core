@@ -92,15 +92,15 @@ export default function PriorArtPage() {
               <tr key={row.name} className="border-b border-border/60 align-top">
                 <td className="sticky left-0 z-10 bg-background px-3 py-3">
                   <p className="font-medium text-foreground">{row.name}</p>
-                  <p className="font-mono text-[10px] text-muted/70">{row.type}</p>
+                  <p className="font-mono text-xs text-muted/70">{row.type}</p>
                   {row.sourceUrl ? (
-                    <a href={row.sourceUrl} className="font-mono text-[10px] text-accent hover:text-foreground">
+                    <a href={row.sourceUrl} className="font-mono text-xs text-accent hover:text-foreground">
                       {row.sourceLabel}
                     </a>
                   ) : (
-                    <span className="font-mono text-[10px] text-muted">{row.sourceLabel}</span>
+                    <span className="font-mono text-xs text-muted">{row.sourceLabel}</span>
                   )}
-                  <p className="mt-1 font-mono text-[10px] text-muted">SDKs: {row.sdks}</p>
+                  <p className="mt-1 font-mono text-xs text-muted">SDKs: {row.sdks}</p>
                 </td>
                 {COLUMNS.map((col) => (
                   <td key={col.key} className="px-3 py-3">

@@ -28,7 +28,7 @@ function StagePipeline({ stage }: { stage: Stage }) {
   ];
 
   return (
-    <div className="flex flex-wrap items-center gap-1 font-mono text-[11px]">
+    <div className="flex flex-wrap items-center gap-1 font-mono text-xs">
       {steps.map((s, i) => (
         <div key={s.id} className="flex items-center gap-1">
           <span
@@ -151,7 +151,7 @@ export function VqeStepThrough() {
 function StepStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-lg border border-border bg-background/40 p-3">
-      <p className="font-mono text-[10px] uppercase tracking-wide text-muted">{label}</p>
+      <p className="font-mono text-xs uppercase tracking-wide text-muted">{label}</p>
       <p className="mt-1 font-mono text-sm font-semibold text-foreground">{value}</p>
     </div>
   );

@@ -29,12 +29,12 @@ export function GameCard({
     <section id={slug} className="glass-panel flex scroll-mt-24 flex-col gap-4 rounded-xl p-5">
       <header className="flex items-baseline justify-between gap-3">
         <h3 className="text-base font-semibold text-foreground">{title}</h3>
-        <span className="rounded-full border border-accent/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-accent">
+        <span className="rounded-full border border-accent/40 px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-accent">
           {tag}
         </span>
       </header>
       <div className="flex flex-col gap-3 text-sm">{children}</div>
-      <footer className="border-t border-border/60 pt-2 font-mono text-[11px] leading-relaxed text-muted">
+      <footer className="border-t border-border/60 pt-2 font-mono text-xs leading-relaxed text-muted">
         Computes: {computes}
       </footer>
     </section>
@@ -44,6 +44,9 @@ export function GameCard({
 export function ProbBars({ probs, labels }: { probs: number[]; labels?: string[] }) {
   return (
     <div className="flex flex-col gap-1.5">
+      <span className="sr-only" role="status">
+        {probs.map((p, i) => `${labels?.[i] ?? `state ${i}`}: ${(p * 100).toFixed(1)} percent`).join(", ")}
+      </span>
       {probs.map((p, i) => (
         <div key={i} className="flex items-center gap-2">
           <span className="w-14 shrink-0 font-mono text-xs text-muted">
@@ -51,8 +54,8 @@ export function ProbBars({ probs, labels }: { probs: number[]; labels?: string[]
           </span>
           <div className="h-3 flex-1 overflow-hidden rounded-sm bg-surface-2">
             <div
-              className="h-full rounded-sm bg-accent transition-[width] duration-300 ease-out"
-              style={{ width: `${Math.max(0, Math.min(100, p * 100)).toFixed(1)}%` }}
+              className="h-full w-full origin-left rounded-sm bg-accent transition-transform duration-300 ease-out"
+              style={{ transform: `scaleX(${Math.max(0, Math.min(1, p)).toFixed(3)})` }}
             />
           </div>
           <span className="w-12 shrink-0 text-right font-mono text-xs text-foreground">{(p * 100).toFixed(1)}%</span>
@@ -97,7 +100,7 @@ export function BlochDial({ x, z, size = 96 }: { x: number; z: number; size?: nu
 export function Stat({ label, value, accent = false }: { label: string; value: string; accent?: boolean }) {
   return (
     <div className="flex flex-col rounded-lg border border-border/60 bg-surface/40 px-3 py-2">
-      <span className="font-mono text-[10px] uppercase tracking-wider text-muted">{label}</span>
+      <span className="font-mono text-xs uppercase tracking-wider text-muted">{label}</span>
       <span className={`font-mono text-lg ${accent ? "text-accent" : "text-foreground"}`}>{value}</span>
     </div>
   );

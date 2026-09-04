@@ -74,6 +74,11 @@ export function ChshGame() {
   };
   const n = stats.n || 1;
   const S = stats.e00 / n + stats.e01 / n + stats.e10 / n - stats.e11 / n;
+  // binomial standard error of each correlator, propagated to S
+  const se = [stats.e00, stats.e01, stats.e10, stats.e11]
+    .map((e) => (stats.n ? Math.sqrt(Math.max(0, 1 - (e / n) ** 2) / n) : 0))
+    .reduce((acc, s2) => acc + s2 * s2, 0);
+  const sErr = Math.sqrt(se);
   const beating = stats.n >= 30 && Math.abs(S) > 2;
   return (
     <GameCard title="CHSH. Beat the Classical Bound" tag="game" computes="every round rotates a real Bell state's measurement bases and samples the joint outcome; S is estimated from those samples only">
@@ -89,7 +94,7 @@ export function ChshGame() {
       </div>
       <div className="flex items-center gap-3">
         <Stat label="rounds" value={String(stats.n)} />
-        <Stat label="S (sampled)" value={stats.n ? S.toFixed(3) : "n/a"} accent={beating} />
+        <Stat label="S" value={stats.n ? `${S.toFixed(2)} ± ${sErr.toFixed(2)}` : "no rounds yet"} accent={Math.abs(S) > 2 && stats.n > 0} />
         <Stat label="quantum max" value="2.828" />
       </div>
       {beating && <p className="font-mono text-xs text-accent">|S| &gt; 2. Bell inequality violated in your browser (in simulation, and in every real lab that has tried).</p>}
