@@ -1,0 +1,17 @@
+import { chromium } from "@playwright/test";
+const b = await chromium.launch();
+const pg = await b.newPage({ viewport: { width: 1280, height: 900 } });
+const errors = [];
+pg.on("pageerror", (e) => errors.push(String(e).slice(0, 120)));
+await pg.goto("https://quantum.sadeqi.me/", { waitUntil: "load", timeout: 60000 });
+await pg.waitForTimeout(1800);
+await pg.click('header a[href="/lab"]', { noWaitAfter: true });
+await pg.waitForTimeout(600);
+console.log("phase@600ms:", await pg.evaluate(() => document.querySelector(".zoomnav-root")?.getAttribute("data-zoom-phase")));
+console.log("bits:", await pg.evaluate(() => document.querySelector(".zoomnav-bits")?.textContent));
+await pg.screenshot({ path: process.argv[2] });
+await pg.waitForURL("**/lab", { timeout: 6000 });
+await pg.waitForTimeout(1000);
+console.log("landed:", pg.url(), "phase:", await pg.evaluate(() => document.querySelector(".zoomnav-root")?.getAttribute("data-zoom-phase")));
+console.log("pageerrors:", errors.length ? errors : "none");
+await b.close();
