@@ -1,0 +1,12 @@
+import { chromium } from "@playwright/test";
+const b = await chromium.launch();
+const pg = await b.newPage({ viewport: { width: 1280, height: 900 } });
+const logs = [];
+pg.on("console", (m) => { if (["error", "warning"].includes(m.type())) logs.push(m.type() + ": " + m.text().slice(0, 200)); });
+pg.on("pageerror", (e) => logs.push("PAGEERROR: " + String(e).slice(0, 300)));
+await pg.goto("http://localhost:3113/", { waitUntil: "load", timeout: 90000 });
+await pg.waitForTimeout(8000);
+console.log("pet button:", await pg.locator('button[aria-label^="Poke QPet"]').count());
+console.log("qpet hidden flag:", await pg.evaluate(() => localStorage.getItem("qpet-hidden")));
+console.log(logs.slice(0, 8).join("\n") || "no console errors");
+await b.close();
